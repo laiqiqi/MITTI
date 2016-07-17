@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{DF95D2D0-711B-8336-E9A3-BC88B80095F7}") = "MittiAITest", "Assembly-CSharp-firstpass.csproj", "{664BA7D7-1AD1-4AF6-B629-600AECD49968}"
+EndProject
+Project("{DF95D2D0-711B-8336-E9A3-BC88B80095F7}") = "MittiAITest", "Assembly-CSharp.csproj", "{6D5C87CD-E728-1B68-4C9C-DD9DB073D5EA}"
+EndProject
+Project("{DF95D2D0-711B-8336-E9A3-BC88B80095F7}") = "MittiAITest", "Assembly-CSharp-Editor.csproj", "{71F5F5D9-83AA-4730-54D9-01E1B4DBC843}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{664BA7D7-1AD1-4AF6-B629-600AECD49968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{664BA7D7-1AD1-4AF6-B629-600AECD49968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{664BA7D7-1AD1-4AF6-B629-600AECD49968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{664BA7D7-1AD1-4AF6-B629-600AECD49968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D5C87CD-E728-1B68-4C9C-DD9DB073D5EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D5C87CD-E728-1B68-4C9C-DD9DB073D5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D5C87CD-E728-1B68-4C9C-DD9DB073D5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D5C87CD-E728-1B68-4C9C-DD9DB073D5EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71F5F5D9-83AA-4730-54D9-01E1B4DBC843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71F5F5D9-83AA-4730-54D9-01E1B4DBC843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71F5F5D9-83AA-4730-54D9-01E1B4DBC843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71F5F5D9-83AA-4730-54D9-01E1B4DBC843}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
