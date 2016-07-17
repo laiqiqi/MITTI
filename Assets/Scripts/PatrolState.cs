@@ -6,7 +6,6 @@ public class PatrolState : IEnemyState
 {
 	private readonly StatePatternEnemy enemy;
 	private int nextWayPoint;
-
 	public PatrolState (StatePatternEnemy statePatternEnemy)
 	{
 		enemy = statePatternEnemy;
@@ -49,7 +48,7 @@ public class PatrolState : IEnemyState
 	}
 
 	void Patrol ()
-	{
+	{	
 		enemy.meshRendererFlag.material.color = Color.green;
 		Debug.Log ("Patrol");
 		enemy.navMeshAgent.destination = enemy.wayPoints [nextWayPoint].position;
@@ -59,7 +58,7 @@ public class PatrolState : IEnemyState
 			nextWayPoint =(nextWayPoint + 1) % enemy.wayPoints.Length;
 
 		}
-
+//		enemy.GetComponent<Animator> ().SetInteger ("animationID", 1);
 
 	}
 }
