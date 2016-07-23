@@ -64,6 +64,10 @@ public class FloatingState : IEnemyState
 		}
 		t += 0.01f;
 		enemy.transform.position = Vector3.Lerp (enemy.transform.position, destination, t);
+		if (enemy.transform.position.y <= 1) {
+			enemy.transform.position = enemy.transform.position - new Vector3 (0, enemy.transform.position.y + 1, 0);
+//			enemy.transform.position.y = 1f;
+		}
 
 		if (t >= 1) {
 			Vector3 randomVector = RandomVector ();
@@ -85,17 +89,20 @@ public class FloatingState : IEnemyState
 		Debug.Log ("aaaaaaaaaaaaaaa");
 		Vector3 randomVector = Vector3.zero;
 		Vector3 playerVector = enemy.player.transform.position;
-		randomVector = randomVector = new Vector3 ((float)Random.Range (-30f - playerVector.x, 30f - playerVector.x), 
-			(float)Random.Range (-30f - playerVector.y, 30f - playerVector.y), 
-			(float)Random.Range (-30f - playerVector.z, 30f - playerVector.z));
+		float distanceX = enemy.transform.position.x - enemy.player.transform.position.x;
+		float distanceY = enemy.transform.position.y - enemy.player.transform.position.y;
+		float distanceZ = enemy.transform.position.z - enemy.player.transform.position.z;
+		randomVector = randomVector = new Vector3 ((float)Random.Range (-30f - distanceX, 30f - distanceX), 
+			(float)Random.Range (-30f - distanceY, 30f - distanceY), 
+			(float)Random.Range (-30f - distanceZ, 30f - distanceZ));
 //		while (!(Vector3.Distance(enemy.player.transform.position, randomVector) < 10f || randomVector == Vector3.zero)){
 //			randomVector = new Vector3 ((float)Random.Range (-30f, 30f), (float)Random.Range (-30f, 30f), (float)Random.Range (-30f, 30f));
 //			if(enemy.transform.position.y + randomVector.y <=0 ){
 //				continue;
 //			}
-//			Debug.Log (Vector3.Distance(enemy.player.transform.position, randomVector) < 10f);
-//			Debug.Break ();
+//			Debug.Log (Vector3.Distancey
 //		}
+
 		return randomVector;
 	}
 }

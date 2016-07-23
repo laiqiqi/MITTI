@@ -34,7 +34,7 @@ public class StatePatternEnemy : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		currentState = patrolState;
+		currentState = floatingState;
 	}
 
 	// Update is called once per frame
