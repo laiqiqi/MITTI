@@ -8,12 +8,13 @@ public class FloatingAIState : AIState {
 
 	public FloatingAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
+		target = new GameObject ().transform;
 	}
 
 	public void StartState(){
 		enemy.currentState = enemy.floatingState;
 		speed = 10f;
-		target = new GameObject ().transform;
+//		target = new GameObject ().transform;
 		target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
 			//			this.transform.position.y + Random.Range (-10f, 100f),
 			Random.Range (0f, 10f),
