@@ -8,16 +8,23 @@ public class StatePatternAI: MonoBehaviour {
 
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
+	[HideInInspector] public SeekState seekState;
+    [HideInInspector] public StompState stompState;
+	[HideInInspector] public PrepareDigStrikeState prepareDigStrikeState;
+	[HideInInspector] public DigStrikeState digStrikeState;
 	// Use this for initialization
 	void Start () {
 		floatingState = new FloatingAIState (this);
-		floatingState.StartState ();
-
+		seekState = new SeekState (this);
+		stompState = new StompState (this);
+		prepareDigStrikeState = new PrepareDigStrikeState (this);
+		digStrikeState = new DigStrikeState (this);
+		// floatingState.StartState ();
+		seekState.StartState();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		currentState.UpdateState ();
-
 	}
 }
