@@ -5,6 +5,7 @@ public class StatePatternAI: MonoBehaviour {
 	public Transform target;
 	public float speed;
 	public GameObject player;
+	public GameObject bullet;
 
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
@@ -12,6 +13,8 @@ public class StatePatternAI: MonoBehaviour {
     [HideInInspector] public StompState stompState;
 	[HideInInspector] public PrepareDigStrikeState prepareDigStrikeState;
 	[HideInInspector] public DigStrikeState digStrikeState;
+	[HideInInspector] public ShootAIState shootState;
+
 	// Use this for initialization
 	void Start () {
 		floatingState = new FloatingAIState (this);
