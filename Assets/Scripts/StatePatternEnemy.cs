@@ -19,7 +19,7 @@ public class StatePatternEnemy : MonoBehaviour
 	[HideInInspector] public AlertState alertState;
 	[HideInInspector] public PatrolState patrolState;
 	[HideInInspector] public FloatingState floatingState;
-	[HideInInspector] public NavMeshAgent navMeshAgent;
+	[HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
 
 	private void Awake()
 	{
@@ -28,7 +28,7 @@ public class StatePatternEnemy : MonoBehaviour
 		patrolState = new PatrolState (this);
 		floatingState = new FloatingState (this);
 
-		navMeshAgent = GetComponent<NavMeshAgent> ();
+		navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 	}
 
 	// Use this for initialization

@@ -22,8 +22,9 @@ public class StatePatternAI: MonoBehaviour {
 		stompState = new StompState (this);
 		prepareDigStrikeState = new PrepareDigStrikeState (this);
 		digStrikeState = new DigStrikeState (this);
-		// floatingState.StartState ();
-		seekState.StartState();
+		shootState = new ShootAIState (this);
+		floatingState.StartState ();
+		//seekState.StartState();
 	}
 	
 	// Update is called once per frame
