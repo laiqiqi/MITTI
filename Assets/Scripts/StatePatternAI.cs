@@ -6,6 +6,7 @@ public class StatePatternAI: MonoBehaviour {
 	public float speed;
 	public GameObject player;
 	public GameObject bullet;
+	public Collision bodyColInfo;
 
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
@@ -15,6 +16,8 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public DigStrikeState digStrikeState;
 	[HideInInspector] public ShootAIState shootState;
 	[HideInInspector] public SlashAIState slashState;
+	[HideInInspector] public PrepareSlamState prepareSlamState;
+	[HideInInspector] public SlamState slamState;
 
 	// Use this for initialization
 	void Start () {
@@ -25,12 +28,20 @@ public class StatePatternAI: MonoBehaviour {
 		digStrikeState = new DigStrikeState (this);
 		shootState = new ShootAIState (this);
 		slashState = new SlashAIState (this);
-		floatingState.StartState ();
-		//seekState.StartState();
+		prepareSlamState = new PrepareSlamState (this);
+		slamState = new SlamState (this);
+
+		// floatingState.StartState ();
+		// seekState.StartState();
+		prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		currentState.UpdateState ();
 	}
+
+	public void OnCollisionBody(Collision collision){
+        bodyColInfo = collision;
+    }
 }
