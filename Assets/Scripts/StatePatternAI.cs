@@ -6,6 +6,7 @@ public class StatePatternAI: MonoBehaviour {
 	public float speed;
 	public GameObject player;
 	public GameObject bullet;
+	public Vector3 swordDirection;
 
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
@@ -26,6 +27,8 @@ public class StatePatternAI: MonoBehaviour {
 		shootState = new ShootAIState (this);
 		slashState = new SlashAIState (this);
 		floatingState.StartState ();
+
+		swordDirection = Vector3.up;
 		//seekState.StartState();
 	}
 	
