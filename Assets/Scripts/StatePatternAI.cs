@@ -14,6 +14,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public PrepareDigStrikeState prepareDigStrikeState;
 	[HideInInspector] public DigStrikeState digStrikeState;
 	[HideInInspector] public ShootAIState shootState;
+	[HideInInspector] public SlashAIState slashState;
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +24,7 @@ public class StatePatternAI: MonoBehaviour {
 		prepareDigStrikeState = new PrepareDigStrikeState (this);
 		digStrikeState = new DigStrikeState (this);
 		shootState = new ShootAIState (this);
+		slashState = new SlashAIState (this);
 		floatingState.StartState ();
 		//seekState.StartState();
 	}
