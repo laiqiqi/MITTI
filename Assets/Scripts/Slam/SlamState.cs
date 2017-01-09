@@ -35,7 +35,7 @@ public class SlamState : AIState {
     public void EndState()
     {
         Debug.Log("Slam End");
-        enemy.prepareSlamState.StartState();
+        enemy.seekState.StartState();
     }
 
     public void StateChangeCondition()

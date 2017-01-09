@@ -31,7 +31,8 @@ public class StatePatternAI: MonoBehaviour {
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
 
-		floatingState.StartState ();
+		// floatingState.StartState ();
+		seekState.StartState();
 
 		swordDirection = Vector3.up;
 	}
