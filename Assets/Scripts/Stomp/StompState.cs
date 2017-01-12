@@ -6,6 +6,7 @@ public class StompState : AIState {
     private readonly StatePatternAI enemy;
     private Vector3 attackTarget;
     private float speed;
+	public string name{ get;}
 
     public StompState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;

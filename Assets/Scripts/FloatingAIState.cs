@@ -5,6 +5,7 @@ public class FloatingAIState : AIState {
 	private readonly StatePatternAI enemy;
 	public Transform target;
 	public float speed;
+	public string name{ get;}
 
 	public FloatingAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
@@ -46,7 +47,7 @@ public class FloatingAIState : AIState {
 			enemy.shootState.StartState ();
 			
 		}
-		if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < 4f){
+		if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < 6f){
 			target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
 				//				this.transform.position.y + Random.Range (-10f, 10f),
 				Random.Range (0f, 10f),

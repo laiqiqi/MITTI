@@ -16,6 +16,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public DigStrikeState digStrikeState;
 	[HideInInspector] public ShootAIState shootState;
 	[HideInInspector] public SlashAIState slashState;
+	[HideInInspector] public ParryAIState parryState;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +27,7 @@ public class StatePatternAI: MonoBehaviour {
 		digStrikeState = new DigStrikeState (this);
 		shootState = new ShootAIState (this);
 		slashState = new SlashAIState (this);
+		parryState = new ParryAIState (this);
 		floatingState.StartState ();
 
 		swordDirection = Vector3.up;
@@ -35,5 +37,10 @@ public class StatePatternAI: MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		currentState.UpdateState ();
+	}
+
+	void OnCollisionEnter(Collision coll){
+//		Vector3 dir = coll.transform.position - transform.position;
+//		coll.rigidbody.AddForce(dir.normalized * 500);
 	}
 }

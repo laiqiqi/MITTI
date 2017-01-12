@@ -11,6 +11,7 @@ public class SeekState : AIState {
     public float frequency;
     private Vector3 memPlayerPos;
     private float timerBeforeTarget;
+	public string name{ get;}
 
     public SeekState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;

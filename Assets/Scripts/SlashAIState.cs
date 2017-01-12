@@ -6,9 +6,11 @@ public class SlashAIState : AIState {
 	private float startYAngle;
 	private int slashCount;
 	private Vector3 oldSwordDirection;
+	public string name{ get;}
 
 	public SlashAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
+		name = "SlashAIState";
 	}
 
 	public void StartState(){
@@ -30,7 +32,6 @@ public class SlashAIState : AIState {
 //		if (enemy.transform.rotation.y < 0f && enemy.transform.rotation.x < 0f) {
 //			StateChangeCondition ();
 //		}
-		Debug.Log(Mathf.Abs (enemy.transform.eulerAngles.y));
 		if (enemy.swordDirection.y > 0) {
 			if (Mathf.Abs (startYAngle - enemy.transform.eulerAngles.y) <= 20f// || Mathf.Abs (startYAngle - enemy.transform.eulerAngles.y) >= 355f
 				&& startYAngle > enemy.transform.eulerAngles.y) {

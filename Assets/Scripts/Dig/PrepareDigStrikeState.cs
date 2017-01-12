@@ -9,6 +9,7 @@ public class PrepareDigStrikeState : AIState {
     private float speed;
     private float timer;
     private float seekTime;
+	public string name{ get;}
 
     public PrepareDigStrikeState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;

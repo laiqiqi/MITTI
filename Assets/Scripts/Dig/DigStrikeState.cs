@@ -9,9 +9,12 @@ public class DigStrikeState : AIState {
     private float speed;
     private float timer;
     private float seekTime;
+	public string name{ get;}
+
 
     public DigStrikeState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
+		name = "s";
 	}
 
     public void StartState()

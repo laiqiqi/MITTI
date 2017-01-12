@@ -15,9 +15,16 @@ public class SwordDirectionController : MonoBehaviour {
 		
 	}
 
-	void OnTriggerEnter(Collider collision) {
+	void OnTriggerEnter(Collider col) {
 //		Vector3 swordDirection = AI.GetComponent<StatePatternAI> ().swordDirection;
 //		swordDirection = -swordDirection;
-		AI.GetComponent<StatePatternAI> ().swordDirection = -AI.GetComponent<StatePatternAI> ().swordDirection;
+
+		//using
+//		AI.GetComponent<StatePatternAI> ().swordDirection = -AI.GetComponent<StatePatternAI> ().swordDirection;
+//		Debug.Log (AI.GetComponent<StatePatternAI> ().currentState.name);
+		if (AI.GetComponent<StatePatternAI> ().currentState.name != "parryAIState") {
+			AI.GetComponent<StatePatternAI> ().parryState.StartState ();
+		}
 	}
+
 }
