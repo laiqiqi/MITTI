@@ -11,7 +11,8 @@ public class BodyCollision : MonoBehaviour {
 	}
 	void OnCollisionEnter(Collision collision){
 		Debug.Log("hit!");
-		parent.OnCollisionBody(collision);
+//		parent.OnCollisionBody(collision);
+		parent.bodyColInfo = collision;
 	}
 
 	// void OnTriggerEnter(Collider collision){

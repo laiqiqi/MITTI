@@ -8,6 +8,7 @@ public class PrepareSlamState : AIState {
     private float speed;
     private float timer;
     private float seekTime;
+	public string name{ get;}
 
     public PrepareSlamState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;

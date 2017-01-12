@@ -8,6 +8,7 @@ public class SlamState : AIState {
     private Vector3 moveToTarget;
     private float speed;
     private GameObject body;
+	public string name{ get;}
 
     public SlamState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
