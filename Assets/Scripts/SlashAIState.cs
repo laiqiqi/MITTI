@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SlashAIState : AIState {
 	private readonly StatePatternAI enemy;
+	public string name{get;}
 	private float startYAngle;
 	private int slashCount;
 	private Vector3 oldSwordDirection;
