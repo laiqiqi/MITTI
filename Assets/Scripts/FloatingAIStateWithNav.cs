@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FloatingAIStateWithNav : AIState {
 	private readonly StatePatternAI enemy;
+	public string name{get;}
 //	public Transform target;
 	public float speed;
 
