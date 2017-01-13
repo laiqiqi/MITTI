@@ -51,7 +51,7 @@ public class DigStrikeState : AIState {
             enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToTarget, speed * Time.deltaTime);
         }
         else {
-            enemy.seekState.StartState();
+            enemy.prepareSlamState.StartState();
         }
     }
 }

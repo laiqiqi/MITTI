@@ -28,6 +28,7 @@ public class SeekState : AIState {
         timerBeforeTarget = 0;
 		target = enemy.player.transform.position;
         memPlayerPos = target;
+        enemy.transform.rotation = new Quaternion(0, 0, 0, 0);
     }
 
     public void UpdateState()
