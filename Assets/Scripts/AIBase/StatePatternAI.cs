@@ -19,6 +19,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public ParryAIState parryState;
 	[HideInInspector] public PrepareSlamState prepareSlamState;
 	[HideInInspector] public SlamState slamState;
+	[HideInInspector] public EscapeState escapeState;
 
 	// Use this for initialization
 	void Start () {
@@ -32,6 +33,7 @@ public class StatePatternAI: MonoBehaviour {
 		parryState = new ParryAIState (this);
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
+		escapeState = new EscapeState (this);
 
 		floatingState.StartState ();
 		// seekState.StartState();

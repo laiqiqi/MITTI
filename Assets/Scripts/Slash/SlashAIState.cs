@@ -67,5 +67,6 @@ public class SlashAIState : AIState {
 
 	public void StateChangeCondition(){
 //		enemy.floatingState.StartState ();
+		enemy.escapeState.StartState ();
 	}
 }
