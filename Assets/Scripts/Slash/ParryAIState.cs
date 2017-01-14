@@ -24,7 +24,6 @@ public class ParryAIState : AIState {
 		if (timeCount > 2.5f) {
 			enemy.floatingState.StartState ();
 		}
-		Debug.Log (timeCount);
 
 	}
 

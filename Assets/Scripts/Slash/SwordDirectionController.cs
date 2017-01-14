@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class SwordDirectionController : MonoBehaviour {
 	public GameObject AI;
+	public GameObject ignoreObject;
 
 	// Use this for initialization
 	void Start () {
-		
+		Physics.IgnoreCollision(ignoreObject.GetComponent<Collider>(), GetComponent<Collider>());
 	}
 	
 	// Update is called once per frame
@@ -27,4 +28,7 @@ public class SwordDirectionController : MonoBehaviour {
 		}
 	}
 
+//	void OnCollisionEnter(Collision col){
+//		this.rigidbody
+//	}
 }
