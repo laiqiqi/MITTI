@@ -23,9 +23,16 @@ public class SwordDirectionController : MonoBehaviour {
 		//using
 //		AI.GetComponent<StatePatternAI> ().swordDirection = -AI.GetComponent<StatePatternAI> ().swordDirection;
 //		Debug.Log (AI.GetComponent<StatePatternAI> ().currentState.name);
-		if (AI.GetComponent<StatePatternAI> ().currentState.name != "parryAIState") {
-			AI.GetComponent<StatePatternAI> ().parryState.StartState ();
+//		if (col.transform.tag == "player") {
+//			AI.GetComponent<StatePatternAI> ().isHit = true;
+//		}
+	}
+
+	void OnTriggerExit(Collider col){
+		if (col.transform.tag == "Player") {
+			AI.GetComponent<StatePatternAI> ().isHit = true;
 		}
+//		Debug.Log ("isHit");
 	}
 
 //	void OnCollisionEnter(Collision col){

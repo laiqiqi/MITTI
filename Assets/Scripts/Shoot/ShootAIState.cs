@@ -18,7 +18,7 @@ public class ShootAIState : AIState {
 		Physics.IgnoreCollision(bulletIn.GetComponent<Collider>(), enemy.transform.GetChild(0).GetComponent<Collider>());
 		Physics.IgnoreCollision(bulletIn.GetComponent<Collider>(), enemy.transform.GetChild(1).GetComponent<Collider>());
 //		Debug.Log("aaaaaaaaaaaaaa"+enemy.GetComponentsInChildren<Transform> ()[0].name);
-		Debug.Log("aaaaaaa"+enemy.transform.GetChild(0).name);
+//		Debug.Log("aaaaaaa"+enemy.transform.GetChild(0).name);
 		StateChangeCondition ();
 	}
 
