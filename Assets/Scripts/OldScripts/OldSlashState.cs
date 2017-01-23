@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SlashState : IEnemyState 
+public class OldSlashState : IEnemyState 
 
 {
 
 	private readonly StatePatternEnemy enemy;
 
 
-	public SlashState (StatePatternEnemy statePatternEnemy)
+	public OldSlashState (StatePatternEnemy statePatternEnemy)
 	{
 		enemy = statePatternEnemy;
 	}

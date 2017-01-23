@@ -51,6 +51,7 @@ public class SlashAIState : AIState {
 			StateChangeCondition ();
 		}
 		oldSwordDirection = enemy.swordDirection;
+
 //		if (Mathf.Abs (startYAngle - enemy.transform.eulerAngles.y) <= 5f && ) {
 //			passFront = true;
 //			Debug.Log ("passFront");
@@ -65,6 +66,7 @@ public class SlashAIState : AIState {
 	}
 
 	public void StateChangeCondition(){
-		enemy.floatingState.StartState ();
+//		enemy.floatingState.StartState ();
+		enemy.escapeState.StartState ();
 	}
 }

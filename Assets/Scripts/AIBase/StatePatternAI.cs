@@ -15,10 +15,14 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public PrepareDigStrikeState prepareDigStrikeState;
 	[HideInInspector] public DigStrikeState digStrikeState;
 	[HideInInspector] public ShootAIState shootState;
-	[HideInInspector] public SlashAIState slashState;
+	[HideInInspector] public SlashState slashState;
 	[HideInInspector] public ParryAIState parryState;
 	[HideInInspector] public PrepareSlamState prepareSlamState;
 	[HideInInspector] public SlamState slamState;
+	[HideInInspector] public EscapeState escapeState;
+	[HideInInspector] public bool isHit;
+	[HideInInspector] public bool isParry;
+
 
 	// Use this for initialization
 	void Start () {
@@ -28,15 +32,16 @@ public class StatePatternAI: MonoBehaviour {
 		prepareDigStrikeState = new PrepareDigStrikeState (this);
 		digStrikeState = new DigStrikeState (this);
 		shootState = new ShootAIState (this);
-		slashState = new SlashAIState (this);
+		slashState = new SlashState (this);
 		parryState = new ParryAIState (this);
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
-
+		escapeState = new EscapeState (this);
 		floatingState.StartState ();
 		// seekState.StartState();
-
 		swordDirection = Vector3.up;
+		isHit = false;
+		isParry = false;
 	}
 	
 	// Update is called once per frame
