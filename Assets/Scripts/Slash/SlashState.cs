@@ -9,6 +9,7 @@ public class SlashState : AIState {
 	private Vector3 oldSwordDirection;
 	private float timeCount;
 	private float angularVelocityAfterParry;
+	private bool isStart;
 
 	public SlashState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
@@ -17,15 +18,22 @@ public class SlashState : AIState {
 
 	public void StartState(){
 		AI.currentState = AI.slashState;
-		AI.swordDirection = Mathf.Pow (-1, Random.Range (0, 2)) * AI.swordDirection;
-		timeCount = 0f;
-		angularVelocityAfterParry = 0f;
-		AI.isHit = false;
+		AI.transform.LookAt (AI.player.transform);
+		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
+		isStart = false;
+//		AI.swordDirection = Mathf.Pow (-1, Random.Range (0, 2)) * AI.swordDirection;
+//		timeCount = 0f;
+//		angularVelocityAfterParry = 0f;
+//		AI.isHit = false;
+//		AI.GetComponent<Rigidbody> ().isKinematic = false;
 
 	}
 
 	public void UpdateState(){
-		AI.GetComponent<Rigidbody> ().AddTorque (AI.transform.up * 600);
+//		Debug.Log ("before : "+AI.transform.rotation);
+		AI.GetComponent<Rigidbody> ().AddTorque (-AI.transform.up * 200);
+//		Debug.Log ("after : "+AI.transform.rotation);
+//		AI.GetComponent<Rigidbody> ().AddTorque (new Vector3(0f,1f,0f).normalized * 600f);
 		timeCount += Time.deltaTime;
 //		Debug.Log ("velocity " + AI.GetComponent<Rigidbody> ().angularVelocity.magnitude);
 //		Debug.Log ("isHit " + AI.isHit);
@@ -36,15 +44,21 @@ public class SlashState : AIState {
 //			AI.escapeState.StartState ();
 //		}
 
-		if(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 2f && AI.isHit == true){
-			angularVelocityAfterParry = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
-		}
+//		if(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 2f && AI.isHit == true){
+//			angularVelocityAfterParry = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
+//		}
 
-		Debug.Log ("AfterParry "+(angularVelocityAfterParry > 2f));
-		Debug.Log ("isHit "+(AI.isHit));
-		Debug.Log ("V "+(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1.5f));
-		if(angularVelocityAfterParry > 2f && AI.isHit == true && AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1.5f){
-			Debug.Log ("count");
+		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1f) {
+			isStart = true;
+		}
+		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && AI.isHit) {
+			isStart = false;
+		}
+//		Debug.Log ("AfterParry "+(angularVelocityAfterParry > 2f));
+//		Debug.Log ("isHit "+(AI.isHit));
+//		Debug.Log ("V "+(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1.5f));
+		if( isStart && !AI.isHit && AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f){
+//			Debug.Log ("count");
 			AI.currentState.EndState ();
 			AI.escapeState.StartState ();
 		}
@@ -52,6 +66,8 @@ public class SlashState : AIState {
 
 	public void EndState(){
 		AI.isHit = false;
+		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = true;
+//		AI.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 
 	public void StateChangeCondition(){

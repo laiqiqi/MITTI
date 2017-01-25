@@ -17,6 +17,7 @@ public class ShootAIState : AIState {
 		GameObject bulletIn = GameObject.Instantiate (enemy.bullet.gameObject, enemy.transform.position + new Vector3(0f, 0f, 0f), enemy.transform.rotation);
 		Physics.IgnoreCollision(bulletIn.GetComponent<Collider>(), enemy.transform.GetChild(0).GetComponent<Collider>());
 		Physics.IgnoreCollision(bulletIn.GetComponent<Collider>(), enemy.transform.GetChild(1).GetComponent<Collider>());
+		Physics.IgnoreCollision(bulletIn.GetComponent<Collider>(), enemy.GetComponent<Collider>());
 //		Debug.Log("aaaaaaaaaaaaaa"+enemy.GetComponentsInChildren<Transform> ()[0].name);
 //		Debug.Log("aaaaaaa"+enemy.transform.GetChild(0).name);
 		StateChangeCondition ();
@@ -27,6 +28,7 @@ public class ShootAIState : AIState {
 	}
 
 	public void StateChangeCondition(){
+		EndState ();
 		enemy.floatingState.StartState ();
 	}
 }
