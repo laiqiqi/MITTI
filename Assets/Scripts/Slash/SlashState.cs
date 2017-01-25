@@ -18,9 +18,13 @@ public class SlashState : AIState {
 
 	public void StartState(){
 		AI.currentState = AI.slashState;
-		AI.transform.LookAt (AI.player.transform);
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
+		AI.transform.LookAt (AI.player.transform);
+		// AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
 		isStart = false;
+		AI.isHit = false;
+		timeCount = 0;
+		Debug.Log("SlashState");
 //		AI.swordDirection = Mathf.Pow (-1, Random.Range (0, 2)) * AI.swordDirection;
 //		timeCount = 0f;
 //		angularVelocityAfterParry = 0f;
@@ -47,8 +51,12 @@ public class SlashState : AIState {
 //		if(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 2f && AI.isHit == true){
 //			angularVelocityAfterParry = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
 //		}
+		if(AI.isParry){
+			AI.GetComponent<Rigidbody> ().AddTorque (-AI.transform.up * 5000);
+			AI.isParry = false;
+		}
 
-		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1f) {
+		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
 			isStart = true;
 		}
 		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && AI.isHit) {
@@ -57,18 +65,25 @@ public class SlashState : AIState {
 //		Debug.Log ("AfterParry "+(angularVelocityAfterParry > 2f));
 //		Debug.Log ("isHit "+(AI.isHit));
 //		Debug.Log ("V "+(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1.5f));
-		if( isStart && !AI.isHit && AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f){
-//			Debug.Log ("count");
+		// if( isStart && !AI.isHit && AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f){
+		// 	Debug.Log ("SlashStateChange");
+		// 	AI.currentState.EndState ();
+		// 	AI.escapeState.StartState ();
+		// }
+		// if(timeCount >= 3f && !AI.isHit && isStart){
+		// 	AI.currentState.EndState ();
+		// 	AI.escapeState.StartState();
+		// }
+
+		if(timeCount >= 6f ){
 			AI.currentState.EndState ();
-			AI.escapeState.StartState ();
-		}
-		if(timeCount >= 3f){
 			AI.escapeState.StartState();
 		}
 	}
 
 	public void EndState(){
 		AI.isHit = false;
+		timeCount = 0;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = true;
 //		AI.GetComponent<Rigidbody> ().isKinematic = false;
 	}

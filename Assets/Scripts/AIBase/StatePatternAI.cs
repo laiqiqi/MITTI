@@ -20,6 +20,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public PrepareSlamState prepareSlamState;
 	[HideInInspector] public SlamState slamState;
 	[HideInInspector] public EscapeState escapeState;
+	[HideInInspector] public StopState stopState;
 	[HideInInspector] public bool isHit;
 	[HideInInspector] public bool isParry;
 
@@ -37,7 +38,9 @@ public class StatePatternAI: MonoBehaviour {
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
 		escapeState = new EscapeState (this);
+		stopState = new StopState(this);
 		floatingState.StartState ();
+		// stopState.StartState ();
 		// seekState.StartState();
 		swordDirection = Vector3.up;
 		isHit = false;
@@ -46,12 +49,29 @@ public class StatePatternAI: MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// currentState.UpdateState ();
-		Debug.Log(currentState.name);
+		KeyboardController();
+		// Debug.Log("aaaaa");
+		currentState.UpdateState ();
+		// KeyboardController();
+		// Debug.Log(currentState.name);
 	}
 
 	void OnCollisionEnter(Collision coll){
 //		Vector3 dir = coll.transform.position - transform.position;
 //		coll.rigidbody.AddForce(dir.normalized * 500);
+	}
+
+	void KeyboardController(){
+		Debug.Log("keyBoardddd");
+		if (Input.GetKeyDown (KeyCode.I)) {
+			Debug.Log("LLLLLLLL");
+			currentState.EndState();
+			slashState.StartState();
+		}else if (Input.GetKeyDown (KeyCode.O)) {
+			currentState.EndState();
+			stopState.StartState();
+		}else if (Input.GetKeyUp (KeyCode.K)) {
+		}
+
 	}
 }

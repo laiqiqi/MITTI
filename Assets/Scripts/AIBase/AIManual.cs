@@ -30,30 +30,33 @@ public class AIManual : MonoBehaviour {
 	public float minimumY = -60F;
 	public float maximumY = 60F;
 	float rotationY = 0F;
-	public float speed = 20;
+	public float speed = 10;
+	private bool isUpdate = true;
 	void Update ()
-	{
-		if (axes == RotationAxes.MouseXAndY)
-		{
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
-
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-
-			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-		}
-		else if (axes == RotationAxes.MouseX)
-		{
-			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
-		}
-		else
-		{
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-
-			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-		}
+	{	
 		KeyboardController ();
+		if(isUpdate){
+			if (axes == RotationAxes.MouseXAndY)
+			{
+				float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+
+				rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+				rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+
+				transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+			}
+			else if (axes == RotationAxes.MouseX)
+			{
+				transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+			}
+			else
+			{
+				rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+				rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+
+				transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
+			}
+		}
 	}
 
 	void Start ()
@@ -67,15 +70,17 @@ public class AIManual : MonoBehaviour {
 		if (Input.GetKey (KeyCode.W)) {
 			this.transform.position += this.transform.forward * speed * Time.deltaTime;
 		}else if (Input.GetKeyDown (KeyCode.LeftShift)) {
-			speed = 40;
+			speed = 5;
 		}else if (Input.GetKeyUp (KeyCode.LeftShift)) {
-			speed = 20;
+			speed = 10;
 		}else if (Input.GetKey (KeyCode.A)) {
 			this.transform.position += -this.transform.right * speed * Time.deltaTime;
 		}else if (Input.GetKey (KeyCode.D)) {
 			this.transform.position += this.transform.right * speed * Time.deltaTime;
 		}else if (Input.GetKey (KeyCode.S)) {
 			this.transform.position += -this.transform.forward * speed * Time.deltaTime;
+		}else if (Input.GetKeyDown (KeyCode.L)) {
+			isUpdate = !isUpdate;
 		}
 
 	}

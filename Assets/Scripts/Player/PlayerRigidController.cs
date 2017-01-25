@@ -14,16 +14,19 @@ public class PlayerRigidController : MonoBehaviour {
 	void Update () {
 		Vector3 vel = this.GetComponent<Rigidbody>().velocity;      //to get a Vector3 representation of the velocity
 		speed = vel.magnitude;
-//		Debug.Log(speed);
+		Debug.Log(speed);
 	}
 
 	void OnCollisionEnter(Collision col){
 //		Vector3 dir = col.transform.position - this.transform.position;
-		if(speed> 1f){
+		Debug.Log("speed    :"  +speed);
+		// if(speed> 0.5f){
 			Vector3 dir = col.transform.position - this.transform.position;
-			col.rigidbody.AddForce (dir * 3000);
+			col.rigidbody.AddForce (this.transform.forward * 3000);
+			if(col.transform.tag == "AI")
+				col.gameObject.GetComponent<StatePatternAI>().isParry = true;
 			Debug.Log ("aaaaaaaaaaaaaaaaaaaaaaaa"+"CollisionEnter");
-		}
+		// }
 //		col.rigidbody.AddForce (dir * 300);
 	}
 }

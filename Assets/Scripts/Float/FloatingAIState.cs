@@ -16,11 +16,11 @@ public class FloatingAIState : AIState {
 		enemy.currentState = enemy.floatingState;
 		speed = 5f;
 //		target = new GameObject ().transform;
-		target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (3f, 10f),
+		target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
 			//			this.transform.position.y + Random.Range (-10f, 100f),
 			enemy.player.transform.position.y + Random.Range (0f, 2f),
 			// Random.Range (0f, 10f),
-			enemy.player.transform.position.z + Random.Range (3f, 10f));
+			enemy.player.transform.position.z + Random.Range (-10f, 10f));
 	}
 
 	public void UpdateState(){
@@ -41,11 +41,12 @@ public class FloatingAIState : AIState {
 		enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, target.position, step);
 		if(Vector3.Distance(enemy.transform.position, target.position) < 0.1f){
 			//It is within ~0.1f range, do stuff
-			target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (3f, 10f),
+			target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
 								enemy.player.transform.position.y + Random.Range (1f, 2f),
 				// Random.Range (0f, 10f),
-				enemy.player.transform.position.z + Random.Range (3f, 10f));
+				enemy.player.transform.position.z + Random.Range (-10f, 10f));
 			enemy.shootState.StartState ();
+			// enemy.slashState.StartState ();
 			
 		}
 		if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < 3f){
