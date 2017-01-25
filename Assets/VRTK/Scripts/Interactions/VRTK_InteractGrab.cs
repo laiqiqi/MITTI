@@ -58,8 +58,10 @@ namespace VRTK
 
         public virtual void OnControllerGrabInteractableObject(ObjectInteractEventArgs e)
         {
+            // Debug.Log("Im almost thereeeeee");
             if (ControllerGrabInteractableObject != null)
-            {
+            {   
+                // Debug.Log("Fucking run plesseawsease");
                 ControllerGrabInteractableObject(this, e);
             }
         }
@@ -221,12 +223,14 @@ namespace VRTK
         private void InitGrabbedObject()
         {
             grabbedObject = interactTouch.GetTouchedObject();
+            // Debug.Log(grabbedObject);
             if (grabbedObject)
             {
                 var grabbedObjectScript = grabbedObject.GetComponent<VRTK_InteractableObject>();
                 ChooseGrabSequence(grabbedObjectScript);
                 ToggleControllerVisibility(false);
                 OnControllerGrabInteractableObject(interactTouch.SetControllerInteractEvent(grabbedObject));
+                // Debug.Log("wtf");
             }
         }
 
@@ -343,6 +347,7 @@ namespace VRTK
         private void AttemptGrabObject()
         {
             var objectToGrab = GetGrabbableObject();
+            // Debug.Log(objectToGrab);
             if (objectToGrab != null)
             {
                 PerformGrabAttempt(objectToGrab);

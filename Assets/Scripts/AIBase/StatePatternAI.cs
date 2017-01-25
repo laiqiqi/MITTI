@@ -46,7 +46,8 @@ public class StatePatternAI: MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		currentState.UpdateState ();
+		// currentState.UpdateState ();
+		Debug.Log(currentState.name);
 	}
 
 	void OnCollisionEnter(Collision coll){

@@ -53,14 +53,17 @@
 
         private void Start()
         {
+            
             bowAnimation = GetComponent<BowAnimation>();
             handle = GetComponentInChildren<BowHandle>();
             interact = GetComponent<VRTK_InteractableObject>();
             interact.InteractableObjectGrabbed += new InteractableObjectEventHandler(DoObjectGrab);
+            Debug.Log("hold and string script running");
         }
 
         private void DoObjectGrab(object sender, InteractableObjectEventArgs e)
         {
+            Debug.Log("do object grab");
             if (VRTK_DeviceFinder.IsControllerLeftHand(e.interactingObject))
             {
                 holdControl = VRTK_DeviceFinder.GetControllerLeftHand().GetComponent<VRTK_ControllerEvents>();

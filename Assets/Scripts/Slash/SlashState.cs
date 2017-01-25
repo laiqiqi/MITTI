@@ -48,6 +48,9 @@ public class SlashState : AIState {
 			AI.currentState.EndState ();
 			AI.escapeState.StartState ();
 		}
+		if(timeCount >= 3f){
+			AI.escapeState.StartState();
+		}
 	}
 
 	public void EndState(){
