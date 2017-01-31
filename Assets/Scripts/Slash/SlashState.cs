@@ -75,10 +75,10 @@ public class SlashState : AIState {
 		// 	AI.escapeState.StartState();
 		// }
 
-		if(timeCount >= 6f ){
-			AI.currentState.EndState ();
-			AI.escapeState.StartState();
-		}
+		// if(timeCount >= 6f ){
+			// AI.currentState.EndState ();
+			// AI.escapeState.StartState();
+		// }
 	}
 
 	public void EndState(){
