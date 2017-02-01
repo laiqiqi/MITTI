@@ -6,8 +6,11 @@ public class StatePatternAI: MonoBehaviour {
 	public float speed;
 	public GameObject player;
 	public GameObject bullet;
+	public GameObject body;
 	public Vector3 swordDirection;
 	public Collision bodyColInfo;
+	public GameObject gObjEffectManager;
+	[HideInInspector] public AIEffectManager effectManager;
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
 	[HideInInspector] public SeekState seekState;
@@ -22,6 +25,7 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		effectManager = gObjEffectManager.GetComponent<AIEffectManager>();
 		floatingState = new FloatingAIState (this);
 		seekState = new SeekState (this);
 		stompState = new StompState (this);
@@ -33,10 +37,11 @@ public class StatePatternAI: MonoBehaviour {
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
 
-		floatingState.StartState ();
-		// seekState.StartState();
+		// floatingState.StartState ();
+		seekState.StartState();
 
-		swordDirection = Vector3.up;
+		// swordDirection = Vector3.up;
+
 	}
 	
 	// Update is called once per frame
@@ -44,8 +49,14 @@ public class StatePatternAI: MonoBehaviour {
 		currentState.UpdateState ();
 	}
 
-	void OnCollisionEnter(Collision coll){
+	void OnCollisionEnter (Collision coll) {
 //		Vector3 dir = coll.transform.position - transform.position;
 //		coll.rigidbody.AddForce(dir.normalized * 500);
+	}
+
+	public void ResetBody () {
+		body.transform.position = new Vector3(0, 0, 0);
+		body.transform.rotation = new Quaternion(0, 0, 0, 0);
+		body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
 	}
 }
