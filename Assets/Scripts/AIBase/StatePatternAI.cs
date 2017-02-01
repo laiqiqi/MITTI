@@ -21,6 +21,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public SlamState slamState;
 	[HideInInspector] public EscapeState escapeState;
 	[HideInInspector] public StopState stopState;
+	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public bool isHit;
 	[HideInInspector] public bool isParry;
 
@@ -39,6 +40,7 @@ public class StatePatternAI: MonoBehaviour {
 		slamState = new SlamState (this);
 		escapeState = new EscapeState (this);
 		stopState = new StopState(this);
+		prepareSlashState = new PrepareSlashState (this);
 		floatingState.StartState ();
 		// stopState.StartState ();
 		// seekState.StartState();
@@ -48,12 +50,12 @@ public class StatePatternAI: MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		KeyboardController();
 		// Debug.Log("aaaaa");
 		currentState.UpdateState ();
 		// KeyboardController();
-		// Debug.Log(currentState.name);
+		 Debug.Log(currentState.name);
 	}
 
 	void OnCollisionEnter(Collision coll){

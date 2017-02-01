@@ -10,6 +10,8 @@ public class SlashState : AIState {
 	private float timeCount;
 	private float angularVelocityAfterParry;
 	private bool isStart;
+	private int countState;
+	private float oldVelocity;
 
 	public SlashState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
@@ -19,12 +21,15 @@ public class SlashState : AIState {
 	public void StartState(){
 		AI.currentState = AI.slashState;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
-		AI.transform.LookAt (AI.player.transform);
+//		AI.transform.LookAt (AI.player.transform);
+//		AI.transform.Rotate (0f, 0f, Random.Range(0f, 360f));
 		// AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
 		isStart = false;
 		AI.isHit = false;
 		timeCount = 0;
-		Debug.Log("SlashState");
+		countState = 0;
+		oldVelocity = 0;
+		AI.transform.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePosition;
 //		AI.swordDirection = Mathf.Pow (-1, Random.Range (0, 2)) * AI.swordDirection;
 //		timeCount = 0f;
 //		angularVelocityAfterParry = 0f;
@@ -51,17 +56,48 @@ public class SlashState : AIState {
 //		if(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 2f && AI.isHit == true){
 //			angularVelocityAfterParry = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
 //		}
-		if(AI.isParry){
-			AI.GetComponent<Rigidbody> ().AddTorque (-AI.transform.up * 5000);
-			AI.isParry = false;
-		}
+//		if(AI.isParry){
+//			AI.GetComponent<Rigidbody> ().AddTorque (-AI.transform.up * 5000);
+//			AI.isParry = false;
+//		}
 
-		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
+		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1f) {
 			isStart = true;
 		}
 		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && AI.isHit) {
 			isStart = false;
 		}
+//		if (oldVelocity.Count == 0) {
+//			oldVelocity.Add (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude);
+//		} else if (oldVelocity.IndexOf (oldVelocity.Count - 1) > AI.GetComponent<Rigidbody> ().angularVelocity.magnitude) {
+//			float temp = oldVelocity.IndexOf (oldVelocity.Count - 1);
+//			oldVelocity.Clear ();
+//			oldVelocity.Add (temp);
+//			oldVelocity.Add (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude);
+//		} else if (oldVelocity.IndexOf (oldVelocity.Count - 1) < AI.GetComponent<Rigidbody> ().angularVelocity.magnitude
+//		         && oldVelocity.Count >= 2) {
+//			if (oldVelocity.IndexOf (oldVelocity.Count - 2) > oldVelocity.IndexOf (oldVelocity.Count - 1)) {
+//				countState = 2;
+//			}
+//		}else {
+//			oldVelocity.Clear ();
+//		}
+
+		if (oldVelocity > AI.GetComponent<Rigidbody> ().angularVelocity.magnitude) {
+			countState = 1;
+		} else if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > oldVelocity && countState == 1) {
+			countState = 2;
+		} else {
+			countState = 0;
+		}
+		oldVelocity = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
+
+
+
+
+
+
+
 //		Debug.Log ("AfterParry "+(angularVelocityAfterParry > 2f));
 //		Debug.Log ("isHit "+(AI.isHit));
 //		Debug.Log ("V "+(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1.5f));
@@ -74,17 +110,31 @@ public class SlashState : AIState {
 		// 	AI.currentState.EndState ();
 		// 	AI.escapeState.StartState();
 		// }
+//		Debug.Log(AI.transform.GetChild(1).GetComponent<Rigidbody> ().velocity.magnitude);
+//		Debug.Log(AI.GetComponent<Rigidbody> ().angularVelocity);
+//		Debug.Log ("isStart   : " +isStart);
+//		Debug.Log ("!isHit   : " +!AI.isHit);
+//		if (isStart && !AI.isHit && AI.transform.GetChild (1).GetComponent<Rigidbody> ().velocity.magnitude < 1.5f) {
+//		Debug.Log(AI.transform.GetComponent<Rigidbody> ().GetPointVelocity(AI.transform.GetChild (1).GetChild(2).transform.position).magnitude);
+//		Debug.Log(AI.transform.InverseTransformDirection(AI.GetComponent<Rigidbody> ().angularVelocity).magnitude);
+//		if (isStart && !AI.isHit && Mathf.Abs(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude) < 1f) {
+		if(countState == 2 && isStart && !AI.isHit){
+			AI.currentState.EndState ();
+			AI.escapeState.StartState();
+		}
 
-		// if(timeCount >= 6f ){
-			// AI.currentState.EndState ();
-			// AI.escapeState.StartState();
-		// }
+
+//		 if(timeCount >= 6f ){
+//			 AI.currentState.EndState ();
+//			 AI.escapeState.StartState();
+//		 }
 	}
 
 	public void EndState(){
 		AI.isHit = false;
 		timeCount = 0;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = true;
+		AI.transform.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.None;
 //		AI.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 
