@@ -18,16 +18,16 @@ public class RockBlast : MonoBehaviour {
 								this.transform.position.z);
 
 		for(int i=0; i<100; i++){
-			x = Random.Range(-5, 5);
-			y = Random.Range(15, 20);
-			z = Random.Range(-5, 5);
+			x = Random.Range(-5f, 5f);
+			y = Random.Range(15f, 20f);
+			z = Random.Range(-5f, 5f);
 			Vector3 spawnPos = new Vector3(pos.transform.position.x + x,
 										pos.transform.position.y,
 										pos.transform.position.z + z);
 
 			GameObject gobj = (GameObject)Instantiate(rock, spawnPos, Quaternion.identity);
 			rocks.Add(gobj);
-			gobj.GetComponent<Rigidbody>().AddForce(new Vector3(x, y, z), ForceMode.Impulse);
+			gobj.GetComponent<Rigidbody>().AddForce(new Vector3(x/2, y, z/2), ForceMode.Impulse);
 			gobj.GetComponent<Rigidbody>().angularVelocity = new Vector3(x, y, z);
 		}
 	}
@@ -56,6 +56,8 @@ public class RockBlast : MonoBehaviour {
 
 	IEnumerator ClearSelf() {
         yield return new WaitForSeconds(5);
-		Destroy(this.gameObject);
+		if(rocks.Count <= 0){
+			Destroy(this.gameObject);
+		}
     }
 }

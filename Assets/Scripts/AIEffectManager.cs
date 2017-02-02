@@ -49,6 +49,13 @@ public class AIEffectManager : MonoBehaviour {
 	public void StopChargeDigAnim() {
 		bodyAnimator.SetBool("isChargeDig", false);
 	}
+
+	public void PlayDigStrikeAnim() {
+		bodyAnimator.SetBool("isDigStrike", true);
+	}
+	public void StopDigStrikeAnim() {
+		bodyAnimator.SetBool("isDigStrike", false);
+	}
 //---------------------------------------------------------
 
 //-----------SkillEffect-----------------------------------
@@ -74,6 +81,14 @@ public class AIEffectManager : MonoBehaviour {
 	public void DestroyDirtBlast() {
 		Destroy(tempEffects[0]);
 		tempEffects[0] = null;
+	}
+
+	public void CreateRockSpikeSummoner(Vector3 effectPos) {
+		tempEffects[1] = (GameObject)Instantiate(skillEffects[1], effectPos, Quaternion.identity);
+	}
+	public void DestroyRockSpikeSummoner() {
+		Destroy(tempEffects[1]);
+		tempEffects[1] = null;
 	}
 //---------------------------------------------------------
 }

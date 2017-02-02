@@ -10,28 +10,31 @@ public class DigStrikeState : MonoBehaviour, AIState {
     private float timer;
     private float seekTime;
     private GameObject circle;
+    private bool hasRSSummoner;
 	public string name{ get;}
 
     public DigStrikeState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
-		name = "s";
 	}
 
     public void StartState()
     {
         Debug.Log("Dig Start");
+        enemy.effectManager.PlayChargeDigAnim();
+        hasRSSummoner = false;
         enemy.currentState = enemy.digStrikeState;
         attackTarget = attackTarget = new Vector3(enemy.player.transform.position.x,
-                                enemy.player.transform.position.y - 0.7f,
+                                //enemy.player.transform.position.y - 0.7f,
+                                0.3f,
                                 enemy.player.transform.position.z);
+       
         moveToTarget = new Vector3(attackTarget.x,
-                                 attackTarget.y + 20f,
+                                 attackTarget.y + 3f,
                                  attackTarget.z);
-        speed = 30f;
+        speed = 25f;
         timer = 0f;
         seekTime = Random.Range(3f, 5f);
 
-        // circle = Instantiate(enemy.magicCircle[1], attackTarget, Quaternion.identity);
         enemy.effectManager.CreateDigStrikeCircle(attackTarget);
     }
 
@@ -52,10 +55,26 @@ public class DigStrikeState : MonoBehaviour, AIState {
 
     void Strike(){
         //Animation sound and effect play;
-        if(enemy.transform.position != moveToTarget){
-            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToTarget, speed * Time.deltaTime);
+        if(enemy.effectManager.CheckBodyAnimState(0, "DigStrike")) {
+            enemy.effectManager.StopChargeDigAnim();
+            enemy.effectManager.PlayDigStrikeAnim();
+
+            if(enemy.transform.position != moveToTarget){
+                enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToTarget, speed * Time.deltaTime);
+            }
+            else{                
+                if(!hasRSSummoner){
+                    enemy.effectManager.CreateRockSpikeSummoner(attackTarget);
+                    hasRSSummoner = true;
+                }
+            }
         }
-        else {
+        else if(enemy.effectManager.CheckBodyAnimState(0, "NoAnimation") && hasRSSummoner){
+            enemy.effectManager.DestroyDigStrikeCircle();
+            enemy.effectManager.DestroyRockSpikeSummoner();
+            enemy.effectManager.StopDigStrikeAnim();
+            // enemy.effectManager.StopChargeDigAnim();
+
             enemy.prepareSlamState.StartState();
         }
     }

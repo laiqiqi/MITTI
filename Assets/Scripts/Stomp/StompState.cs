@@ -8,7 +8,7 @@ public class StompState : MonoBehaviour, AIState {
     private Vector3 dirtPos;
     private Vector3 attackEndPos;
     private float speed;
-    private bool isCreateDirt = false;
+    private bool isCreateDirt;
 	public string name{ get;}
 
     public StompState(StatePatternAI statePatternAI){
@@ -23,8 +23,10 @@ public class StompState : MonoBehaviour, AIState {
     {
         Debug.Log("Stomp Start");
         enemy.currentState = enemy.stompState;
+        isCreateDirt = false;
         attackTarget = new Vector3(enemy.player.transform.position.x,
-                                enemy.player.transform.position.y - 0.7f,
+                                //enemy.player.transform.position.y - 0.7f,
+                                0.3f,
                                 enemy.player.transform.position.z);
         
         attackEndPos = new Vector3(attackTarget.x,
@@ -32,7 +34,8 @@ public class StompState : MonoBehaviour, AIState {
                                 attackTarget.z);
 
         dirtPos = new Vector3(enemy.player.transform.position.x,
-                                enemy.player.transform.position.y - 2.5f,
+                                //enemy.player.transform.position.y - 2f,
+                                -1f,
                                 enemy.player.transform.position.z);
         speed = 35f;
 
