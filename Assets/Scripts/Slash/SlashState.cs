@@ -10,6 +10,8 @@ public class SlashState : AIState {
 	private float timeCount;
 	private float angularVelocityAfterParry;
 	private bool isStart;
+	private int countState;
+	private float oldVelocity;
 
 	public SlashState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
@@ -24,6 +26,8 @@ public class SlashState : AIState {
 		isStart = false;
 		AI.isHit = false;
 		timeCount = 0;
+		countState = 0;
+		oldVelocity = 0;
 		Debug.Log("SlashState");
 //		AI.swordDirection = Mathf.Pow (-1, Random.Range (0, 2)) * AI.swordDirection;
 //		timeCount = 0f;
@@ -51,16 +55,30 @@ public class SlashState : AIState {
 //		if(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 2f && AI.isHit == true){
 //			angularVelocityAfterParry = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
 //		}
-		if(AI.isParry){
-			AI.GetComponent<Rigidbody> ().AddTorque (-AI.transform.up * 5000);
-			AI.isParry = false;
-		}
+		// if(AI.isParry){
+		// 	AI.GetComponent<Rigidbody> ().AddTorque (-AI.transform.up * 5000);
+		// 	AI.isParry = false;
+		// }
 
 		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
 			isStart = true;
 		}
 		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && AI.isHit) {
 			isStart = false;
+		}
+
+		if (oldVelocity > AI.GetComponent<Rigidbody> ().angularVelocity.magnitude) {
+			countState = 1;
+		} else if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > oldVelocity && countState == 1) {
+			countState = 2;
+		} else {
+			countState = 0;
+		}
+		oldVelocity = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
+
+		if(countState == 2 && isStart && !AI.isHit){
+			AI.currentState.EndState ();
+			AI.escapeState.StartState();
 		}
 //		Debug.Log ("AfterParry "+(angularVelocityAfterParry > 2f));
 //		Debug.Log ("isHit "+(AI.isHit));
