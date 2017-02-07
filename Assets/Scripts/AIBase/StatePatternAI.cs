@@ -62,9 +62,7 @@ public class StatePatternAI: MonoBehaviour {
 	}
 
 	void KeyboardController(){
-		Debug.Log("keyBoardddd");
 		if (Input.GetKeyDown (KeyCode.I)) {
-			Debug.Log("LLLLLLLL");
 			currentState.EndState();
 			slashState.StartState();
 		}else if (Input.GetKeyDown (KeyCode.O)) {

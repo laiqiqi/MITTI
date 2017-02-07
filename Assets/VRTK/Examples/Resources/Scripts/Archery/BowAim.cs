@@ -12,6 +12,8 @@
         public float bowVibration = 0.062f;
         public float stringVibration = 0.087f;
 
+        public float power = 0f;
+        public float increaseFactor = 0.01f;
         private BowAnimation bowAnimation;
         private GameObject currentArrow;
         private BowHandle handle;
@@ -171,6 +173,16 @@
         private void PullString()
         {
             currentPull = Mathf.Clamp((Vector3.Distance(holdControl.transform.position, stringControl.transform.position) - pullOffset) * pullMultiplier, 0, maxPullDistance);
+            Debug.Log(currentPull);
+            if(currentPull == maxPullDistance){
+                if(power != 1){
+                    power += increaseFactor;
+                }
+            }else{
+                if(power != 0){
+                    power -= (increaseFactor * 4);
+                } 
+            }
             bowAnimation.SetFrame(currentPull);
 
             if (!currentPull.ToString("F2").Equals(previousPull.ToString("F2")))

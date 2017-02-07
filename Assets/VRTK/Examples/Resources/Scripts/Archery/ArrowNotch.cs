@@ -27,6 +27,19 @@
                 collider.GetComponentInParent<BowAim>().SetArrow(arrow);
                 Destroy(gameObject);
             }
+            //==================================================== orignal code
+            //  var handle = collider.GetComponentInParent<BowHandle>();
+
+            // if (handle != null && obj != null && handle.aim.IsHeld())
+            // {
+            //     handle.nockSide = collider.transform;
+            //     // arrow.transform.parent = handle.arrowNockingPoint;
+
+            //     // CopyNotchToArrow();
+
+            //     // collider.GetComponentInParent<BowAim>().SetArrow(arrow);
+            //     // Destroy(gameObject);
+            // }
         }
 
         private void CopyNotchToArrow()
