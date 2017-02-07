@@ -48,7 +48,7 @@ public class StatePatternAI: MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		KeyboardController();
 		// Debug.Log("aaaaa");
 		currentState.UpdateState ();
