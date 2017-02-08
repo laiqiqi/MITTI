@@ -14,11 +14,12 @@ public class FloatingAIState : AIState {
 
 	public void StartState(){
 		enemy.currentState = enemy.floatingState;
-		speed = 10f;
+		enemy.DetachSword();
+		speed = 5f;
 //		target = new GameObject ().transform;
 		target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
 			//			this.transform.position.y + Random.Range (-10f, 100f),
-			enemy.player.transform.position.y + Random.Range (0f, 10f),
+			enemy.player.transform.position.y + Random.Range (0f, 2f),
 			// Random.Range (0f, 10f),
 			enemy.player.transform.position.z + Random.Range (-10f, 10f));
 	}
@@ -42,20 +43,22 @@ public class FloatingAIState : AIState {
 		if(Vector3.Distance(enemy.transform.position, target.position) < 0.1f){
 			//It is within ~0.1f range, do stuff
 			target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
-								enemy.player.transform.position.y + Random.Range (0f, 10f),
+								enemy.player.transform.position.y + Random.Range (1f, 2f),
 				// Random.Range (0f, 10f),
 				enemy.player.transform.position.z + Random.Range (-10f, 10f));
 			enemy.shootState.StartState ();
+			// enemy.slashState.StartState ();
 			
 		}
-		if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < 6f){
+		if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < 3f){
 			target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
-				enemy.player.transform.position.y + Random.Range (0f, 10f),
+				enemy.player.transform.position.y + Random.Range (1f, 2f),
 				//				this.transform.position.y + Random.Range (-10f, 10f),
 				// Random.Range (0f, 10f),
 				enemy.player.transform.position.z + Random.Range (-10f, 10f));
 
 			enemy.slashState.StartState ();
+			// enemy.escapeState.StartState();
 		}
 	}
 }

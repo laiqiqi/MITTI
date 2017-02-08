@@ -22,9 +22,8 @@ public class ParryAIState : AIState {
 //		StartCoroutine(ChangeToFloating());
 		timeCount += Time.deltaTime;
 		if (timeCount > 2.5f) {
-			enemy.floatingState.StartState ();
+			enemy.escapeState.StartState ();
 		}
-		Debug.Log (timeCount);
 
 	}
 
