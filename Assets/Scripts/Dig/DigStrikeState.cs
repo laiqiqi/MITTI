@@ -20,7 +20,7 @@ public class DigStrikeState : MonoBehaviour, AIState {
     public void StartState()
     {
         Debug.Log("Dig Start");
-        enemy.effectManager.PlayChargeDigAnim();
+        enemy.animationManager.PlayChargeDigAnim();
         hasRSSummoner = false;
         enemy.currentState = enemy.digStrikeState;
         attackTarget = attackTarget = new Vector3(enemy.player.transform.position.x,
@@ -54,10 +54,9 @@ public class DigStrikeState : MonoBehaviour, AIState {
     }
 
     void Strike(){
-        //Animation sound and effect play;
-        if(enemy.effectManager.CheckBodyAnimState(0, "DigStrike")) {
-            enemy.effectManager.StopChargeDigAnim();
-            enemy.effectManager.PlayDigStrikeAnim();
+        if(enemy.animationManager.CheckBodyAnimState(0, "DigStrike")) {
+            enemy.animationManager.StopChargeDigAnim();
+            enemy.animationManager.PlayDigStrikeAnim();
 
             if(enemy.transform.position != moveToTarget){
                 enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToTarget, speed * Time.deltaTime);
@@ -69,11 +68,10 @@ public class DigStrikeState : MonoBehaviour, AIState {
                 }
             }
         }
-        else if(enemy.effectManager.CheckBodyAnimState(0, "NoAnimation") && hasRSSummoner){
+        else if(enemy.animationManager.CheckBodyAnimState(0, "NoAnimation") && hasRSSummoner){
             enemy.effectManager.DestroyDigStrikeCircle();
             enemy.effectManager.DestroyRockSpikeSummoner();
-            enemy.effectManager.StopDigStrikeAnim();
-            // enemy.effectManager.StopChargeDigAnim();
+            enemy.animationManager.StopDigStrikeAnim();
 
             enemy.prepareSlamState.StartState();
         }

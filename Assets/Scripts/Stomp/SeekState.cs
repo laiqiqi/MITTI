@@ -39,7 +39,6 @@ public class SeekState : AIState {
     public void EndState()
     {
         Debug.Log("Seek End");
-        // enemy.animator.SetBool("isSeek", false);
         enemy.stompState.StartState();
     }
 
@@ -49,8 +48,6 @@ public class SeekState : AIState {
     }
 
     void Seek(){ 
-        //Use animation instead of Look and Targeting method
-        // Look();
         if(timer <= seekTime){
             timer += Time.deltaTime;
             Targeting();
@@ -68,17 +65,11 @@ public class SeekState : AIState {
     }
 
     void Targeting(){
-        enemy.effectManager.PlaySeekAnim();
+        enemy.animationManager.PlaySeekAnim();
         target = new Vector3(enemy.player.transform.position.x,
                                     enemy.player.transform.position.y + 10f,
                                     enemy.player.transform.position.z);
-        // target.position = new Vector3(enemy.player.transform.position.x - (Mathf.Sin(Time.time * frequency*2)),
-        //                             enemy.player.transform.position.y + (10f + Mathf.Sin(Time.time * frequency)),
-        //                             enemy.player.transform.position.z + (Mathf.Cos(Time.time * frequency*2)));
-        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, target, speed * Time.deltaTime);
-    }
-
-    void Wait(float sec){
         
+        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, target, speed * Time.deltaTime);
     }
 }

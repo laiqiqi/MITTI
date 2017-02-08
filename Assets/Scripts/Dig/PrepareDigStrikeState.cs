@@ -27,7 +27,7 @@ public class PrepareDigStrikeState : AIState {
         seekTime = Random.Range(3f, 5f);
         enemy.ResetBody();
 
-        enemy.effectManager.StopChargeStompAnim();
+        enemy.animationManager.StopChargeStompAnim();
     }
 
     public void UpdateState()

@@ -9,8 +9,11 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject body;
 	public Vector3 swordDirection;
 	public Collision bodyColInfo;
-	public GameObject gObjEffectManager;
+	public GameObject gObjAIManager;
+
 	[HideInInspector] public AIEffectManager effectManager;
+	[HideInInspector] public AIAnimationManager animationManager;
+
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
 	[HideInInspector] public SeekState seekState;
@@ -25,7 +28,9 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		effectManager = gObjEffectManager.GetComponent<AIEffectManager>();
+		effectManager = gObjAIManager.GetComponent<AIEffectManager>();
+		animationManager = gObjAIManager.GetComponent<AIAnimationManager>();
+
 		floatingState = new FloatingAIState (this);
 		seekState = new SeekState (this);
 		stompState = new StompState (this);
@@ -47,11 +52,6 @@ public class StatePatternAI: MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		currentState.UpdateState ();
-	}
-
-	void OnCollisionEnter (Collision coll) {
-//		Vector3 dir = coll.transform.position - transform.position;
-//		coll.rigidbody.AddForce(dir.normalized * 500);
 	}
 
 	public void ResetBody () {

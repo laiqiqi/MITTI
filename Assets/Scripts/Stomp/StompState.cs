@@ -14,16 +14,13 @@ public class StompState : MonoBehaviour, AIState {
     public StompState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
 	}
-    public StompState(StatePatternAI statePatternAI, Vector3 target){
-		enemy = statePatternAI;
-        attackTarget = target;
-	}
 
     public void StartState()
     {
         Debug.Log("Stomp Start");
         enemy.currentState = enemy.stompState;
         isCreateDirt = false;
+
         attackTarget = new Vector3(enemy.player.transform.position.x,
                                 //enemy.player.transform.position.y - 0.7f,
                                 0.3f,
@@ -40,7 +37,7 @@ public class StompState : MonoBehaviour, AIState {
         speed = 35f;
 
         enemy.effectManager.CreateStompCircle(attackTarget);
-        enemy.effectManager.PlayChargeStompAnim();
+        enemy.animationManager.PlayChargeStompAnim();
     }
 
     public void UpdateState()
@@ -51,6 +48,7 @@ public class StompState : MonoBehaviour, AIState {
     public void EndState()
     {
         Debug.Log("Stomp End");
+        enemy.prepareDigStrikeState.StartState();
     }
 
     public void StateChangeCondition()
@@ -59,8 +57,7 @@ public class StompState : MonoBehaviour, AIState {
     }
 
     void Stomp(){
-        //Play Stomp animation
-        if(enemy.effectManager.CheckBodyAnimState(0 ,"NoAnimation")){
+        if(enemy.animationManager.CheckBodyAnimState(0 ,"NoAnimation")){
             enemy.ResetBody();
             if(enemy.transform.position.y > attackTarget.y && !isCreateDirt){
                 enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, attackTarget, speed * Time.deltaTime);
@@ -77,12 +74,12 @@ public class StompState : MonoBehaviour, AIState {
                 }
                 else{
                     isCreateDirt = false;
-                    enemy.prepareDigStrikeState.StartState();
+                    EndState();
                 }
             }
         }
-        else if(enemy.effectManager.CheckBodyAnimState(0, "ChargeStomp")){
-           enemy.effectManager.StopSeekAnim();
+        else if(enemy.animationManager.CheckBodyAnimState(0, "ChargeStomp")){
+           enemy.animationManager.StopSeekAnim();
         }
     }
 }

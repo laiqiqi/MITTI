@@ -8,6 +8,7 @@ public class SlamState : AIState {
     private Vector3 moveToTarget;
     private float speed;
     private GameObject body;
+    private bool isStop;
 	public string name{ get;}
 
     public SlamState(StatePatternAI statePatternAI){
@@ -21,7 +22,8 @@ public class SlamState : AIState {
     {
         Debug.Log("Slam Start");
         enemy.currentState = enemy.slamState;
-        speed = 25f;
+        isStop = false;
+        speed = 30f;
         this.attackTarget = attackTarget;
         moveToTarget = this.attackTarget + enemy.transform.forward*15f;
         body = enemy.transform.GetChild(0).gameObject;
@@ -45,7 +47,7 @@ public class SlamState : AIState {
     }
 
     void Slam(){
-        if(enemy.transform.position != moveToTarget){
+        if(enemy.transform.position != moveToTarget && !isStop){
             enemy.transform.position = Vector3.MoveTowards(enemy.transform.position,
                                                     moveToTarget,
                                                     speed * Time.deltaTime);
