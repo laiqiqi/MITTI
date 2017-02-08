@@ -22,10 +22,14 @@ public class SwordFloatingSword : MonoBehaviour {
 	}
 
 	void OnCollisionStay(Collision other){
-		isHit = true;
+		if (other.transform.tag == "Player") {
+			isHit = true;
+		}
 	}
 
 	void OnCollisionExit(Collision other){
-		isHit = false;
+		if (other.transform.tag == "Player") {
+			isHit = false;
+		}
 	}
 }
