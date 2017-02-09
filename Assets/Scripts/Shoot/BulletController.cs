@@ -18,7 +18,12 @@ public class BulletController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other) {
-//		Debug.Log (other.transform.name);
+		// Debug.Log (other.transform.name);
 		Destroy(this.gameObject);
 	}
+
+// 	void OnCollisionEnter (Collision other) {
+// //		Debug.Log (other.transform.name);
+// 		Destroy(this.gameObject);
+// 	}
 }
