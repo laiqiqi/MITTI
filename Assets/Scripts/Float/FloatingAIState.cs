@@ -14,6 +14,7 @@ public class FloatingAIState : AIState {
 
 	public void StartState(){
 		enemy.currentState = enemy.floatingState;
+		enemy.DetachSword();
 		speed = 5f;
 //		target = new GameObject ().transform;
 		target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),

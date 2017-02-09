@@ -6,8 +6,19 @@ public class StatePatternAI: MonoBehaviour {
 	public float speed;
 	public GameObject player;
 	public GameObject bullet;
-	public Vector3 swordDirection;
+	public GameObject body;
 	public Collision bodyColInfo;
+//-----------------------------Sword Components-------------------------------
+	private FixedJoint swordJoint;
+	public GameObject sword;
+	public Vector3 swordDirection;
+//----------------------------------------------------------------------------
+
+//-----------------------------AI Manager-------------------------------------
+	public GameObject gObjAIManager;
+	[HideInInspector] public AIEffectManager effectManager;
+	[HideInInspector] public AIAnimationManager animationManager;
+//----------------------------------------------------------------------------
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
 	[HideInInspector] public SeekState seekState;
@@ -27,6 +38,11 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		effectManager = gObjAIManager.GetComponent<AIEffectManager>();
+		animationManager = gObjAIManager.GetComponent<AIAnimationManager>();
+
+		swordJoint = this.GetComponent<FixedJoint>();
+
 		floatingState = new FloatingAIState (this);
 		seekState = new SeekState (this);
 		stompState = new StompState (this);
@@ -39,12 +55,15 @@ public class StatePatternAI: MonoBehaviour {
 		slamState = new SlamState (this);
 		escapeState = new EscapeState (this);
 		stopState = new StopState(this);
-		floatingState.StartState ();
-		// stopState.StartState ();
-		// seekState.StartState();
+		
 		swordDirection = Vector3.up;
 		isHit = false;
 		isParry = false;
+
+		floatingState.StartState();
+		// seekState.StartState();
+		// prepareDigStrikeState.StartState();
+
 	}
 	
 	// Update is called once per frame
@@ -56,9 +75,10 @@ public class StatePatternAI: MonoBehaviour {
 		// Debug.Log(currentState.name);
 	}
 
-	void OnCollisionEnter(Collision coll){
-//		Vector3 dir = coll.transform.position - transform.position;
-//		coll.rigidbody.AddForce(dir.normalized * 500);
+	public void ResetBody () {
+		body.transform.position = new Vector3(0, 0, 0);
+		body.transform.rotation = new Quaternion(0, 0, 0, 0);
+		// body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
 	}
 
 	void KeyboardController(){
@@ -71,5 +91,20 @@ public class StatePatternAI: MonoBehaviour {
 		}else if (Input.GetKeyUp (KeyCode.K)) {
 		}
 
+	}
+
+	public void DetachSword(){
+		Destroy(this.GetComponent<FixedJoint>());
+		sword.gameObject.SetActive(false);
+	}
+
+	public void AttachSword(){
+		sword.gameObject.SetActive(true);
+		this.gameObject.AddComponent<FixedJoint>();
+		this.gameObject.GetComponent<FixedJoint>().connectedBody = sword.GetComponent<Rigidbody>();
+		this.gameObject.GetComponent<FixedJoint>().breakForce = Mathf.Infinity;
+		this.gameObject.GetComponent<FixedJoint>().breakTorque = Mathf.Infinity;
+		this.gameObject.GetComponent<FixedJoint>().enableCollision = false;
+		this.gameObject.GetComponent<FixedJoint>().enablePreprocessing = true;
 	}
 }

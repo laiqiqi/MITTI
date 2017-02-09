@@ -9,7 +9,7 @@ public class PrepareDigStrikeState : AIState {
     private float speed;
     private float timer;
     private float seekTime;
-	public string name{ get;}
+	public string name{ get; }
 
     public PrepareDigStrikeState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
@@ -21,10 +21,13 @@ public class PrepareDigStrikeState : AIState {
         attackTarget = enemy.player.transform.position;
         speed = 30f;
         moveToTarget = new Vector3(enemy.transform.position.x,
-                                 enemy.transform.position.y-10f,
+                                 enemy.transform.position.y-15f,
                                  enemy.transform.position.z);
         timer = 0f;
         seekTime = Random.Range(3f, 5f);
+        enemy.ResetBody();
+
+        enemy.animationManager.StopChargeStompAnim();
     }
 
     public void UpdateState()
@@ -38,6 +41,7 @@ public class PrepareDigStrikeState : AIState {
                 Targeting();
             }
             else {
+                
                 EndState();
             }
         }
@@ -60,7 +64,7 @@ public class PrepareDigStrikeState : AIState {
 
     void Targeting(){
         attackTarget = new Vector3(enemy.player.transform.position.x,
-                                 enemy.player.transform.position.y-10f,
+                                 enemy.player.transform.position.y-17f,
                                  enemy.player.transform.position.z);
         enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, attackTarget, speed * Time.deltaTime);
     }

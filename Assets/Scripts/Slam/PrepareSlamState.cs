@@ -8,13 +8,14 @@ public class PrepareSlamState : AIState {
     private float speed;
     private float timer;
     private float seekTime;
-	public string name{ get;}
+	public string name{ get; }
 
     public PrepareSlamState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
 	}
     public void StartState()
     {
+        enemy.ResetBody();
         Debug.Log("Prepare Slam Start");
         enemy.currentState = enemy.prepareSlamState;
         speed = 20f;

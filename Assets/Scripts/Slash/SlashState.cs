@@ -19,6 +19,7 @@ public class SlashState : AIState {
 	}
 
 	public void StartState(){
+		AI.AttachSword();
 		AI.currentState = AI.slashState;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
 		AI.transform.LookAt (AI.player.transform);
@@ -103,6 +104,7 @@ public class SlashState : AIState {
 		AI.isHit = false;
 		timeCount = 0;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = true;
+		AI.DetachSword();
 //		AI.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 

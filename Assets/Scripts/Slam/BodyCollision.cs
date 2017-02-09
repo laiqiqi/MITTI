@@ -9,7 +9,7 @@ public class BodyCollision : MonoBehaviour {
 		parent = this.transform.GetComponentInParent<StatePatternAI>();
 	}
 	void OnCollisionEnter(Collision collision){
-		Debug.Log("hit!");
+		// Debug.Log("hit!");
 		parent.bodyColInfo = collision;
 	}
 
