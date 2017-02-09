@@ -38,7 +38,7 @@ public class PlayerRigidController : MonoBehaviour {
 					dir = (contact.point - transform.position);
 					// col.rigidbody.AddForceAtPosition(Vector3.Cross(transform.right, dir).normalized * (2000 / col.contacts.Length), contact.point);
 						
-					col.rigidbody.AddForceAtPosition(-col.impulse.normalized * 2500f , contact.point);
+					col.rigidbody.AddForceAtPosition(-col.impulse.normalized * 2500f/col.contacts.Length , contact.point);
 					// col.rigidbody.AddForceAtPosition(-col.impulse.normalized * (this.transform.root.GetComponentInChildren<VRTK_ControllerEvents>().GetVelocity().magnitude * 1000f ), contact.point);
 						
 					//  }
