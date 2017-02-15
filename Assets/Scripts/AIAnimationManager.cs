@@ -8,8 +8,10 @@ public class AIAnimationManager : MonoBehaviour {
 	[HideInInspector] public Animator bodyAnimator;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+		// Debug.Log("Start");
 		bodyAnimator = body.GetComponent<Animator>();
+		// Debug.Log(bodyAnimator.name);
 	}
 	
 	//-----------Animation-------------------------------------

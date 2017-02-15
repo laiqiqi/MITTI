@@ -16,7 +16,8 @@ public class AIEffectManager : MonoBehaviour {
 	// 0 = dirt blast
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+		// Debug.Log("Starteffectman");
 		tempCircles = new GameObject[magicCircles.Length];
 		tempEffects = new GameObject[skillEffects.Length];
 	}
