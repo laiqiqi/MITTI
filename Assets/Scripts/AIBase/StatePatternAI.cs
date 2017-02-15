@@ -60,9 +60,9 @@ public class StatePatternAI: MonoBehaviour {
 		isHit = false;
 		isParry = false;
 
-		floatingState.StartState();
+		// floatingState.StartState();
 		// seekState.StartState();
-		// prepareDigStrikeState.StartState();
+		prepareDigStrikeState.StartState();
 
 	}
 	
@@ -78,7 +78,7 @@ public class StatePatternAI: MonoBehaviour {
 	public void ResetBody () {
 		body.transform.position = new Vector3(0, 0, 0);
 		body.transform.rotation = new Quaternion(0, 0, 0, 0);
-		// body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+		body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
 	}
 
 	void KeyboardController(){

@@ -7,9 +7,10 @@ public class SelfRotate : MonoBehaviour {
 	private Color color;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		color = this.GetComponent<Renderer>().material.GetColor("_TintColor");
 		color.a = 0;
+		this.GetComponent<Renderer>().material.SetColor("_TintColor", color);
 	}
 	
 	// Update is called once per frame
