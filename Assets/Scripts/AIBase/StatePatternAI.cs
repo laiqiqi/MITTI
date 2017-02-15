@@ -61,8 +61,8 @@ public class StatePatternAI: MonoBehaviour {
 		isParry = false;
 
 		// floatingState.StartState();
-		// seekState.StartState();
-		prepareDigStrikeState.StartState();
+		seekState.StartState();
+		// prepareDigStrikeState.StartState();
 
 	}
 	
@@ -76,6 +76,7 @@ public class StatePatternAI: MonoBehaviour {
 	}
 
 	public void ResetBody () {
+		this.transform.rotation = Quaternion.identity;
 		body.transform.position = new Vector3(0, 0, 0);
 		body.transform.rotation = new Quaternion(0, 0, 0, 0);
 		body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);

@@ -20,6 +20,7 @@ public class SeekState : AIState {
     public void StartState()
     {
         Debug.Log("Seek Start");
+        enemy.ResetBody();
         enemy.DetachSword();
         enemy.currentState = enemy.seekState;
         speed = 10f;

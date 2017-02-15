@@ -19,6 +19,7 @@ public class StompState : MonoBehaviour, AIState {
     {
         Debug.Log("Stomp Start");
         enemy.currentState = enemy.stompState;
+        enemy.ResetBody();
         isCreateDirt = false;
 
         attackTarget = new Vector3(enemy.player.transform.position.x,
