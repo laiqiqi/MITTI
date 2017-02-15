@@ -32,7 +32,7 @@ public class EscapeState : AIState {
 	}
 
 	public void StateChangeCondition(){
-		AI.floatingState.StartState ();
+		AI.seekState.StartState ();
 	}
 
 	public void Escape(){
