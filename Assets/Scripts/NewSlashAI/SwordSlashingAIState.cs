@@ -10,6 +10,9 @@ public class SwordSlashingAIState : AIState {
 	private float timecount;
 	private GameObject[] swords;
 	private Transform target;
+	private bool[] isStart;
+	private int[] countState;
+	private float[] oldVelocity;
 
 	public SwordSlashingAIState(AITest statePatternAI){
 		AI = statePatternAI;
@@ -20,13 +23,19 @@ public class SwordSlashingAIState : AIState {
 		AI.currentState = AI.swordSlashingAIState;
 		speed = 200;
 		timecount = 0;
+		countState = new int[AI.swordController.Length];
+		oldVelocity = new float[AI.swordController.Length];
 		swords = new GameObject[AI.swordController.Length];
 		randomVector = new Vector3[AI.swordController.Length];
+		isStart = new bool[AI.swordController.Length];
 		int i = 0;
 		foreach(GameObject sc in AI.swordController){
 			randomVector[i] = new Vector3 (Random.Range(-5f,5f), Random.Range(0f,5f), Random.Range(2f,5f));
 			Transform sword = sc.transform.GetChild (0);
 			swords [i] = sword.gameObject;
+			oldVelocity [i] = 0;
+			countState [i] = 0;
+			isStart [i] = false;
 			i++;
 		}
 
@@ -78,18 +87,24 @@ public class SwordSlashingAIState : AIState {
 //					sc.GetComponent<FixedJoint> ().breakTorque = 500;
 //					sword.GetComponent<Rigidbody> ().useGravity = true;
 					swords [i].GetComponent<Rigidbody> ().isKinematic = false;
-
+//					Physics.IgnoreLayerCollision (8,8);
+					for(int j=0; j < swords.Length; j++){
+						if (j != i) {
+							Physics.IgnoreCollision (swords[i].GetComponent<Collider>(), swords[j].GetComponent<Collider>());
+//							Physics.IgnoreCollision (swords[i].GetComponent<Collider>(), swords[j].GetComponent<Collider>());
+						}
+					}
 				}
 
 			} else if (state == 3) {
 				Debug.Log ("state     3");
 				//Slash
+				isStart[i] = false;
 				if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > 5f) {
 					AI.transform.position = Vector3.MoveTowards (AI.transform.position, AI.player.transform.position, 10 * Time.deltaTime);
 				}
 
 				timecount += Time.deltaTime;
-				Debug.Log (timecount);
 				if (timecount > 10f) {
 					timecount = 10f;
 				}
@@ -100,9 +115,20 @@ public class SwordSlashingAIState : AIState {
 
 				int direction = Mathf.RoundToInt (randomVector [i].x / Mathf.Abs (randomVector [i].x));
 				sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 100 * direction);
-//				sc.GetComponent<AISwordController> ().state = 4;
-			} else if (state == 4) {
+				ChangSubstateTo4Condition (sc, i);
 
+			} else if (state == 4) {
+//				sc.GetComponent<Rigidbody> ().isKinematic = true;
+//				Vector3 relativePos = -AI.transform.forward;
+				Vector3 relativePos = -AI.transform.forward;
+				Quaternion rotation = Quaternion.LookRotation (relativePos);
+				sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed * Time.deltaTime);
+				if (Quaternion.Angle (sc.transform.rotation, rotation) < 10f) {
+					sc.GetComponent<Rigidbody> ().isKinematic = false;
+					sc.GetComponent<AISwordController> ().state = 3;
+				}
+			} else if (state == 5) {
+				
 			}
 			i++;
 		}
@@ -114,5 +140,29 @@ public class SwordSlashingAIState : AIState {
 
 	public void StateChangeCondition(){
 
+	}
+
+	public void ChangSubstateTo4Condition(GameObject sc, int i){
+		if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
+			isStart[i] = true;
+		}
+		if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && swords[i].GetComponent<SwordFloatingSword>().isHit) {
+			isStart[i] = false;
+		}
+
+		if (oldVelocity[i] > sc.GetComponent<Rigidbody> ().angularVelocity.magnitude) {
+			countState[i] = 1;
+		} else if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > oldVelocity[i] && countState[i] == 1) {
+			countState[i] = 2;
+		} else {
+			countState[i] = 0;
+		}
+		oldVelocity[i] = sc.GetComponent<Rigidbody> ().angularVelocity.magnitude;
+
+//		Debug.Log ("oldVelocity     "+oldVelocity[i]);
+		if(countState[i] == 2 && isStart[i] && !swords[i].GetComponent<SwordFloatingSword>().isHit){
+			Debug.Log ("Slash again!");
+			sc.GetComponent<AISwordController> ().state = 4;
+		}
 	}
 }
