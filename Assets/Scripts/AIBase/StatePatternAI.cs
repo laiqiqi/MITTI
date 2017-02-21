@@ -4,6 +4,7 @@ using System.Collections;
 public class StatePatternAI: MonoBehaviour {
 	public Transform target;
 	public float speed;
+	// public GameObject camRig;
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject body;
@@ -15,7 +16,7 @@ public class StatePatternAI: MonoBehaviour {
 //----------------------------------------------------------------------------
 
 //-----------------------------AI Manager-------------------------------------
-	public GameObject gObjAIManager;
+	// public GameObject gObjAIManager;
 	[HideInInspector] public AIEffectManager effectManager;
 	[HideInInspector] public AIAnimationManager animationManager;
 //----------------------------------------------------------------------------
@@ -38,8 +39,9 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		effectManager = gObjAIManager.GetComponent<AIEffectManager>();
-		animationManager = gObjAIManager.GetComponent<AIAnimationManager>();
+		// player = camRig.transform.Find("Camera (eye)").gameObject;
+		effectManager = this.GetComponent<AIEffectManager>();
+		animationManager = this.GetComponent<AIAnimationManager>();
 
 		swordJoint = this.GetComponent<FixedJoint>();
 
@@ -60,24 +62,27 @@ public class StatePatternAI: MonoBehaviour {
 		isHit = false;
 		isParry = false;
 
+		DetachSword();
+
 		// floatingState.StartState();
 		seekState.StartState();
+		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
-
+		// prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		KeyboardController();
 		// Debug.Log("aaaaa");
-		currentState.UpdateState ();
+		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 	}
 
 	public void ResetBody () {
-		this.transform.rotation = Quaternion.identity;
-		body.transform.position = new Vector3(0, 0, 0);
+		this.transform.rotation = new Quaternion(0, 0, 0, 0);
+		body.transform.localPosition = new Vector3(0, 0, 0);
 		body.transform.rotation = new Quaternion(0, 0, 0, 0);
 		body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
 	}
@@ -98,7 +103,6 @@ public class StatePatternAI: MonoBehaviour {
 		Destroy(this.GetComponent<FixedJoint>());
 		sword.gameObject.SetActive(false);
 	}
-
 	public void AttachSword(){
 		sword.gameObject.SetActive(true);
 		this.gameObject.AddComponent<FixedJoint>();
@@ -107,5 +111,9 @@ public class StatePatternAI: MonoBehaviour {
 		this.gameObject.GetComponent<FixedJoint>().breakTorque = Mathf.Infinity;
 		this.gameObject.GetComponent<FixedJoint>().enableCollision = false;
 		this.gameObject.GetComponent<FixedJoint>().enablePreprocessing = true;
+	}
+
+	public Collision GetBodyCollisionInfo(){
+		return bodyColInfo;
 	}
 }

@@ -37,7 +37,6 @@ public class SteamVR_ControllerManager : MonoBehaviour
 		}
 		this.objects = objects;
 	}
-
 	void OnEnable()
 	{
 		for (int i = 0; i < objects.Length; i++)

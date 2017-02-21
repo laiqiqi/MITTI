@@ -5,9 +5,12 @@ using UnityEngine;
 public class PrepareSlamState : AIState {
     private readonly StatePatternAI enemy;
     private Vector3 attackTarget;
+    private Vector3 AIFrontPos;
+    private Vector3 moveToPos;
     private float speed;
     private float timer;
     private float seekTime;
+    private bool hasCircle;
 	public string name{ get; }
 
     public PrepareSlamState(StatePatternAI statePatternAI){
@@ -17,23 +20,21 @@ public class PrepareSlamState : AIState {
     {
         enemy.ResetBody();
         Debug.Log("Prepare Slam Start");
+        hasCircle = false;
         enemy.currentState = enemy.prepareSlamState;
         speed = 20f;
         timer = 0f;
-        seekTime = Random.Range(3f, 5f);
-        attackTarget = enemy.player.transform.position;
+        seekTime = 5f;
+        attackTarget = new Vector3(enemy.player.transform.position.x,
+                                    enemy.player.transform.position.y + 1.5f,
+                                    enemy.player.transform.position.z);
+        AIFrontPos = enemy.transform.position + enemy.body.transform.forward * 4f;
+        moveToPos = new Vector3 (enemy.transform.position.x, 2f, enemy.transform.position.z);
     }
 
     public void UpdateState()
     {
-        if(timer <= seekTime){
-            timer += Time.deltaTime;
-            Targeting();
-        }
-        else{
-            //Play animation
-            EndState();
-        }
+        MoveToTarget();
     }
 
     public void EndState()
@@ -47,8 +48,33 @@ public class PrepareSlamState : AIState {
 
     }
 
+     void MoveToTarget() {
+        if(enemy.transform.position.y > 2.5f){
+            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToPos, (speed/2)*Time.deltaTime);
+        }
+        else{
+            if(!hasCircle){
+                enemy.effectManager.CreateSlamCircle(AIFrontPos);
+                hasCircle = true;
+            }
+            if(timer <= seekTime){
+                timer += Time.deltaTime;
+                Targeting();
+            }
+            else{
+                //Play animation
+                EndState();
+            }
+        }
+    }
+
     void Targeting(){
-        attackTarget = enemy.player.transform.position;
+        attackTarget = new Vector3(enemy.player.transform.position.x,
+                                   enemy.player.transform.position.y + 1.2f,
+                                   enemy.player.transform.position.z);
         enemy.transform.LookAt(attackTarget);
+
+        AIFrontPos = enemy.transform.position + enemy.body.transform.forward*2f;
+        enemy.effectManager.UpdatePosSlamCircle(AIFrontPos, attackTarget);
     }
 }

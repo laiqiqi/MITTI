@@ -19,6 +19,7 @@ public class DebugUI : MonoBehaviour {
 	}
 
 	void updateStaText() {
-		staText.text = "Stamina:" + playerStat.GetComponent<PlayerStat>().stamina;
+		staText.text = "Stamina: " + playerStat.GetComponent<PlayerStat>().stamina +
+					   "\nHealth: " + playerStat.GetComponent<PlayerStat>().health;
 	}
 }

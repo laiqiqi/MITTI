@@ -9,7 +9,6 @@ public class SeekState : AIState {
     private float timer;
     public float speed;
     public float frequency;
-    private Vector3 memPlayerPos;
     private float timerBeforeTarget;
 	public string name{ get; }
 
@@ -20,7 +19,6 @@ public class SeekState : AIState {
     public void StartState()
     {
         Debug.Log("Seek Start");
-        enemy.ResetBody();
         enemy.DetachSword();
         enemy.currentState = enemy.seekState;
         speed = 10f;
@@ -29,13 +27,13 @@ public class SeekState : AIState {
         timer = 0;
         timerBeforeTarget = 0;
 		target = enemy.player.transform.position;
-        memPlayerPos = target;
         enemy.transform.rotation = new Quaternion(0, 0, 0, 0);
     }
 
     public void UpdateState()
     {
         Seek();
+        enemy.ResetBody();
     }
 
     public void EndState()

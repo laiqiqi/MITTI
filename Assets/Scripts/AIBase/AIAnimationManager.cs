@@ -13,6 +13,10 @@ public class AIAnimationManager : MonoBehaviour {
 		bodyAnimator = body.GetComponent<Animator>();
 		// Debug.Log(bodyAnimator.name);
 	}
+
+	void Start() {
+
+	}
 	
 	//-----------Animation-------------------------------------
 	public bool CheckBodyAnimState(int layer, string name){

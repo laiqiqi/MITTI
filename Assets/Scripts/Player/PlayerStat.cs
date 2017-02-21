@@ -20,24 +20,14 @@ public class PlayerStat : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		StaminaRegen();
-		Debug.Log("Stamina: " + stamina);
-	}
-
-	void StaminaRegen(){
-		if(stamina < 100){
-			if(stamina + (staRegenRate*Time.deltaTime) > 100){
-				stamina = 100;
-			}
-			else{
-				stamina += (staRegenRate*Time.deltaTime);
-			}
-		}
+		// StaminaRegen();
+		Regen(stamina, staRegenRate);
+		Regen(health, healthRegenRate);
 	}
 
 	void Regen(float stat, float rate){
 		if(stat < 100){
-			if(stat + (rate*Time.deltaTime) < 100){
+			if(stat + (rate*Time.deltaTime) > 100){
 				stat = 100;
 			}
 			else{

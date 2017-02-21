@@ -7,7 +7,6 @@ public class SlamState : AIState {
     private Vector3 attackTarget;
     private Vector3 moveToTarget;
     private float speed;
-    private GameObject body;
     private bool isStop;
 	public string name{ get;}
 
@@ -23,22 +22,23 @@ public class SlamState : AIState {
         Debug.Log("Slam Start");
         enemy.currentState = enemy.slamState;
         isStop = false;
-        speed = 30f;
+        speed = 20f;
         this.attackTarget = attackTarget;
-        moveToTarget = this.attackTarget + enemy.transform.forward*15f;
-        body = enemy.transform.GetChild(0).gameObject;
+        moveToTarget = this.attackTarget + enemy.transform.forward*30f;
+
+        enemy.effectManager.DestroySlamCircle();
     }
 
     public void UpdateState()
     {
         Slam();
-        // Debug.Log(enemy.bodyColInfo);
     }
 
     public void EndState()
     {
         Debug.Log("Slam End");
-        enemy.floatingState.StartState();
+        // enemy.floatingState.StartState();
+        enemy.seekState.StartState();
     }
 
     public void StateChangeCondition()

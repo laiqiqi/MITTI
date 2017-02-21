@@ -6,25 +6,29 @@ public class AIEffectManager : MonoBehaviour {
 
 	//For enable/disable effects
 	public GameObject[] magicCircles;
-	private GameObject[] tempCircles;
+	public GameObject[] tempCircles;
 	//----------------------------------------//
 	// 0 = stomp circle
 	// 1 = dig circle
+	// 2 = slam circle
 	public GameObject[] skillEffects;
-	private GameObject[] tempEffects;
+	public GameObject[] tempEffects;
 	//----------------------------------------//
 	// 0 = dirt blast
+	// 1 = rock spike
 
 	// Use this for initialization
 	void Awake () {
-		// Debug.Log("Starteffectman");
 		tempCircles = new GameObject[magicCircles.Length];
 		tempEffects = new GameObject[skillEffects.Length];
 	}
 
-//-----------SkillEffect-----------------------------------
+	void Start () {
+		
+	}
+//-----------MagicCircles-----------------------------------
 	public void CreateStompCircle(Vector3 effectPos) {
-		tempCircles[0] = ((GameObject)Instantiate(magicCircles[0], effectPos, Quaternion.identity));
+		tempCircles[0] = (GameObject)Instantiate(magicCircles[0], effectPos, Quaternion.identity);
 	}
 	public void DestroyStompCircle() {
 		Destroy(tempCircles[0]);
@@ -39,6 +43,19 @@ public class AIEffectManager : MonoBehaviour {
 		tempCircles[1] = null;
 	}
 
+	public void CreateSlamCircle(Vector3 effectPos) {
+		tempCircles[2] = (GameObject)Instantiate(magicCircles[2], effectPos, Quaternion.identity);
+	}
+	public void UpdatePosSlamCircle(Vector3 effectPos, Vector3 playerPos) {
+		tempCircles[2].transform.position = effectPos;
+		tempCircles[2].transform.LookAt(playerPos);
+	}
+	public void DestroySlamCircle() {
+		Destroy(tempCircles[2]);
+		tempCircles[2] = null;
+	}
+//---------------------------------------------------------
+//-----------SkillEffect-----------------------------------
 	public void CreateDirtBlast(Vector3 effectPos) {
 		tempEffects[0] = (GameObject)Instantiate(skillEffects[0], effectPos, Quaternion.identity);
 	}

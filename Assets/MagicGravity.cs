@@ -16,7 +16,7 @@ public class MagicGravity : MonoBehaviour {
                 Debug.LogError("VRTK_ControllerEvents_ListenerExample is required to be attached to a Controller that has the VRTK_ControllerEvents script attached to it");
                 return;
             }
-			 GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);
+			GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);
             GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
 	}
 	private void DebugLogger(uint index, string button, string action, ControllerInteractionEventArgs e)
@@ -29,7 +29,7 @@ public class MagicGravity : MonoBehaviour {
 		
 		var goList = new List<GameObject>();
 		for (var i = 0; i < goArray.Length; i++) {
-			Debug.Log(goArray[i].gameObject.name);
+			// Debug.Log(goArray[i].gameObject.name);
 			if (goArray[i].layer == 8) {
 				goList.Add(goArray[i]);
 			}
