@@ -13,6 +13,7 @@ public class SwordSlashingAIState : AIState {
 	private bool[] isStart;
 	private int[] countState;
 	private float[] oldVelocity;
+	private Quaternion rotationTemp;
 
 	public SwordSlashingAIState(AITest statePatternAI){
 		AI = statePatternAI;
@@ -61,75 +62,46 @@ public class SwordSlashingAIState : AIState {
 			} else if (state == 1) {
 				Debug.Log ("state     1");
 				//Prepare
-				Vector3 relativePos = sc.transform.position - swords [i].transform.position;
-				Quaternion rotation = Quaternion.LookRotation (relativePos);
-				swords [i].transform.rotation = Quaternion.RotateTowards (swords [i].transform.rotation, rotation, speed * Time.deltaTime);
-
-//				float distance = Vector3.Distance (AI.transform.position, AI.player.transform.position);
-				float distance = 3f;
-				swords [i].transform.localPosition = Vector3.MoveTowards (swords [i].transform.localPosition, randomVector [i].normalized * distance, speed / 50f * Time.deltaTime);
-				if (Vector3.Distance (swords [i].transform.localPosition, randomVector [i].normalized * distance) < 1f
-				    && Quaternion.Angle (swords [i].transform.rotation, rotation) < 1f) {
-					sc.GetComponent<AISwordController> ().state = 2;
-				}
-
+				SubState1(sc, i);
 			} else if (state == 2) {
 				Debug.Log ("state     2");
 				//Connect with joint
-				if (sc.transform.childCount != 0) {
-					swords [i].transform.parent = null;
-					swords [i].GetComponent<SwordFloatingSword> ().state = 2;
-					sc.transform.LookAt (swords [i].transform);
-					sc.GetComponent<AISwordController> ().state = 3;
-					sc.AddComponent<FixedJoint> ();
-					sc.GetComponent<FixedJoint> ().connectedBody = swords [i].GetComponent<Rigidbody> ();
-//					sc.GetComponent<FixedJoint> ().breakForce = 500;
-//					sc.GetComponent<FixedJoint> ().breakTorque = 500;
-//					sword.GetComponent<Rigidbody> ().useGravity = true;
-					swords [i].GetComponent<Rigidbody> ().isKinematic = false;
-//					Physics.IgnoreLayerCollision (8,8);
-					for(int j=0; j < swords.Length; j++){
-						if (j != i) {
-							Physics.IgnoreCollision (swords[i].GetComponent<Collider>(), swords[j].GetComponent<Collider>());
-//							Physics.IgnoreCollision (swords[i].GetComponent<Collider>(), swords[j].GetComponent<Collider>());
-						}
-					}
-				}
+				SubState2(sc, i);
 
 			} else if (state == 3) {
 				Debug.Log ("state     3");
 				//Slash
-				isStart[i] = false;
-				if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > 5f) {
-					AI.transform.position = Vector3.MoveTowards (AI.transform.position, AI.player.transform.position, 10 * Time.deltaTime);
-				}
+//				isStart[i] = false;
+//				if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > 5f) {
+//					AI.transform.position = Vector3.MoveTowards (AI.transform.position, AI.player.transform.position, 10 * Time.deltaTime);
+//				}
 
-				timecount += Time.deltaTime;
-				if (timecount > 10f) {
-					timecount = 10f;
-				}
-
-				if (swords [i].GetComponent<SwordFloatingSword> ().isHit) {
-					timecount /= 2;
-				}
-
-				int direction = Mathf.RoundToInt (randomVector [i].x / Mathf.Abs (randomVector [i].x));
-				sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 100 * direction);
-				ChangSubstateTo4Condition (sc, i);
+//				timecount += Time.deltaTime;
+//				if (timecount > 10f) {
+//					timecount = 10f;
+//				}
+//
+//				if (swords [i].GetComponent<SwordFloatingSword> ().isHit) {
+//					timecount /= 2;
+//				}
+//
+//				int direction = Mathf.RoundToInt (randomVector [i].x / Mathf.Abs (randomVector [i].x));
+//				sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 100 * direction);
+				Substate3 (sc, i);
+//				ConditionOfSubstate4(sc, i);
 
 			} else if (state == 4) {
-//				sc.GetComponent<Rigidbody> ().isKinematic = true;
-//				Vector3 relativePos = -AI.transform.forward;
-				Vector3 relativePos = -AI.transform.forward;
-				Quaternion rotation = Quaternion.LookRotation (relativePos);
-				sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed * Time.deltaTime);
-				if (Quaternion.Angle (sc.transform.rotation, rotation) < 10f) {
-					sc.GetComponent<Rigidbody> ().isKinematic = false;
-					sc.GetComponent<AISwordController> ().state = 3;
-				}
+				Debug.Log ("state     4");
+
+//				Substate4(sc, i);
 			} else if (state == 5) {
-				
+				Debug.Log ("state     5");
+				Substate5 (sc, i);
 			}
+			if (sc.GetComponent<AISwordController> ().state == -1) {
+				swords [i].GetComponent<Rigidbody> ().useGravity = true;
+			}
+			Debug.DrawLine (swords[i].transform.position, Vector3.Cross(AI.player.transform.forward, swords[i].transform.forward),Color.red);
 			i++;
 		}
 	}
@@ -142,17 +114,69 @@ public class SwordSlashingAIState : AIState {
 
 	}
 
-	public void ChangSubstateTo4Condition(GameObject sc, int i){
+	public void SubState1(GameObject sc, int i){
+		Vector3 relativePos = sc.transform.position - swords [i].transform.position;
+		Quaternion rotation = Quaternion.LookRotation (relativePos);
+		swords [i].transform.rotation = Quaternion.RotateTowards (swords [i].transform.rotation, rotation, speed * Time.deltaTime);
+
+		//				float distance = Vector3.Distance (AI.transform.position, AI.player.transform.position);
+		float distance = 3f;
+		swords [i].transform.localPosition = Vector3.MoveTowards (swords [i].transform.localPosition, randomVector [i].normalized * distance, speed / 50f * Time.deltaTime);
+		if (Vector3.Distance (swords [i].transform.localPosition, randomVector [i].normalized * distance) < 1f
+			&& Quaternion.Angle (swords [i].transform.rotation, rotation) < 1f) {
+			sc.GetComponent<AISwordController> ().state = 2;
+		}
+	}
+
+	public void SubState2(GameObject sc, int i){
+		if (sc.transform.childCount != 0) {
+			swords [i].transform.parent = null;
+			swords [i].GetComponent<SwordFloatingSword> ().state = 2;
+			sc.transform.LookAt (swords [i].transform);
+			sc.GetComponent<AISwordController> ().state = 3;
+			sc.AddComponent<FixedJoint> ();
+			sc.GetComponent<FixedJoint> ().connectedBody = swords [i].GetComponent<Rigidbody> ();
+			//					sc.GetComponent<FixedJoint> ().breakForce = 500;
+			//					sc.GetComponent<FixedJoint> ().breakTorque = 500;
+			//					sword.GetComponent<Rigidbody> ().useGravity = true;
+			swords [i].GetComponent<Rigidbody> ().isKinematic = false;
+			//					Physics.IgnoreLayerCollision (8,8);
+			for(int j=0; j < swords.Length; j++){
+				if (j != i) {
+					Physics.IgnoreCollision (swords[i].GetComponent<Collider>(), swords[j].GetComponent<Collider>());
+					//							Physics.IgnoreCollision (swords[i].GetComponent<Collider>(), swords[j].GetComponent<Collider>());
+				}
+			}
+			//					swords [i].transform.parent = sc.transform;
+		}
+	}
+
+	public void Substate3(GameObject sc, int i){
+		timecount += Time.deltaTime;
+		if (timecount > 10f) {
+			timecount = 10f;
+		}
+
+		if (swords [i].GetComponent<SwordFloatingSword> ().isHit) {
+			timecount /= 2;
+		}
+
+		int direction = Mathf.RoundToInt (randomVector [i].x / Mathf.Abs (randomVector [i].x));
+		sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 100 * direction);
+
+//		if (i == 1) {
+//			Debug.Log ("angular speed" + sc.GetComponent<Rigidbody> ().angularVelocity.magnitude);
+//		}
 		if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
 			isStart[i] = true;
 		}
-		if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && swords[i].GetComponent<SwordFloatingSword>().isHit) {
+		if (swords[i].GetComponent<SwordFloatingSword>().isHit) {
 			isStart[i] = false;
 		}
 
-		if (oldVelocity[i] > sc.GetComponent<Rigidbody> ().angularVelocity.magnitude) {
+		if (oldVelocity[i] - sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 0.01f) {
 			countState[i] = 1;
-		} else if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > oldVelocity[i] && countState[i] == 1) {
+		} else if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude - oldVelocity[i] > 0.01f && countState[i] == 1) {
 			countState[i] = 2;
 		} else {
 			countState[i] = 0;
@@ -161,8 +185,72 @@ public class SwordSlashingAIState : AIState {
 
 //		Debug.Log ("oldVelocity     "+oldVelocity[i]);
 		if(countState[i] == 2 && isStart[i] && !swords[i].GetComponent<SwordFloatingSword>().isHit){
-			Debug.Log ("Slash again!");
+//			if (i == 1) {
+//				Debug.LogError ("Slash again!");
+//			}
+			isStart [i] = false;
+			randomVector[i] = new Vector3 (AI.transform.position.x + Random.Range(-5f,5f),AI.transform.position.y + Random.Range(0f,5f), AI.transform.position.z- 5f);
+//			randomVector[i] = -AI.transform.forward + new Vector3 (Random.Range(-5f,5f),Random.Range(0f,5f), 0);
+			Vector3 targetLook = Vector3.Cross(AI.player.transform.forward, swords[i].transform.forward) - swords[i].transform.position;
+			Quaternion rotation = Quaternion.LookRotation (targetLook);
+			rotation *= Quaternion.FromToRotation(Vector3.forward, Vector3.right);
+			rotationTemp = rotation;
+			sc.GetComponent<AISwordController> ().state = 4;
+
+			Debug.Log (randomVector[i]);
+		}
+
+		if (swords[i].GetComponent<SwordFloatingSword>().isHitOther) {
+			Vector3 targetLook = Vector3.Cross(AI.player.transform.forward, swords[i].transform.forward) - swords[i].transform.position;
+			Quaternion rotation = Quaternion.LookRotation (targetLook);
+//			Quaternion rotation = Quaternion.LookRotation (Vector3.Cross(AI.player.transform.forward, swords[i].transform.forward));
+			rotation *= Quaternion.FromToRotation(Vector3.forward, Vector3.right);
+			rotationTemp = rotation;
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
+	}
+
+	public void ConditionOfSubstate4(GameObject sc, int i){
+		Debug.Log ("angular speed" + sc.GetComponent<Rigidbody> ().angularVelocity.magnitude);
+		Debug.Log ("Start        " + isStart[i]);
+		if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
+			isStart[i] = true;
+		}
+		if (swords[i].GetComponent<SwordFloatingSword>().isHit) {
+			isStart[i] = false;
+		}
+		if(sc.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && isStart[i] == true){
+			isStart [i] = false;
+			sc.GetComponent<AISwordController> ().state = 4;
+		}
+
+//		if (swords[i].GetComponent<SwordFloatingSword>().isHitOther) {
+//			sc.GetComponent<AISwordController> ().state = 4;
+//		}
+		
+	}
+
+	public void Substate4(GameObject sc, int i){
+		Vector3 relativePos = randomVector[i] - sc.transform.position;
+		Quaternion rotation = Quaternion.LookRotation (relativePos);
+		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*4 * Time.deltaTime);
+		if (Quaternion.Angle (sc.transform.rotation, rotation) < 1f) {
+			//					sc.GetComponent<Rigidbody> ().isKinematic = false;
+			sc.GetComponent<AISwordController> ().state = 3;
+		}
+	}
+
+	public void Substate5(GameObject sc, int i){
+//		randomVector[i] = -AI.transform.forward;
+
+//		Quaternion rotation = Quaternion.LookRotation (Vector3.Cross(AI.player.transform.forward, swords[i].transform.forward));
+//		rotation *= Quaternion.FromToRotation(Vector3.forward, Vector3.right);
+		swords[i].transform.rotation = Quaternion.RotateTowards (swords[i].transform.rotation, rotationTemp, speed*4 * Time.deltaTime);
+		if (Quaternion.Angle (swords[i].transform.rotation, rotationTemp) < 1f) {
+//			sc.GetComponent<Rigidbody> ().isKinematic = false;
+//			sc.transform.LookAt (new Vector3(sc.transform.position.x, AI.player.transform.position.y, sc.transform.position.z));
+			sc.GetComponent<AISwordController> ().state = 3;
+		}
+
 	}
 }
