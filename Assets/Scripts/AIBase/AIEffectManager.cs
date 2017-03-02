@@ -11,11 +11,13 @@ public class AIEffectManager : MonoBehaviour {
 	// 0 = stomp circle
 	// 1 = dig circle
 	// 2 = slam circle
+
 	public GameObject[] skillEffects;
 	public GameObject[] tempEffects;
 	//----------------------------------------//
 	// 0 = dirt blast
 	// 1 = rock spike
+	// 2 = slam collision
 
 	// Use this for initialization
 	void Awake () {
@@ -70,6 +72,17 @@ public class AIEffectManager : MonoBehaviour {
 	public void DestroyRockSpikeSummoner() {
 		Destroy(tempEffects[1]);
 		tempEffects[1] = null;
+	}
+
+	public void CreateSlamCollider(Vector3 effectPos) {
+		tempEffects[2] = (GameObject)Instantiate(skillEffects[2], effectPos, Quaternion.identity);
+	}
+	public void UpdatePosSlamCollider(Vector3 pos) {
+		tempEffects[2].transform.position = pos;
+	}
+	public void DestroySlamCollider() {
+		Destroy(tempEffects[2]);
+		tempEffects[2] = null;
 	}
 //---------------------------------------------------------
 }

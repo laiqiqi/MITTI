@@ -27,18 +27,20 @@ public class SlamState : AIState {
         moveToTarget = this.attackTarget + enemy.transform.forward*30f;
 
         enemy.effectManager.DestroySlamCircle();
+        enemy.effectManager.CreateSlamCollider(enemy.transform.position + enemy.transform.forward*1.05f);
     }
 
     public void UpdateState()
     {
+        enemy.effectManager.UpdatePosSlamCollider(enemy.transform.position + enemy.transform.forward*1.05f);
         Slam();
     }
 
     public void EndState()
     {
         Debug.Log("Slam End");
-        // enemy.floatingState.StartState();
-        enemy.seekState.StartState();
+        enemy.effectManager.DestroySlamCollider();
+        enemy.floatingState.StartState();
     }
 
     public void StateChangeCondition()

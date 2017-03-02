@@ -4,7 +4,7 @@ using System.Collections;
 public class StatePatternAI: MonoBehaviour {
 	public Transform target;
 	public float speed;
-	// public GameObject camRig;
+	public GameObject camRig;
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject body;
@@ -39,7 +39,7 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// player = camRig.transform.Find("Camera (eye)").gameObject;
+		player = camRig.transform.Find("Camera (eye)").gameObject;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
@@ -65,10 +65,10 @@ public class StatePatternAI: MonoBehaviour {
 		DetachSword();
 
 		// floatingState.StartState();
-		seekState.StartState();
+		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
-		// prepareSlamState.StartState();
+		prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame
