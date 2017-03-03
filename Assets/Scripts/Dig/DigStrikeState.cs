@@ -73,6 +73,7 @@ public class DigStrikeState : MonoBehaviour, AIState {
             enemy.effectManager.DestroyRockSpikeSummoner();
             enemy.animationManager.StopDigStrikeAnim();
 
+            enemy.ResetBody();
             enemy.prepareSlamState.StartState();
         }
     }

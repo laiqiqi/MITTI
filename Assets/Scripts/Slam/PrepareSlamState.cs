@@ -26,7 +26,7 @@ public class PrepareSlamState : AIState {
         timer = 0f;
         seekTime = 5f;
         attackTarget = new Vector3(enemy.player.transform.position.x,
-                                    enemy.player.transform.position.y + 1.5f,
+                                    enemy.player.transform.position.y + 0f,
                                     enemy.player.transform.position.z);
         AIFrontPos = enemy.transform.position + enemy.body.transform.forward * 1.05f;
         moveToPos = new Vector3 (enemy.transform.position.x, 2f, enemy.transform.position.z);
@@ -34,7 +34,7 @@ public class PrepareSlamState : AIState {
 
     public void UpdateState()
     {
-        MoveToTarget();
+        Prepare();
     }
 
     public void EndState()
@@ -48,12 +48,13 @@ public class PrepareSlamState : AIState {
 
     }
 
-     void MoveToTarget() {
+     void Prepare() {
         if(enemy.transform.position.y > 2.5f){
             enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToPos, (speed/2)*Time.deltaTime);
         }
         else{
             if(!hasCircle){
+                enemy.ResetBody();
                 enemy.effectManager.CreateSlamCircle(AIFrontPos);
                 hasCircle = true;
             }
@@ -69,10 +70,12 @@ public class PrepareSlamState : AIState {
     }
 
     void Targeting(){
-        attackTarget = new Vector3(enemy.player.transform.position.x,
-                                   enemy.player.transform.position.y + 1.2f,
-                                   enemy.player.transform.position.z);
+        attackTarget = enemy.player.transform.position;
+        // attackTarget = new Vector3(enemy.player.transform.position.x,
+                                //    enemy.player.transform.position.y + 0f,
+                                //    enemy.player.transform.position.z);
         enemy.transform.LookAt(attackTarget);
+        // enemy.body.transform.rotation = Quaternion.RotateTowards(enemy.body.transform.rotation, Quaternion.EulerAngles(0, 0, 0), 10f);
 
         AIFrontPos = enemy.transform.position + enemy.body.transform.forward*1.05f;
         enemy.effectManager.UpdatePosSlamCircle(AIFrontPos, attackTarget);

@@ -33,6 +33,7 @@ public class EscapeState : AIState {
 
 	public void StateChangeCondition(){
 		AI.seekState.StartState ();
+		// AI.prepareSlamState.StartState();
 	}
 
 	public void Escape(){

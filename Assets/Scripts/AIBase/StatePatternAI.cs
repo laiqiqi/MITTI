@@ -4,7 +4,7 @@ using System.Collections;
 public class StatePatternAI: MonoBehaviour {
 	public Transform target;
 	public float speed;
-	public GameObject camRig;
+	// public GameObject camRig;
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject body;
@@ -39,7 +39,8 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = camRig.transform.Find("Camera (eye)").gameObject;
+		// player = camRig.transform.Find("Camera (eye)").gameObject;
+		body.GetComponent<Animator>().applyRootMotion = false;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
@@ -67,8 +68,8 @@ public class StatePatternAI: MonoBehaviour {
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
-		// prepareDigStrikeState.StartState();
-		prepareSlamState.StartState();
+		prepareDigStrikeState.StartState();
+		// prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame
@@ -81,10 +82,13 @@ public class StatePatternAI: MonoBehaviour {
 	}
 
 	public void ResetBody () {
-		this.transform.rotation = new Quaternion(0, 0, 0, 0);
+		Debug.Log("Reset");
 		body.transform.localPosition = new Vector3(0, 0, 0);
-		body.transform.rotation = new Quaternion(0, 0, 0, 0);
+		body.transform.localRotation = Quaternion.Euler(0, 0, 0);
+		// body.transform.eulerAngles = new Vector3(0, 20, 0);
 		body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+		this.transform.rotation = new Quaternion(0, 0, 0, 0);
+		// Debug.Log("Resettttt");
 	}
 
 	void KeyboardController(){
