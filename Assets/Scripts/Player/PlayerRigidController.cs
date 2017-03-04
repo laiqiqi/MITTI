@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using VRTK;
+
 
 public class PlayerRigidController : MonoBehaviour {
 	// private Vector3 oldposition;
@@ -23,21 +23,24 @@ public class PlayerRigidController : MonoBehaviour {
 		// Vector3 dir = col.transform.position - this.transform.position;
 		// Debug.Log("speed    :"  +speed);
 		// VRTK_SDK_Bridge.IsControllerLeftHand(this.gameObject);
+		if(col.gameObject.tag == "AI"){
+			Debug.Log("hit");
+			col.rigidbody.AddForce(col.impulse * (100 ));
+// 		foreach(ContactPoint contact in col.contacts) {
+					
+// 				//  contacts = collision.contacts.Length;
 		
-		foreach(ContactPoint contact in col.contacts) {
+// 				//  if(Input.GetKey(KeyCode.W)){
 					
-				//  contacts = collision.contacts.Length;
-		
-				//  if(Input.GetKey(KeyCode.W)){
+// //				Vector3 dir;
+// //				dir = (contact.point - transform.position);
+// 				// col.rigidbody.AddForceAtPosition(Vector3.Cross(transform.right, dir).normalized * (2000 / col.contacts.Length), contact.point);
+			// col.rigidbody.AddForceAtPosition(col.impulse * (100/ col.contacts.Length ), contact.point);
 					
-//				Vector3 dir;
-//				dir = (contact.point - transform.position);
-				// col.rigidbody.AddForceAtPosition(Vector3.Cross(transform.right, dir).normalized * (2000 / col.contacts.Length), contact.point);
-			col.rigidbody.AddForceAtPosition(-col.impulse * (250/ col.contacts.Length ), contact.point);
-					
-				//  }
+// 				//  }
 				
-			}
+// 			}
+		}
 		// 		if(this.transform.root.GetComponentInChildren<VRTK_ControllerEvents>().GetVelocity().magnitude > 1f){
 		// 	// Vector3 dir = col.transform.position - this.transform.position;
 		// 	// Vector3 dir = col.contacts[0].point - this.GetComponent<Co;

@@ -107,10 +107,11 @@ public class SwordSlashingAIState : AIState {
 				Debug.Log ("state     5");
 				Substate5 (sc, i);
 			}
-			if (sc.GetComponent<AISwordController> ().state == -1) {
-				swords [i].GetComponent<Rigidbody> ().useGravity = true;
-			}
-			Debug.Log (randomVector[i]);
+			// if (sc.GetComponent<AISwordController> ().state == -1) {
+			// 	Debug.Log("Breakkkkkkkkkk");
+			// 	swords [i].GetComponent<Rigidbody> ().useGravity = true;
+			// }
+			// Debug.Log (randomVector[i]);
 //			Debug.Log (AI.transform.forwards);
 //			Debug.DrawLine (swords[i].transform.position, Vector3.Cross(AI.transform.forward, swords[i].transform.forward),Color.red);
 			Debug.DrawLine (swords[i].transform.position, randomVector[i],Color.red);
@@ -171,9 +172,9 @@ public class SwordSlashingAIState : AIState {
 			sc.GetComponent<AISwordController> ().state = 3;
 			sc.AddComponent<FixedJoint> ();
 			sc.GetComponent<FixedJoint> ().connectedBody = swords [i].GetComponent<Rigidbody> ();
-			//					sc.GetComponent<FixedJoint> ().breakForce = 500;
-			//					sc.GetComponent<FixedJoint> ().breakTorque = 500;
-			//					sword.GetComponent<Rigidbody> ().useGravity = true;
+								// sc.GetComponent<FixedJoint> ().breakForce = 500;
+								// sc.GetComponent<FixedJoint> ().breakTorque = 500;
+								// sword.GetComponent<Rigidbody> ().useGravity = true;
 			swords [i].GetComponent<Rigidbody> ().isKinematic = false;
 			//					Physics.IgnoreLayerCollision (8,8);
 			for(int j=0; j < swords.Length; j++){

@@ -13,4 +13,8 @@ public class AISwordController : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	// void OnJointBreak(float breakForce){
+	// 	state = -1;
+	// }
 }
