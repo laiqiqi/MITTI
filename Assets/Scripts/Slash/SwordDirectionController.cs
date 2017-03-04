@@ -17,9 +17,9 @@ public class SwordDirectionController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		// if (col.transform.tag == "Player") {
+		 if (col.transform.tag == "Player") {
 			AI.GetComponent<StatePatternAI> ().isHit = true;
-		// }
+		 }
 //		Vector3 swordDirection = AI.GetComponent<StatePatternAI> ().swordDirection;
 //		swordDirection = -swordDirection;
 
@@ -32,9 +32,9 @@ public class SwordDirectionController : MonoBehaviour {
 	}
 
 	void OnTriggerExit(Collider col){
-		// if (col.transform.tag == "Player") {
+		 if (col.transform.tag == "Player") {
 			AI.GetComponent<StatePatternAI> ().isHit = false;
-		// }
+		 }
 //		Debug.Log ("isHit");
 	}
 

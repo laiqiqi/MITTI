@@ -30,10 +30,10 @@ public class PlayerRigidController : MonoBehaviour {
 		
 				//  if(Input.GetKey(KeyCode.W)){
 					
-				Vector3 dir;
-				dir = (transform.position - contact.point);
+//				Vector3 dir;
+//				dir = (contact.point - transform.position);
 				// col.rigidbody.AddForceAtPosition(Vector3.Cross(transform.right, dir).normalized * (2000 / col.contacts.Length), contact.point);
-				col.rigidbody.AddForceAtPosition(-dir.normalized * (3000 ), contact.point);
+			col.rigidbody.AddForceAtPosition(-col.impulse * (250/ col.contacts.Length ), contact.point);
 					
 				//  }
 				
