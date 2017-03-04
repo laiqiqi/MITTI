@@ -6,6 +6,7 @@ public class SwordFloatingSword : MonoBehaviour {
 	private float speed;
 	public int state;
 	public bool isHit;
+	public bool isHitOther;
 	// Use this for initialization
 	void Start () {
 		speed = 300;
@@ -24,12 +25,17 @@ public class SwordFloatingSword : MonoBehaviour {
 	void OnCollisionStay(Collision other){
 		if (other.transform.tag == "Player") {
 			isHit = true;
+		} else {
+			Debug.Log ("hit other");
+			isHitOther = true;
 		}
 	}
 
 	void OnCollisionExit(Collision other){
 		if (other.transform.tag == "Player") {
 			isHit = false;
+		}else {
+			isHitOther = false;
 		}
 	}
 }
