@@ -19,6 +19,9 @@ namespace Valve.VR.InteractionSystem
 		
 		// Update is called once per frame
 		void Update () {
+			HandsEvent();
+		}
+		void HandsEvent() {
 			foreach ( Hand hand in player.hands ){
 				if ( hand.controller != null )
 				{
@@ -34,7 +37,7 @@ namespace Valve.VR.InteractionSystem
 		void Dash() {
 			Debug.Log("dash");
 			if (playerStat.stamina >= 50f) {
-				Vector3 direction = new Vector3(head.transform.right.x * 9f, 0f, head.transform.right.z * 9f);
+				Vector3 direction = new Vector3(head.transform.right.x * 8.5f, 0f, head.transform.right.z * 8.5f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				// playerStat.stamina -= 50f;

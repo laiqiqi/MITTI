@@ -27,7 +27,7 @@ public class BodyCollision : MonoBehaviour {
 		if(AI.currentState == AI.slamState){
 			if(col.tag == "Player"){
 				Debug.Log("Slam Player");
-				AI.player.transform.Find("PlayerBody").GetComponent<PlayerStat>().health -= 2f;
+				// AI.player.transform.Find("PlayerBody").GetComponent<PlayerStat>().health -= 2f;
 				
 				// AI.camRig.transform.position = AI.transform.position + AI.transform.forward*2f;
 			}
