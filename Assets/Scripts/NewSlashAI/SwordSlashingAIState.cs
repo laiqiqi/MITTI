@@ -173,13 +173,20 @@ public class SwordSlashingAIState : AIState {
 		}
 		oldVelocity[i] = sc.GetComponent<Rigidbody> ().angularVelocity.magnitude;
 
-		if(countState[i] == 2 && isStart[i] && !swords[i].GetComponent<SwordFloatingSword>().isHit){
+		if((countState[i] == 2 && isStart[i] && !swords[i].GetComponent<SwordFloatingSword>().isHit)){
 			isStart [i] = false;
 			RandomVectorForSlashing (sc, i);
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
 		if (swords[i].GetComponent<SwordFloatingSword>().isHitOther) {
+			sc.GetComponent<AISwordController> ().state = 4;
+		}
+
+		Vector3 relativePos = randomVector[i] - sc.transform.position;
+		Quaternion rotation = Quaternion.LookRotation (-relativePos);
+		Debug.Log ("Angle     "+Quaternion.Angle (sc.transform.rotation, rotation));
+		if ((Quaternion.Angle (sc.transform.rotation, rotation) < 5f || Quaternion.Angle (sc.transform.rotation, rotation) > 175f) && isStart[i]) {
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 	}
