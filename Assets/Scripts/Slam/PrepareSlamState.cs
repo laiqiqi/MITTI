@@ -25,9 +25,6 @@ public class PrepareSlamState : AIState {
         speed = 20f;
         timer = 0f;
         seekTime = 5f;
-        attackTarget = new Vector3(enemy.player.transform.position.x,
-                                    enemy.player.transform.position.y + 0f,
-                                    enemy.player.transform.position.z);
         AIFrontPos = enemy.transform.position + enemy.body.transform.forward * 1.05f;
         moveToPos = new Vector3 (enemy.transform.position.x, 2f, enemy.transform.position.z);
     }
@@ -70,13 +67,9 @@ public class PrepareSlamState : AIState {
     }
 
     void Targeting(){
-        attackTarget = enemy.player.transform.position;
-        // attackTarget = new Vector3(enemy.player.transform.position.x,
-                                //    enemy.player.transform.position.y + 0f,
-                                //    enemy.player.transform.position.z);
+        attackTarget = enemy.player.transform.position + (Vector3.up*0.5f);
         enemy.transform.LookAt(attackTarget);
-        // enemy.body.transform.rotation = Quaternion.RotateTowards(enemy.body.transform.rotation, Quaternion.EulerAngles(0, 0, 0), 10f);
-
+       
         AIFrontPos = enemy.transform.position + enemy.body.transform.forward*1.05f;
         enemy.effectManager.UpdatePosSlamCircle(AIFrontPos, attackTarget);
     }

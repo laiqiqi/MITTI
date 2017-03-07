@@ -4,7 +4,6 @@ using System.Collections;
 public class StatePatternAI: MonoBehaviour {
 	public Transform target;
 	public float speed;
-	// public GameObject camRig;
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject body;
@@ -16,7 +15,6 @@ public class StatePatternAI: MonoBehaviour {
 //----------------------------------------------------------------------------
 
 //-----------------------------AI Manager-------------------------------------
-	// public GameObject gObjAIManager;
 	[HideInInspector] public AIEffectManager effectManager;
 	[HideInInspector] public AIAnimationManager animationManager;
 //----------------------------------------------------------------------------
@@ -33,13 +31,13 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public SlamState slamState;
 	[HideInInspector] public EscapeState escapeState;
 	[HideInInspector] public StopState stopState;
+	
 	[HideInInspector] public bool isHit;
 	[HideInInspector] public bool isParry;
 
 
 	// Use this for initialization
 	void Start () {
-		// player = camRig.transform.Find("Camera (eye)").gameObject;
 		body.GetComponent<Animator>().applyRootMotion = false;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
@@ -68,14 +66,13 @@ public class StatePatternAI: MonoBehaviour {
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
-		prepareDigStrikeState.StartState();
-		// prepareSlamState.StartState();
+		// prepareDigStrikeState.StartState();
+		prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		KeyboardController();
-		// Debug.Log("aaaaa");
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
@@ -85,7 +82,6 @@ public class StatePatternAI: MonoBehaviour {
 		Debug.Log("Reset");
 		body.transform.localPosition = new Vector3(0, 0, 0);
 		body.transform.localRotation = Quaternion.Euler(0, 0, 0);
-		// body.transform.eulerAngles = new Vector3(0, 20, 0);
 		body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
 		this.transform.rotation = new Quaternion(0, 0, 0, 0);
 		// Debug.Log("Resettttt");

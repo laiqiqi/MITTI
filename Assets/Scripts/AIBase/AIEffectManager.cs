@@ -74,11 +74,9 @@ public class AIEffectManager : MonoBehaviour {
 		tempEffects[1] = null;
 	}
 
-	public void CreateSlamCollider(Vector3 effectPos) {
+	public GameObject CreateSlamCollider(Vector3 effectPos) {
 		tempEffects[2] = (GameObject)Instantiate(skillEffects[2], effectPos, Quaternion.identity);
-	}
-	public void UpdatePosSlamCollider(Vector3 pos) {
-		tempEffects[2].transform.position = pos;
+		return tempEffects[2];
 	}
 	public void DestroySlamCollider() {
 		Destroy(tempEffects[2]);

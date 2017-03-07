@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlamState : AIState {
+public class SlamState : MonoBehaviour, AIState {
     private readonly StatePatternAI enemy;
     private Vector3 attackTarget;
     private Vector3 moveToTarget;
     private float speed;
     private bool isStop;
+    private GameObject slamCol;
 	public string name{ get;}
 
     public SlamState(StatePatternAI statePatternAI){
@@ -27,12 +28,12 @@ public class SlamState : AIState {
         moveToTarget = this.attackTarget + enemy.transform.forward*30f;
 
         enemy.effectManager.DestroySlamCircle();
-        enemy.effectManager.CreateSlamCollider(enemy.transform.position + enemy.transform.forward*1.05f);
+        slamCol = enemy.effectManager.CreateSlamCollider(enemy.transform.position + enemy.transform.forward*1.05f);
+        slamCol.transform.SetParent(enemy.transform);
     }
 
     public void UpdateState()
     {
-        enemy.effectManager.UpdatePosSlamCollider(enemy.transform.position + enemy.transform.forward*1.05f);
         Slam();
     }
 
@@ -40,6 +41,7 @@ public class SlamState : AIState {
     {
         Debug.Log("Slam End");
         enemy.effectManager.DestroySlamCollider();
+        Destroy(slamCol);
         enemy.floatingState.StartState();
     }
 

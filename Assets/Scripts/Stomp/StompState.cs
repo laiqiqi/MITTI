@@ -24,7 +24,7 @@ public class StompState : MonoBehaviour, AIState {
 
         attackTarget = new Vector3(enemy.player.transform.position.x,
                                 //enemy.player.transform.position.y - 0.7f,
-                                0.3f,
+                                0.1f,
                                 enemy.player.transform.position.z);
         
         attackEndPos = new Vector3(attackTarget.x,
