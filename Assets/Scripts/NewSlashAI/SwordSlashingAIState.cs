@@ -15,6 +15,7 @@ public class SwordSlashingAIState : AIState {
 	private float[] oldVelocity;
 	private Quaternion rotationTemp;
 	private int dir;
+	private int hitCount;
 
 	public SwordSlashingAIState(AITest statePatternAI){
 		AI = statePatternAI;
@@ -26,6 +27,7 @@ public class SwordSlashingAIState : AIState {
 		speed = 200;
 		timecount = 0;
 		dir = 1;
+		hitCount = 0;
 		countState = new int[AI.swordController.Length];
 		oldVelocity = new float[AI.swordController.Length];
 		swords = new GameObject[AI.swordController.Length];
@@ -176,6 +178,8 @@ public class SwordSlashingAIState : AIState {
 		if((countState[i] == 2 && isStart[i] && !swords[i].GetComponent<SwordFloatingSword>().isHit)){
 			isStart [i] = false;
 			RandomVectorForSlashing (sc, i);
+			hitCount++;
+			Debug.Log (hitCount);
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
@@ -185,7 +189,7 @@ public class SwordSlashingAIState : AIState {
 
 		Vector3 relativePos = randomVector[i] - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (-relativePos);
-		Debug.Log ("Angle     "+Quaternion.Angle (sc.transform.rotation, rotation));
+//		Debug.Log ("Angle     "+Quaternion.Angle (sc.transform.rotation, rotation));
 		if ((Quaternion.Angle (sc.transform.rotation, rotation) < 5f || Quaternion.Angle (sc.transform.rotation, rotation) > 175f) && isStart[i]) {
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
