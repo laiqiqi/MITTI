@@ -147,11 +147,7 @@ public class SlashState : AIState {
 		AI.isHit = false;
 		timeCount = 0;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = true;
-<<<<<<< HEAD
 		AI.DetachSword();
-=======
-		AI.transform.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.None;
->>>>>>> MeleeAI
 //		AI.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 

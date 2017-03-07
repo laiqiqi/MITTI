@@ -33,13 +33,9 @@ public class EscapeState : AIState {
 	}
 
 	public void StateChangeCondition(){
-<<<<<<< HEAD
-		AI.seekState.StartState ();
-		// AI.prepareSlamState.StartState();
-=======
+
 		EndState ();
 		AI.floatingState.StartState ();
->>>>>>> MeleeAI
 	}
 
 	public void Escape(){
