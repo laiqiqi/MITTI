@@ -29,7 +29,11 @@ namespace Valve.VR.InteractionSystem
 		{
 			float distanceFromFloor = Vector3.Dot( head.localPosition, Vector3.up );
 			capsuleCollider.height = Mathf.Max( capsuleCollider.radius, distanceFromFloor );
+<<<<<<< HEAD
 			transform.localPosition = head.localPosition - (distanceFromFloor * Vector3.up);
+=======
+			transform.localPosition = head.localPosition - 0.5f * distanceFromFloor * Vector3.up;
+>>>>>>> MeleeAI
 		}
 	}
 }

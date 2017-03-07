@@ -20,6 +20,7 @@ public class EscapeState : AIState {
 			AI.player.transform.position.y + Random.Range (0f, 10f),
 			// Random.Range (0f, 10f),
 			AI.transform.position.z + Random.Range(-5f ,-10f));
+		AI.transform.GetComponent<Rigidbody> ().isKinematic = true;
 		speed = 10f;
 	}
 
@@ -28,12 +29,17 @@ public class EscapeState : AIState {
 	}
 
 	public void EndState(){
-
+		AI.transform.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 
 	public void StateChangeCondition(){
+<<<<<<< HEAD
 		AI.seekState.StartState ();
 		// AI.prepareSlamState.StartState();
+=======
+		EndState ();
+		AI.floatingState.StartState ();
+>>>>>>> MeleeAI
 	}
 
 	public void Escape(){

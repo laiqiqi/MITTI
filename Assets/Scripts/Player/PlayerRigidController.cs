@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 ﻿// using System.Collections;
 // using System.Collections.Generic;
 // using UnityEngine;
 // using VRTK;
+=======
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+>>>>>>> MeleeAI
 
 // public class PlayerRigidController : MonoBehaviour {
 // 	// private Vector3 oldposition;
@@ -20,6 +27,7 @@
 // 		// Debug.Log(this.transform.root.GetComponentInChildren<VRTK_ControllerEvents>().GetVelocity().magnitude);
 // 	}
 
+<<<<<<< HEAD
 // 	void OnCollisionEnter(Collision col){
 // 		// Vector3 dir = col.transform.position - this.transform.position;
 // 		// Debug.Log("speed    :"  +speed);
@@ -58,3 +66,39 @@
 // //		col.rigidbody.AddForce (dir * 300);
 // 	}
 // }
+=======
+	void OnCollisionEnter(Collision col){
+		// Vector3 dir = col.transform.position - this.transform.position;
+		// Debug.Log("speed    :"  +speed);
+		// VRTK_SDK_Bridge.IsControllerLeftHand(this.gameObject);
+		if(col.gameObject.tag == "AI"){
+			Debug.Log("hit");
+			col.rigidbody.AddForce(col.impulse * (100 ));
+// 		foreach(ContactPoint contact in col.contacts) {
+					
+// 				//  contacts = collision.contacts.Length;
+		
+// 				//  if(Input.GetKey(KeyCode.W)){
+					
+// //				Vector3 dir;
+// //				dir = (contact.point - transform.position);
+// 				// col.rigidbody.AddForceAtPosition(Vector3.Cross(transform.right, dir).normalized * (2000 / col.contacts.Length), contact.point);
+			// col.rigidbody.AddForceAtPosition(col.impulse * (100/ col.contacts.Length ), contact.point);
+					
+// 				//  }
+				
+// 			}
+		}
+		// 		if(this.transform.root.GetComponentInChildren<VRTK_ControllerEvents>().GetVelocity().magnitude > 1f){
+		// 	// Vector3 dir = col.transform.position - this.transform.position;
+		// 	// Vector3 dir = col.contacts[0].point - this.GetComponent<Co;
+
+		// 	col.rigidbody.AddForce (this.transform.forward * 3000);
+		// 	if(col.transform.tag == "AI")
+		// 		col.gameObject.GetComponent<StatePatternAI>().isParry = true;
+		// 	Debug.Log ("aaaaaaaaaaaaaaaaaaaaaaaa"+"CollisionEnter");
+		// }
+//		col.rigidbody.AddForce (dir * 300);
+	}
+}
+>>>>>>> MeleeAI

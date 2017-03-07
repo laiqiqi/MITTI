@@ -31,7 +31,11 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public SlamState slamState;
 	[HideInInspector] public EscapeState escapeState;
 	[HideInInspector] public StopState stopState;
+<<<<<<< HEAD
 	
+=======
+	[HideInInspector] public PrepareSlashState prepareSlashState;
+>>>>>>> MeleeAI
 	[HideInInspector] public bool isHit;
 	[HideInInspector] public bool isParry;
 
@@ -56,7 +60,14 @@ public class StatePatternAI: MonoBehaviour {
 		slamState = new SlamState (this);
 		escapeState = new EscapeState (this);
 		stopState = new StopState(this);
+<<<<<<< HEAD
 		
+=======
+		prepareSlashState = new PrepareSlashState (this);
+		floatingState.StartState ();
+		// stopState.StartState ();
+		// seekState.StartState();
+>>>>>>> MeleeAI
 		swordDirection = Vector3.up;
 		isHit = false;
 		isParry = false;
@@ -75,7 +86,7 @@ public class StatePatternAI: MonoBehaviour {
 		KeyboardController();
 		currentState.UpdateState();
 		// KeyboardController();
-		// Debug.Log(currentState.name);
+		 Debug.Log(currentState.name);
 	}
 
 	public void ResetBody () {

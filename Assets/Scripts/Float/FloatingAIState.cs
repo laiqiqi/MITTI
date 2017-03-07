@@ -10,6 +10,7 @@ public class FloatingAIState : AIState {
 	public FloatingAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
 		target = new GameObject ().transform;
+		name = "FloatingState";
 	}
 
 	public void StartState(){
@@ -22,15 +23,17 @@ public class FloatingAIState : AIState {
 			enemy.player.transform.position.y + Random.Range (0f, 2f),
 			// Random.Range (0f, 10f),
 			enemy.player.transform.position.z + Random.Range (-10f, 10f));
+//		enemy.transform.GetComponent<Rigidbody> ().isKinematic = true;
 	}
 
 	public void UpdateState(){
 		Floating ();
 		enemy.transform.LookAt(enemy.player.transform);
+//		enemy.GetComponent<Rigidbody> ().velsocity = Vector3.zero;
 	}
 
 	public void EndState(){
-	
+//		enemy.transform.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 
 	public void StateChangeCondition(){
@@ -46,6 +49,7 @@ public class FloatingAIState : AIState {
 								enemy.player.transform.position.y + Random.Range (1f, 2f),
 				// Random.Range (0f, 10f),
 				enemy.player.transform.position.z + Random.Range (-10f, 10f));
+			EndState ();
 			enemy.shootState.StartState ();
 			// enemy.slashState.StartState ();
 			
@@ -56,8 +60,8 @@ public class FloatingAIState : AIState {
 				//				this.transform.position.y + Random.Range (-10f, 10f),
 				// Random.Range (0f, 10f),
 				enemy.player.transform.position.z + Random.Range (-10f, 10f));
-
-			enemy.slashState.StartState ();
+			EndState ();
+			enemy.prepareSlashState.StartState ();
 			// enemy.escapeState.StartState();
 		}
 	}
