@@ -35,7 +35,7 @@ public class EscapeState : AIState {
 	public void StateChangeCondition(){
 
 		EndState ();
-		AI.floatingState.StartState ();
+		AI.seekState.StartState ();
 	}
 
 	public void Escape(){

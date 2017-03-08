@@ -66,13 +66,13 @@ public class SwordSlashingAIState : AIState {
 				SubState2(sc, i);
 
 			} else if (state == 3) {
-				Debug.Log ("state     3");
+				// Debug.Log ("state     3");
 				//Slash
 				Substate3 (sc, i);
 //				ConditionOfSubstate4(sc, i);
 
 			} else if (state == 4) {
-				Debug.Log ("state     4");
+				// Debug.Log ("state     4");
 				//Prepare for new slashing
 				Substate4(sc, i);
 			} else if (state == -1) {
@@ -132,8 +132,8 @@ public class SwordSlashingAIState : AIState {
 			sc.GetComponent<AISwordController> ().state = 4;
 			sc.AddComponent<FixedJoint> ();
 			sc.GetComponent<FixedJoint> ().connectedBody = swords [i].GetComponent<Rigidbody> ();
-//			sc.GetComponent<FixedJoint> ().breakForce = 500;
-//			sc.GetComponent<FixedJoint> ().breakTorque = 500;
+			sc.GetComponent<FixedJoint> ().breakForce = 500;
+			sc.GetComponent<FixedJoint> ().breakTorque = 500;
 			swords [i].GetComponent<Rigidbody> ().isKinematic = false;
 			//					Physics.IgnoreLayerCollision (8,8);
 			for(int j=0; j < swords.Length; j++){

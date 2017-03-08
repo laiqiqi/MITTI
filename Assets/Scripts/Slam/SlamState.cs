@@ -42,7 +42,7 @@ public class SlamState : MonoBehaviour, AIState {
         Debug.Log("Slam End");
         enemy.effectManager.DestroySlamCollider();
         Destroy(slamCol);
-        enemy.floatingState.StartState();
+        enemy.prepareSlamState.StartState();
     }
 
     public void StateChangeCondition()

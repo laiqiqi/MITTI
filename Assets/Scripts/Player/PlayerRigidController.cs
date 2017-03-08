@@ -11,7 +11,7 @@ public class PlayerRigidController : MonoBehaviour {
 	void OnCollisionEnter(Collision col){
 		if(col.gameObject.tag == "AI"){
 			Debug.Log("hit");
-			col.rigidbody.AddForce(col.impulse * (100 ));
+			col.rigidbody.AddForce(-col.impulse * (100 ));
 
 		}
 	}
