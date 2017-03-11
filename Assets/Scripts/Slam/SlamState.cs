@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class SlamState : MonoBehaviour, AIState {
-    private readonly StatePatternAI enemy;
+    private readonly StatePatternAI AI;
     private Vector3 attackTarget;
     private Vector3 moveToTarget;
-    private float speed;
-    private bool isStop;
+    public bool isStop;
+    public bool isStun;
     private GameObject slamCol;
 	public string name{ get;}
 
     public SlamState(StatePatternAI statePatternAI){
-		enemy = statePatternAI;
+		AI = statePatternAI;
 	}
     public void StartState()
     {
@@ -21,15 +22,16 @@ public class SlamState : MonoBehaviour, AIState {
     public void StartState(Vector3 attackTarget)
     {
         Debug.Log("Slam Start");
-        enemy.currentState = enemy.slamState;
+        AI.currentState = AI.slamState;
         isStop = false;
-        speed = 20f;
+        isStun = false;
+        AI.speed = 50f;
         this.attackTarget = attackTarget;
-        moveToTarget = this.attackTarget + enemy.transform.forward*30f;
+        moveToTarget = this.attackTarget + AI.transform.forward*30f;
 
-        enemy.effectManager.DestroySlamCircle();
-        slamCol = enemy.effectManager.CreateSlamCollider(enemy.transform.position + enemy.transform.forward*1.05f);
-        slamCol.transform.SetParent(enemy.transform);
+        AI.effectManager.DestroySlamCircle();
+        slamCol = AI.effectManager.CreateSlamCollider(AI.transform.position + AI.transform.forward*1.05f);
+        slamCol.transform.SetParent(AI.transform);
     }
 
     public void UpdateState()
@@ -40,9 +42,15 @@ public class SlamState : MonoBehaviour, AIState {
     public void EndState()
     {
         Debug.Log("Slam End");
-        enemy.effectManager.DestroySlamCollider();
+        AI.effectManager.DestroySlamCollider();
         Destroy(slamCol);
-        enemy.prepareSlamState.StartState();
+        // AI.seekState.StartState();
+        if(Player.instance.GetComponent<PlayerStat>().isHitSlam == true){
+            Player.instance.GetComponent<Rigidbody>().AddForce(AI.transform.forward*10f, ForceMode.Impulse);
+        }
+        Player.instance.GetComponent<PlayerStat>().isHitSlam = false;
+        Player.instance.transform.SetParent(null);
+        AI.prepareSlamState.StartState();
     }
 
     public void StateChangeCondition()
@@ -51,10 +59,17 @@ public class SlamState : MonoBehaviour, AIState {
     }
 
     void Slam(){
-        if(enemy.transform.position != moveToTarget && !isStop){
-            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position,
+        if(isStun){
+            Destroy(slamCol);
+            // Player.instance.GetComponent<PlayerControl>().isHitSlam = false;
+            AI.stunState.StartState(5f, AI.transform.forward*AI.speed*2);
+        }
+        else if(AI.transform.position != moveToTarget && !isStop){
+            Debug.Log("Moveeeee");
+            AI.transform.position = Vector3.MoveTowards(AI.transform.position,
                                                     moveToTarget,
-                                                    speed * Time.deltaTime);
+                                                    AI.speed * Time.deltaTime);
+                                                    // (speed += (speed/1.25f*Time.deltaTime)) * Time.deltaTime);
         }
         else{
             EndState();

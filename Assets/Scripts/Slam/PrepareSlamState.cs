@@ -46,11 +46,13 @@ public class PrepareSlamState : AIState {
     }
 
      void Prepare() {
-        if(enemy.transform.position.y > 2.5f){
+        if(enemy.transform.position.y > 2.5f || enemy.transform.position.y < 1.9f){
             enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToPos, (speed/2)*Time.deltaTime);
         }
         else{
+            // Debug.Log("isOkPos");
             if(!hasCircle){
+                // Debug.Log("SlamCircle");
                 enemy.ResetBody();
                 enemy.effectManager.CreateSlamCircle(AIFrontPos);
                 hasCircle = true;
@@ -61,12 +63,14 @@ public class PrepareSlamState : AIState {
             }
             else{
                 //Play animation
+                // Debug.Log("SlamCircle");
                 EndState();
             }
         }
     }
 
     void Targeting(){
+        // Debug.Log("Targeting");
         attackTarget = enemy.player.transform.position + (Vector3.up*0.5f);
         enemy.transform.LookAt(attackTarget);
        

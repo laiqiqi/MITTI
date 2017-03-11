@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Valve.VR.InteractionSystem;
 public class RockBlast : MonoBehaviour {
 	public GameObject rock;
 	public GameObject pos;
 	private float x,y,z;
 	private Vector3 movePos;
 	private List<GameObject> rocks = new List<GameObject>();
+	private bool isHit, isHasDamage;
 	// Use this for initialization
-
 	void Start () {
+		isHit = false;
+		isHasDamage = true;
 		this.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
 		movePos = new Vector3(this.transform.position.x,
@@ -41,8 +43,18 @@ public class RockBlast : MonoBehaviour {
 		}
 
 		else {
+			isHasDamage = false;
 			StartCoroutine(ClearRocks());
 			StartCoroutine(ClearSelf());
+		}
+	}
+
+	void OnCollisionEnter (Collision col) {
+		Debug.Log(col.collider.tag);
+		if(col.collider.tag == "Player" && !isHit && isHasDamage){
+			isHit = true;
+			Debug.Log(col.collider.tag);
+			Player.instance.GetComponent<PlayerStat>().health -= 50f;
 		}
 	}
     

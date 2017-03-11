@@ -10,7 +10,13 @@ public class PlayerStat : MonoBehaviour {
 
 	public float health;
 	public float healthRegenRate;
+
+//--------------------Player Status--------------------------
+	[HideInInspector] public bool isHitSlam;
+//-----------------------------------------------------------
 	void Start () {
+		ResetAllStatusToFalse();
+		
 		stamina = 100;
 		staRegenRate = 10;
 
@@ -34,5 +40,9 @@ public class PlayerStat : MonoBehaviour {
 				stat += (rate*Time.deltaTime);
 			}
 		}
+	}
+
+	public void ResetAllStatusToFalse() {
+		isHitSlam = false;
 	}
 }

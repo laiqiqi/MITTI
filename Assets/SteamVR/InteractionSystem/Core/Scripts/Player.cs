@@ -56,7 +56,6 @@ namespace Valve.VR.InteractionSystem
 			}
 		}
 
-
 		//-------------------------------------------------
 		// Get the number of active Hands.
 		//-------------------------------------------------

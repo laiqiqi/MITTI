@@ -18,6 +18,8 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public AIEffectManager effectManager;
 	[HideInInspector] public AIAnimationManager animationManager;
 //----------------------------------------------------------------------------
+
+//-----------------------------State List-------------------------------------
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public FloatingAIState floatingState;
 	[HideInInspector] public SeekState seekState;
@@ -32,13 +34,29 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public EscapeState escapeState;
 	[HideInInspector] public StopState stopState;
 	[HideInInspector] public PrepareSlashState prepareSlashState;
+	[HideInInspector] public StunState stunState;
 	[HideInInspector] public bool isHit;
 	[HideInInspector] public bool isParry;
+//----------------------------------------------------------------------------
 
+	//-------------------------------------------------
+	// Singleton instance of the FirstAI. Only one can exist at a time.
+	//-------------------------------------------------
+	private static StatePatternAI _instance;
+	public static StatePatternAI instance
+	{
+		get
+		{
+			if ( _instance == null )
+			{
+				_instance = FindObjectOfType<StatePatternAI>();
+			}
+			return _instance;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
-		body.GetComponent<Animator>().applyRootMotion = false;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
@@ -57,9 +75,8 @@ public class StatePatternAI: MonoBehaviour {
 		escapeState = new EscapeState (this);
 		stopState = new StopState(this);
 		prepareSlashState = new PrepareSlashState (this);
-		floatingState.StartState ();
-		// stopState.StartState ();
-		// seekState.StartState();
+		stunState = new StunState (this);
+
 		swordDirection = Vector3.up;
 		isHit = false;
 		isParry = false;
@@ -67,27 +84,25 @@ public class StatePatternAI: MonoBehaviour {
 		DetachSword();
 
 		// floatingState.StartState();
-		// seekState.StartState();
+		seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
-		prepareSlamState.StartState();
+		// prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		KeyboardController();
+		// KeyboardController();
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 	}
 
 	public void ResetBody () {
-		Debug.Log("Reset");
 		body.transform.localPosition = new Vector3(0, 0, 0);
 		body.transform.localRotation = Quaternion.Euler(0, 0, 0);
 		body.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
 		this.transform.rotation = new Quaternion(0, 0, 0, 0);
-		// Debug.Log("Resettttt");
 	}
 
 	void KeyboardController(){
@@ -101,6 +116,19 @@ public class StatePatternAI: MonoBehaviour {
 		}
 
 	}
+	public void RagdollMode(){
+        this.GetComponent<CapsuleCollider>().enabled = true;
+        this.GetComponent<Rigidbody>().useGravity = true;
+        this.GetComponent<Rigidbody>().drag = 0;
+        this.GetComponent<Rigidbody>().angularDrag = 0;
+    }
+
+    public void NoRagdollMode(){
+        this.GetComponent<CapsuleCollider>().enabled = false;
+        this.GetComponent<Rigidbody>().useGravity = false;
+        this.GetComponent<Rigidbody>().drag = Mathf.Infinity;
+        this.GetComponent<Rigidbody>().angularDrag = Mathf.Infinity;
+    }
 
 	public void DetachSword(){
 		Destroy(this.GetComponent<FixedJoint>());

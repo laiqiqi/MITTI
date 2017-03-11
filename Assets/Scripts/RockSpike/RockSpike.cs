@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class RockSpike : MonoBehaviour {
 
@@ -10,11 +11,12 @@ public class RockSpike : MonoBehaviour {
 	private float speed;
 	private float x,y,z;
 	private List<GameObject> rocks = new List<GameObject>();
-	private bool isUp,isDestroy,isCreateStone;
+	private bool isUp,isDestroy,isCreateStone,isHit;
 	private Vector3 upPos;
 
 	// Use this for initialization
 	void Start () {
+		isHit = false;
 		isUp = false;
 		isDestroy = false;
 		isCreateStone = false;
@@ -40,6 +42,14 @@ public class RockSpike : MonoBehaviour {
 
 		if (isUp) {
 			SelfDestruct();
+		}
+	}
+
+	void OnCollisionEnter(Collision col) {
+		if(col.collider.tag == "Player" && isHit == false){
+			isHit = true;
+			Debug.Log(col.collider.tag);
+			Player.instance.GetComponent<PlayerStat>().health -= 10f;
 		}
 	}
 

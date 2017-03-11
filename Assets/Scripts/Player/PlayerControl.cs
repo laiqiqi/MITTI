@@ -11,14 +11,11 @@ namespace Valve.VR.InteractionSystem
 		private Player player = null;
 		private PlayerStat playerStat;
 		private GameObject head;
-		//Player Status
-		[HideInInspector] public bool isHitSlam;
 		[HideInInspector] public Collision colInfo;
 		void Start () {
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
-			head = VRCam.transform.FindChild("FollowHead").gameObject;
-			isHitSlam = false;
+			// head = VRCam.transform.FindChild("FollowHead").gameObject;
 		}
 		
 		// Update is called once per frame
@@ -43,7 +40,7 @@ namespace Valve.VR.InteractionSystem
 				Vector3 direction = new Vector3(head.transform.right.x * 8.5f, 0f, head.transform.right.z * 8.5f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
-				// playerStat.stamina -= 50f;
+				playerStat.stamina -= 50f;
 			}
 		}
 	}

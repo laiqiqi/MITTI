@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SeekState : AIState {
-    private readonly StatePatternAI enemy;
+    private readonly StatePatternAI AI;
     private float seekTime;
     private Vector3 target;
     private float timer;
@@ -13,33 +13,32 @@ public class SeekState : AIState {
 	public string name{ get; }
 
     public SeekState(StatePatternAI statePatternAI){
-		enemy = statePatternAI;
+		AI = statePatternAI;
 	}
 
     public void StartState()
     {
         Debug.Log("Seek Start");
-        enemy.DetachSword();
-        enemy.currentState = enemy.seekState;
+        AI.DetachSword();
+        AI.currentState = AI.seekState;
         speed = 10f;
         frequency = 3f;
         seekTime = Random.Range(3f, 5f);
         timer = 0;
         timerBeforeTarget = 0;
-		target = enemy.player.transform.position;
-        enemy.transform.rotation = new Quaternion(0, 0, 0, 0);
+		target = AI.player.transform.position;
+        AI.transform.rotation = new Quaternion(0, 0, 0, 0);
     }
 
     public void UpdateState()
     {
         Seek();
-        enemy.ResetBody();
     }
 
     public void EndState()
     {
         Debug.Log("Seek End");
-        enemy.stompState.StartState();
+        AI.stompState.StartState();
     }
 
     public void StateChangeCondition()
@@ -58,18 +57,18 @@ public class SeekState : AIState {
     }
 
     void Look(){
-        Vector3 lookPos = new Vector3(enemy.player.transform.position.x,
-                                        enemy.player.transform.position.y + 8.5f,
-                                        enemy.player.transform.position.z);
-        enemy.transform.LookAt(lookPos);
+        Vector3 lookPos = new Vector3(AI.player.transform.position.x,
+                                        AI.player.transform.position.y + 8.5f,
+                                        AI.player.transform.position.z);
+        AI.transform.LookAt(lookPos);
     }
 
     void Targeting(){
-        enemy.animationManager.PlaySeekAnim();
-        target = new Vector3(enemy.player.transform.position.x,
-                                    enemy.player.transform.position.y + 10f,
-                                    enemy.player.transform.position.z);
+        AI.animationManager.PlaySeekAnim();
+        target = new Vector3(AI.player.transform.position.x,
+                                    AI.player.transform.position.y + 10f,
+                                    AI.player.transform.position.z);
         
-        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, target, speed * Time.deltaTime);
+        AI.transform.position = Vector3.MoveTowards(AI.transform.position, target, speed * Time.deltaTime);
     }
 }

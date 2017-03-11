@@ -4,17 +4,23 @@ using UnityEngine;
 using Valve.VR.InteractionSystem;
 
 public class SlamCollider : MonoBehaviour {
-	[HideInInspector] public Collider colInfo;
 	private GameObject player;
 
 	void Start() {
+		Debug.Log("Start");
 		player = Player.instance.gameObject;
+		Debug.Log(player.GetComponent<PlayerStat>().isHitSlam);
 	}
 	void OnTriggerEnter(Collider collider) {
-		colInfo = collider;
-		if (colInfo.tag == "Player") {
-			if(player.GetComponent<PlayerControl>().isHitSlam){
-				
+		if (collider.tag == "Wall" || collider.tag == "Floor") {
+			Debug.Log(collider.tag);
+			StatePatternAI.instance.slamState.isStop = true;
+			if(player.GetComponent<PlayerStat>().isHitSlam == true){
+				Debug.Log("Hit player against " + collider.tag);
+				player.GetComponent<PlayerStat>().health -= 20;
+			}
+			else{
+				StatePatternAI.instance.slamState.isStun = true;
 			}
 		}
 	}
