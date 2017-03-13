@@ -85,7 +85,8 @@ public class SwordSlashingAIState : AIState {
 //	 		Debug.Log (randomVector[i]);
 //			Debug.Log (AI.transform.forwards);
 //			Debug.DrawLine (swords[i].transform.position, Vector3.Cross(AI.transform.forward, swords[i].transform.forward),Color.red);
-			Debug.DrawLine (swords[i].transform.position, randomVector[i],Color.red);
+//			Debug.DrawLine (swords[i].transform.position, randomVector[i],Color.red);
+			Debug.DrawLine (swords[i].transform.position, -AI.transform.forward + AI.transform.position,Color.red);
 			i++;
 		}
 	}
@@ -100,14 +101,15 @@ public class SwordSlashingAIState : AIState {
 
 	public void SubState0(GameObject sc, int i){
 		Vector3 heading = swords [i].transform.position - AI.transform.position;
-		float angel = Vector3.Angle (heading, -AI.transform.forward);
+		float angle = Vector3.Angle (heading, -AI.transform.forward);
 
-		if (Mathf.Abs (angel) < 10) {
+		if (Mathf.Abs (angle) < 10) {
 			sc.GetComponent<AISwordController> ().state = 1;
 		}
 
 		sc.transform.Rotate (0f, speed * Time.deltaTime, 0f);
 	}
+
 	public void SubState1(GameObject sc, int i){
 		Vector3 relativePos = sc.transform.position - swords [i].transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
@@ -165,32 +167,46 @@ public class SwordSlashingAIState : AIState {
 		if (swords[i].GetComponent<SwordFloatingSword>().isHit) {
 			isStart[i] = false;
 		}
-
-		if (oldVelocity[i] - sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 0.01f) {
-			countState[i] = 1;
-		} else if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude - oldVelocity[i] > 0.01f && countState[i] == 1) {
-			countState[i] = 2;
+			
+//		Debug.Log (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude - oldVelocity [i]);
+//		Debug.Log(Mathf.Abs(oldVelocity [i] - sc.GetComponent<Rigidbody> ().angularVelocity.magnitude));
+		if (oldVelocity [i] - sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 0.01f) {
+			countState [i] = 1;
+		} else if (Mathf.Abs(sc.GetComponent<Rigidbody> ().angularVelocity.magnitude - oldVelocity [i]) > 0.01f && countState [i] == 1) {
+			countState [i] = 2;
 		} else {
-			countState[i] = 0;
+			countState [i] = 0;
 		}
-		oldVelocity[i] = sc.GetComponent<Rigidbody> ().angularVelocity.magnitude;
 
+		oldVelocity[i] = sc.GetComponent<Rigidbody> ().angularVelocity.magnitude;
 		if((countState[i] == 2 && isStart[i] && !swords[i].GetComponent<SwordFloatingSword>().isHit)){
 			isStart [i] = false;
 			RandomVectorForSlashing (sc, i);
 			hitCount++;
-			Debug.Log (hitCount);
+//			Debug.Log (hitCount);
+			Debug.Log("Count state == 2");
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
 		if (swords[i].GetComponent<SwordFloatingSword>().isHitOther) {
+			isStart [i] = false;
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
-		Vector3 relativePos = randomVector[i] - sc.transform.position;
-		Quaternion rotation = Quaternion.LookRotation (-relativePos);
+//		Vector3 relativePos =  -AI.transform.forward + AI.transform.position;
+////		Vector3 relativePos = randomVector[i] - sc.transform.position;
+//		Quaternion rotation = Quaternion.LookRotation (-relativePos);
 //		Debug.Log ("Angle     "+Quaternion.Angle (sc.transform.rotation, rotation));
-		if ((Quaternion.Angle (sc.transform.rotation, rotation) < 5f || Quaternion.Angle (sc.transform.rotation, rotation) > 175f) && isStart[i]) {
+//		if ((Quaternion.Angle (sc.transform.rotation, rotation) < 20f)){// || Quaternion.Angle (sc.transform.rotation, rotation) > 178f) && isStart[i]) {
+//			isStart [i] = false;
+//			Debug.Log("Angle < 5f");
+//			sc.GetComponent<AISwordController> ().state = 4;
+//		}
+
+		Vector3 heading = swords [i].transform.position - AI.transform.position;
+		float angle = Vector3.Angle (heading, -AI.transform.forward);
+		Debug.Log ("angle         "+angel);
+		if (Mathf.Abs (angle) < 20) {
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 	}
@@ -198,7 +214,7 @@ public class SwordSlashingAIState : AIState {
 	public void Substate4(GameObject sc, int i){
 		Vector3 relativePos = randomVector[i] - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
-		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*4 * Time.deltaTime);
+		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*6 * Time.deltaTime);
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
 			sc.GetComponent<AISwordController> ().state = 3;
 		}
