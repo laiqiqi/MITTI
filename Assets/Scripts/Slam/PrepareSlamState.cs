@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PrepareSlamState : AIState {
-    private readonly StatePatternAI enemy;
+    private readonly StatePatternAI AI;
     private Vector3 attackTarget;
     private Vector3 AIFrontPos;
     private Vector3 moveToPos;
@@ -11,22 +11,23 @@ public class PrepareSlamState : AIState {
     private float timer;
     private float seekTime;
     private bool hasCircle;
+    private GameObject slamCircle;
 	public string name{ get; }
 
     public PrepareSlamState(StatePatternAI statePatternAI){
-		enemy = statePatternAI;
+		AI = statePatternAI;
 	}
     public void StartState()
     {
-        enemy.ResetBody();
+        AI.ResetBody();
         Debug.Log("Prepare Slam Start");
         hasCircle = false;
-        enemy.currentState = enemy.prepareSlamState;
+        AI.currentState = AI.prepareSlamState;
         speed = 20f;
         timer = 0f;
         seekTime = 5f;
-        AIFrontPos = enemy.transform.position + enemy.body.transform.forward * 1.05f;
-        moveToPos = new Vector3 (enemy.transform.position.x, 2f, enemy.transform.position.z);
+        AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
+        moveToPos = new Vector3 (AI.transform.position.x, 2f, AI.transform.position.z);
     }
 
     public void UpdateState()
@@ -37,7 +38,7 @@ public class PrepareSlamState : AIState {
     public void EndState()
     {
         Debug.Log("Prepare Slam End");
-        enemy.slamState.StartState(this.attackTarget);
+        AI.slamState.StartState(this.attackTarget);
     }
 
     public void StateChangeCondition()
@@ -46,24 +47,30 @@ public class PrepareSlamState : AIState {
     }
 
      void Prepare() {
-        if(enemy.transform.position.y > 2.5f || enemy.transform.position.y < 1.9f){
-            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToPos, (speed/2)*Time.deltaTime);
+        if(AI.transform.position.y > 2.5f || AI.transform.position.y < 1.9f){
+            AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToPos, (speed/2)*Time.deltaTime);
         }
         else{
-            // Debug.Log("isOkPos");
             if(!hasCircle){
-                // Debug.Log("SlamCircle");
-                enemy.ResetBody();
-                enemy.effectManager.CreateSlamCircle(AIFrontPos);
+                AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
+                slamCircle = AI.effectManager.CreateAndReturnCircleByName(MagicCircleName.SLAM_CIRCLE ,AIFrontPos);
+                slamCircle.transform.SetParent(AI.transform);
                 hasCircle = true;
             }
             if(timer <= seekTime){
                 timer += Time.deltaTime;
+                if(timer < 3f){
+                    slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>().range += seekTime*3f*Time.deltaTime;
+                }
+                else if(timer < 4.5f){
+                    slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>().range += seekTime*50f*Time.deltaTime;
+                }
+                else if(timer < 4.975f){
+                    slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>().range -= seekTime*200f*Time.deltaTime;
+                }
                 Targeting();
             }
             else{
-                //Play animation
-                // Debug.Log("SlamCircle");
                 EndState();
             }
         }
@@ -71,10 +78,7 @@ public class PrepareSlamState : AIState {
 
     void Targeting(){
         // Debug.Log("Targeting");
-        attackTarget = enemy.player.transform.position + (Vector3.up*0.5f);
-        enemy.transform.LookAt(attackTarget);
-       
-        AIFrontPos = enemy.transform.position + enemy.body.transform.forward*1.05f;
-        enemy.effectManager.UpdatePosSlamCircle(AIFrontPos, attackTarget);
+        attackTarget = AI.player.transform.position + (Vector3.up*0.5f);
+        AI.transform.LookAt(attackTarget);
     }
 }

@@ -37,7 +37,7 @@ public class StompState : MonoBehaviour, AIState {
         AI.speed = 35f;
 
         AI.animationManager.PlayChargeStompAnim();
-        AI.effectManager.CreateStompCircle(attackTarget);
+        AI.effectManager.CreateCircleByName(MagicCircleName.STOMP_CIRCLE ,attackTarget);
     }
 
     public void UpdateState()
@@ -48,6 +48,7 @@ public class StompState : MonoBehaviour, AIState {
     public void EndState()
     {
         Debug.Log("Stomp End");
+        AI.effectManager.RemoveEffectFromDictByName(EffectName.DIRTBLAST);
         AI.prepareDigStrikeState.StartState();
         // AI.seekState.StartState();
     }
@@ -65,12 +66,13 @@ public class StompState : MonoBehaviour, AIState {
             }
             else{
                 if(!isCreateDirt){
-                    AI.effectManager.DestroyStompCircle();
-                    AI.effectManager.CreateDirtBlast(dirtPos);
+                    AI.effectManager.DestroyCircleByName(MagicCircleName.STOMP_CIRCLE);
+                    AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.STOMP_CIRCLE);
+                    AI.effectManager.CreateEffectByName(EffectName.DIRTBLAST ,dirtPos);
                     isCreateDirt = true;
                 }
                 
-                if(AI.transform.position.y < attackEndPos.y){
+                if(Vector3.Distance(AI.transform.position, attackEndPos) < 0.1f){
                     AI.transform.position = Vector3.MoveTowards(AI.transform.position, attackEndPos, 1.5f * Time.deltaTime);
                 }
                 else{

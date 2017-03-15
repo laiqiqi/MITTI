@@ -27,10 +27,11 @@ public class SlamState : MonoBehaviour, AIState {
         isStun = false;
         AI.speed = 50f;
         this.attackTarget = attackTarget;
-        moveToTarget = this.attackTarget + AI.transform.forward*30f;
+        moveToTarget = this.attackTarget + AI.transform.forward*50f;
 
-        AI.effectManager.DestroySlamCircle();
-        slamCol = AI.effectManager.CreateSlamCollider(AI.transform.position + AI.transform.forward*1.05f);
+        AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
+        AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
+        slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward*1.05f);
         slamCol.transform.SetParent(AI.transform);
     }
 
@@ -41,15 +42,15 @@ public class SlamState : MonoBehaviour, AIState {
 
     public void EndState()
     {
-        Debug.Log("Slam End");
-        AI.effectManager.DestroySlamCollider();
+        AI.effectManager.DestroyEffectByName(EffectName.SLAM_COLLIDER);
+        AI.effectManager.RemoveEffectFromDictByName(EffectName.SLAM_COLLIDER);
         Destroy(slamCol);
-        // AI.seekState.StartState();
         if(Player.instance.GetComponent<PlayerStat>().isHitSlam == true){
             Player.instance.GetComponent<Rigidbody>().AddForce(AI.transform.forward*10f, ForceMode.Impulse);
         }
         Player.instance.GetComponent<PlayerStat>().isHitSlam = false;
         Player.instance.transform.SetParent(null);
+        
         AI.prepareSlamState.StartState();
     }
 
@@ -60,12 +61,14 @@ public class SlamState : MonoBehaviour, AIState {
 
     void Slam(){
         if(isStun){
-            Destroy(slamCol);
+            AI.effectManager.DestroyEffectByName(EffectName.SLAM_COLLIDER);
+            AI.effectManager.RemoveEffectFromDictByName(EffectName.SLAM_COLLIDER);
+            // Destroy(slamCol);
             // Player.instance.GetComponent<PlayerControl>().isHitSlam = false;
             AI.stunState.StartState(5f, AI.transform.forward*AI.speed*2);
         }
         else if(AI.transform.position != moveToTarget && !isStop){
-            Debug.Log("Moveeeee");
+            // Debug.Log("Moveeeee");
             AI.transform.position = Vector3.MoveTowards(AI.transform.position,
                                                     moveToTarget,
                                                     AI.speed * Time.deltaTime);

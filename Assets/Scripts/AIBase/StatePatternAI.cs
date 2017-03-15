@@ -84,10 +84,10 @@ public class StatePatternAI: MonoBehaviour {
 		DetachSword();
 
 		// floatingState.StartState();
-		seekState.StartState();
+		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
-		// prepareSlamState.StartState();
+		prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame

@@ -35,7 +35,7 @@ public class DigStrikeState : MonoBehaviour, AIState {
         timer = 0f;
         seekTime = Random.Range(3f, 5f);
 
-        enemy.effectManager.CreateDigStrikeCircle(attackTarget);
+        enemy.effectManager.CreateCircleByName(MagicCircleName.DIG_CIRCLE ,attackTarget);
     }
 
     public void UpdateState()
@@ -63,14 +63,16 @@ public class DigStrikeState : MonoBehaviour, AIState {
             }
             else{                
                 if(!hasRSSummoner){
-                    enemy.effectManager.CreateRockSpikeSummoner(attackTarget);
+                    enemy.effectManager.CreateEffectByName(EffectName.ROCKSPIKE ,attackTarget);
                     hasRSSummoner = true;
                 }
             }
         }
         else if(enemy.animationManager.CheckBodyAnimState(0, "NoAnimation") && hasRSSummoner){
-            enemy.effectManager.DestroyDigStrikeCircle();
-            enemy.effectManager.DestroyRockSpikeSummoner();
+            enemy.effectManager.DestroyCircleByName(MagicCircleName.DIG_CIRCLE);
+            enemy.effectManager.RemoveCircleFromDictByName(MagicCircleName.DIG_CIRCLE);
+            enemy.effectManager.DestroyEffectByName(EffectName.ROCKSPIKE);
+            enemy.effectManager.RemoveEffectFromDictByName(EffectName.ROCKSPIKE);
             enemy.animationManager.StopDigStrikeAnim();
 
             enemy.ResetBody();

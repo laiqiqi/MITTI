@@ -14,28 +14,28 @@ public class StunState : AIState {
 
     public void StartState()
     {
-        Debug.Log("Start Stun with default 3 sec stunTime");
-        this.stunTime = 3f;
-        counter = 0f;
-        AI.currentState = AI.stunState;
-        AI.RagdollMode();
+       InitBasic();
+       this.stunTime = 3f;
     }
     public void StartState(float stunTime)
     {
-        Debug.Log("Start Stun");
+        InitBasic();
         this.stunTime = stunTime;
-        counter = 0f;
-        AI.currentState = AI.stunState;
-        AI.RagdollMode();
     }
     public void StartState(float stunTime, Vector3 force)
     {
-        Debug.Log("Start Stun");
+        InitBasic();
         this.stunTime = stunTime;
-        counter = 0f;
+        AI.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+    }
+
+    void InitBasic(){
+        Debug.Log("Start Stun");
+        Player.instance.transform.SetParent(null);
         AI.currentState = AI.stunState;
         AI.RagdollMode();
-        AI.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+        counter = 0f;
+        AI.effectManager.CreateEffectByName(EffectName.STUN_5_SEC, AI.transform.position + (Vector3.up*2f));
     }
 
     public void StateChangeCondition()
@@ -52,11 +52,14 @@ public class StunState : AIState {
     {
         Debug.Log("End Stun");
         AI.NoRagdollMode();
+        AI.effectManager.DestroyEffectByName(EffectName.STUN_5_SEC);
+        AI.effectManager.RemoveEffectFromDictByName(EffectName.STUN_5_SEC);
         AI.seekState.StartState();
     }
 
     void StunTimer(){
         Debug.Log("Now Stun");
+        AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.position = AI.transform.position + (Vector3.up*2f);
         if(counter < stunTime){
             counter += 1*Time.fixedDeltaTime;
         }

@@ -7,9 +7,7 @@ public class SlamCollider : MonoBehaviour {
 	private GameObject player;
 
 	void Start() {
-		Debug.Log("Start");
 		player = Player.instance.gameObject;
-		Debug.Log(player.GetComponent<PlayerStat>().isHitSlam);
 	}
 	void OnTriggerEnter(Collider collider) {
 		if (collider.tag == "Wall" || collider.tag == "Floor") {
@@ -17,7 +15,7 @@ public class SlamCollider : MonoBehaviour {
 			StatePatternAI.instance.slamState.isStop = true;
 			if(player.GetComponent<PlayerStat>().isHitSlam == true){
 				Debug.Log("Hit player against " + collider.tag);
-				player.GetComponent<PlayerStat>().health -= 20;
+				player.GetComponent<PlayerStat>().health -= 200f;
 			}
 			else{
 				StatePatternAI.instance.slamState.isStun = true;
