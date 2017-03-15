@@ -6,6 +6,7 @@ public class AITest : MonoBehaviour {
 	public float speed;
 	public GameObject player;
 	public GameObject[] swordController;
+	public float AIAndSwordDistance;
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public SwordFloatingAIState swordFloatingAIState;
 	[HideInInspector] public SwordSlashingAIState swordSlashingAIState;
@@ -15,6 +16,8 @@ public class AITest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		AIAndSwordDistance = 2f;
+
 		swordFloatingAIState = new SwordFloatingAIState (this);
 		swordSlashingAIState = new SwordSlashingAIState (this);
 		prepareSlashingAIState = new PrepareSlashingAIState (this);

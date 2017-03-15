@@ -205,7 +205,7 @@ public class SwordSlashingAIState : AIState {
 
 		Vector3 heading = swords [i].transform.position - AI.transform.position;
 		float angle = Vector3.Angle (heading, -AI.transform.forward);
-		Debug.Log ("angle         "+angle);
+//		Debug.Log ("angle         "+angle);
 		if (Mathf.Abs (angle) < 20) {
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
