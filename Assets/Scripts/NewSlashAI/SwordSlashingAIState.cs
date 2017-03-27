@@ -16,6 +16,7 @@ public class SwordSlashingAIState : AIState {
 	private Quaternion rotationTemp;
 	private int dir;
 	private int hitCount;
+	private Vector3 targetPosition;
 
 	public SwordSlashingAIState(AITest statePatternAI){
 		AI = statePatternAI;
@@ -75,10 +76,20 @@ public class SwordSlashingAIState : AIState {
 				Debug.Log ("state     4");
 				//Prepare for new slashing
 				Substate4(sc, i);
+			} else if (state == 5){
+				Debug.Log ("state     5");
+				//
+
+				Substate5 (sc, i);
+			} else if (state == 6){
+				Debug.Log ("state     6");
+
+				Substate6 (sc, i);
 			} else if (state == -1) {
 				Debug.Log ("state     -1");
 				//OnJoinBreak
 			 	swords [i].GetComponent<Rigidbody> ().useGravity = true;
+				swords [i].GetComponent<SwordFloatingSword> ().state = 0;
 //				swords [i].transform.GetChild (2).GetComponent<Rigidbody> ().useGravity = true;
 			}
 			//Debug
@@ -103,7 +114,7 @@ public class SwordSlashingAIState : AIState {
 		Vector3 heading = swords [i].transform.position - AI.transform.position;
 		float angle = Vector3.Angle (heading, -AI.transform.forward);
 
-		if (Mathf.Abs (angle) < 10) {
+		if (Mathf.Abs (angle) < 20) {
 			sc.GetComponent<AISwordController> ().state = 1;
 		}
 
@@ -159,7 +170,7 @@ public class SwordSlashingAIState : AIState {
 		}
 		int direction = -Mathf.RoundToInt ((randomVector [i].x - AI.transform.position.x) / Mathf.Abs (randomVector [i].x - AI.transform.position.x));
 
-		sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 100 * dir);
+		sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 200 * dir);
 
 		if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
 			isStart[i] = true;
@@ -185,7 +196,7 @@ public class SwordSlashingAIState : AIState {
 			hitCount++;
 //			Debug.Log (hitCount);
 			Debug.Log("Count state == 2");
-			sc.GetComponent<AISwordController> ().state = 4;
+			sc.GetComponent<AISwordController> ().state = 5;
 		}
 
 		if (swords[i].GetComponent<SwordFloatingSword>().isHitOther) {
@@ -221,6 +232,35 @@ public class SwordSlashingAIState : AIState {
 
 		if (swords[i].GetComponent<SwordFloatingSword>().isHitOther) {
 			RandomVectorForSlashing (sc, i);
+		}
+	}
+
+	public void Substate5(GameObject sc, int i){
+		Vector3 relativePos = -5*AI.transform.forward;
+		Quaternion rotation = Quaternion.LookRotation (relativePos);
+		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*10 * Time.deltaTime);
+		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
+			sc.GetComponent<AISwordController> ().state = 6;
+			targetPosition = new Vector3 (AI.player.transform.position.x + Random.Range (-7f, 7f),
+				AI.player.transform.position.y + Random.Range (1f, 2f),
+				AI.player.transform.position.z + Random.Range (-7f, 7f));
+
+			sc.GetComponent<Rigidbody> ().isKinematic = true;
+		}
+	}
+
+	public void Substate6(GameObject sc, int i){
+		float step = speed * Time.deltaTime;
+		AI.transform.position = Vector3.MoveTowards(AI.transform.position, targetPosition, step/20f);
+		if(Vector3.Distance(AI.transform.position, targetPosition) < 0.1f){
+			targetPosition = new Vector3 (AI.player.transform.position.x + Random.Range (-7f, 7f),
+				AI.player.transform.position.y + Random.Range (1f, 2f),
+				AI.player.transform.position.z + Random.Range (0, 7f));
+		}
+		//		Debug.Log (Vector3.Distance(AI.transform.position, AI.player.transform.position));
+		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) < 4f) {
+			sc.GetComponent<AISwordController> ().state = 4;
+			sc.GetComponent<Rigidbody> ().isKinematic = false;
 		}
 	}
 

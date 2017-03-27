@@ -64,6 +64,7 @@ public class SwordFindingAIState : AIState {
 			if(Vector3.Distance (AI.transform.position, swordTarget.transform.position) <= AI.AIAndSwordDistance && Quaternion.Angle(swordTarget.transform.rotation, rotation) < 0.1f){
 				subState = 2;
 				swordTarget.transform.parent = swordControllerTarget.transform;
+				swordTarget.GetComponent<SwordFloatingSword> ().state = 2;
 				EndState ();
 			}
 		}
