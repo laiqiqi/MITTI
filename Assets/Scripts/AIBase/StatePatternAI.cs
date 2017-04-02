@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class StatePatternAI: MonoBehaviour {
+	public float health;
 	public Transform target;
 	public float speed;
 	public GameObject player;
@@ -35,6 +37,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public StopState stopState;
 	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public StunState stunState;
+	[HideInInspector] public AwokenState awokenState;
 	[HideInInspector] public bool isHit;
 	[HideInInspector] public bool isParry;
 //----------------------------------------------------------------------------
@@ -54,14 +57,16 @@ public class StatePatternAI: MonoBehaviour {
 			return _instance;
 		}
 	}
+	public Dictionary<AIState, List<AIState>> AIStateFlow = new Dictionary<AIState, List<AIState>>();
 
 	// Use this for initialization
 	void Start () {
+		health = 100f;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
-
 		swordJoint = this.GetComponent<FixedJoint>();
 
+		awokenState = new AwokenState (this);
 		floatingState = new FloatingAIState (this);
 		seekState = new SeekState (this);
 		stompState = new StompState (this);
@@ -77,17 +82,23 @@ public class StatePatternAI: MonoBehaviour {
 		prepareSlashState = new PrepareSlashState (this);
 		stunState = new StunState (this);
 
+
 		swordDirection = Vector3.up;
 		isHit = false;
 		isParry = false;
 
 		DetachSword();
 
+		awokenState.choice.AddRange(new AIState[]{seekState});
+		AIStateFlow.Add(awokenState, awokenState.choice);
+
+		stopState.StartState();
+		// awokenState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
-		prepareSlamState.StartState();
+		// prepareSlamState.StartState();
 	}
 	
 	// Update is called once per frame
@@ -146,5 +157,29 @@ public class StatePatternAI: MonoBehaviour {
 
 	public Collision GetBodyCollisionInfo(){
 		return bodyColInfo;
+	}
+
+	public void NextState(){
+		Debug.Log(currentState == awokenState);
+		Debug.Log(AIStateFlow[currentState].Count);
+		if(AIStateFlow[currentState].Count == 1){
+			Debug.Log("Next1");
+			Debug.Log(AIStateFlow[currentState][0]);
+			AIStateFlow[currentState][0].StartState();
+			// currentState = AIStateFlow[currentState][0];
+		}
+		else if(currentState == slamState){
+			Debug.Log("Next2");
+			if(slamState.isStun){
+				currentState = stunState;
+			}
+			else{
+
+			}
+		}
+		else{
+			Debug.Log("Next3");
+			currentState = AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)];
+		}
 	}
 }

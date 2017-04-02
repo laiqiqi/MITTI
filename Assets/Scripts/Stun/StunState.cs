@@ -36,6 +36,7 @@ public class StunState : AIState {
         AI.RagdollMode();
         counter = 0f;
         AI.effectManager.CreateEffectByName(EffectName.STUN_5_SEC, AI.transform.position + (Vector3.up*2f));
+        AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.rotation = Quaternion.Euler(90f, 0, 0);
     }
 
     public void StateChangeCondition()
@@ -59,7 +60,7 @@ public class StunState : AIState {
 
     void StunTimer(){
         Debug.Log("Now Stun");
-        AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.position = AI.transform.position + (Vector3.up*2f);
+        AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.position = AI.body.transform.position + (Vector3.up*2.5f);
         if(counter < stunTime){
             counter += 1*Time.fixedDeltaTime;
         }

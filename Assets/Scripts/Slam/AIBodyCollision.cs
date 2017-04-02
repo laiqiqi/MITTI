@@ -29,7 +29,6 @@ public class AIBodyCollision : MonoBehaviour {
 				player.GetComponent<PlayerStat>().health -= 2f;
 				player.GetComponent<PlayerStat>().isHitSlam = true;
 				player.transform.SetParent(AI.transform);
-				// player.transform.position = hitPos.transform.position + (AI.transform.forward + (Vector3.up*1.5f));
 			}
 		}
 		else{

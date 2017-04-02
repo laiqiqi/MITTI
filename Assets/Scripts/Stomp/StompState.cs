@@ -27,7 +27,7 @@ public class StompState : MonoBehaviour, AIState {
                                 AI.transform.position.z);
         
         attackEndPos = new Vector3(attackTarget.x,
-                                attackTarget.y + 5,
+                                attackTarget.y + 5f,
                                 attackTarget.z);
 
         dirtPos = new Vector3(AI.transform.position.x,
@@ -71,8 +71,7 @@ public class StompState : MonoBehaviour, AIState {
                     AI.effectManager.CreateEffectByName(EffectName.DIRTBLAST ,dirtPos);
                     isCreateDirt = true;
                 }
-                
-                if(Vector3.Distance(AI.transform.position, attackEndPos) < 0.1f){
+                if(Vector3.Distance(AI.transform.position, attackEndPos) > 0.1f){
                     AI.transform.position = Vector3.MoveTowards(AI.transform.position, attackEndPos, 1.5f * Time.deltaTime);
                 }
                 else{

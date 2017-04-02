@@ -9,40 +9,39 @@ public class PlayerStat : MonoBehaviour {
 	public float staRegenRate;
 
 	public float health;
-	public float healthRegenRate;
 
 //--------------------Player Status--------------------------
-	[HideInInspector] public bool isHitSlam;
+	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle;
 //-----------------------------------------------------------
 	void Start () {
 		ResetAllStatusToFalse();
 		
 		stamina = 100;
-		staRegenRate = 10;
+		staRegenRate = 0.5f;
 
 		health = 100;
-		healthRegenRate = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		// StaminaRegen();
-		Regen(stamina, staRegenRate);
-		Regen(health, healthRegenRate);
+		RegenStamina(staRegenRate);
 	}
 
-	void Regen(float stat, float rate){
-		if(stat < 100){
-			if(stat + (rate*Time.deltaTime) > 100){
-				stat = 100;
+	void RegenStamina(float rate){
+		if(stamina < 100){
+			if(stamina + (rate) > 100){
+				stamina = 100;
 			}
 			else{
-				stat += (rate*Time.deltaTime);
+				stamina += (rate);
 			}
 		}
 	}
 
 	public void ResetAllStatusToFalse() {
 		isHitSlam = false;
+		isStartDazzle = false;
+		isDazzle = false;
 	}
 }

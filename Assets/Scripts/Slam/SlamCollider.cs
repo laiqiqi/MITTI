@@ -10,12 +10,13 @@ public class SlamCollider : MonoBehaviour {
 		player = Player.instance.gameObject;
 	}
 	void OnTriggerEnter(Collider collider) {
+		player = Player.instance.gameObject;
 		if (collider.tag == "Wall" || collider.tag == "Floor") {
 			Debug.Log(collider.tag);
 			StatePatternAI.instance.slamState.isStop = true;
 			if(player.GetComponent<PlayerStat>().isHitSlam == true){
 				Debug.Log("Hit player against " + collider.tag);
-				player.GetComponent<PlayerStat>().health -= 200f;
+				player.GetComponent<PlayerStat>().health -= 50f;
 			}
 			else{
 				StatePatternAI.instance.slamState.isStun = true;

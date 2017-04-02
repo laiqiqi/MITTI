@@ -12,6 +12,7 @@ public class PrepareSlamState : AIState {
     private float seekTime;
     private bool hasCircle;
     private GameObject slamCircle;
+    private Light circleLight;
 	public string name{ get; }
 
     public PrepareSlamState(StatePatternAI statePatternAI){
@@ -55,20 +56,24 @@ public class PrepareSlamState : AIState {
                 AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
                 slamCircle = AI.effectManager.CreateAndReturnCircleByName(MagicCircleName.SLAM_CIRCLE ,AIFrontPos);
                 slamCircle.transform.SetParent(AI.transform);
+                circleLight = slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>();
                 hasCircle = true;
             }
-            if(timer <= seekTime){
+            else if(timer <= seekTime && !slamCircle.GetComponent<SlamCircle>().isBreak){
                 timer += Time.deltaTime;
                 if(timer < 3f){
-                    slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>().range += seekTime*3f*Time.deltaTime;
+                    circleLight.range += seekTime*3f*Time.deltaTime;
                 }
                 else if(timer < 4.5f){
-                    slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>().range += seekTime*50f*Time.deltaTime;
+                    circleLight.range += seekTime*50f*Time.deltaTime;
                 }
                 else if(timer < 4.975f){
-                    slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>().range -= seekTime*200f*Time.deltaTime;
+                    circleLight.range -= seekTime*200f*Time.deltaTime;
                 }
                 Targeting();
+            }
+            else if(slamCircle.GetComponent<SlamCircle>().isBreak){
+                AI.stunState.StartState(5f);
             }
             else{
                 EndState();

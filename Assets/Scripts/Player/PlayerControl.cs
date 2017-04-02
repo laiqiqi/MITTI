@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
+
 namespace Valve.VR.InteractionSystem
 {
 	public class PlayerControl : MonoBehaviour {
@@ -11,16 +13,23 @@ namespace Valve.VR.InteractionSystem
 		private Player player = null;
 		private PlayerStat playerStat;
 		private GameObject head;
+		private Antialiasing camAA;
+		private bool isIncre;
+		private float rate;
 		[HideInInspector] public Collision colInfo;
 		void Start () {
+			rate = 5f;
+			isIncre = false;
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
-			// head = VRCam.transform.FindChild("FollowHead").gameObject;
+			head = VRCam.transform.FindChild("FollowHead").gameObject;
+			camAA = VRCam.GetComponent<Antialiasing>();
 		}
 		
 		// Update is called once per frame
 		void Update () {
 			HandsEvent();
+			Dazzle();
 		}
 		void HandsEvent() {
 			foreach ( Hand hand in player.hands ){
@@ -42,6 +51,49 @@ namespace Valve.VR.InteractionSystem
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
 			}
+		}
+
+		void Dazzle() {
+			if(player.GetComponent<PlayerStat>().isStartDazzle){
+				camAA.showGeneratedNormals = true;
+				camAA.offsetScale = 2;
+				camAA.blurRadius = 25;
+				player.GetComponent<PlayerStat>().isStartDazzle = false;
+				player.GetComponent<PlayerStat>().isDazzle = true;
+				isIncre = true;
+
+				StartCoroutine(SetDazzleTimer());
+			}
+			else if(player.GetComponent<PlayerStat>().isDazzle){
+				Debug.Log("dazzle");
+				if(isIncre){
+					if(camAA.offsetScale > 50f){
+						isIncre = false;
+					}
+					else{
+						camAA.offsetScale += rate;
+						camAA.blurRadius += rate;
+					}
+				}
+				else{
+					if(camAA.offsetScale < -50f){
+						isIncre = true;
+					}
+					else{
+						camAA.offsetScale -= rate;
+						camAA.blurRadius -= rate;
+					}
+				}
+			}
+		}
+
+		IEnumerator SetDazzleTimer(){
+			yield return new WaitForSeconds(12f);
+			Debug.Log("StopDazzle");
+			camAA.showGeneratedNormals = false;
+			camAA.offsetScale = 0.2f;
+			camAA.blurRadius = 18;
+			player.GetComponent<PlayerStat>().isDazzle = false;
 		}
 	}
 }

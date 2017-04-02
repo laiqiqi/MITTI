@@ -175,3 +175,4 @@ namespace UnityStandardAssets.ImageEffects
         }
     }
 }
+#pragma target 3.0
