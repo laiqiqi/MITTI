@@ -11,8 +11,9 @@ public class SwordShootingAIState : AIState {
 	private float radius;
 	private GameObject initialSword;
 	private int swordQuantity;
-	private float timeSpawn;
 	private Vector3 initialPosition;
+	private float timeToShoot;
+	private float delayToShoot;
 
 	public SwordShootingAIState(AITest statePatternAI){
 		AI = statePatternAI;
@@ -26,7 +27,8 @@ public class SwordShootingAIState : AIState {
 		swordList = new List<GameObject> ();
 		initialSword = AI.swordController [0].transform.GetChild (0).gameObject;
 		swordQuantity = 6;
-		timeSpawn = 0;
+		timeToShoot = 0;
+		delayToShoot = 1;
 //		swordQuantity = Random.Range (2, 7);
 //		initialSword.transform.parent = null;
 //		GameObject test = GameObject.Instantiate (AI.swordController[0].transform.GetChild(0).gameObject,Vector3.zero, Quaternion.identity) as GameObject;
@@ -72,12 +74,39 @@ public class SwordShootingAIState : AIState {
 			}
 		} else if (subState == 3) {
 			AI.swordController [0].transform.Rotate (Vector3.up);
+			AI.transform.position += AI.transform.up * 2*Time.deltaTime;
 			foreach (GameObject sword in swordList) {
 				sword.transform.LookAt (2 * sword.transform.position - AI.player.transform.position);
-				if (Mathf.Abs (sword.transform.position.y - initialPosition.y) < 1) {
+				if (Mathf.Abs (sword.transform.position.y - AI.transform.position.y) < 1) {
 					sword.SetActive (true);
+				}	
+			}
+				
+			if(timeToShoot > 4f){
+				subState = 4;
+				timeToShoot = 0;
+			}
+			timeToShoot += Time.deltaTime;
+		} else if (subState == 4){
+			Debug.Log ("444444444444444");
+			if (swordList.Count != 0) {
+				foreach (GameObject sword in swordList) {
+					sword.transform.LookAt (2 * sword.transform.position - AI.player.transform.position);	
+				}
+				Debug.Log ("arrayyyy");
+				if (timeToShoot > delayToShoot) {
+					Debug.Log ("shoot");
+					int randomIndex = Random.Range (0, swordList.Count);
+					swordList [randomIndex].GetComponent<Rigidbody> ().isKinematic = false;
+					swordList [randomIndex].transform.parent = null;
+					swordList [randomIndex].GetComponent<SwordFloatingSword> ().state = 3;
+//					swordList [randomIndex].GetComponent<Rigidbody> ().AddForce (-swordList[randomIndex].transform.forward*500f);
+					swordList.RemoveAt (randomIndex);
+					timeToShoot = 0;
+					delayToShoot /= 2f;
 				}
 			}
+			timeToShoot += Time.deltaTime;
 		}
 	}
 
@@ -137,6 +166,7 @@ public class SwordShootingAIState : AIState {
 			GameObject newSword = GameObject.Instantiate (initialSword, pos, rotation) as GameObject;
 //			newSword.transform.rotation = rotation;
 			newSword.transform.parent = AI.swordController [0].transform;
+			newSword.GetComponent<SwordFloatingSword> ().virtualSword = true;
 			newSword.SetActive (false);
 			swordList.Add (newSword);
 //			Debug.Log ("Angle      "+Vector3.Angle(pos1, pos2));
@@ -145,7 +175,6 @@ public class SwordShootingAIState : AIState {
 	}
 
 	Vector3 GetCircle(Vector3 center, float radius,float a){
-		Debug.Log(a);
 		float ang = a;
 		Vector3 pos;
 		pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);

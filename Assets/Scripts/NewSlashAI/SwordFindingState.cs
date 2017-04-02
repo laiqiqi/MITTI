@@ -74,7 +74,8 @@ public class SwordFindingAIState : AIState {
 	public void EndState(){
 //		AI.GetComponent<Rigidbody>().isKinematic = false;
 //		AI.swordPullingAIState.StartState ();
-		AI.swordFloatingAIState.StartState ();
+//		AI.swordFloatingAIState.StartState ();
+		AI.swordShootingAIState.StartState ();
 	}
 
 	public void StateChangeCondition(){

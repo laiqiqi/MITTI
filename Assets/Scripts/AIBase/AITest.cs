@@ -13,6 +13,7 @@ public class AITest : MonoBehaviour {
 	[HideInInspector] public PrepareSlashingAIState prepareSlashingAIState;
 	[HideInInspector] public SwordFindingAIState swordFindingAIState;
 	[HideInInspector] public SwordPullingAIState swordPullingAIState;
+	[HideInInspector] public SwordShootingAIState swordShootingAIState;
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +24,7 @@ public class AITest : MonoBehaviour {
 		prepareSlashingAIState = new PrepareSlashingAIState (this);
 		swordFindingAIState = new SwordFindingAIState (this);
 		swordPullingAIState = new SwordPullingAIState (this);
+		swordShootingAIState = new SwordShootingAIState (this);
 //		this.swordSlashingAIState.StartState ();
 		this.swordFindingAIState.StartState ();
 	}
