@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
 public class RockBlast : MonoBehaviour {
-	// public GameObject rock;
-	// public GameObject pos;
-	private float x,y,z;
 	private Vector3 movePos;
-	// private List<GameObject> rocks = new List<GameObject>();
 	private bool isHit, isHasDamage;
 	private GameObject environment;
 	public ParticleSystem RockDebris1, RockDebris2;

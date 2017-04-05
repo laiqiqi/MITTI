@@ -39,7 +39,7 @@ public class SlamCircle : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		Debug.Log("Hit "+col);
+		// Debug.Log("Hit "+col);
 		if(col.tag == "PlayerWeapon"){
 			Debug.Log("HitSlamCircle");
 			circle.GetComponent<Renderer>().material.SetColor("_TintColor", hitColor);

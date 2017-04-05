@@ -6,9 +6,10 @@ using UnityEngine.Rendering;
 
 public class GameState : MonoBehaviour {
 	private SceneController sceneCon = new SceneController();
+
 	public Material skyboxChaos;
 	public Material skyboxNorm;
-	public GameObject directionalLight;
+	public GameObject normalLight, chaosLight, outerEnvi;
 	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end;
 
 	// Use this for initialization
@@ -60,6 +61,7 @@ public class GameState : MonoBehaviour {
 		if(Player.instance.transform.position.y <= 2f){
 			tutorialState = false;
 			AIOpen = true;
+			Destroy(outerEnvi);
 			StatePatternAI.instance.stopState.EndState();
 			StatePatternAI.instance.awokenState.StartState();
 		}
@@ -69,7 +71,8 @@ public class GameState : MonoBehaviour {
 		if(StatePatternAI.instance.currentState != StatePatternAI.instance.awokenState){
 			AIOpen = false;
 
-			directionalLight.SetActive(false);
+			normalLight.SetActive(false);
+			chaosLight.SetActive(true);
 			RenderSettings.skybox = skyboxChaos;
 			RenderSettings.ambientMode = AmbientMode.Skybox;
 			RenderSettings.ambientIntensity = 5f;
@@ -98,6 +101,4 @@ public class GameState : MonoBehaviour {
 			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.1f);
 		}
 	}
-
-
 }

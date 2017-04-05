@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneController{
-	public const string MAIN_MENU = "";
-	public const string TUTORIAL = "";
-	public const string GAME = "";
+	public const string MAIN_MENU = "StartScene";
+	public const string GAME = "MainGameWithTutorial";
 	public const string DEAD = "";
 
 	public void ChangeScene(string sceneName){

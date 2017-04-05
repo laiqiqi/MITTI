@@ -15,10 +15,9 @@ namespace Valve.VR.InteractionSystem
 		private GameObject head;
 		private Antialiasing camAA;
 		private bool isIncre;
-		private float rate;
+		public float rate, limit;
 		[HideInInspector] public Collision colInfo;
 		void Start () {
-			rate = 5f;
 			isIncre = false;
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
@@ -67,7 +66,7 @@ namespace Valve.VR.InteractionSystem
 			else if(player.GetComponent<PlayerStat>().isDazzle){
 				Debug.Log("dazzle");
 				if(isIncre){
-					if(camAA.offsetScale > 50f){
+					if(camAA.offsetScale > limit){
 						isIncre = false;
 					}
 					else{
@@ -76,7 +75,7 @@ namespace Valve.VR.InteractionSystem
 					}
 				}
 				else{
-					if(camAA.offsetScale < -50f){
+					if(camAA.offsetScale < -limit){
 						isIncre = true;
 					}
 					else{
@@ -88,7 +87,7 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		IEnumerator SetDazzleTimer(){
-			yield return new WaitForSeconds(12f);
+			yield return new WaitForSeconds(999999999f);
 			Debug.Log("StopDazzle");
 			camAA.showGeneratedNormals = false;
 			camAA.offsetScale = 0.2f;
