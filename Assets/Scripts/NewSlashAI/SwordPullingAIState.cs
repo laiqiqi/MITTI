@@ -11,20 +11,20 @@ public class SwordPullingAIState : AIState {
 	}
 
 	public void StartState(){
-		AI.currentState = AI.swordFloatingAIState;
+		AI.currentState = AI.swordPullingAIState;
 		speed = 10;
 //		AI.currentState = AI.stopState;
 		//		AI.GetComponent<Rigidbody>().isKinematic = true;
 	}
 
 	public void UpdateState(){
-		foreach(GameObject sc in AI.swordController){
-			sc.transform.Rotate (0f, speed * Time.deltaTime, 0f);	
-		}
+//		foreach(GameObject sc in AI.swordController){
+//			sc.transform.Rotate (0f, speed * Time.deltaTime, 0f);	
+//		}
 	}
 
 	public void EndState(){
-		AI.GetComponent<Rigidbody>().isKinematic = false;
+//		AI.GetComponent<Rigidbody>().isKinematic = false;
 	}
 
 	public void StateChangeCondition(){

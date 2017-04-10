@@ -30,6 +30,7 @@ public class SwordFloatingAIState : AIState {
 	}
 
 	public void UpdateState(){
+		Debug.Log ("floating");
 		foreach(GameObject sc in AI.swordController){
 			sc.transform.Rotate (0f, agility * Time.deltaTime, 0f);
 //			sc.GetComponent<Rigidbody> ().AddTorque (-AI.transform.up * speed*Time.deltaTime);
