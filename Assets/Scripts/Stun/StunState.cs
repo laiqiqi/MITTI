@@ -7,9 +7,11 @@ public class StunState : AIState {
     public string name{ get; }
     private readonly StatePatternAI AI;
     private float stunTime, counter;
+    public List<AIState> choice{ get;set; }
 
     public StunState(StatePatternAI AI){
         this.AI = AI;
+        choice = new List<AIState>();
     }
 
     public void StartState()

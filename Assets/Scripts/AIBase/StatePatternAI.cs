@@ -4,16 +4,14 @@ using System.Collections.Generic;
 
 public class StatePatternAI: MonoBehaviour {
 	public float health;
-	public Transform target;
+	// public Transform target;
 	public float speed;
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject body;
 	public Collision bodyColInfo;
 //-----------------------------Sword Components-------------------------------
-	private FixedJoint swordJoint;
-	public GameObject sword;
-	public Vector3 swordDirection;
+	
 //----------------------------------------------------------------------------
 
 //-----------------------------AI Manager-------------------------------------
@@ -64,7 +62,6 @@ public class StatePatternAI: MonoBehaviour {
 		health = 100f;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
-		swordJoint = this.GetComponent<FixedJoint>();
 
 		awokenState = new AwokenState (this);
 		floatingState = new FloatingAIState (this);
@@ -73,7 +70,7 @@ public class StatePatternAI: MonoBehaviour {
 		prepareDigStrikeState = new PrepareDigStrikeState (this);
 		digStrikeState = new DigStrikeState (this);
 		shootState = new ShootAIState (this);
-		slashState = new SlashState (this);
+		// slashState = new SlashState (this);
 		parryState = new ParryAIState (this);
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
@@ -82,15 +79,45 @@ public class StatePatternAI: MonoBehaviour {
 		prepareSlashState = new PrepareSlashState (this);
 		stunState = new StunState (this);
 
-
-		swordDirection = Vector3.up;
 		isHit = false;
 		isParry = false;
 
-		DetachSword();
-
 		awokenState.choice.AddRange(new AIState[]{seekState});
 		AIStateFlow.Add(awokenState, awokenState.choice);
+
+		floatingState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(floatingState, floatingState.choice);
+
+		seekState.choice.AddRange(new AIState[]{stompState});
+		AIStateFlow.Add(seekState, seekState.choice);
+
+		stompState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(stompState, stompState.choice);
+
+		prepareDigStrikeState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
+
+		digStrikeState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
+
+		shootState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(shootState, shootState.choice);
+
+		prepareSlamState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
+
+		slamState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(slamState, slamState.choice);
+
+		escapeState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(escapeState, escapeState.choice);
+
+		stopState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(stopState, stopState.choice);
+
+		stunState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(stunState, stunState.choice);
+
 
 		stopState.StartState();
 		// awokenState.StartState();
@@ -107,6 +134,10 @@ public class StatePatternAI: MonoBehaviour {
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
+	}
+
+	void InitAllState(){
+
 	}
 
 	public void ResetBody () {
@@ -141,27 +172,13 @@ public class StatePatternAI: MonoBehaviour {
         this.GetComponent<Rigidbody>().angularDrag = Mathf.Infinity;
     }
 
-	public void DetachSword(){
-		Destroy(this.GetComponent<FixedJoint>());
-		sword.gameObject.SetActive(false);
-	}
-	public void AttachSword(){
-		sword.gameObject.SetActive(true);
-		this.gameObject.AddComponent<FixedJoint>();
-		this.gameObject.GetComponent<FixedJoint>().connectedBody = sword.GetComponent<Rigidbody>();
-		this.gameObject.GetComponent<FixedJoint>().breakForce = Mathf.Infinity;
-		this.gameObject.GetComponent<FixedJoint>().breakTorque = Mathf.Infinity;
-		this.gameObject.GetComponent<FixedJoint>().enableCollision = false;
-		this.gameObject.GetComponent<FixedJoint>().enablePreprocessing = true;
-	}
-
 	public Collision GetBodyCollisionInfo(){
 		return bodyColInfo;
 	}
 
 	public void NextState(){
-		Debug.Log(currentState == awokenState);
-		Debug.Log(AIStateFlow[currentState].Count);
+		// Debug.Log(currentState == awokenState);
+		// Debug.Log(AIStateFlow[currentState].Count);
 		if(AIStateFlow[currentState].Count == 1){
 			Debug.Log("Next1");
 			Debug.Log(AIStateFlow[currentState][0]);

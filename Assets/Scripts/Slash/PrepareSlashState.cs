@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PrepareSlashState : AIState {
 	private readonly StatePatternAI AI;
@@ -7,10 +8,12 @@ public class PrepareSlashState : AIState {
 	private Quaternion targetRotation;
 	private float timetoSlash;
 	private float slashDegrees;
+	public List<AIState> choice{ get;set; }
 
 	public PrepareSlashState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
 		name = "PrepareSlashState";
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

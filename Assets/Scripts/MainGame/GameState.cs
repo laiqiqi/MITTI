@@ -9,7 +9,7 @@ public class GameState : MonoBehaviour {
 
 	public Material skyboxChaos;
 	public Material skyboxNorm;
-	public GameObject normalLight, chaosLight, outerEnvi;
+	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
 	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end;
 
 	// Use this for initialization
@@ -58,6 +58,9 @@ public class GameState : MonoBehaviour {
 	}
 
 	void TutorialState(){
+		if(tutorAI.GetComponent<TutorialAI>().isEndTutor){
+			Destroy(tutorEnvi.gameObject);
+		}
 		if(Player.instance.transform.position.y <= 2f){
 			tutorialState = false;
 			AIOpen = true;

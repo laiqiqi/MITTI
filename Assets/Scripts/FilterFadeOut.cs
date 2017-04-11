@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FilterFadeOut : MonoBehaviour {
-	private Color color = Color.white;
+	private Color color;
 
 	// Use this for initialization
 	void Start () {
-		
+		color = this.GetComponent<Renderer>().material.GetColor("_Color");
 	}
 	
 	// Update is called once per frame

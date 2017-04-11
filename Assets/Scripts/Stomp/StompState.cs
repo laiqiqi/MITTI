@@ -9,16 +9,17 @@ public class StompState : MonoBehaviour, AIState {
     private Vector3 attackEndPos;
     private bool isCreateDirt;
 	public string name{ get;}
+    public List<AIState> choice{ get;set; }
 
     public StompState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
+        choice = new List<AIState>();
 	}
 
     public void StartState()
     {
         Debug.Log("Stomp Start");
         AI.currentState = AI.stompState;
-        AI.ResetBody();
         isCreateDirt = false;
 
         attackTarget = new Vector3(AI.transform.position.x,

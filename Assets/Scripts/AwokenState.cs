@@ -5,8 +5,8 @@ using UnityEngine;
 public class AwokenState : AIState {
 	private readonly StatePatternAI AI;
 	private Vector3 upPos;
-	public List<AIState> choice;
 	public string name{ get; }
+	public List<AIState> choice{ get;set; }
 
 	public AwokenState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

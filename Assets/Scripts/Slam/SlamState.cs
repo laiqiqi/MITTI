@@ -11,9 +11,11 @@ public class SlamState : MonoBehaviour, AIState {
     public bool isStun;
     private GameObject slamCol;
 	public string name{ get;}
+    public List<AIState> choice{ get;set; }
 
     public SlamState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
+        choice = new List<AIState>();
 	}
     public void StartState()
     {

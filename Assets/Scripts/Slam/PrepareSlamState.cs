@@ -14,13 +14,14 @@ public class PrepareSlamState : AIState {
     private GameObject slamCircle;
     private Light circleLight;
 	public string name{ get; }
+    public List<AIState> choice{ get;set; }
 
     public PrepareSlamState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
+        choice = new List<AIState>();
 	}
     public void StartState()
     {
-        AI.ResetBody();
         Debug.Log("Prepare Slam Start");
         hasCircle = false;
         AI.currentState = AI.prepareSlamState;

@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SwordPullingAIState : AIState {
 	private readonly AITest AI;
 	public string name{ get;}
 	private float speed;
+	public List<AIState> choice{ get;set; }
 
 	public SwordPullingAIState(AITest statePatternAI){
 		AI = statePatternAI;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

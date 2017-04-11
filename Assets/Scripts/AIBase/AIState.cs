@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public interface AIState
 {
 	string name{ get;}
+	List<AIState> choice{ get;set; }
 	void StartState();
 
 	void UpdateState();

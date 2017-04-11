@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SlashState : AIState {
 	private readonly StatePatternAI AI;
@@ -12,14 +13,15 @@ public class SlashState : AIState {
 	private bool isStart;
 	private int countState;
 	private float oldVelocity;
+	public List<AIState> choice{ get;set; }
 
 	public SlashState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
 		name = "SlashState";
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){
-		AI.AttachSword();
 		AI.currentState = AI.slashState;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
 //		AI.transform.LookAt (AI.player.transform);
@@ -147,7 +149,6 @@ public class SlashState : AIState {
 		AI.isHit = false;
 		timeCount = 0;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = true;
-		AI.DetachSword();
 //		AI.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 

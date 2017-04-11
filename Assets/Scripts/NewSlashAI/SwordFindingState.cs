@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SwordFindingAIState : AIState {
 	private readonly AITest AI;
@@ -9,9 +10,11 @@ public class SwordFindingAIState : AIState {
 	private GameObject swordTarget;
 	private GameObject swordControllerTarget;
 	private int subState;
+	public List<AIState> choice{ get;set; }
 
 	public SwordFindingAIState(AITest statePatternAI){
 		AI = statePatternAI;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

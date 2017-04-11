@@ -10,9 +10,11 @@ public class PrepareDigStrikeState : AIState {
     private float timer;
     private float seekTime;
 	public string name{ get; }
+    public List<AIState> choice{ get;set; }
 
     public PrepareDigStrikeState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
+        choice = new List<AIState>();
 	}
     public void StartState()
     {
@@ -25,7 +27,6 @@ public class PrepareDigStrikeState : AIState {
                                  enemy.transform.position.z);
         timer = 0f;
         seekTime = Random.Range(3f, 5f);
-        enemy.ResetBody();
 
         enemy.animationManager.StopChargeStompAnim();
     }

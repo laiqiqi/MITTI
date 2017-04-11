@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ShootAIState : AIState {
 	private readonly StatePatternAI enemy;
 	public string name{ get;}
+	public List<AIState> choice{ get;set; }
 
 	public ShootAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

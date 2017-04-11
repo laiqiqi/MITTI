@@ -57,11 +57,12 @@ namespace Valve.VR.InteractionSystem
 				camAA.showGeneratedNormals = true;
 				camAA.offsetScale = 2;
 				camAA.blurRadius = 25;
+
+				StartCoroutine(SetDazzleTimer());
+				
 				player.GetComponent<PlayerStat>().isStartDazzle = false;
 				player.GetComponent<PlayerStat>().isDazzle = true;
 				isIncre = true;
-
-				StartCoroutine(SetDazzleTimer());
 			}
 			else if(player.GetComponent<PlayerStat>().isDazzle){
 				Debug.Log("dazzle");
@@ -87,7 +88,7 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		IEnumerator SetDazzleTimer(){
-			yield return new WaitForSeconds(999999999f);
+			yield return new WaitForSeconds(12f);
 			Debug.Log("StopDazzle");
 			camAA.showGeneratedNormals = false;
 			camAA.offsetScale = 0.2f;

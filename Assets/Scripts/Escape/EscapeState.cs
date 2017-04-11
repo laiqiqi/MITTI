@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EscapeState : AIState {
 	private readonly StatePatternAI AI;
 	public string name{ get;}
 	public Transform wayPoint;
 	public float speed;
+	public List<AIState> choice{ get;set; }
 
 	public EscapeState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
 		name = "EscapeState";
 		wayPoint = new GameObject ().transform;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

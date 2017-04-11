@@ -14,9 +14,11 @@ public class SwordShootingAIState : AIState {
 	private Vector3 initialPosition;
 	private float timeToShoot;
 	private float delayToShoot;
+	public List<AIState> choice{ get;set; }
 
 	public SwordShootingAIState(AITest statePatternAI){
 		AI = statePatternAI;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

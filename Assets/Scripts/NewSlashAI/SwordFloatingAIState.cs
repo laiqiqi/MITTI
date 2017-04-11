@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SwordFloatingAIState : AIState {
 	private readonly AITest AI;
@@ -7,10 +8,12 @@ public class SwordFloatingAIState : AIState {
 	private float speed;
 	private float agility;
 	private Transform target;
+	public List<AIState> choice{ get;set; }
 
 	public SwordFloatingAIState(AITest statePatternAI){
 		AI = statePatternAI;
 		target = new GameObject ().transform;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

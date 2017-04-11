@@ -11,15 +11,16 @@ public class SeekState : AIState {
     public float frequency;
     private float timerBeforeTarget;
 	public string name{ get; }
+    public List<AIState> choice{ get;set; }
 
     public SeekState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
+        choice = new List<AIState>();
 	}
 
     public void StartState()
     {
         Debug.Log("Seek Start");
-        AI.DetachSword();
         AI.currentState = AI.seekState;
         speed = 10f;
         frequency = 3f;

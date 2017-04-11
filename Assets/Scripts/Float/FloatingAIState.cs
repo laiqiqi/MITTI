@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FloatingAIState : AIState {
 	private readonly StatePatternAI enemy;
 	public Transform target;
 	public float speed;
 	public string name{ get;}
+	public List<AIState> choice{ get;set; }
 
 	public FloatingAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
 		target = new GameObject ().transform;
 		name = "FloatingState";
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){
 		enemy.currentState = enemy.floatingState;
-		enemy.DetachSword();
 		speed = 5f;
 //		target = new GameObject ().transform;
 		target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),

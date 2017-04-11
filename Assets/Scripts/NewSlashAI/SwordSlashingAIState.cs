@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SwordSlashingAIState : AIState {
 	private readonly AITest AI;
@@ -17,10 +18,12 @@ public class SwordSlashingAIState : AIState {
 	private int dir;
 	private int hitCount;
 	private Vector3 targetPosition;
+	public List<AIState> choice{ get;set; }
 
 	public SwordSlashingAIState(AITest statePatternAI){
 		AI = statePatternAI;
 		target = new GameObject ().transform;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

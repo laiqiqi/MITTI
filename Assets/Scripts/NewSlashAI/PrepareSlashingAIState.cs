@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PrepareSlashingAIState : AIState {
 	private readonly AITest AI;
@@ -7,9 +8,11 @@ public class PrepareSlashingAIState : AIState {
 	private float speed;
 	private Vector3 randomVector;
 	private int subState;
+	public List<AIState> choice{ get;set; }
 
 	public PrepareSlashingAIState(AITest statePatternAI){
 		AI = statePatternAI;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ParryAIState : AIState {
 	private readonly StatePatternAI enemy;
 	public string name{ get;}
 	private float timeCount;
-
+	public List<AIState> choice{ get;set; }
 
 	public ParryAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
 		name = "parryAIState";
 		timeCount = 0;
+		choice = new List<AIState>();
 	}
 
 	public void StartState(){

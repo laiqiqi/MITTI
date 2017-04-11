@@ -12,9 +12,11 @@ public class DigStrikeState : MonoBehaviour, AIState {
     private GameObject circle;
     private bool hasRSSummoner;
 	public string name{ get;}
+    public List<AIState> choice{ get;set; }
 
     public DigStrikeState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
+        choice = new List<AIState>();
 	}
 
     public void StartState()
@@ -75,7 +77,6 @@ public class DigStrikeState : MonoBehaviour, AIState {
             enemy.effectManager.RemoveEffectFromDictByName(EffectName.ROCKSPIKE);
             enemy.animationManager.StopDigStrikeAnim();
 
-            enemy.ResetBody();
             enemy.prepareSlamState.StartState();
         }
     }
