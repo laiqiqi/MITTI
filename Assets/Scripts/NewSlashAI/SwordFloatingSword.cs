@@ -85,7 +85,7 @@ public class SwordFloatingSword : MonoBehaviour {
 				this.GetComponent<Rigidbody> ().isKinematic = true;
 			}
 		}else{
-			Debug.Log ("hit other");
+//			Debug.Log ("hit other");
 			isHitOther = true;
 			if (state == 3) {
 				isHide = true;

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SwordSlashingAIState : AIState {
-	private readonly AITest AI;
+	private readonly StatePatternAI AI;
 	public string name{ get;}
 	private float speed;
 	private Vector3[] randomVector;
@@ -20,7 +20,7 @@ public class SwordSlashingAIState : AIState {
 	private Vector3 targetPosition;
 	public List<AIState> choice{ get;set; }
 
-	public SwordSlashingAIState(AITest statePatternAI){
+	public SwordSlashingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
 		target = new GameObject ().transform;
 		choice = new List<AIState>();

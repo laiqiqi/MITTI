@@ -27,8 +27,8 @@ public class SlashState : AIState {
 //		AI.transform.LookAt (AI.player.transform);
 //		AI.transform.Rotate (0f, 0f, Random.Range(0f, 360f));
 		// AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
-		isStart = false;
-		AI.isHit = false;
+//		isStart = false;
+//		AI.isHit = false;
 		timeCount = 0;
 		countState = 0;
 		oldVelocity = 0;
@@ -71,9 +71,9 @@ public class SlashState : AIState {
 		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1f) {
 			isStart = true;
 		}
-		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && AI.isHit) {
-			isStart = false;
-		}
+//		if (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude < 1f && AI.isHit) {
+//			isStart = false;
+//		}
 
 //		if (oldVelocity.Count == 0) {
 //			oldVelocity.Add (AI.GetComponent<Rigidbody> ().angularVelocity.magnitude);
@@ -102,10 +102,10 @@ public class SlashState : AIState {
 		oldVelocity = AI.GetComponent<Rigidbody> ().angularVelocity.magnitude;
 
 
-		if(countState == 2 && isStart && !AI.isHit){
-			AI.currentState.EndState ();
-			AI.escapeState.StartState();
-		}
+//		if(countState == 2 && isStart && !AI.isHit){
+//			AI.currentState.EndState ();
+//			AI.escapeState.StartState();
+//		}
 
 
 
@@ -133,10 +133,10 @@ public class SlashState : AIState {
 //		Debug.Log(AI.transform.GetComponent<Rigidbody> ().GetPointVelocity(AI.transform.GetChild (1).GetChild(2).transform.position).magnitude);
 //		Debug.Log(AI.transform.InverseTransformDirection(AI.GetComponent<Rigidbody> ().angularVelocity).magnitude);
 //		if (isStart && !AI.isHit && Mathf.Abs(AI.GetComponent<Rigidbody> ().angularVelocity.magnitude) < 1f) {
-		if(countState == 2 && isStart && !AI.isHit){
-			AI.currentState.EndState ();
-			AI.escapeState.StartState();
-		}
+//		if(countState == 2 && isStart && !AI.isHit){
+//			AI.currentState.EndState ();
+//			AI.escapeState.StartState();
+//		}
 
 
 //		 if(timeCount >= 6f ){
@@ -146,7 +146,7 @@ public class SlashState : AIState {
 	}
 
 	public void EndState(){
-		AI.isHit = false;
+//		AI.isHit = false;
 		timeCount = 0;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = true;
 //		AI.GetComponent<Rigidbody> ().isKinematic = false;

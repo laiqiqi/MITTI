@@ -20,11 +20,11 @@ public class AITest : MonoBehaviour {
 		AIAndSwordDistance = 2f;
 
 		swordFloatingAIState = new SwordFloatingAIState (this);
-		swordSlashingAIState = new SwordSlashingAIState (this);
+//		swordSlashingAIState = new SwordSlashingAIState (this);
 		prepareSlashingAIState = new PrepareSlashingAIState (this);
-		swordFindingAIState = new SwordFindingAIState (this);
+//		swordFindingAIState = new SwordFindingAIState (this);
 		swordPullingAIState = new SwordPullingAIState (this);
-		swordShootingAIState = new SwordShootingAIState (this);
+//		swordShootingAIState = new SwordShootingAIState (this);
 //		this.swordSlashingAIState.StartState ();
 		this.swordFindingAIState.StartState ();
 	}
