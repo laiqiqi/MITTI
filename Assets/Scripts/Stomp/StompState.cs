@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StompState : MonoBehaviour, AIState {
+public class StompState : AIState {
     private readonly StatePatternAI AI;
     private Vector3 attackTarget;
     private Vector3 dirtPos;

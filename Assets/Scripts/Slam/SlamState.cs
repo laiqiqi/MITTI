@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
 
-public class SlamState : MonoBehaviour, AIState {
+public class SlamState : AIState {
     private readonly StatePatternAI AI;
     private Vector3 attackTarget;
     private Vector3 moveToTarget;
-    public bool isStop;
-    public bool isStun;
+    public bool isStop, isStun, isEnd;
     private GameObject slamCol;
 	public string name{ get;}
     public List<AIState> choice{ get;set; }
@@ -27,6 +26,7 @@ public class SlamState : MonoBehaviour, AIState {
         AI.currentState = AI.slamState;
         isStop = false;
         isStun = false;
+        isEnd = false;
         AI.speed = 50f;
         this.attackTarget = attackTarget;
         moveToTarget = this.attackTarget + AI.transform.forward*50f;
@@ -46,7 +46,7 @@ public class SlamState : MonoBehaviour, AIState {
     {
         AI.effectManager.DestroyEffectByName(EffectName.SLAM_COLLIDER);
         AI.effectManager.RemoveEffectFromDictByName(EffectName.SLAM_COLLIDER);
-        Destroy(slamCol);
+        // Destroy(slamCol);
         if(Player.instance.GetComponent<PlayerStat>().isHitSlam == true){
             Player.instance.GetComponent<Rigidbody>().AddForce(AI.transform.forward*10f, ForceMode.Impulse);
         }
@@ -65,6 +65,7 @@ public class SlamState : MonoBehaviour, AIState {
         if(isStun){
             AI.effectManager.DestroyEffectByName(EffectName.SLAM_COLLIDER);
             AI.effectManager.RemoveEffectFromDictByName(EffectName.SLAM_COLLIDER);
+            isEnd = true;
             // Destroy(slamCol);
             // Player.instance.GetComponent<PlayerControl>().isHitSlam = false;
             AI.stunState.StartState(5f, AI.transform.forward*AI.speed*2);

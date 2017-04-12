@@ -9,6 +9,12 @@ public class SlamCollider : MonoBehaviour {
 	void Start() {
 		player = Player.instance.gameObject;
 	}
+
+	void Update() {
+		if(StatePatternAI.instance.slamState.isEnd){
+			Destroy(this.gameObject);
+		}
+	}
 	void OnTriggerEnter(Collider collider) {
 		player = Player.instance.gameObject;
 		if (collider.tag == "Wall" || collider.tag == "Floor") {
