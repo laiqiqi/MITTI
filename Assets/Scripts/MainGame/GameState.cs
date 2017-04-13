@@ -64,7 +64,10 @@ public class GameState : MonoBehaviour {
 		if(Player.instance.transform.position.y <= 2f){
 			tutorialState = false;
 			AIOpen = true;
+
 			Destroy(outerEnvi);
+			Destroy(tutorAI);
+			
 			StatePatternAI.instance.stopState.EndState();
 			StatePatternAI.instance.awokenState.StartState();
 		}

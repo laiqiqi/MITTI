@@ -118,9 +118,9 @@ public class StatePatternAI: MonoBehaviour {
 		stunState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stunState, stunState.choice);
 
-		foreach(AIState state in AIStateFlow.Keys){
-			Debug.Log(state);
-		}
+		// foreach(AIState state in AIStateFlow.Keys){
+		// 	Debug.Log(state);
+		// }
 
 
 		stopState.StartState();
