@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Valve.VR.InteractionSystem
 {
-	public class ArrowUIManager : SkillObserver {
+	public class SwordUIManager : SkillObserver {
 		private GameObject itemPackageReference;	
-		private ArrowHand arrowHand;
+		private Sword sword;
 		private Hand hand;
 		private Vector2 fingerPos;
 		private bool[] coolDownStatus;
@@ -48,14 +48,14 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		public override void AddObjectInstance(GameObject addedObject){
-			if (addedObject.GetComponent<ArrowHand>() != null){
-				arrowHand = addedObject.GetComponent<ArrowHand>();
+			if (addedObject.GetComponent<Sword>() != null){
+				sword = addedObject.GetComponent<Sword>();
 				//add observer to the object
-				arrowHand.AddObserver(this);
+				sword.AddObserver(this);
 			}
 		}
 		public override void OnSkillStart(){
-			arrowHand.ChangeSkill(0);
+			// arrowHand.ChangeSkill(0);
 		}
 		public override void SkillChargeUpdate(string number){
 			coolDownText[1].text = number;
@@ -106,7 +106,7 @@ namespace Valve.VR.InteractionSystem
 		}
 		private void OnAttachedToHand( Hand attachedHand )
 		{
-			hand = attachedHand.otherHand;
+			hand = attachedHand;
 		}
 
 		private void OnUISet(Hand hand){
@@ -116,53 +116,49 @@ namespace Valve.VR.InteractionSystem
 		public override void OnObjectDetached(){
 			Debug.Log("on arrow ui manager destroy"+gameObject);
 			//remove ArrowUIManager from ArrowHand observer list
-			arrowHand.RemoveObserver(this);
+			sword.RemoveObserver(this);
 			Destroy(gameObject);
 		}
 		void OnTouchPadEnter(Hand hand){
 			if (hand.controller.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad)){
 				Show();
-				fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
-				cPos = getTouchQuad(fingerPos);
+				// fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
+				// cPos = getTouchQuad(fingerPos);
 
 			}
 		}
 		void OnTouchPadStay(Hand hand){
-			if(hand.controller.GetTouch(SteamVR_Controller.ButtonMask.Touchpad ) ){			
-				fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
-				//check change color, if not change
-				int touchPos = getTouchQuad(fingerPos);
-				int checkedPos = checkOnCoolDown(touchPos);
-				if(cPos != touchPos){
-					if(checkedPos != -1){
-						UIImages[touchPos].color = Color.yellow;
-					}
-					if(checkOnCoolDown(cPos) != -1){
-						UIImages[cPos].color = Color.white;
-					}
-					cPos = touchPos;
-				}
+			// if(hand.controller.GetTouch(SteamVR_Controller.ButtonMask.Touchpad ) ){			
+			// 	fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
+			// 	//check change color, if not change
+			// 	int touchPos = getTouchQuad(fingerPos);
+			// 	int checkedPos = checkOnCoolDown(touchPos);
+			// 	if(cPos != touchPos){
+			// 		if(checkedPos != -1){
+			// 			UIImages[touchPos].color = Color.yellow;
+			// 		}
+			// 		if(checkOnCoolDown(cPos) != -1){
+			// 			UIImages[cPos].color = Color.white;
+			// 		}
+			// 		cPos = touchPos;
+			// 	}
 
 				
 				
-				updateSelectedSkill(checkOnCoolDown(getTouchQuad(fingerPos)));
+			// 	updateSelectedSkill(checkOnCoolDown(getTouchQuad(fingerPos)));
 
-			}
+			// }
 		}
 
 		void OnTouchUp(Hand hand){
 			if( hand.controller.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad )){
 				Hide();
-				int skillPos = checkOnCoolDown(getTouchQuad(fingerPos));
-				arrowHand.ChangeSkill(skillPos);
-				fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
-				//if color change, changeback,set change color tofalse
-				//play animation
-				//spawnAndequip selected weapon
-				//clear canvas, stop animation
-				if(checkOnCoolDown(cPos)!= -1){
-					UIImages[cPos].color = Color.white;
-				}
+				// int skillPos = checkOnCoolDown(getTouchQuad(fingerPos));
+				// sword.ChangeSkill(skillPos);
+				// fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
+				// if(checkOnCoolDown(cPos)!= -1){
+				// 	UIImages[cPos].color = Color.white;
+				// }
 			}
 		}
 		void updateSelectedSkill(int skillPos){
