@@ -203,7 +203,17 @@ namespace Valve.VR.InteractionSystem
 			return HandType.Right;
 		}
 
+		public void AttachUI ( Canvas canvasToAttach){
+			//design attachment point
+			//make the canvas prefab perfect size and Quaternion.identy with vector3.zero
+			// canvasToAttach.transform.parent = GetAttachmentTransform( "" );
+			canvasToAttach.transform.SetParent(this.transform,false);
+			canvasToAttach.transform.localPosition = Vector3.zero;
+			canvasToAttach.transform.localRotation = Quaternion.identity;
+			canvasToAttach.SendMessage( "OnUISet", this, SendMessageOptions.DontRequireReceiver );
 
+
+		}
 		//-------------------------------------------------
 		// Attach a GameObject to this GameObject
 		//

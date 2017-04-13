@@ -114,8 +114,8 @@ public class StatePatternAI: MonoBehaviour {
 		prepareDigStrikeState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
 
-		digStrikeState.choice.AddRange(new AIState[]{});
-//		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
+		digStrikeState.choice.AddRange(new AIState[]{seekState});
+		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
 
 		shootState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(shootState, shootState.choice);
@@ -124,7 +124,7 @@ public class StatePatternAI: MonoBehaviour {
 		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
 
 		slamState.choice.AddRange(new AIState[]{});
-//		AIStateFlow.Add(slamState, slamState.choice);
+		AIStateFlow.Add(slamState, slamState.choice);
 
 		escapeState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(escapeState, escapeState.choice);
@@ -134,6 +134,10 @@ public class StatePatternAI: MonoBehaviour {
 
 		stunState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stunState, stunState.choice);
+
+		foreach(AIState state in AIStateFlow.Keys){
+			Debug.Log(state);
+		}
 
 
 //		floatingState.StartState();

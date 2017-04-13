@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DigStrikeState : MonoBehaviour, AIState {
+public class DigStrikeState : AIState {
     private readonly StatePatternAI enemy;
     private Vector3 attackTarget;
     private Vector3 moveToTarget;

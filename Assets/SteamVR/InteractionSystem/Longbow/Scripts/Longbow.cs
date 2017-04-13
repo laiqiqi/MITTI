@@ -36,8 +36,12 @@ namespace Valve.VR.InteractionSystem
 
 		public bool nocked;
 		public bool pulled;
+		public bool chargepulled;
+
+		public bool uncharged;
 
 		private const float minPull = 0.05f;
+		private const float minChargePull = 0.49f;
 		private const float maxPull = 0.5f;
 		private float nockDistanceTravelled = 0f;
 		private float hapticDistanceThreshold = 0.01f;
@@ -178,7 +182,16 @@ namespace Valve.VR.InteractionSystem
 					drawTension = Util.RemapNumberClamped( nockDistanceTravelled, 0, maxPull, 0f, 1f );
 
 					this.bowDrawLinearMapping.value = drawTension; // Send drawTension value to LinearMapping script, which drives the bow draw animation
-
+					if (nockDistanceTravelled > minChargePull){
+						chargepulled = true;
+					}else{
+						chargepulled = false;
+					}
+					if (nockDistanceTravelled > maxPull/2){
+						uncharged = true;
+					}else{
+						uncharged = false;
+					}
 					if ( nockDistanceTravelled > minPull )
 					{
 						pulled = true;

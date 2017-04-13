@@ -108,5 +108,9 @@ namespace Valve.VR.InteractionSystem
 				}
 			}
 		}
+		public void DestroyFire(){
+			Destroy( fireObject );
+		}
+
 	}
 }
