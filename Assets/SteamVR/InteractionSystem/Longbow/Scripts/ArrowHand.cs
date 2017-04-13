@@ -12,14 +12,20 @@ using System.Collections.Generic;
 namespace Valve.VR.InteractionSystem
 {
 	//-------------------------------------------------------------------------
+	public delegate void UltimateFireHandler();
+	public delegate void DamageHandler();
+	public delegate void SkillFireHandler(Skill skill);
 	public class ArrowHand : MonoBehaviour
 	{
 		private Hand hand;
 		private Longbow bow;
-
+		private Skill skill;
+		public event UltimateFireHandler UltimateFired;
+		public event DamageHandler DamageDealt;
+		public event SkillFireHandler SkillFired;
 		private GameObject currentArrow;
 		public GameObject arrowPrefab;
-
+		public List<GameObject> arrowPrefabs;
 		public Transform arrowNockTransform;
 
 		public float nockDistance = 0.1f;
@@ -30,15 +36,19 @@ namespace Valve.VR.InteractionSystem
 		private bool allowArrowSpawn = true;
 		private bool nocked;
 
+		private int selectedArrow = 0;
 		private bool inNockRange = false;
 		private bool arrowLerpComplete = false;
 
+		private List<SkillObserver> observers = new List<SkillObserver>();
 		public SoundPlayOneshot arrowSpawnSound;
 
 		private AllowTeleportWhileAttachedToHand allowTeleport = null;
 
 		public int maxArrowCount = 10;
 		private List<GameObject> arrowList;
+
+	
 
 
 		//-------------------------------------------------
@@ -63,7 +73,11 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private GameObject InstantiateArrow()
 		{
-			GameObject arrow = Instantiate( arrowPrefab, arrowNockTransform.position, arrowNockTransform.rotation ) as GameObject;
+			GameObject arrow = Instantiate( arrowPrefabs[selectedArrow], arrowNockTransform.position, arrowNockTransform.rotation ) as GameObject;
+			//add damage listener
+				if(arrow.GetComponent<WeaponDamage>()!=null)
+				arrow.GetComponent<WeaponDamage>().OnDamageDealt += new DamageDealtHandler(onDamageCome);
+			//
 			arrow.name = "Bow Arrow";
 			arrow.transform.parent = arrowNockTransform;
 			Util.ResetTransform( arrow.transform );
@@ -100,6 +114,12 @@ namespace Valve.VR.InteractionSystem
 			if ( allowArrowSpawn && ( currentArrow == null ) ) // If we're allowed to have an active arrow in hand but don't yet, spawn one
 			{
 				currentArrow = InstantiateArrow();
+				if(currentArrow.GetComponent<Skill>() != null){
+					skill = currentArrow.GetComponent<Skill>();
+				}
+				else{
+					skill = null;
+				}
 				arrowSpawnSound.Play();
 			}
 
@@ -175,6 +195,12 @@ namespace Valve.VR.InteractionSystem
 					if ( currentArrow == null )
 					{
 						currentArrow = InstantiateArrow();
+						if(currentArrow.GetComponent<Skill>() != null){
+							skill = currentArrow.GetComponent<Skill>();
+						}
+						else{
+							skill = null;
+						}
 					}
 
 					nocked = true;
@@ -187,13 +213,58 @@ namespace Valve.VR.InteractionSystem
 				}
 			}
 
+			if (nocked && hand.controller.GetPress( SteamVR_Controller.ButtonMask.Trigger )){
+				NowDisableUI();
+				// Skill skill = currentArrow.GetComponent<Skill>();
+				if(skill != null){
+					if(bow.chargepulled){//if bow pull far back enough
+						if (!skill.OverCharged() && !skill.GetChargingStatus()){
+							skill.Charging();
+						}
+					}else{
+						if(skill.GetFullyCharged()){ //if skill has been charged, give it some distance before it uncharges
+							if(!bow.uncharged){ //distance until it reaches set uncharged distance 
+								if(skill.GetChargingStatus()){
+									skill.Uncharging();
+								}	
+							}
+						}
+						else if(skill.GetChargingStatus()){//if it is not charging, then decrease right away
+							skill.Uncharging();
+						}else if(skill.OverCharged()){//once the bow overcharge (like in monster hunter arrow charge last 3s)
+							if(!bow.uncharged){//reset it at a fixed uncharged distance
+								skill.ResetOverCharge();
+							}
+						}	
+					}
+				}
+			}
+
 
 			// If arrow is nocked, and we release the trigger
 			if ( nocked && ( !hand.controller.GetPress( SteamVR_Controller.ButtonMask.Trigger ) || hand.controller.GetPressUp( SteamVR_Controller.ButtonMask.Trigger ) ) )
 			{
+				NowEnableUI();
 				if ( bow.pulled ) // If bow is pulled back far enough, fire arrow, otherwise reset arrow in arrowhand
 				{
 					FireArrow();
+					if (skill != null && skill.GetFullyCharged()){
+						Debug.Log("skill fullycharged and has been fired");
+						if(skill.GetSkillType() == "ultimate"){
+							if(UltimateFired != null){
+								UltimateFired();
+							}
+						}else if(skill.GetSkillType() == "normal"){
+							if(SkillFired != null){
+								SkillFired(skill);
+							}
+						}
+						NowSkillStart();
+						skill = null;
+					}
+					//initiate cooldown if the skill of current arrow is fully charged
+					// check if skill is not null
+					
 				}
 				else
 				{
@@ -214,6 +285,8 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private void OnDetachedFromHand( Hand hand )
 		{
+			//destroy canvas on Hand before destroy
+			OnAboutToDestroy();
 			Destroy( gameObject );
 		}
 
@@ -292,6 +365,91 @@ namespace Valve.VR.InteractionSystem
 		private void FindBow()
 		{
 			bow = hand.otherHand.GetComponentInChildren<Longbow>();
+			
 		}
+
+		public void ChangeSkill(int arrowSlot){
+			if(arrowSlot != -1 && arrowSlot != selectedArrow){
+				selectedArrow = arrowSlot;
+				if(currentArrow!=null){
+					currentArrow.GetComponent<Arrow>().SelfDestruct();
+					currentArrow.transform.parent = null;
+					currentArrow = null;
+					Debug.Log("skill changed");
+				}
+				
+			}
+			
+			
+			
+			// if negative one is return, do not do anything
+			// and if its the same as the current don't change anything
+			//change arrow
+			//Destroy current Arrow - currentarrow.destroy
+			//check what this gives - maybe have to null first
+			//switch to selected arrow -
+			//call method InstantiateArrow
+		}
+
+		public void UpdateSelectedSkill(int arrowSlot){
+			if(arrowSlot != -1 && arrowSlot != selectedArrow){
+				selectedArrow = arrowSlot;
+			}
+		}
+		private void NowSkillStart()
+        {
+            for (int i = 0; i < observers.Count; i++)
+            {
+                //Notify all observers even though some may not be interested in what has happened
+                //Each observer should check if it is interested in this event
+                observers[i].OnSkillStart();
+            }
+        }
+		private void NowEnableUI()
+        {
+            for (int i = 0; i < observers.Count; i++)
+            {
+                //Notify all observers even though some may not be interested in what has happened
+                //Each observer should check if it is interested in this event
+                observers[i].OnNowEnable();
+            }
+        }
+
+		private void NowDisableUI()
+        {
+            for (int i = 0; i < observers.Count; i++)
+            {
+                //Notify all observers even though some may not be interested in what has happened
+                //Each observer should check if it is interested in this event
+                observers[i].OnNowDisable();
+            }
+        }
+
+		private void OnAboutToDestroy(){
+			for (int i = 0; i < observers.Count; i++)
+            {
+                //Notify all observers even though some may not be interested in what has happened
+                //Each observer should check if it is interested in this event
+                observers[i].OnObjectDetached();
+            }
+		}
+        //Add observer to the list
+        public void AddObserver(SkillObserver observer)
+        {
+            observers.Add(observer);
+        }
+
+        //Remove observer from the list
+        public void RemoveObserver(SkillObserver observer)
+        {
+			observers.Remove(observer);
+        }
+
+		private void onDamageCome(float dmg){
+			if(DamageDealt!=null){
+				DamageDealt();
+			}
+		}
+
 	}
 }

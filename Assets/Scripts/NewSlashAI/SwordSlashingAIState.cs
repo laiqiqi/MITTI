@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SwordSlashingAIState : AIState {
-	private readonly AITest AI;
+	private readonly StatePatternAI AI;
 	public string name{ get;}
 	private float speed;
 	private Vector3[] randomVector;
@@ -20,7 +20,7 @@ public class SwordSlashingAIState : AIState {
 	private Vector3 targetPosition;
 	public List<AIState> choice{ get;set; }
 
-	public SwordSlashingAIState(AITest statePatternAI){
+	public SwordSlashingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
 		target = new GameObject ().transform;
 		choice = new List<AIState>();
@@ -148,8 +148,8 @@ public class SwordSlashingAIState : AIState {
 			sc.GetComponent<AISwordController> ().state = 4;
 			sc.AddComponent<FixedJoint> ();
 			sc.GetComponent<FixedJoint> ().connectedBody = swords [i].GetComponent<Rigidbody> ();
-			sc.GetComponent<FixedJoint> ().breakForce = 500;
-			sc.GetComponent<FixedJoint> ().breakTorque = 500;
+//			sc.GetComponent<FixedJoint> ().breakForce = 500;
+//			sc.GetComponent<FixedJoint> ().breakTorque = 500;
 			swords [i].GetComponent<Rigidbody> ().isKinematic = false;
 			//					Physics.IgnoreLayerCollision (8,8);
 			for(int j=0; j < swords.Length; j++){
@@ -199,7 +199,7 @@ public class SwordSlashingAIState : AIState {
 			hitCount++;
 //			Debug.Log (hitCount);
 			Debug.Log("Count state == 2");
-			sc.GetComponent<AISwordController> ().state = 5;
+			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
 		if (swords[i].GetComponent<SwordFloatingSword>().isHitOther) {

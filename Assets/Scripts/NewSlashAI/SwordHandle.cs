@@ -15,7 +15,7 @@ public class SwordHandle : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(){
-		Debug.Log ("Handle hit");
+//		Debug.Log ("Handle hit");
 		this.transform.parent.gameObject.layer = LayerMask.NameToLayer("Default");
 	}
 }

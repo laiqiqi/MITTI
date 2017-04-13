@@ -15,6 +15,7 @@ namespace Valve.VR.InteractionSystem
 		public ParticleSystem glintParticle;
 		public Rigidbody arrowHeadRB;
 		public Rigidbody shaftRB;
+		public float damage;
 
 		public PhysicMaterial targetPhysMaterial;
 
@@ -29,9 +30,11 @@ namespace Valve.VR.InteractionSystem
 
 		public PlaySound hitGroundSound;
 
+		private Skill skill;
 		private bool inFlight;
 		private bool released;
 		private bool hasSpreadFire = false;
+		private bool hasApplyDmgToTarget = false;
 
 		private int travelledFrames = 0;
 
@@ -42,6 +45,9 @@ namespace Valve.VR.InteractionSystem
 		void Start()
 		{
 			Physics.IgnoreCollision( shaftRB.GetComponent<Collider>(), Player.instance.headCollider );
+			if(GetComponent<Skill>() != null){
+				skill = GetComponent<Skill>();
+			}
 		}
 
 
@@ -87,7 +93,10 @@ namespace Valve.VR.InteractionSystem
 					return;
 				}
 			}
-
+			
+			if(skill != null){
+				skill.InitiateSkillOnRelease();
+			}
 			travelledFrames = 0;
 			prevPosition = transform.position;
 			prevRotation = transform.rotation;
@@ -107,6 +116,7 @@ namespace Valve.VR.InteractionSystem
 				float rbSpeed = rb.velocity.sqrMagnitude;
 				bool canStick = ( targetPhysMaterial != null && collision.collider.sharedMaterial == targetPhysMaterial && rbSpeed > 0.2f );
 				bool hitBalloon = collision.collider.gameObject.GetComponent<Balloon>() != null;
+				bool hitAI = collision.collider.gameObject.tag == "AI";
 
 				if ( travelledFrames < 2 && !canStick )
 				{
@@ -148,10 +158,14 @@ namespace Valve.VR.InteractionSystem
 				{
 					// Only count collisions with good speed so that arrows on the ground can't deal damage
 					// always pop balloons
-					if ( rbSpeed > 0.1f || hitBalloon )
+					if ( rbSpeed > 0.1f && hitAI || hitBalloon )
 					{
-						collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", SendMessageOptions.DontRequireReceiver );
-						gameObject.SendMessage( "HasAppliedDamage", SendMessageOptions.DontRequireReceiver );
+						if ( !hasApplyDmgToTarget ){
+							collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", SendMessageOptions.DontRequireReceiver );
+							Debug.Log(collision.collider.gameObject.name);
+							gameObject.SendMessage( "HasAppliedDamage", damage,SendMessageOptions.DontRequireReceiver );
+							hasApplyDmgToTarget = true;
+						}
 					}
 				}
 
@@ -250,6 +264,9 @@ namespace Valve.VR.InteractionSystem
 			transform.position = collision.contacts[0].point - transform.forward * ( 0.75f - ( Util.RemapNumberClamped( prevVelocity.magnitude, 0f, 10f, 0.0f, 0.1f ) + Random.Range( 0.0f, 0.05f ) ) );
 		}
 
+		public void SelfDestruct(){
+			Destroy(gameObject);
+		}
 
 		//-------------------------------------------------
 		void OnDestroy()

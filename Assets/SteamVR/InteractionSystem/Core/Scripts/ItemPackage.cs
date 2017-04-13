@@ -20,5 +20,6 @@ namespace Valve.VR.InteractionSystem
 		public GameObject otherHandItemPrefab; // object to be spawned in Other Hand
 		public GameObject previewPrefab; // used to preview inputObject
 		public GameObject fadedPreviewPrefab; // used to preview insubstantial inputObject
+		public Canvas itemUI;
 	}
 }

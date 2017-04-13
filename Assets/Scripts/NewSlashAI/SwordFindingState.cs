@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SwordFindingAIState : AIState {
-	private readonly AITest AI;
+	private readonly StatePatternAI AI;
 	public string name{ get;}
 	private float speed;
 	private GameObject[] AISword;
@@ -12,7 +12,7 @@ public class SwordFindingAIState : AIState {
 	private int subState;
 	public List<AIState> choice{ get;set; }
 
-	public SwordFindingAIState(AITest statePatternAI){
+	public SwordFindingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
 		choice = new List<AIState>();
 	}
@@ -60,16 +60,16 @@ public class SwordFindingAIState : AIState {
 			Quaternion rotation = Quaternion.LookRotation (relativePos);
 			swordTarget.transform.rotation = Quaternion.RotateTowards (swordTarget.transform.rotation, rotation, speed*10 * Time.deltaTime);
 
-			if(Vector3.Distance (AI.transform.position, swordTarget.transform.position) > AI.AIAndSwordDistance){
-				swordTarget.transform.position = Vector3.MoveTowards (swordTarget.transform.position, AI.transform.position, speed/2 * Time.deltaTime);	
-			}
-//			swordTarget.transform.position = Vector3.MoveTowards (swordTarget.transform.position, AI.transform.position, speed * Time.deltaTime);
-			if(Vector3.Distance (AI.transform.position, swordTarget.transform.position) <= AI.AIAndSwordDistance && Quaternion.Angle(swordTarget.transform.rotation, rotation) < 0.1f){
-				subState = 2;
-				swordTarget.transform.parent = swordControllerTarget.transform;
-				swordTarget.GetComponent<SwordFloatingSword> ().state = 2;
-				EndState ();
-			}
+//			if(Vector3.Distance (AI.transform.position, swordTarget.transform.position) > AI.AIAndSwordDistance){
+//				swordTarget.transform.position = Vector3.MoveTowards (swordTarget.transform.position, AI.transform.position, speed/2 * Time.deltaTime);	
+//			}
+////			swordTarget.transform.position = Vector3.MoveTowards (swordTarget.transform.position, AI.transform.position, speed * Time.deltaTime);
+//			if(Vector3.Distance (AI.transform.position, swordTarget.transform.position) <= AI.AIAndSwordDistance && Quaternion.Angle(swordTarget.transform.rotation, rotation) < 0.1f){
+//				subState = 2;
+//				swordTarget.transform.parent = swordControllerTarget.transform;
+//				swordTarget.GetComponent<SwordFloatingSword> ().state = 2;
+//				EndState ();
+//			}
 		}
 //		StateChangeCondition ();
 	}
@@ -78,7 +78,7 @@ public class SwordFindingAIState : AIState {
 //		AI.GetComponent<Rigidbody>().isKinematic = false;
 //		AI.swordPullingAIState.StartState ();
 //		AI.swordFloatingAIState.StartState ();
-		AI.swordShootingAIState.StartState ();
+		AI.swordSlashingAIState.StartState ();
 	}
 
 	public void StateChangeCondition(){

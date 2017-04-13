@@ -9,7 +9,7 @@ public class PlayerRigidController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if(col.gameObject.tag == "AI"){
+		if(col.gameObject.tag == "AI" || col.gameObject.tag == "AISword"){
 			Debug.Log("hit");
 			col.rigidbody.AddForce(-col.impulse * (100 ));
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SwordShootingAIState : AIState {
-	private readonly AITest AI;
+	private readonly StatePatternAI AI;
 	public string name{ get;}
 	private float speed;
 	private int subState;
@@ -16,7 +16,7 @@ public class SwordShootingAIState : AIState {
 	private float delayToShoot;
 	public List<AIState> choice{ get;set; }
 
-	public SwordShootingAIState(AITest statePatternAI){
+	public SwordShootingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
 		choice = new List<AIState>();
 	}

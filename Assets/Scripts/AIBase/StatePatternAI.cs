@@ -6,10 +6,14 @@ public class StatePatternAI: MonoBehaviour {
 	public float health;
 	// public Transform target;
 	public float speed;
+	public float agile;
+	public bool isRage;
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject body;
 	public Collision bodyColInfo;
+	public GameObject magnet;
+	public GameObject[] swordController;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------
@@ -36,8 +40,15 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public StunState stunState;
 	[HideInInspector] public AwokenState awokenState;
-	[HideInInspector] public bool isHit;
-	[HideInInspector] public bool isParry;
+
+//	[HideInInspector] public SwordFloatingAIState swordFloatingAIState;
+	[HideInInspector] public SwordSlashingAIState swordSlashingAIState;
+//	[HideInInspector] public PrepareSlashingAIState prepareSlashingAIState;
+	[HideInInspector] public SwordFindingAIState swordFindingAIState;
+//	[HideInInspector] public SwordPullingAIState swordPullingAIState;
+	[HideInInspector] public SwordShootingAIState swordShootingAIState;
+//	[HideInInspector] public bool isHit;
+//	[HideInInspector] public bool isParry;
 //----------------------------------------------------------------------------
 
 	//-------------------------------------------------
@@ -78,9 +89,15 @@ public class StatePatternAI: MonoBehaviour {
 		stopState = new StopState(this);
 		prepareSlashState = new PrepareSlashState (this);
 		stunState = new StunState (this);
+//		swordFloatingAIState = new SwordFloatingAIState (this);
+		swordSlashingAIState = new SwordSlashingAIState (this);
+//		prepareSlashingAIState = new PrepareSlashingAIState (this);
+		swordFindingAIState = new SwordFindingAIState (this);
+//		swordPullingAIState = new SwordPullingAIState (this);
+		swordShootingAIState = new SwordShootingAIState (this);
 
-		isHit = false;
-		isParry = false;
+//		isHit = false;
+//		isParry = false;
 
 		awokenState.choice.AddRange(new AIState[]{seekState});
 		AIStateFlow.Add(awokenState, awokenState.choice);
@@ -123,8 +140,8 @@ public class StatePatternAI: MonoBehaviour {
 		// }
 
 
-		stopState.StartState();
-		// awokenState.StartState();
+//		floatingState.StartState();
+		swordShootingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
@@ -135,6 +152,7 @@ public class StatePatternAI: MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		// KeyboardController();
+		Debug.Log(currentState);
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
