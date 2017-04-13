@@ -54,6 +54,8 @@ public class GameState : MonoBehaviour {
 		if(end) {
 			Debug.Log("End");
 			RenderSettings.skybox = skyboxNorm;
+			normalLight.SetActive(true);
+			chaosLight.SetActive(false);
 		}
 	}
 
