@@ -141,7 +141,7 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		floatingState.StartState();
-		swordShootingAIState.StartState();
+		swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
@@ -152,7 +152,7 @@ public class StatePatternAI: MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		// KeyboardController();
-		Debug.Log(currentState);
+//		Debug.Log(currentState);
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);

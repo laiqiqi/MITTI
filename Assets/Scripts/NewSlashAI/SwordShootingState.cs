@@ -90,7 +90,7 @@ public class SwordShootingAIState : AIState {
 			}
 			timeToShoot += Time.deltaTime;
 		} else if (subState == 4){
-			Debug.Log ("444444444444444");
+//			Debug.Log ("444444444444444");
 			if (swordList.Count != 0) {
 				foreach (GameObject sword in swordList) {
 					sword.transform.LookAt (2 * sword.transform.position - AI.player.transform.position);	

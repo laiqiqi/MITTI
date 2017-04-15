@@ -5,6 +5,8 @@ using UnityEngine;
 public class SwordFloatingSword : MonoBehaviour {
 	private float speed;
 	public int state;
+	public GameObject effect;
+	public GameObject swordModel;
 	public bool isHit;
 	public bool isHitOther;
 	private float timeCount;
@@ -54,7 +56,7 @@ public class SwordFloatingSword : MonoBehaviour {
 			}
 		} else if (state == 3) {
 			//While floating in air by shooting
-			this.GetComponent<Rigidbody> ().AddForce (-this.transform.forward*200f);
+			this.GetComponent<Rigidbody> ().AddForce (-this.transform.forward * 200f);
 //			RaycastHit hit;
 //			if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 3.1f)) {
 //				print ("Ray    " + hit.transform.tag);
@@ -67,6 +69,36 @@ public class SwordFloatingSword : MonoBehaviour {
 //			this.GetComponent<Rigidbody> ().isKinematic = true;
 //			this.transform.position += -this.transform.forward*Time.deltaTime;
 //			this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
+		} else if (state == 5) {
+			//effect out
+//			Debug.Log("Effect out");
+			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
+				p.loop = false;
+			}
+		} else if (state == 6) {
+			//effect in
+			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
+				p.loop = true;
+			}
+			this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
+			if (swordModel.GetComponent<FadeManager> ().isShow) {
+				state = 7;
+			}else{
+				state = 8;
+			}
+		} else if (state == 7) {
+			//sword out
+			swordModel.GetComponent<FadeManager> ().Fade(-0.01f);
+//			Debug.Log (swordModel.GetComponent<FadeManager> ().alpha);
+			if(!swordModel.GetComponent<FadeManager> ().isShow){
+				state = 5;
+			}
+		} else if (state == 8) {
+			//sword in
+			swordModel.GetComponent<FadeManager> ().Fade(0.01f);
+			if(swordModel.GetComponent<FadeManager> ().isShow){
+				state = 5;
+			}
 		}
 
 		if(virtualSword && isHide){

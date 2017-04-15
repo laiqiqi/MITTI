@@ -6,37 +6,30 @@ public class FadeManager : MonoBehaviour {
 
 	private float duration;
 	private float alpha;
+	public bool isShow;
 	void Start(){
 		duration = 1.0f;
-		alpha = 0.0f;
+		alpha = 1f;
 	}
 
 	void Update(){
-		lerpAlpha();
+//		lerpAlpha();
+		Debug.Log(isShow);
 	}
 
-	void lerpAlpha () {
-		//useful for cube with material/specular
-//		float lerp = Mathf.PingPong (Time.time, duration) / duration;
-//		alpha = Mathf.Lerp(0.0f, 1.0f, lerp);
-//		this.GetComponent<MeshRenderer> ().material.color = new Color (this.GetComponent<MeshRenderer> ().material.color.r
-//			, this.GetComponent<MeshRenderer> ().material.color.g, this.GetComponent<MeshRenderer> ().material.color.b, alpha);
-		
-//		Color red = this.GetComponent<MeshRenderer> ().material.color;
-//		red = new Color (red.g, red.r, red.b, alpha);
-//		this.GetComponent<MeshRenderer> ().material.color = new Color (this.GetComponent<MeshRenderer> ().material.color.r
-//			, this.GetComponent<MeshRenderer> ().material.color.g, this.GetComponent<MeshRenderer> ().material.color.b, alpha);
-//		Debug.Log (this.GetComponent<MeshRenderer> ().material.color);
-//		this.GetComponent<MeshRenderer> ().material.color.a = alpha;
-//				renderer.material.color.a = alpha;
-
-		float lerp = Mathf.PingPong (Time.time, duration) / duration;
-		alpha = Mathf.Lerp(0.0f, 1.0f, lerp);
+	public void Fade (float alpha) {
 		foreach(Material m in this.GetComponent<MeshRenderer> ().materials){
-			m.color = new Color (m.color.r, m.color.g, m.color.b, alpha);
-//			m.SetAlpha(m.color.a - .1F);
+			m.SetAlpha(m.color.a + alpha);
 		}
+//		alpha = this.GetComponent<MeshRenderer> ().material.color.a;
+		if (this.GetComponent<MeshRenderer> ().material.color.a == 0) {
+			isShow = false;
+		} else if (this.GetComponent<MeshRenderer> ().material.color.a == 1){
+			isShow = true;
+		}
+			
 	}
+
 }
 
 public static class ExtensionMethods {
@@ -44,8 +37,14 @@ public static class ExtensionMethods {
 
 	public static void SetAlpha (this Material material, float value) {
 		Color color = material.color;
+		if (value < 0) {
+			value = 0;
+		} else if(value > 1){
+			value = 1;
+		}
 		color.a = value;
 		material.color = color;
+//		Debug.Log (material.color.a);
 	}
 
 
