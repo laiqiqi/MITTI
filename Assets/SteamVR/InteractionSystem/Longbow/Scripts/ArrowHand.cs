@@ -14,7 +14,7 @@ namespace Valve.VR.InteractionSystem
 	//-------------------------------------------------------------------------
 	public delegate void UltimateFireHandler();
 	public delegate void DamageHandler();
-	public delegate void SkillFireHandler(Skill skill);
+	public delegate void SkillFireHandler(int cooldown);
 	public class ArrowHand : MonoBehaviour
 	{
 		private Hand hand;
@@ -256,7 +256,7 @@ namespace Valve.VR.InteractionSystem
 							}
 						}else if(skill.GetSkillType() == "normal"){
 							if(SkillFired != null){
-								SkillFired(skill);
+								SkillFired(skill.GetCoolDown());
 							}
 						}
 						NowSkillStart();

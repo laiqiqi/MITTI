@@ -6,7 +6,7 @@ namespace Valve.VR.InteractionSystem
 {
 	public class SwordUIManager : SkillObserver {
 		private GameObject itemPackageReference;	
-		private Sword sword;
+		private AuraHand auraHand;
 		private Hand hand;
 		private Vector2 fingerPos;
 		private bool[] coolDownStatus;
@@ -48,10 +48,10 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		public override void AddObjectInstance(GameObject addedObject){
-			if (addedObject.GetComponent<Sword>() != null){
-				sword = addedObject.GetComponent<Sword>();
+			if (addedObject.GetComponent<AuraHand>() != null){
+				auraHand = addedObject.GetComponent<AuraHand>();
 				//add observer to the object
-				sword.AddObserver(this);
+				auraHand.AddObserver(this);
 			}
 		}
 		public override void OnSkillStart(){
@@ -106,7 +106,7 @@ namespace Valve.VR.InteractionSystem
 		}
 		private void OnAttachedToHand( Hand attachedHand )
 		{
-			hand = attachedHand;
+			hand = attachedHand.otherHand;
 		}
 
 		private void OnUISet(Hand hand){
@@ -114,57 +114,56 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		public override void OnObjectDetached(){
-			Debug.Log("on arrow ui manager destroy"+gameObject);
+			Debug.Log("on sword  ui manager destroy"+gameObject);
 			//remove ArrowUIManager from ArrowHand observer list
-			sword.RemoveObserver(this);
+			auraHand.RemoveObserver(this);
 			Destroy(gameObject);
 		}
 		void OnTouchPadEnter(Hand hand){
 			if (hand.controller.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad)){
 				Show();
-				// fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
-				// cPos = getTouchQuad(fingerPos);
+				fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
+				cPos = getTouchQuad(fingerPos);
 
 			}
 		}
 		void OnTouchPadStay(Hand hand){
-			// if(hand.controller.GetTouch(SteamVR_Controller.ButtonMask.Touchpad ) ){			
-			// 	fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
-			// 	//check change color, if not change
-			// 	int touchPos = getTouchQuad(fingerPos);
-			// 	int checkedPos = checkOnCoolDown(touchPos);
-			// 	if(cPos != touchPos){
-			// 		if(checkedPos != -1){
-			// 			UIImages[touchPos].color = Color.yellow;
-			// 		}
-			// 		if(checkOnCoolDown(cPos) != -1){
-			// 			UIImages[cPos].color = Color.white;
-			// 		}
-			// 		cPos = touchPos;
-			// 	}
+			if(hand.controller.GetTouch(SteamVR_Controller.ButtonMask.Touchpad ) ){			
+				fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
+				//check change color, if not change
+				int touchPos = getTouchQuad(fingerPos);
+				int checkedPos = checkOnCoolDown(touchPos);
+				if(cPos != touchPos){
+					if(checkedPos != -1){
+						UIImages[touchPos].color = Color.yellow;
+					}
+					if(checkOnCoolDown(cPos) != -1){
+						UIImages[cPos].color = Color.white;
+					}
+					cPos = touchPos;
+				}
 
 				
 				
-			// 	updateSelectedSkill(checkOnCoolDown(getTouchQuad(fingerPos)));
+				updateSelectedSkill(checkOnCoolDown(getTouchQuad(fingerPos)));
 
-			// }
+			}
 		}
 
 		void OnTouchUp(Hand hand){
 			if( hand.controller.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad )){
 				Hide();
-				// int skillPos = checkOnCoolDown(getTouchQuad(fingerPos));
-				// sword.ChangeSkill(skillPos);
-				// fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
-				// if(checkOnCoolDown(cPos)!= -1){
-				// 	UIImages[cPos].color = Color.white;
-				// }
+				int skillPos = checkOnCoolDown(getTouchQuad(fingerPos));
+				auraHand.ChangeSkill(skillPos);
+				fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
+				if(checkOnCoolDown(cPos)!= -1){
+					UIImages[cPos].color = Color.white;
+				}
 			}
 		}
 		void updateSelectedSkill(int skillPos){
 			if(skillPos != -1){
 				UIImages[skillPos].color = Color.yellow;
-				Debug.Log(UIImages[skillPos].color == Color.yellow);
 			}
 		}
 		void Show(){
@@ -207,24 +206,24 @@ namespace Valve.VR.InteractionSystem
 				return -1;
 			}
 		}
-		IEnumerator InitiateCountDown(int CoolDown, int CurrentSlot){
-			//get the debug text
-			//substract -1 from the cooldown
-			//if cooldown is 0 its a bug 
-			Debug.Log("Cooldown insta");
-			int currentTime = CoolDown;
-			//if cooldown is 0
-			while(currentTime != 0){
-				currentTime--;
-				coolDownText[CurrentSlot].text = currentTime.ToString();
-				if(currentTime == 0){
-					Debug.Log("cooldown completed");
-					coolDownStatus[CurrentSlot] = false;
-					coolDownText[CurrentSlot].gameObject.SetActive(false);
-					UIImages[CurrentSlot].color = Color.white;
-				}
-				yield return new WaitForSeconds(1f);
-			}
-		}
+		// IEnumerator InitiateCountDown(int CoolDown, int CurrentSlot){
+		// 	//get the debug text
+		// 	//substract -1 from the cooldown
+		// 	//if cooldown is 0 its a bug 
+		// 	Debug.Log("Cooldown insta");
+		// 	int currentTime = CoolDown;
+		// 	//if cooldown is 0
+		// 	while(currentTime != 0){
+		// 		currentTime--;
+		// 		coolDownText[CurrentSlot].text = currentTime.ToString();
+		// 		if(currentTime == 0){
+		// 			Debug.Log("cooldown completed");
+		// 			coolDownStatus[CurrentSlot] = false;
+		// 			coolDownText[CurrentSlot].gameObject.SetActive(false);
+		// 			UIImages[CurrentSlot].color = Color.white;
+		// 		}
+		// 		yield return new WaitForSeconds(1f);
+		// 	}
+		// }
 	}
 }

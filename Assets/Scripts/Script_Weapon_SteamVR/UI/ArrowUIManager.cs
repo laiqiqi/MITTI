@@ -73,6 +73,8 @@ namespace Valve.VR.InteractionSystem
 		}
 		public override void UltimateChargeUpdate(string number){
 			coolDownText[2].text = number;
+			
+			Debug.Log("text update " + coolDownText[2].text);
 		}
 
 		public override void UltimateOnCooldown(){
@@ -209,25 +211,6 @@ namespace Valve.VR.InteractionSystem
 			}
 			else{
 				return -1;
-			}
-		}
-		IEnumerator InitiateCountDown(int CoolDown, int CurrentSlot){
-			//get the debug text
-			//substract -1 from the cooldown
-			//if cooldown is 0 its a bug 
-			Debug.Log("Cooldown insta");
-			int currentTime = CoolDown;
-			//if cooldown is 0
-			while(currentTime != 0){
-				currentTime--;
-				coolDownText[CurrentSlot].text = currentTime.ToString();
-				if(currentTime == 0){
-					Debug.Log("cooldown completed");
-					coolDownStatus[CurrentSlot] = false;
-					coolDownText[CurrentSlot].gameObject.SetActive(false);
-					UIImages[CurrentSlot].color = Color.white;
-				}
-				yield return new WaitForSeconds(1f);
 			}
 		}
 	}
