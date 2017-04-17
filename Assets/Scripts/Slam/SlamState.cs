@@ -27,9 +27,9 @@ public class SlamState : AIState {
         isStop = false;
         isStun = false;
         isEnd = false;
-        AI.speed = 50f;
+        AI.speed = 40f;
         this.attackTarget = attackTarget;
-        moveToTarget = this.attackTarget + AI.transform.forward*50f;
+        moveToTarget = this.attackTarget + AI.transform.forward*30f;
 
         AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
         AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
@@ -68,7 +68,8 @@ public class SlamState : AIState {
             isEnd = true;
             // Destroy(slamCol);
             // Player.instance.GetComponent<PlayerControl>().isHitSlam = false;
-            AI.stunState.StartState(5f, AI.transform.forward*AI.speed*2);
+            AI.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            AI.stunState.StartState(5f, AI.GetComponent<Rigidbody>().velocity);
         }
         else if(AI.transform.position != moveToTarget && !isStop){
             // Debug.Log("Moveeeee");

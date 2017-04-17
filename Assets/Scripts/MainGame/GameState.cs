@@ -106,7 +106,7 @@ public class GameState : MonoBehaviour {
 			skyboxChaos.SetFloat("_Rotation", 0f);
 		}
 		else{
-			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.1f);
+			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.01f);
 		}
 	}
 }

@@ -99,7 +99,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		awokenState.choice.AddRange(new AIState[]{seekState});
+		awokenState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(awokenState, awokenState.choice);
 
 		floatingState.choice.AddRange(new AIState[]{});
@@ -152,7 +152,7 @@ public class StatePatternAI: MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		// KeyboardController();
-		Debug.Log(currentState);
+		// Debug.Log(currentState);
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
@@ -181,14 +181,14 @@ public class StatePatternAI: MonoBehaviour {
 
 	}
 	public void RagdollMode(){
-        this.GetComponent<CapsuleCollider>().enabled = true;
+        this.GetComponent<SphereCollider>().enabled = true;
         this.GetComponent<Rigidbody>().useGravity = true;
         this.GetComponent<Rigidbody>().drag = 0;
         this.GetComponent<Rigidbody>().angularDrag = 0;
     }
 
     public void NoRagdollMode(){
-        this.GetComponent<CapsuleCollider>().enabled = false;
+        this.GetComponent<SphereCollider>().enabled = false;
         this.GetComponent<Rigidbody>().useGravity = false;
         this.GetComponent<Rigidbody>().drag = Mathf.Infinity;
         this.GetComponent<Rigidbody>().angularDrag = Mathf.Infinity;
@@ -210,7 +210,7 @@ public class StatePatternAI: MonoBehaviour {
 		else if(currentState == slamState){
 			Debug.Log("Next2");
 			if(slamState.isStun){
-				currentState = stunState;
+				stunState.StartState();
 			}
 			else{
 
@@ -218,7 +218,8 @@ public class StatePatternAI: MonoBehaviour {
 		}
 		else{
 			Debug.Log("Next3");
-			currentState = AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)];
+			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
+			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
 		}
 	}
 }
