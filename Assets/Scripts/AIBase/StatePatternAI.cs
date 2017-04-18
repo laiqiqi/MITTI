@@ -14,6 +14,7 @@ public class StatePatternAI: MonoBehaviour {
 	public Collision bodyColInfo;
 	public GameObject magnet;
 	public GameObject[] swordController;
+	public GameObject AISword;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------
@@ -141,7 +142,7 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		floatingState.StartState();
-		swordSlashingAIState.StartState();
+		swordShootingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();

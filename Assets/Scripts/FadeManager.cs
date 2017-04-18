@@ -30,6 +30,17 @@ public class FadeManager : MonoBehaviour {
 			
 	}
 
+	public void SetAlpha(float alpha){
+		foreach(Material m in this.GetComponent<MeshRenderer> ().materials){
+			m.SetAlpha(alpha);
+		}
+		if (this.GetComponent<MeshRenderer> ().material.color.a == 0) {
+			isShow = false;
+		} else if (this.GetComponent<MeshRenderer> ().material.color.a == 1){
+			isShow = true;
+		}
+	}
+
 }
 
 public static class ExtensionMethods {
