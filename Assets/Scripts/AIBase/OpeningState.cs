@@ -72,6 +72,7 @@ public class OpeningState : AIState {
 		}else if (subState == 2){
 			for (int i = cubes.Count-1; i >= 0; i--) {
 				cubes [i].GetComponent<AICube> ().state = 0;
+				cubes [i].GetComponent<Rigidbody> ().drag = 1;
 				if (cubes[i].transform.GetChild (0).gameObject.activeSelf == false) {
 					GameObject.Destroy (cubes[i].gameObject);
 				} else {

@@ -146,7 +146,7 @@ public class StatePatternAI: MonoBehaviour {
 
 //		floatingState.StartState();
 		openingState.StartState();
-//		swordShootingAIState.StartState();
+		swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();

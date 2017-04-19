@@ -26,8 +26,8 @@ public class SwordSlashingAIState : AIState {
 
 	public SwordSlashingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
-		target = new GameObject ().transform;
-		circleCenter = new GameObject ().transform;
+//		target = new GameObject ().transform;
+//		circleCenter = new GameObject ().transform;
 		choice = new List<AIState>();
 	}
 
@@ -124,10 +124,10 @@ public class SwordSlashingAIState : AIState {
 //				swords [i].transform.GetChild (2).GetComponent<Rigidbody> ().useGravity = true;
 			}
 			Debug.Log ("hitcount    " + hitCount);
-			if (hitCount >= 5) {
-				sc.GetComponent<AISwordController> ().state = 8;
-				hitCount = 0;
-			}
+//			if (hitCount >= 5) {
+//				sc.GetComponent<AISwordController> ().state = 8;
+//				hitCount = 0;
+//			}
 //			if(Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius){
 //				circleCenter.position = AI.player.transform.position;
 //				AI.transform.parent = circleCenter.transform;
@@ -283,7 +283,7 @@ public class SwordSlashingAIState : AIState {
 
 	public void Substate4(GameObject sc, int i){
 		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
-		randomVector[i] = AI.transform.position + AIRandomForward;
+//		randomVector[i] = AI.transform.position + AIRandomForward;
 		Vector3 relativePos = randomVector[i] - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
 		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*6 * Time.deltaTime);
@@ -301,7 +301,7 @@ public class SwordSlashingAIState : AIState {
 	public void Substate5(GameObject sc, int i){
 		// move sword to the back of ai
 		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
-		randomVector [i] = AI.transform.position + -AI.transform.forward;
+//		randomVector [i] = AI.transform.position + -AI.transform.forward;
 		Vector3 relativePos = randomVector[i] - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
 		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*6 * Time.deltaTime);

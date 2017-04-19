@@ -12,7 +12,7 @@ public class SwordFloatingAIState : AIState {
 
 	public SwordFloatingAIState(AITest statePatternAI){
 		AI = statePatternAI;
-		target = new GameObject ().transform;
+//		target = new GameObject ().transform;
 		choice = new List<AIState>();
 	}
 
