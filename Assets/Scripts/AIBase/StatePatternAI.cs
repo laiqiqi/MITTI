@@ -15,6 +15,7 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject magnet;
 	public GameObject[] swordController;
 	public GameObject AISword;
+	public GameObject AICube;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------
@@ -48,6 +49,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public SwordFindingAIState swordFindingAIState;
 //	[HideInInspector] public SwordPullingAIState swordPullingAIState;
 	[HideInInspector] public SwordShootingAIState swordShootingAIState;
+	[HideInInspector] public OpeningState openingState;
 //	[HideInInspector] public bool isHit;
 //	[HideInInspector] public bool isParry;
 //----------------------------------------------------------------------------
@@ -96,6 +98,7 @@ public class StatePatternAI: MonoBehaviour {
 		swordFindingAIState = new SwordFindingAIState (this);
 //		swordPullingAIState = new SwordPullingAIState (this);
 		swordShootingAIState = new SwordShootingAIState (this);
+		openingState = new OpeningState (this);
 
 //		isHit = false;
 //		isParry = false;
@@ -142,7 +145,8 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		floatingState.StartState();
-		swordShootingAIState.StartState();
+		openingState.StartState();
+//		swordShootingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
