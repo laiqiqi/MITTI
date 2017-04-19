@@ -28,6 +28,10 @@ public class ContinuousExplosionForce : MonoBehaviour
 					magnetObjList.Add (col.gameObject);
 					col.transform.parent = this.transform;
 				}
+				else if (magnetObjList.Count > size) {
+					magnetObjList.Remove (col.gameObject);
+					col.transform.parent = null;
+				}
 			}
 		}
 	}

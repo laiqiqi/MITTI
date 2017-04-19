@@ -33,7 +33,7 @@ public class SlamState : AIState {
 
         AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
         AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
-        slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward*1.05f);
+        slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward*1f);
         slamCol.transform.SetParent(AI.transform);
     }
 
@@ -68,8 +68,8 @@ public class SlamState : AIState {
             isEnd = true;
             // Destroy(slamCol);
             // Player.instance.GetComponent<PlayerControl>().isHitSlam = false;
-            AI.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            AI.stunState.StartState(5f, AI.GetComponent<Rigidbody>().velocity);
+            // AI.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            AI.stunState.StartState(5f, AI.transform.forward * AI.speed);
         }
         else if(AI.transform.position != moveToTarget && !isStop){
             // Debug.Log("Moveeeee");
@@ -81,5 +81,9 @@ public class SlamState : AIState {
         else{
             EndState();
         }
+    }
+
+    void MagnetControl(){
+        
     }
 }

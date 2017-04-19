@@ -69,6 +69,12 @@ namespace Valve.VR.InteractionSystem
 		[Tooltip( "Time to offset playback of sound" )]
 		public float delayOffsetTime = 0.0f;
 
+		[Header( "Fade in and out" )]
+		[Tooltip( "fadein and out of sound" )]
+		public float fadeMaxVolume = 1f;
+		public float fadeInRate = 1f;
+		public float fadeOutRate = 1f;
+		public bool isStartFadeOut;
 
 		private AudioSource audioSource;
 		private AudioClip clip;
@@ -78,6 +84,7 @@ namespace Valve.VR.InteractionSystem
 		{
 			audioSource = GetComponent<AudioSource>();
 			clip = audioSource.clip;
+			isStartFadeOut = false;
 
 			// audio source play on awake is true, just play the PlaySound immediately
 			if ( audioSource.playOnAwake )
@@ -107,7 +114,11 @@ namespace Valve.VR.InteractionSystem
 			}
 		}
 
-
+		void Update(){
+			FadeAudioIn();
+			FadeAudioOut();
+			// Debug.Log(isStartFadeOut);
+		}
 		//-------------------------------------------------
 		// Play a random clip from those available
 		//-------------------------------------------------
@@ -116,7 +127,6 @@ namespace Valve.VR.InteractionSystem
 			if ( looping )
 			{
 				PlayLooping();
-
 			}
 
 			else PlayOneShotSound();
@@ -210,6 +220,18 @@ namespace Valve.VR.InteractionSystem
 				// randomly assign a wave file from the array into the audioSource clip property
 				audioSource.clip = this.waveFile[Random.Range( 0, waveFile.Length )];
 				clip = audioSource.clip;
+			}
+		}
+
+		public void FadeAudioIn() {
+			if(this.audioSource.volume < fadeMaxVolume){
+				this.audioSource.volume += fadeInRate*Time.deltaTime;
+			}
+		}
+
+		public void FadeAudioOut() {
+			if(isStartFadeOut){
+				this.audioSource.volume -= fadeOutRate*Time.deltaTime;
 			}
 		}
 	}

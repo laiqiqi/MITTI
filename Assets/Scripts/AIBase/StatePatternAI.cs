@@ -99,6 +99,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
+		// awokenState.choice.AddRange(new AIState[]{prepareSlamState, seekState, digStrikeState});
 		awokenState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(awokenState, awokenState.choice);
 
@@ -111,28 +112,28 @@ public class StatePatternAI: MonoBehaviour {
 		stompState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stompState, stompState.choice);
 
-		prepareDigStrikeState.choice.AddRange(new AIState[]{});
+		prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
 		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
 
-		digStrikeState.choice.AddRange(new AIState[]{seekState});
+		digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
 		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
 
 		shootState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(shootState, shootState.choice);
 
-		prepareSlamState.choice.AddRange(new AIState[]{});
+		prepareSlamState.choice.AddRange(new AIState[]{slamState});
 		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
 
-		slamState.choice.AddRange(new AIState[]{});
+		slamState.choice.AddRange(new AIState[]{escapeState});
 		AIStateFlow.Add(slamState, slamState.choice);
 
-		escapeState.choice.AddRange(new AIState[]{});
+		escapeState.choice.AddRange(new AIState[]{slamState});
 		AIStateFlow.Add(escapeState, escapeState.choice);
 
 		stopState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stopState, stopState.choice);
 
-		stunState.choice.AddRange(new AIState[]{});
+		stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
 		AIStateFlow.Add(stunState, stunState.choice);
 
 		// foreach(AIState state in AIStateFlow.Keys){
