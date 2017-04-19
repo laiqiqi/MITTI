@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Valve.VR.InteractionSystem
 {
-	public class ArrowUIManager : SkillObserver {
+	public class SwordUIManager : SkillObserver {
 		private GameObject itemPackageReference;	
-		private ArrowHand arrowHand;
+		private AuraHand auraHand;
 		private Hand hand;
 		private Vector2 fingerPos;
 		private bool[] coolDownStatus;
@@ -48,14 +48,14 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		public override void AddObjectInstance(GameObject addedObject){
-			if (addedObject.GetComponent<ArrowHand>() != null){
-				arrowHand = addedObject.GetComponent<ArrowHand>();
+			if (addedObject.GetComponent<AuraHand>() != null){
+				auraHand = addedObject.GetComponent<AuraHand>();
 				//add observer to the object
-				arrowHand.AddObserver(this);
+				auraHand.AddObserver(this);
 			}
 		}
 		public override void OnSkillStart(){
-			arrowHand.ChangeSkill(0);
+			// arrowHand.ChangeSkill(0);
 		}
 		public override void SkillChargeUpdate(string number){
 			coolDownText[1].text = number;
@@ -73,8 +73,6 @@ namespace Valve.VR.InteractionSystem
 		}
 		public override void UltimateChargeUpdate(string number){
 			coolDownText[2].text = number;
-			
-			Debug.Log("text update " + coolDownText[2].text);
 		}
 
 		public override void UltimateOnCooldown(){
@@ -116,9 +114,9 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		public override void OnObjectDetached(){
-			Debug.Log("on arrow ui manager destroy"+gameObject);
+			Debug.Log("on sword  ui manager destroy"+gameObject);
 			//remove ArrowUIManager from ArrowHand observer list
-			arrowHand.RemoveObserver(this);
+			auraHand.RemoveObserver(this);
 			Destroy(gameObject);
 		}
 		void OnTouchPadEnter(Hand hand){
@@ -156,12 +154,8 @@ namespace Valve.VR.InteractionSystem
 			if( hand.controller.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad )){
 				Hide();
 				int skillPos = checkOnCoolDown(getTouchQuad(fingerPos));
-				arrowHand.ChangeSkill(skillPos);
+				auraHand.ChangeSkill(skillPos);
 				fingerPos = hand.controller.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
-				//if color change, changeback,set change color tofalse
-				//play animation
-				//spawnAndequip selected weapon
-				//clear canvas, stop animation
 				if(checkOnCoolDown(cPos)!= -1){
 					UIImages[cPos].color = Color.white;
 				}
@@ -170,7 +164,6 @@ namespace Valve.VR.InteractionSystem
 		void updateSelectedSkill(int skillPos){
 			if(skillPos != -1){
 				UIImages[skillPos].color = Color.yellow;
-				Debug.Log(UIImages[skillPos].color == Color.yellow);
 			}
 		}
 		void Show(){
@@ -213,5 +206,24 @@ namespace Valve.VR.InteractionSystem
 				return -1;
 			}
 		}
+		// IEnumerator InitiateCountDown(int CoolDown, int CurrentSlot){
+		// 	//get the debug text
+		// 	//substract -1 from the cooldown
+		// 	//if cooldown is 0 its a bug 
+		// 	Debug.Log("Cooldown insta");
+		// 	int currentTime = CoolDown;
+		// 	//if cooldown is 0
+		// 	while(currentTime != 0){
+		// 		currentTime--;
+		// 		coolDownText[CurrentSlot].text = currentTime.ToString();
+		// 		if(currentTime == 0){
+		// 			Debug.Log("cooldown completed");
+		// 			coolDownStatus[CurrentSlot] = false;
+		// 			coolDownText[CurrentSlot].gameObject.SetActive(false);
+		// 			UIImages[CurrentSlot].color = Color.white;
+		// 		}
+		// 		yield return new WaitForSeconds(1f);
+		// 	}
+		// }
 	}
 }

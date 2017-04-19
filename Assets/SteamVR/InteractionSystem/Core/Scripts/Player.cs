@@ -37,6 +37,13 @@ namespace Valve.VR.InteractionSystem
 		[Tooltip( "The audio listener for this player" )]
 		public Transform audioListener;
 
+		[Tooltip( "Reference to the player Health" )]
+		public GameObject playerHealth;
+		
+		[Tooltip( "Reference to the player Health" )]
+		public GameObject playerStamina;
+
+
 		public bool allowToggleTo2D = true;
 
 

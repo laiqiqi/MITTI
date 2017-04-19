@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Curve : MonoBehaviour {
+	public float damage = 20.0f;
 	private GameObject target1;
 	public float timeToLerp;
 	private float timeLerped = 0.0f;
@@ -28,6 +29,7 @@ public class Curve : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision){
 		if(collision.collider.gameObject.tag == "AI"){
+			collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
 			Rigidbody box = gameObject.GetComponent<Rigidbody>();
 			box.transform.parent = collision.collider.gameObject.transform;
 			box.velocity = Vector3.zero;

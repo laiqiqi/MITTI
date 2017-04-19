@@ -5,7 +5,6 @@
 //=============================================================================
 
 using UnityEngine;
-using System.Collections;
 
 namespace Valve.VR.InteractionSystem
 {
@@ -15,7 +14,7 @@ namespace Valve.VR.InteractionSystem
 		public ParticleSystem glintParticle;
 		public Rigidbody arrowHeadRB;
 		public Rigidbody shaftRB;
-		public float damage;
+		public float damage = 5f;
 
 		public PhysicMaterial targetPhysMaterial;
 
@@ -161,7 +160,7 @@ namespace Valve.VR.InteractionSystem
 					if ( rbSpeed > 0.1f && hitAI || hitBalloon )
 					{
 						if ( !hasApplyDmgToTarget ){
-							collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", SendMessageOptions.DontRequireReceiver );
+							collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
 							Debug.Log(collision.collider.gameObject.name);
 							gameObject.SendMessage( "HasAppliedDamage", damage,SendMessageOptions.DontRequireReceiver );
 							hasApplyDmgToTarget = true;
