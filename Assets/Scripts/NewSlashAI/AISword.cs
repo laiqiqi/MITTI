@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwordFloatingSword : MonoBehaviour {
+public class AISword : MonoBehaviour {
 	private float speed;
 	public int state;
+	public GameObject effect;
+	public GameObject swordModel;
 	public bool isHit;
 	public bool isHitOther;
 	private float timeCount;
@@ -54,7 +56,7 @@ public class SwordFloatingSword : MonoBehaviour {
 			}
 		} else if (state == 3) {
 			//While floating in air by shooting
-			this.GetComponent<Rigidbody> ().AddForce (-this.transform.forward*200f);
+			this.GetComponent<Rigidbody> ().AddForce (-this.transform.forward * 200f);
 //			RaycastHit hit;
 //			if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 3.1f)) {
 //				print ("Ray    " + hit.transform.tag);
@@ -67,19 +69,84 @@ public class SwordFloatingSword : MonoBehaviour {
 //			this.GetComponent<Rigidbody> ().isKinematic = true;
 //			this.transform.position += -this.transform.forward*Time.deltaTime;
 //			this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
+		} else if (state == 5) {
+			//effect out
+//			Debug.Log("Effect out");
+			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
+				p.loop = false;
+//				p.Stop();
+			}
+			state = -1;
+		} else if (state == 6) {
+			//effect in
+			Debug.Log ("effect in");
+			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
+				p.loop = true;
+//				p.Play();
+				Debug.Log ("loop       " + p.loop);
+			}
+			this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
+			if (swordModel.GetComponent<FadeManager> ().isShow) {
+				state = 7;
+			} else {
+				state = 8;
+			}
+		} else if (state == 7) {
+			//sword out
+			swordModel.GetComponent<FadeManager> ().Fade (-0.01f);
+//			Debug.Log (swordModel.GetComponent<FadeManager> ().alpha);
+			if (!swordModel.GetComponent<FadeManager> ().isShow) {
+				state = 5;
+			}
+		} else if (state == 8) {
+			//sword in
+			swordModel.GetComponent<FadeManager> ().Fade (0.01f);
+			if (swordModel.GetComponent<FadeManager> ().isShow) {
+				state = 5;
+			}
+		} else if (state == -1) {
+			if (!swordModel.GetComponent<FadeManager> ().isShow) {
+				int count = 0;
+				foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
+					if(p.IsAlive() == false){
+						count++;
+					}
+				}
+				if (count == 2) {
+					if (virtualSword) {
+						Destroy (this.gameObject);
+					} else {
+						this.gameObject.SetActive (false);
+					}
+				}
+			}
+			
 		}
 
-		if(virtualSword && isHide){
+		if(isHide){
 			if (timeCount >= 5) {
-				this.gameObject.SetActive (false);
+//				this.gameObject.SetActive (false);
+				state = 6;
+				isHide = false;
 			}
 			timeCount += Time.deltaTime;
 		}
 	}
 
+	public void setHide(){
+		swordModel.GetComponent<FadeManager> ().SetAlpha (0f);
+		foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
+			p.loop = false;
+
+		}
+		this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
+	}
+
 	void OnCollisionStay(Collision other){
 		if (other.transform.tag == "Player") {
 			isHit = true;
+//			state = -1;
+//			this.GetComponent<Rigidbody> ().useGravity = true;
 		} else if(other.transform.tag == "SwordGround"){
 			if (state == 0 || state == 4) {
 				this.GetComponent<Rigidbody> ().isKinematic = true;
