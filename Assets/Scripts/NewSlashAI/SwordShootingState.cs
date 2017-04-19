@@ -43,10 +43,10 @@ public class SwordShootingAIState : AIState {
 	public void UpdateState(){
 		AI.transform.LookAt (AI.player.transform);
 		if (subState == 0) {
-			Debug.Log ("000000000000");
-			SubState0_2 ();
+			// Debug.Log ("000000000000");
+			// SubState0_2 ();
 		} else if (subState == 1) {
-			Debug.Log ("111111111111");
+			// Debug.Log ("111111111111");
 			SubState1 ();
 //			foreach (GameObject sword in swordList) {
 

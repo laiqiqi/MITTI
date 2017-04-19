@@ -20,8 +20,8 @@ public class FilterFadeOut : MonoBehaviour {
 			color.a -= 0.01f;
 			this.GetComponent<Renderer>().material.SetColor("_Color", color);
 		}
-		else{
-			Destroy(this.gameObject);
-		}
+		// else{
+		// 	Destroy(this.gameObject);
+		// }
 	}
 }

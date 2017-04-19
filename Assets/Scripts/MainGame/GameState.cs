@@ -10,7 +10,9 @@ public class GameState : MonoBehaviour {
 	public Material skyboxChaos;
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
-	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end;
+	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay;
+	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer;
+	public GameObject sceneDestroyer;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +21,7 @@ public class GameState : MonoBehaviour {
 		afterAIOpen = false;
 		mainGame = false;
 		end = false;
+		isFallingPlay = false;
 	}
 	
 	// Update is called once per frame
@@ -54,23 +57,37 @@ public class GameState : MonoBehaviour {
 		if(end) {
 			Debug.Log("End");
 			RenderSettings.skybox = skyboxNorm;
+			normalLight.SetActive(true);
+			chaosLight.SetActive(false);
 		}
 	}
 
 	void TutorialState(){
-		if(tutorAI.GetComponent<TutorialAI>().isEndTutor){
+		if(tutorAI.GetComponent<TutorialAI>().isEndTutor && !isFallingPlay){
 			Destroy(tutorEnvi.gameObject);
+			fallingWindSoundPlayer.Play();
+			isFallingPlay = true;
+		}
+		if(Player.instance.transform.position.y <= 150f && !isNearFallPlay){
+			nearFloorSoundPlayer.Play();
+			fallingWindSoundPlayer.isStartFadeOut = true;
+			isNearFallPlay = true;
 		}
 		if(Player.instance.transform.position.y <= 2f){
 			tutorialState = false;
 			AIOpen = true;
+
 			Destroy(outerEnvi);
+			Destroy(tutorAI);
+			
 			StatePatternAI.instance.stopState.EndState();
 			StatePatternAI.instance.awokenState.StartState();
 		}
 	}
 
 	void AIOpening(){
+		sceneDestroyer.SetActive(true);
+
 		if(StatePatternAI.instance.currentState != StatePatternAI.instance.awokenState){
 			AIOpen = false;
 
@@ -80,6 +97,7 @@ public class GameState : MonoBehaviour {
 			RenderSettings.ambientMode = AmbientMode.Skybox;
 			RenderSettings.ambientIntensity = 5f;
 			skyboxChaos.SetFloat("_Exposure", 8f);
+			sceneDestroyer.GetComponent<SceneDestroyer>().force = 100000f;
 			
 			afterAIOpen = true;
 		}
@@ -93,6 +111,7 @@ public class GameState : MonoBehaviour {
 		else{
 			afterAIOpen = false;
 			mainGame = true;
+			Destroy(sceneDestroyer);
 		}
 	}
 
@@ -101,7 +120,7 @@ public class GameState : MonoBehaviour {
 			skyboxChaos.SetFloat("_Rotation", 0f);
 		}
 		else{
-			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.1f);
+			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.01f);
 		}
 	}
 }

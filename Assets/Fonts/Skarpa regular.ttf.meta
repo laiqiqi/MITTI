@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 168c7fd39b1b2fc4cb8d9e0ec136ea1b
+timeCreated: 1492012068
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Skarpa Regular
+  fontNames:
+  - Skarpa Regular
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

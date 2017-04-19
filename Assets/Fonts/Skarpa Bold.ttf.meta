@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 74b769a33cda07441a17060de1b4748b
+timeCreated: 1492012230
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Skarpa Bold
+  fontNames:
+  - Skarpa Bold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 public class PlayerSummonBall : MonoBehaviour {
 
 	public GameObject transFilter;
+	public PlaySound windSoundPlayer1, windSoundPlayer2, lightSoundPlayer;
 
 	private SceneController sceneCon;
 	private Color color;
@@ -34,6 +36,9 @@ public class PlayerSummonBall : MonoBehaviour {
 		if(col.tag == "Player"){
 			isChangeScene = true;
 			transFilter.SetActive(true);
+			windSoundPlayer1.isStartFadeOut = true;
+			windSoundPlayer2.isStartFadeOut = true;
+			lightSoundPlayer.isStartFadeOut = true;
 		}
 	}
 }
