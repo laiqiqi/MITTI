@@ -54,11 +54,10 @@ namespace Valve.VR.InteractionSystem
 				if( currentAura != null){
 					float distanceToSlotPosition = Vector3.Distance( transform.parent.position, sword.auraSlotTransform.position );
 					if( ( distanceToSlotPosition < slotDistance ) ){
-						//revert back effects
-						//set aura ball to sword.tra
-						//detach the ball from this hand and make its parent sword.trauraSlotTransform
+						
+						if(sword.CheckNoAura()){
 						currentAura.transform.position = sword.auraSlotTransform.position;
-						if( hand.controller.GetPress( SteamVR_Controller.ButtonMask.Trigger)){
+						// if( hand.controller.GetPress( SteamVR_Controller.ButtonMask.Trigger)){
 						sword.SetSkillAura(currentAura);
 						
 						currentAura.transform.parent = sword.auraSlotTransform;
@@ -80,8 +79,8 @@ namespace Valve.VR.InteractionSystem
 						combined = true;
 
 						combinedAuraToSword();
-
 						}
+						// }
 
 					}else{
 						currentAura.transform.position = auraTransform.transform.position;

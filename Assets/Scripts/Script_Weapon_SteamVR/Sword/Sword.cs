@@ -8,6 +8,9 @@ namespace Valve.VR.InteractionSystem
 
 		// Use this for initialization
         public event DamageDealtHandler OnDamageDealt;
+        public GameObject bloodBlade;
+        public GameObject ultBlade;
+        public GameObject blade;
         public float BaseDamage = 10.0f;
         public Transform auraSlotTransform;
 		private List<SkillObserver> observers = new List<SkillObserver>();
@@ -38,6 +41,7 @@ namespace Valve.VR.InteractionSystem
             skillIsActive = true;
             //hook event for when skill finishes
             auraSkill.SkillFinish += new SwordSkillFinishHandler(OnSkillFinish);
+            
 		}
 
         void OnSkillFinish(){
@@ -45,6 +49,14 @@ namespace Valve.VR.InteractionSystem
             skillIsActive = false;
             aura = null;
             auraSkill = null;
+        }
+
+        public bool CheckNoAura(){
+            if(aura == null){
+                return true;
+            }else{
+                return false;
+            }
         }
 
         public void SetSkillAura(GameObject aura){
