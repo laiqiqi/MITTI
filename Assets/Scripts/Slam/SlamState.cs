@@ -27,14 +27,17 @@ public class SlamState : AIState {
         isStop = false;
         isStun = false;
         isEnd = false;
-        AI.speed = 40f;
+        AI.speed = 30f;
         this.attackTarget = attackTarget;
         moveToTarget = this.attackTarget + AI.transform.forward*30f;
 
         AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
         AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
-        slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward*1f);
+        slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward + AI.transform.up*0.05f);
         slamCol.transform.SetParent(AI.transform);
+        AI.GetComponent<SphereCollider>().enabled = true;
+        AI.body.GetComponent<SphereCollider>().isTrigger = true;
+        AI.EditMagnet(1000, 22);
     }
 
     public void UpdateState()
@@ -71,7 +74,7 @@ public class SlamState : AIState {
             // AI.GetComponent<Rigidbody>().velocity = Vector3.zero;
             AI.stunState.StartState(5f, AI.transform.forward * AI.speed);
         }
-        else if(AI.transform.position != moveToTarget && !isStop){
+        else if(Vector3.Distance(AI.transform.position, moveToTarget) > 0.1f && !isStop){
             // Debug.Log("Moveeeee");
             AI.transform.position = Vector3.MoveTowards(AI.transform.position,
                                                     moveToTarget,
