@@ -70,4 +70,13 @@ public class StunState : AIState {
             EndState();
         }
     }
+
+    void MagnetDown(){
+        AI.magnet.GetComponent<ContinuousExplosionForce>().size = 0;
+        AI.magnet.SetActive(false);
+    }
+
+    void MagnetUp(){
+        AI.magnet.GetComponent<ContinuousExplosionForce>().size = 15;
+    }
 }

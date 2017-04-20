@@ -97,7 +97,7 @@ public class GameState : MonoBehaviour {
 			RenderSettings.ambientMode = AmbientMode.Skybox;
 			RenderSettings.ambientIntensity = 5f;
 			skyboxChaos.SetFloat("_Exposure", 8f);
-			sceneDestroyer.GetComponent<SceneDestroyer>().force = 100000f;
+			sceneDestroyer.GetComponent<SceneDestroyer>().force = 1000f;
 			
 			afterAIOpen = true;
 		}
