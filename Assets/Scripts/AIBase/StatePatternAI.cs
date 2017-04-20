@@ -16,6 +16,8 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject[] swordController;
 	public GameObject AISword;
 	public GameObject AICube;
+
+	public GameObject cube;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------
@@ -101,7 +103,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		openingState.choice.AddRange(new AIState[]{seekState});
+		openingState.choice.AddRange(new AIState[]{stopState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
 		// floatingState.choice.AddRange(new AIState[]{});

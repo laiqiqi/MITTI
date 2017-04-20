@@ -11,7 +11,7 @@ public class OpeningState : AIState {
 	private float radius;
 	public List<AIState> choice{ get;set; }
 	private GameObject initialCube;
-	private int numCube = 2;
+	private int numCube = 20;
 	private Vector3 upPos;
 
 	public OpeningState(StatePatternAI statePatternAI){
@@ -43,12 +43,16 @@ public class OpeningState : AIState {
 				GameObject newcube = GameObject.Instantiate (initialCube, pos, Quaternion.identity) as GameObject;
 				newcube.SetActive (true);
 //				newcube.transform.GetChild (1).gameObject.SetActive (false);
+				// if(i > 15){
+				// 	newcube.transform.GetChild (1).gameObject.SetActive (false);
+				// 	// GameObject.Destroy (cubes[i].transform.GetChild (1).gameObject);
+				// }
 				newcube.GetComponent<AICube> ().state = 6;
 				newcube.gameObject.layer = 9;
 				cubes.Add (newcube);
 			}
 			for (int i = 0; i < 10; i++) {
-				Vector3 pos = new Vector3 (AI.transform.position.x + Random.Range (-10f, 10f), AI.transform.position.y + Random.Range (-5f, 5f), AI.transform.position.z + Random.Range (-10f, 10f));
+				Vector3 pos = new Vector3 (AI.transform.position.x + Random.Range (-8f, 8f), AI.transform.position.y + Random.Range (-8f, 8f), AI.transform.position.z + Random.Range (-8f, 8f));
 				GameObject newcube = GameObject.Instantiate (initialCube, pos, Quaternion.identity) as GameObject;
 				newcube.SetActive (true);
 				newcube.transform.GetChild (0).gameObject.SetActive (false);

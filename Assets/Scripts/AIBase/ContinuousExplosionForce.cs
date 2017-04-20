@@ -26,11 +26,11 @@ public class ContinuousExplosionForce : MonoBehaviour
 				col.GetComponent<Rigidbody>().AddExplosionForce(force,transform.position,radius,upwardsModifier,forceMode);
 				if (magnetObjList.Count < size) {
 					magnetObjList.Add (col.gameObject);
-					col.transform.parent = this.transform;
+					// col.transform.parent = this.transform;
 				}
 				else if (magnetObjList.Count > size) {
 					magnetObjList.Remove (col.gameObject);
-					col.transform.parent = null;
+					// col.transform.parent = null;
 				}
 			}
 		}
