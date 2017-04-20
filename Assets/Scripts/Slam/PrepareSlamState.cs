@@ -56,7 +56,7 @@ public class PrepareSlamState : AIState {
             if(!hasCircle){
                 AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
                 slamCircle = AI.effectManager.CreateAndReturnCircleByName(MagicCircleName.SLAM_CIRCLE ,AIFrontPos);
-                slamCircle.transform.SetParent(AI.transform);
+                slamCircle.transform.SetParent(AI.body.transform);
                 circleLight = slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>();
                 hasCircle = true;
             }

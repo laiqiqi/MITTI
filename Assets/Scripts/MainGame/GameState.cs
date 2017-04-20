@@ -13,6 +13,7 @@ public class GameState : MonoBehaviour {
 	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay;
 	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer;
 	public GameObject sceneDestroyer, sceneProps;
+	public GameObject playerTransFilter;
 
 	// Use this for initialization
 	void Start () {
@@ -61,6 +62,7 @@ public class GameState : MonoBehaviour {
 			RenderSettings.skybox = skyboxNorm;
 			normalLight.SetActive(true);
 			chaosLight.SetActive(false);
+			
 		}
 	}
 
@@ -88,7 +90,9 @@ public class GameState : MonoBehaviour {
 	}
 
 	void AIOpening(){
-		sceneDestroyer.SetActive(true);
+		if(StatePatternAI.instance.transform.position.y > 4.5f){
+			sceneDestroyer.SetActive(true);
+		}
 
 		if(StatePatternAI.instance.currentState != StatePatternAI.instance.openingState){
 			AIOpen = false;
@@ -101,7 +105,7 @@ public class GameState : MonoBehaviour {
 			skyboxChaos.SetFloat("_Exposure", 8f);
 			Debug.Log("force");
 			sceneDestroyer.GetComponent<SceneDestroyer>().force = 10f;
-			sceneDestroyer.GetComponent<SceneDestroyer>().upwardsModifier = 1f;
+			sceneDestroyer.GetComponent<SceneDestroyer>().upwardsModifier = 5f;
 			
 			afterAIOpen = true;
 		}

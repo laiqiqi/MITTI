@@ -103,41 +103,41 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		openingState.choice.AddRange(new AIState[]{stopState});
+		openingState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
-		// floatingState.choice.AddRange(new AIState[]{});
-		// AIStateFlow.Add(floatingState, floatingState.choice);
+		floatingState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(floatingState, floatingState.choice);
 
-		// seekState.choice.AddRange(new AIState[]{stompState});
-		// AIStateFlow.Add(seekState, seekState.choice);
+		seekState.choice.AddRange(new AIState[]{stompState});
+		AIStateFlow.Add(seekState, seekState.choice);
 
-		// stompState.choice.AddRange(new AIState[]{});
-		// AIStateFlow.Add(stompState, stompState.choice);
+		stompState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(stompState, stompState.choice);
 
-		// prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
-		// AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
+		prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
+		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
 
-		// digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
-		// AIStateFlow.Add(digStrikeState, digStrikeState.choice);
+		digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
+		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
 
-		// shootState.choice.AddRange(new AIState[]{});
-		// AIStateFlow.Add(shootState, shootState.choice);
+		shootState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(shootState, shootState.choice);
 
-		// prepareSlamState.choice.AddRange(new AIState[]{slamState});
-		// AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
+		prepareSlamState.choice.AddRange(new AIState[]{slamState});
+		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
 
-		// slamState.choice.AddRange(new AIState[]{escapeState});
-		// AIStateFlow.Add(slamState, slamState.choice);
+		slamState.choice.AddRange(new AIState[]{escapeState});
+		AIStateFlow.Add(slamState, slamState.choice);
 
-		// escapeState.choice.AddRange(new AIState[]{slamState});
-		// AIStateFlow.Add(escapeState, escapeState.choice);
+		escapeState.choice.AddRange(new AIState[]{slamState});
+		AIStateFlow.Add(escapeState, escapeState.choice);
 
-		// stopState.choice.AddRange(new AIState[]{});
-		// AIStateFlow.Add(stopState, stopState.choice);
+		stopState.choice.AddRange(new AIState[]{});
+		AIStateFlow.Add(stopState, stopState.choice);
 
-		// stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
-		// AIStateFlow.Add(stunState, stunState.choice);
+		stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
+		AIStateFlow.Add(stunState, stunState.choice);
 
 		foreach(AIState state in AIStateFlow.Keys){
 			Debug.Log(state);
@@ -162,6 +162,11 @@ public class StatePatternAI: MonoBehaviour {
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
+		// if(magnet.transform.parent == body.transform){
+		// 	if(Vector3.Distance(magnet.transform.localPosition, Vector3.zero) > 0.1f){
+		// 		magnet.transform.localPosition = Vector3.MoveTowards(magnet.transform.position, Vector3.zero, 5f * Time.fixedDeltaTime);
+		// 	}
+		// }
 	}
 
 	void InitAllState(){
@@ -227,5 +232,18 @@ public class StatePatternAI: MonoBehaviour {
 			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
 			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
 		}
+	}
+
+	public void DisableMagnet() {
+		magnet.GetComponent<ContinuousExplosionForce>().radius = 0;
+		magnet.GetComponent<ContinuousExplosionForce>().size = 0;
+		// magnet.transform.parent = null;
+	}
+
+	public void EditMagnet(float radius, int size) {
+		magnet.GetComponent<ContinuousExplosionForce>().radius = radius;
+		magnet.GetComponent<ContinuousExplosionForce>().size = size;
+		// magnet.transform.parent = body.transform;
+		// magnet.transform.localPosition = Vector3.zero;	
 	}
 }
