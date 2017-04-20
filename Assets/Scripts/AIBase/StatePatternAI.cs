@@ -41,7 +41,6 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public StopState stopState;
 	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public StunState stunState;
-	[HideInInspector] public AwokenState awokenState;
 
 //	[HideInInspector] public SwordFloatingAIState swordFloatingAIState;
 	[HideInInspector] public SwordSlashingAIState swordSlashingAIState;
@@ -77,7 +76,6 @@ public class StatePatternAI: MonoBehaviour {
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
-		awokenState = new AwokenState (this);
 		floatingState = new FloatingAIState (this);
 		seekState = new SeekState (this);
 		stompState = new StompState (this);
@@ -103,56 +101,56 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		// awokenState.choice.AddRange(new AIState[]{prepareSlamState, seekState, digStrikeState});
-		awokenState.choice.AddRange(new AIState[]{prepareSlamState});
-		AIStateFlow.Add(awokenState, awokenState.choice);
+		openingState.choice.AddRange(new AIState[]{seekState});
+		AIStateFlow.Add(openingState, openingState.choice);
 
-		floatingState.choice.AddRange(new AIState[]{});
-		AIStateFlow.Add(floatingState, floatingState.choice);
+		// floatingState.choice.AddRange(new AIState[]{});
+		// AIStateFlow.Add(floatingState, floatingState.choice);
 
-		seekState.choice.AddRange(new AIState[]{stompState});
-		AIStateFlow.Add(seekState, seekState.choice);
+		// seekState.choice.AddRange(new AIState[]{stompState});
+		// AIStateFlow.Add(seekState, seekState.choice);
 
-		stompState.choice.AddRange(new AIState[]{});
-		AIStateFlow.Add(stompState, stompState.choice);
+		// stompState.choice.AddRange(new AIState[]{});
+		// AIStateFlow.Add(stompState, stompState.choice);
 
-		prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
-		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
+		// prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
+		// AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
 
-		digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
-		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
+		// digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
+		// AIStateFlow.Add(digStrikeState, digStrikeState.choice);
 
-		shootState.choice.AddRange(new AIState[]{});
-		AIStateFlow.Add(shootState, shootState.choice);
+		// shootState.choice.AddRange(new AIState[]{});
+		// AIStateFlow.Add(shootState, shootState.choice);
 
-		prepareSlamState.choice.AddRange(new AIState[]{slamState});
-		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
+		// prepareSlamState.choice.AddRange(new AIState[]{slamState});
+		// AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
 
-		slamState.choice.AddRange(new AIState[]{escapeState});
-		AIStateFlow.Add(slamState, slamState.choice);
+		// slamState.choice.AddRange(new AIState[]{escapeState});
+		// AIStateFlow.Add(slamState, slamState.choice);
 
-		escapeState.choice.AddRange(new AIState[]{slamState});
-		AIStateFlow.Add(escapeState, escapeState.choice);
+		// escapeState.choice.AddRange(new AIState[]{slamState});
+		// AIStateFlow.Add(escapeState, escapeState.choice);
 
-		stopState.choice.AddRange(new AIState[]{});
-		AIStateFlow.Add(stopState, stopState.choice);
+		// stopState.choice.AddRange(new AIState[]{});
+		// AIStateFlow.Add(stopState, stopState.choice);
 
-		stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
-		AIStateFlow.Add(stunState, stunState.choice);
+		// stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
+		// AIStateFlow.Add(stunState, stunState.choice);
 
-		// foreach(AIState state in AIStateFlow.Keys){
-		// 	Debug.Log(state);
-		// }
+		foreach(AIState state in AIStateFlow.Keys){
+			Debug.Log(state);
+		}
 
 
 //		floatingState.StartState();
-		openingState.StartState();
-//		swordShootingAIState.StartState();
+		// openingState.StartState();
+		// swordShootingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
+		stopState.StartState();
 	}
 	
 	// Update is called once per frame

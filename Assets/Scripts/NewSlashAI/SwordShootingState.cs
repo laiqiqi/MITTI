@@ -22,6 +22,7 @@ public class SwordShootingAIState : AIState {
 	}
 
 	public void StartState(){
+		Debug.Log("aaaa=====");
 		AI.currentState = AI.swordShootingAIState;
 		speed = 200;
 		subState = 0;
@@ -87,7 +88,7 @@ public class SwordShootingAIState : AIState {
 				if (Mathf.Abs (sword.transform.position.y - AI.transform.position.y) < 1) {
 //					if(!sword.GetComponent<AISword>().swordModel.GetComponent<FadeManager>().isShow){
 					if (sword.activeSelf == false) {
-//						Debug.Log ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasaaaaaaaaa");
+						Debug.Log ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasaaaaaaaaa");
 						sword.SetActive (true);
 						sword.GetComponent<AISword> ().state = 6;
 					}

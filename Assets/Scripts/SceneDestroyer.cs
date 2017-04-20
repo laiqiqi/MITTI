@@ -24,11 +24,14 @@ public class SceneDestroyer : MonoBehaviour
 		minPos = transform.right*-15f;
 		moveFront = true;
 		incForce = true;
+		// Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), GetComponent<Collider>());
+		// Physics.IgnoreLayerCollision(10, 9);
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
+
 		foreach(Collider col in Physics.OverlapSphere(transform.position, radius))
 		{
 			if(col.GetComponent<Rigidbody>() != null && col.transform.tag == "SceneProps")
@@ -44,29 +47,31 @@ public class SceneDestroyer : MonoBehaviour
 				}
 			}
 		}
-		
-		if(moveFront){
-			transform.position = Vector3.MoveTowards(transform.position, maxPos, speed*Time.fixedDeltaTime);
-			if(Vector3.Distance(transform.position, maxPos) < 0.1f){
-				moveFront = !moveFront;
-			}
-		}
-		else{
-			transform.position = Vector3.MoveTowards(transform.position, minPos, speed*Time.fixedDeltaTime);
-			if(Vector3.Distance(transform.position, minPos) < 0.1f){
-				moveFront = !moveFront;
-			}
-		}
 
-		if(force < 100 && incForce){
-			force += 10f;
-		}
-		else{
-			force -= 5f;
-			incForce = false;
-			if(force < -100){
-				incForce = true;
-			}
-		}
+		transform.Rotate(Vector3.up);
+		
+		// if(moveFront){
+		// 	transform.position = Vector3.MoveTowards(transform.position, maxPos, speed*Time.fixedDeltaTime);
+		// 	if(Vector3.Distance(transform.position, maxPos) < 0.1f){
+		// 		moveFront = !moveFront;
+		// 	}
+		// }
+		// else{
+		// 	transform.position = Vector3.MoveTowards(transform.position, minPos, speed*Time.fixedDeltaTime);
+		// 	if(Vector3.Distance(transform.position, minPos) < 0.1f){
+		// 		moveFront = !moveFront;
+		// 	}
+		// }
+
+		// if(force < 1 && incForce){
+		// 	force += 0.1f;
+		// }
+		// else{
+		// 	force -= 0.1f;
+		// 	incForce = false;
+		// 	if(force < -2){
+		// 		incForce = true;
+		// 	}
+		// }
 	}
 }

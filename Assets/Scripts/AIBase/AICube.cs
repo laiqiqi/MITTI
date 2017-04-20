@@ -19,6 +19,9 @@ public class AICube : MonoBehaviour {
 		//		isHide = false;
 		timeCount = 0;
 		//		virtualSword = false;
+		gameObject.layer = 9;
+		effect.layer = 9;
+		model.layer = 9;
 	}
 
 	// Update is called once per frame
@@ -84,7 +87,7 @@ public class AICube : MonoBehaviour {
 			p.loop = false;
 
 		}
-		this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
+		// this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 	}
 		
 }
