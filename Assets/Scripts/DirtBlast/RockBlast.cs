@@ -41,7 +41,7 @@ public class RockBlast : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision col) {
-		Debug.Log(col.collider.tag);
+		// Debug.Log(col.collider.tag);
 		if(col.collider.tag == "Player" && !isHit && isHasDamage){
 			isHit = true;
 			Debug.Log(col.collider.tag);

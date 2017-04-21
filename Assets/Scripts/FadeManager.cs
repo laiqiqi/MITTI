@@ -14,7 +14,7 @@ public class FadeManager : MonoBehaviour {
 
 	void Update(){
 //		lerpAlpha();
-		Debug.Log(isShow);
+		// Debug.Log(isShow);
 	}
 
 	public void Fade (float alpha) {

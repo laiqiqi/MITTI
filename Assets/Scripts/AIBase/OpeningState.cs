@@ -12,6 +12,7 @@ public class OpeningState : AIState {
 	public List<AIState> choice{ get;set; }
 	private GameObject initialCube;
 	private int numCube = 20;
+	private Vector3 upPos;
 
 	public OpeningState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
@@ -21,32 +22,42 @@ public class OpeningState : AIState {
 	public void StartState(){
 		AI.currentState = AI.openingState;
 		speed = 200;
-		subState = 0;
+		subState = -1;
 		radius = 2.5f;
 		cubes = new List<GameObject> ();
 		AI.AICube.gameObject.SetActive(false);
 		initialCube = AI.AICube.gameObject;
 		initialCube.GetComponent<AICube> ().setHide ();
+		upPos = AI.transform.position + (Vector3.up * 5f);
 	}
 
 	public void UpdateState(){
 		AI.transform.LookAt (AI.player.transform);
-		if (subState == 0) {
+		if (subState == -1) {
+			FloatUp();
+		}
+		else if (subState == 0) {
 			Debug.Log ("testtt");
 			for (int i = 0; i < numCube; i++) {
 				Vector3 pos = new Vector3 (AI.transform.position.x + Random.Range (-2f, 2f), AI.transform.position.y + Random.Range (-2f, 2f), AI.transform.position.z + Random.Range (-2f, 2f));
 				GameObject newcube = GameObject.Instantiate (initialCube, pos, Quaternion.identity) as GameObject;
 				newcube.SetActive (true);
 //				newcube.transform.GetChild (1).gameObject.SetActive (false);
+				// if(i > 15){
+				// 	newcube.transform.GetChild (1).gameObject.SetActive (false);
+				// 	// GameObject.Destroy (cubes[i].transform.GetChild (1).gameObject);
+				// }
 				newcube.GetComponent<AICube> ().state = 6;
+				newcube.gameObject.layer = 9;
 				cubes.Add (newcube);
 			}
 			for (int i = 0; i < 10; i++) {
-				Vector3 pos = new Vector3 (AI.transform.position.x + Random.Range (-10f, 10f), AI.transform.position.y + Random.Range (-5f, 5f), AI.transform.position.z + Random.Range (-10f, 10f));
+				Vector3 pos = new Vector3 (AI.transform.position.x + Random.Range (-8f, 8f), AI.transform.position.y + Random.Range (-8f, 8f), AI.transform.position.z + Random.Range (-8f, 8f));
 				GameObject newcube = GameObject.Instantiate (initialCube, pos, Quaternion.identity) as GameObject;
 				newcube.SetActive (true);
 				newcube.transform.GetChild (0).gameObject.SetActive (false);
 				newcube.transform.GetChild (1).gameObject.SetActive (true);
+				newcube.gameObject.layer = 9;
 				cubes.Add (newcube);
 			}
 			subState = 1;
@@ -80,12 +91,24 @@ public class OpeningState : AIState {
 				}
 			}
 			subState = 3;
+			EndState();
 		}
 
 	}
 
-	public void EndState(){
+	void FloatUp()
+    {
+		if(Vector3.Distance(AI.transform.position, upPos) > 0.1f){
+			AI.transform.position = Vector3.MoveTowards(AI.transform.position, upPos, AI.speed * Time.deltaTime);
+		}
+        else{
+			subState = 0;
+		}
+    }
 
+	public void EndState(){
+		Debug.Log("EndOpen");
+		AI.NextState();
 	}
 
 	public void StateChangeCondition(){

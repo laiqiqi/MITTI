@@ -8,7 +8,7 @@ public class ContinuousExplosionForce : MonoBehaviour
 	public float radius = 50f;
 	public float upwardsModifier = 0.0f;
 	public ForceMode forceMode;
-	public int size = 20;
+	public int size = 0;
 	private List<GameObject> magnetObjList;
 
 	// Use this for initialization
@@ -27,6 +27,10 @@ public class ContinuousExplosionForce : MonoBehaviour
 				if (magnetObjList.Count < size) {
 					magnetObjList.Add (col.gameObject);
 					col.transform.parent = this.transform;
+				}
+				else if (magnetObjList.Count > size) {
+					magnetObjList.Remove (col.gameObject);
+					col.transform.parent = null;
 				}
 			}
 		}

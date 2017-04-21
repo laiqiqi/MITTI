@@ -95,5 +95,10 @@ namespace Valve.VR.InteractionSystem
 			camAA.blurRadius = 18;
 			player.GetComponent<PlayerStat>().isDazzle = false;
 		}
+
+		public void TakeDamage(float damage){
+			playerStat.health -= damage;
+			
+		}
 	}
 }

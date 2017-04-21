@@ -19,6 +19,9 @@ public class AICube : MonoBehaviour {
 		//		isHide = false;
 		timeCount = 0;
 		//		virtualSword = false;
+		gameObject.layer = 9;
+		effect.layer = 9;
+		model.layer = 9;
 	}
 
 	// Update is called once per frame
@@ -56,6 +59,7 @@ public class AICube : MonoBehaviour {
 			}
 		} else if (state == 8) {
 			//sword in
+			// Debug.LogError("aaaaaaaaaaaaaaaaaaa");
 			model.GetComponent<FadeManager> ().Fade (0.05f);
 			if (model.GetComponent<FadeManager> ().isShow) {
 				state = 5;
@@ -68,10 +72,11 @@ public class AICube : MonoBehaviour {
 						count++;
 					}
 				}
-			Debug.Log (this.effect.transform.GetComponentsInChildren<ParticleSystem>().Length+"      length");
+			// Debug.Log (this.effect.transform.GetComponentsInChildren<ParticleSystem>().Length+"      length");
 			if (count == this.effect.transform.GetComponentsInChildren<ParticleSystem>().Length) {
-				Debug.Log (this.effect.transform.GetComponentsInChildren<ParticleSystem>().Length+"      Hide");
+				// Debug.Log (this.effect.transform.GetComponentsInChildren<ParticleSystem>().Length+"      Hide");
 					isHide = true;
+					state = 0;
 				}
 //			}
 
@@ -84,7 +89,7 @@ public class AICube : MonoBehaviour {
 			p.loop = false;
 
 		}
-		this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
+		// this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 	}
 		
 }

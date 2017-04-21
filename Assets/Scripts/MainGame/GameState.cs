@@ -10,7 +10,10 @@ public class GameState : MonoBehaviour {
 	public Material skyboxChaos;
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
-	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end;
+	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay;
+	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer;
+	public GameObject sceneDestroyer, sceneProps;
+	public GameObject playerTransFilter;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +22,9 @@ public class GameState : MonoBehaviour {
 		afterAIOpen = false;
 		mainGame = false;
 		end = false;
+		isFallingPlay = false;
+		Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), sceneDestroyer.GetComponent<Collider>());
+		Physics.IgnoreLayerCollision(10, 9);
 	}
 	
 	// Update is called once per frame
@@ -54,24 +60,41 @@ public class GameState : MonoBehaviour {
 		if(end) {
 			Debug.Log("End");
 			RenderSettings.skybox = skyboxNorm;
+			normalLight.SetActive(true);
+			chaosLight.SetActive(false);
+			
 		}
 	}
 
 	void TutorialState(){
-		if(tutorAI.GetComponent<TutorialAI>().isEndTutor){
+		if(tutorAI.GetComponent<TutorialAI>().isEndTutor && !isFallingPlay){
 			Destroy(tutorEnvi.gameObject);
+			fallingWindSoundPlayer.Play();
+			isFallingPlay = true;
+		}
+		if(Player.instance.transform.position.y <= 150f && !isNearFallPlay){
+			nearFloorSoundPlayer.Play();
+			fallingWindSoundPlayer.isStartFadeOut = true;
+			isNearFallPlay = true;
 		}
 		if(Player.instance.transform.position.y <= 2f){
 			tutorialState = false;
 			AIOpen = true;
+
 			Destroy(outerEnvi);
+			Destroy(tutorAI);
+			
 			StatePatternAI.instance.stopState.EndState();
-			StatePatternAI.instance.awokenState.StartState();
+			StatePatternAI.instance.openingState.StartState();
 		}
 	}
 
 	void AIOpening(){
-		if(StatePatternAI.instance.currentState != StatePatternAI.instance.awokenState){
+		if(StatePatternAI.instance.transform.position.y > 4.5f){
+			sceneDestroyer.SetActive(true);
+		}
+
+		if(StatePatternAI.instance.currentState != StatePatternAI.instance.openingState){
 			AIOpen = false;
 
 			normalLight.SetActive(false);
@@ -80,6 +103,9 @@ public class GameState : MonoBehaviour {
 			RenderSettings.ambientMode = AmbientMode.Skybox;
 			RenderSettings.ambientIntensity = 5f;
 			skyboxChaos.SetFloat("_Exposure", 8f);
+			Debug.Log("force");
+			sceneDestroyer.GetComponent<SceneDestroyer>().force = 10f;
+			sceneDestroyer.GetComponent<SceneDestroyer>().upwardsModifier = 5f;
 			
 			afterAIOpen = true;
 		}
@@ -93,6 +119,8 @@ public class GameState : MonoBehaviour {
 		else{
 			afterAIOpen = false;
 			mainGame = true;
+			Destroy(sceneDestroyer);
+			Destroy(sceneProps);
 		}
 	}
 
@@ -101,7 +129,7 @@ public class GameState : MonoBehaviour {
 			skyboxChaos.SetFloat("_Rotation", 0f);
 		}
 		else{
-			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.1f);
+			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.01f);
 		}
 	}
 }

@@ -13,8 +13,11 @@ namespace Valve.VR.InteractionSystem
 		public float healpercent = 0.5f;
 		private PlayerHealth health;
 		private string skillType = "normal";
+		private IEnumerator executionTime;
+		private Sword sword;
 		void Start () {
 			health = Player.instance.playerHealth.GetComponent<PlayerHealth>();
+			executionTime = ExecuteTime();
 		}
 		public int GetCoolDown(){
 			return cooldown;
@@ -23,12 +26,17 @@ namespace Valve.VR.InteractionSystem
 			return skillType;
 		}
 		public void Execute(GameObject sword){
-
+			StartCoroutine(executionTime);
+			this.sword = sword.GetComponent<Sword>();
+			//play fade here
+			this.sword.bloodBlade.SetActive(true);
 			//begin aura
 		}
 		private void Revert(){
 			Debug.Log("auraball B reverted");
+			this.sword.bloodBlade.SetActive(false);
 			SelfDestruct();
+			
 			//stop and revert all effects
 		}
 		public void OnColEnter(){
@@ -52,8 +60,9 @@ namespace Valve.VR.InteractionSystem
 						SkillFinish();
 					}
 				}
+				yield return new WaitForSeconds(1);
 			}
-			yield return new WaitForSeconds(1);
+			
 		}
 	}
 }

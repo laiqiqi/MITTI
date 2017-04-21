@@ -16,6 +16,8 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject[] swordController;
 	public GameObject AISword;
 	public GameObject AICube;
+
+	public GameObject cube;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------
@@ -41,7 +43,6 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public StopState stopState;
 	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public StunState stunState;
-	[HideInInspector] public AwokenState awokenState;
 
 //	[HideInInspector] public SwordFloatingAIState swordFloatingAIState;
 	[HideInInspector] public SwordSlashingAIState swordSlashingAIState;
@@ -77,7 +78,6 @@ public class StatePatternAI: MonoBehaviour {
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
-		awokenState = new AwokenState (this);
 		floatingState = new FloatingAIState (this);
 		seekState = new SeekState (this);
 		stompState = new StompState (this);
@@ -103,8 +103,8 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		awokenState.choice.AddRange(new AIState[]{seekState});
-		AIStateFlow.Add(awokenState, awokenState.choice);
+		openingState.choice.AddRange(new AIState[]{prepareSlamState});
+		AIStateFlow.Add(openingState, openingState.choice);
 
 		floatingState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(floatingState, floatingState.choice);
@@ -115,28 +115,28 @@ public class StatePatternAI: MonoBehaviour {
 		stompState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stompState, stompState.choice);
 
-		prepareDigStrikeState.choice.AddRange(new AIState[]{});
+		prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
 		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
 
-		digStrikeState.choice.AddRange(new AIState[]{seekState});
+		digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
 		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
 
 		shootState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(shootState, shootState.choice);
 
-		prepareSlamState.choice.AddRange(new AIState[]{});
+		prepareSlamState.choice.AddRange(new AIState[]{slamState});
 		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
 
-		slamState.choice.AddRange(new AIState[]{});
+		slamState.choice.AddRange(new AIState[]{escapeState});
 		AIStateFlow.Add(slamState, slamState.choice);
 
-		escapeState.choice.AddRange(new AIState[]{});
+		escapeState.choice.AddRange(new AIState[]{slamState});
 		AIStateFlow.Add(escapeState, escapeState.choice);
 
 		stopState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stopState, stopState.choice);
 
-		stunState.choice.AddRange(new AIState[]{});
+		stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
 		AIStateFlow.Add(stunState, stunState.choice);
 
 		foreach(AIState state in AIStateFlow.Keys){
@@ -145,13 +145,14 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		floatingState.StartState();
-		openingState.StartState();
-		swordSlashingAIState.StartState();
+//		openingState.StartState();
+//		swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
+		stopState.StartState();
 	}
 	
 	// Update is called once per frame
@@ -161,6 +162,11 @@ public class StatePatternAI: MonoBehaviour {
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
+		// if(magnet.transform.parent == body.transform){
+		// 	if(Vector3.Distance(magnet.transform.localPosition, Vector3.zero) > 0.1f){
+		// 		magnet.transform.localPosition = Vector3.MoveTowards(magnet.transform.position, Vector3.zero, 5f * Time.fixedDeltaTime);
+		// 	}
+		// }
 	}
 
 	void InitAllState(){
@@ -186,14 +192,14 @@ public class StatePatternAI: MonoBehaviour {
 
 	}
 	public void RagdollMode(){
-        this.GetComponent<CapsuleCollider>().enabled = true;
+        this.GetComponent<SphereCollider>().enabled = true;
         this.GetComponent<Rigidbody>().useGravity = true;
         this.GetComponent<Rigidbody>().drag = 0;
         this.GetComponent<Rigidbody>().angularDrag = 0;
     }
 
     public void NoRagdollMode(){
-        this.GetComponent<CapsuleCollider>().enabled = false;
+        this.GetComponent<SphereCollider>().enabled = false;
         this.GetComponent<Rigidbody>().useGravity = false;
         this.GetComponent<Rigidbody>().drag = Mathf.Infinity;
         this.GetComponent<Rigidbody>().angularDrag = Mathf.Infinity;
@@ -215,7 +221,7 @@ public class StatePatternAI: MonoBehaviour {
 		else if(currentState == slamState){
 			Debug.Log("Next2");
 			if(slamState.isStun){
-				currentState = stunState;
+				stunState.StartState();
 			}
 			else{
 
@@ -223,7 +229,21 @@ public class StatePatternAI: MonoBehaviour {
 		}
 		else{
 			Debug.Log("Next3");
-			currentState = AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)];
+			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
+			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
 		}
+	}
+
+	public void DisableMagnet() {
+		magnet.GetComponent<ContinuousExplosionForce>().radius = 0;
+		magnet.GetComponent<ContinuousExplosionForce>().size = 0;
+		// magnet.transform.parent = null;
+	}
+
+	public void EditMagnet(float radius, int size) {
+		magnet.GetComponent<ContinuousExplosionForce>().radius = radius;
+		magnet.GetComponent<ContinuousExplosionForce>().size = size;
+		// magnet.transform.parent = body.transform;
+		// magnet.transform.localPosition = Vector3.zero;	
 	}
 }
