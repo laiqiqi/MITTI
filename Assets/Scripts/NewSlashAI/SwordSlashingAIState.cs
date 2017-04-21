@@ -124,10 +124,10 @@ public class SwordSlashingAIState : AIState {
 //				swords [i].transform.GetChild (2).GetComponent<Rigidbody> ().useGravity = true;
 			}
 			Debug.Log ("hitcount    " + hitCount);
-//			if (hitCount >= 5) {
-//				sc.GetComponent<AISwordController> ().state = 8;
-//				hitCount = 0;
-//			}
+			if (hitCount >= 5) {
+				sc.GetComponent<AISwordController> ().state = 8;
+				hitCount = 0;
+			}
 //			if(Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius){
 //				circleCenter.position = AI.player.transform.position;
 //				AI.transform.parent = circleCenter.transform;
@@ -336,26 +336,23 @@ public class SwordSlashingAIState : AIState {
 //		Vector3 playerPos = AI.player.transform.position;
 //		playerPos.y = AI.transform.position.y;
 //		Debug.Log("88888888888888888888888");
+		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
 		AI.transform.position += -AI.transform.forward*Time.deltaTime*10;
 //		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, speed/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > 2*playerRadius) {
-			sc.GetComponent<AISwordController> ().state = 10;
-			swords[i].GetComponent<AISword> ().state = 6;
-			swords[i].gameObject.SetActive (false);
+			sc.GetComponent<AISwordController> ().state = -2;
+//			swords[i].GetComponent<AISword> ().state = 6;
+//			swords[i].gameObject.SetActive (false);
 			Debug.Log ("ssssss"+sc.GetComponent<AISwordController> ().state);
 		}
 	}
 
 	public void SubstateMoveInCircle(GameObject sc, int i){
-//		sc.GetComponent<Rigidbody> ().isKinematic = true;
-		circleCenter.position = AI.player.transform.position;
-		AI.transform.parent = circleCenter.transform;
-		circleCenter.transform.Rotate (0f, 1f, 0f);
-		if (timeToStop > 2f) {
-			sc.GetComponent<AISwordController> ().state = 3;
-			sc.GetComponent<Rigidbody> ().isKinematic = false;
-		}
-		timeToStop += Time.deltaTime;
+		Vector3 v = AI.transform.position - AI.player.transform.position;
+		float degreesPerSecond = 60f;
+		v = Quaternion.AngleAxis (degreesPerSecond * Time.deltaTime, Vector3.up) * v;
+		AI.transform.position = AI.player.transform.position + v;
+
 	}
 
 	public void RandomVectorForSlashing(GameObject sc, int i){
