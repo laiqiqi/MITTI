@@ -23,7 +23,7 @@ namespace Valve.VR.InteractionSystem
 			Inventory.WeaponChanged += new WeaponChangeHandler(WeaponChangeStartCharge);
 		}
 		void WeaponChangeStartCharge(GameObject newWeapon, Canvas newUI){
-			
+			Debug.Log("weapon change");
 			//if swordCharge or if bowCharge or if hand is empty
 			if(newWeapon != null){
 				if(newWeapon.GetComponent<ArrowHand>() != null){
@@ -31,8 +31,10 @@ namespace Valve.VR.InteractionSystem
 					BarCharge previousCharge = currentCharge;
 					if(previousCharge != null)
 					{
+						Debug.Log("weapon change to arrow");
 						previousCharge.StopIncrease();
 					}
+					swordSkill.SetCanvasStatus(false);
 					currentSkill = arrowSkill;
 					currentCharge = arrowCharge;
 					currentWeapon = newWeapon;
@@ -46,20 +48,28 @@ namespace Valve.VR.InteractionSystem
 					newWeapon.GetComponent<ArrowHand>().UltimateFired += new UltimateFireHandler(UltimateFiredListener);
 					newWeapon.GetComponent<ArrowHand>().DamageDealt += new DamageHandler(DamageDealtListener);
 					
-				}else if(newWeapon.GetComponent<Sword>() != null){
+				}else if(newWeapon.GetComponent<AuraHand>() != null){
 					GameObject previousWeapon = currentWeapon;
 					BarCharge previousCharge = currentCharge;
 					if(previousCharge != null)
 					{
+						Debug.Log("weapon change to sword");
 						previousCharge.StopIncrease();
 					}
 					//set swordskillcanvas status to true
 					arrowSkill.SetCanvasStatus(false);
 					currentSkill = swordSkill;
 					currentCharge = swordCharge;
-					// swordCharge.SetCanvas(newUI);
-					// swordCharge.StartIncrease();
 					currentWeapon = newWeapon;
+					swordSkill.SetCanvas(newUI);
+					swordSkill.CheckCoolDown();
+					swordSkill.SetCanvasStatus(true);
+					swordCharge.SetCanvas(newUI);
+					swordCharge.StartIncrease();
+					newWeapon.GetComponent<AuraHand>().SkillFired += new SwordSkillFiredHandler(SkillFiredListener);
+					newWeapon.GetComponent<AuraHand>().UltFired += new SwordUltimateFiredHandler(UltimateFiredListener);
+					newWeapon.GetComponent<AuraHand>().DamageDealt += new SwordDamageDealtHandler(DamageDealtListener);
+					
 				}
 			}
 			else{
@@ -67,31 +77,28 @@ namespace Valve.VR.InteractionSystem
 				BarCharge previousCharge = currentCharge;
 				if(previousCharge != null)
 				{
+					Debug.Log("weapon change to null");
 					previousCharge.StopIncrease();
 				}
 				currentSkill = null;
 				currentWeapon = null;
 				currentCharge = null;
 				arrowSkill.SetCanvasStatus(false);
+				swordSkill.SetCanvasStatus(false);
 				//set swordskill canvas status to false
 			}
 		}
 		private void UltimateFiredListener(){
 			currentCharge.Reset();
 		}
-		private void SkillFiredListener(Skill skill){
-			Debug.Log(currentSkill);
-			Debug.Log("skill" + skill);
-			currentSkill.InitiateCD(skill.GetCoolDown());
+		private void SkillFiredListener(int cooldown){
+			currentSkill.InitiateCD(cooldown);
 		}
 
 		private void DamageDealtListener(){
 			currentCharge.FlatIncrease();
 		}
-		// Update is called once per frame
-		void Update () {
-			
-		}
+
 
 	}
 }

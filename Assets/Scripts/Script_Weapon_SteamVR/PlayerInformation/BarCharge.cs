@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BarCharge : MonoBehaviour {
 	//the canvas
@@ -11,7 +9,6 @@ public class BarCharge : MonoBehaviour {
 	SkillObserver textUpdater;
 	int bar;
 	int max = 100;
-
 	int increase = 20;
 
 	private IEnumerator passiveIncrease;
@@ -29,7 +26,6 @@ public class BarCharge : MonoBehaviour {
 		passiveIncrease = PassiveIncrease();
 		StartCoroutine(passiveIncrease);
 	}
-
 	public void Reset(){
 		StopIncrease();
 		bar = 0;
@@ -65,12 +61,13 @@ public class BarCharge : MonoBehaviour {
 		textUpdater = UI.GetComponent<SkillObserver>();
 	}
 	private void UpdateText(){
-		textUpdater.UltimateChargeUpdate(bar.ToString());
+		textUpdater.UltimateChargeUpdate(bar.ToString()+"%");
+		
 	}
 	IEnumerator PassiveIncrease() {
 		while(bar < max){
 			bar++;
-			UpdateText();
+				UpdateText();
 			if(bar == max){
 				textUpdater.UltimateOffCooldown();
 			}

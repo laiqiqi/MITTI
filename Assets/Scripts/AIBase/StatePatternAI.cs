@@ -14,6 +14,10 @@ public class StatePatternAI: MonoBehaviour {
 	public Collision bodyColInfo;
 	public GameObject magnet;
 	public GameObject[] swordController;
+	public GameObject AISword;
+	public GameObject AICube;
+
+	public GameObject cube;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------
@@ -39,7 +43,6 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public StopState stopState;
 	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public StunState stunState;
-	[HideInInspector] public AwokenState awokenState;
 
 //	[HideInInspector] public SwordFloatingAIState swordFloatingAIState;
 	[HideInInspector] public SwordSlashingAIState swordSlashingAIState;
@@ -47,6 +50,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public SwordFindingAIState swordFindingAIState;
 //	[HideInInspector] public SwordPullingAIState swordPullingAIState;
 	[HideInInspector] public SwordShootingAIState swordShootingAIState;
+	[HideInInspector] public OpeningState openingState;
 //	[HideInInspector] public bool isHit;
 //	[HideInInspector] public bool isParry;
 //----------------------------------------------------------------------------
@@ -70,11 +74,10 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		health = 100f;
+		// health = 100f;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
-		awokenState = new AwokenState (this);
 		floatingState = new FloatingAIState (this);
 		seekState = new SeekState (this);
 		stompState = new StompState (this);
@@ -95,13 +98,13 @@ public class StatePatternAI: MonoBehaviour {
 		swordFindingAIState = new SwordFindingAIState (this);
 //		swordPullingAIState = new SwordPullingAIState (this);
 		swordShootingAIState = new SwordShootingAIState (this);
+		openingState = new OpeningState (this);
 
 //		isHit = false;
 //		isParry = false;
 
-		// awokenState.choice.AddRange(new AIState[]{prepareSlamState, seekState, digStrikeState});
-		awokenState.choice.AddRange(new AIState[]{prepareSlamState});
-		AIStateFlow.Add(awokenState, awokenState.choice);
+		openingState.choice.AddRange(new AIState[]{prepareSlamState});
+		AIStateFlow.Add(openingState, openingState.choice);
 
 		floatingState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(floatingState, floatingState.choice);
@@ -142,21 +145,28 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		floatingState.StartState();
-		swordShootingAIState.StartState();
+//		openingState.StartState();
+//		swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
+		stopState.StartState();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		// KeyboardController();
-		// Debug.Log(currentState);
+//		Debug.Log(currentState);
 		currentState.UpdateState();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
+		// if(magnet.transform.parent == body.transform){
+		// 	if(Vector3.Distance(magnet.transform.localPosition, Vector3.zero) > 0.1f){
+		// 		magnet.transform.localPosition = Vector3.MoveTowards(magnet.transform.position, Vector3.zero, 5f * Time.fixedDeltaTime);
+		// 	}
+		// }
 	}
 
 	void InitAllState(){
@@ -222,5 +232,18 @@ public class StatePatternAI: MonoBehaviour {
 			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
 			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
 		}
+	}
+
+	public void DisableMagnet() {
+		magnet.GetComponent<ContinuousExplosionForce>().radius = 0;
+		magnet.GetComponent<ContinuousExplosionForce>().size = 0;
+		// magnet.transform.parent = null;
+	}
+
+	public void EditMagnet(float radius, int size) {
+		magnet.GetComponent<ContinuousExplosionForce>().radius = radius;
+		magnet.GetComponent<ContinuousExplosionForce>().size = size;
+		// magnet.transform.parent = body.transform;
+		// magnet.transform.localPosition = Vector3.zero;	
 	}
 }

@@ -10,9 +10,7 @@ public class UILookAt : MonoBehaviour {
 		//audiolistener uses transform of head
 		//get hand 
 		//move to other hand
-		Hand otherhand = GetComponentInParent<Hand>().otherHand;
-		this.transform.position = otherhand.transform.position;
-		this.transform.parent = otherhand.transform;
+		
 		head = InteractionSystem.Player.instance.audioListener;
 	}
 	

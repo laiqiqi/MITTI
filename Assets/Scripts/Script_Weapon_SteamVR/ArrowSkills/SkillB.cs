@@ -14,11 +14,11 @@ namespace Valve.VR.InteractionSystem
 		public bool overcharged = false; // overcharged is having charged state for too long
 		private float guage = 0;
 		private float maxguage = 100f;
+		public float overchargetime = 5f;
 
 		private string skilltype = "normal";
 
 		private IEnumerator increaseGuage;
-
 		void Start(){
 			debugText = GetComponentInChildren<TextMesh>();
 			increaseGuage = IncreaseGuage();
@@ -50,15 +50,7 @@ namespace Valve.VR.InteractionSystem
 
 		}
 		public override void InitiateSkillOnRelease(){
-			Debug.Log("skill B: Initiating skill");
-			if(fullycharged){
-				Invoke("activateSkill", 1);
-			}
-			//call activateChild after 1 sec
-			//skill should not be activated right after it fires, so have to wait 1 second
-			//in activatechild, destroy current arrow
-			//cant destroy arrow, so have to deactivate model and glint
-			//child start automatically updating
+
 
 		}
 		public override void StopSkill(){
@@ -84,6 +76,7 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		public override void ResetOverCharge(){
+			Debug.Log("skill reset overcharge");
 			overcharged = false;
 		}
 		public override bool OverCharged(){return overcharged;}
@@ -97,17 +90,11 @@ namespace Valve.VR.InteractionSystem
 				if(guage == maxguage){
 					fullycharged = true;
 					InitiateSkillOnCharge();
-					Invoke("SetOverCharge",3);
+					Invoke("SetOverCharge",overchargetime);
 				}
 				DebugText(guage);
 				yield return new WaitForSeconds(0.005f);
 			}
-		}
-		private void activateSkill(){
-			//Deactivat everything inside arrow
-			Debug.Log("start fire");
-			
-			
 		}
 		public override int GetCoolDown(){return cooldown;}
 		void DebugText(float guage){

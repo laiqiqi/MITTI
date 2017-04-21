@@ -12,7 +12,8 @@ public class GameState : MonoBehaviour {
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
 	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay;
 	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer;
-	public GameObject sceneDestroyer;
+	public GameObject sceneDestroyer, sceneProps;
+	public GameObject playerTransFilter;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,8 @@ public class GameState : MonoBehaviour {
 		mainGame = false;
 		end = false;
 		isFallingPlay = false;
+		Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), sceneDestroyer.GetComponent<Collider>());
+		Physics.IgnoreLayerCollision(10, 9);
 	}
 	
 	// Update is called once per frame
@@ -59,6 +62,7 @@ public class GameState : MonoBehaviour {
 			RenderSettings.skybox = skyboxNorm;
 			normalLight.SetActive(true);
 			chaosLight.SetActive(false);
+			
 		}
 	}
 
@@ -81,14 +85,16 @@ public class GameState : MonoBehaviour {
 			Destroy(tutorAI);
 			
 			StatePatternAI.instance.stopState.EndState();
-			StatePatternAI.instance.awokenState.StartState();
+			StatePatternAI.instance.openingState.StartState();
 		}
 	}
 
 	void AIOpening(){
-		sceneDestroyer.SetActive(true);
+		if(StatePatternAI.instance.transform.position.y > 4.5f){
+			sceneDestroyer.SetActive(true);
+		}
 
-		if(StatePatternAI.instance.currentState != StatePatternAI.instance.awokenState){
+		if(StatePatternAI.instance.currentState != StatePatternAI.instance.openingState){
 			AIOpen = false;
 
 			normalLight.SetActive(false);
@@ -97,7 +103,9 @@ public class GameState : MonoBehaviour {
 			RenderSettings.ambientMode = AmbientMode.Skybox;
 			RenderSettings.ambientIntensity = 5f;
 			skyboxChaos.SetFloat("_Exposure", 8f);
-			sceneDestroyer.GetComponent<SceneDestroyer>().force = 1000f;
+			Debug.Log("force");
+			sceneDestroyer.GetComponent<SceneDestroyer>().force = 10f;
+			sceneDestroyer.GetComponent<SceneDestroyer>().upwardsModifier = 5f;
 			
 			afterAIOpen = true;
 		}
@@ -112,6 +120,7 @@ public class GameState : MonoBehaviour {
 			afterAIOpen = false;
 			mainGame = true;
 			Destroy(sceneDestroyer);
+			Destroy(sceneProps);
 		}
 	}
 

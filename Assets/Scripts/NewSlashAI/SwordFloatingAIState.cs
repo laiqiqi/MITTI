@@ -12,7 +12,7 @@ public class SwordFloatingAIState : AIState {
 
 	public SwordFloatingAIState(AITest statePatternAI){
 		AI = statePatternAI;
-		target = new GameObject ().transform;
+//		target = new GameObject ().transform;
 		choice = new List<AIState>();
 	}
 
@@ -24,7 +24,7 @@ public class SwordFloatingAIState : AIState {
 		//		AI.GetComponent<Rigidbody>().isKinematic = true;
 
 		foreach(GameObject sc in AI.swordController){
-			sc.transform.GetChild (0).GetComponent<SwordFloatingSword> ().state = 1;
+			sc.transform.GetChild (0).GetComponent<AISword> ().state = 1;
 		}
 
 		target.position = new Vector3 (AI.player.transform.position.x + Random.Range (-10f, 10f),
@@ -44,7 +44,7 @@ public class SwordFloatingAIState : AIState {
 
 	public void EndState(){
 		foreach(GameObject sc in AI.swordController){
-			sc.transform.GetChild (0).GetComponent<SwordFloatingSword> ().state = 2;
+			sc.transform.GetChild (0).GetComponent<AISword> ().state = 2;
 		}
 	}
 

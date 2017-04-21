@@ -14,7 +14,7 @@ namespace Valve.VR.InteractionSystem
 	//-------------------------------------------------------------------------
 	public delegate void UltimateFireHandler();
 	public delegate void DamageHandler();
-	public delegate void SkillFireHandler(Skill skill);
+	public delegate void SkillFireHandler(int cooldown);
 	public class ArrowHand : MonoBehaviour
 	{
 		private Hand hand;
@@ -247,20 +247,36 @@ namespace Valve.VR.InteractionSystem
 				NowEnableUI();
 				if ( bow.pulled ) // If bow is pulled back far enough, fire arrow, otherwise reset arrow in arrowhand
 				{
-					FireArrow();
-					if (skill != null && skill.GetFullyCharged()){
-						Debug.Log("skill fullycharged and has been fired");
-						if(skill.GetSkillType() == "ultimate"){
-							if(UltimateFired != null){
-								UltimateFired();
+					
+					if (skill != null){
+						if(skill.GetFullyCharged()){
+							skill.Uncharging();
+							FireArrow();
+							if(skill.GetSkillType() == "ultimate"){
+								if(UltimateFired != null){
+									UltimateFired();
+								}
+							}else if(skill.GetSkillType() == "normal"){
+								if(SkillFired != null){
+									SkillFired(skill.GetCoolDown());
+								}
 							}
-						}else if(skill.GetSkillType() == "normal"){
-							if(SkillFired != null){
-								SkillFired(skill);
-							}
+							NowSkillStart();
+							skill = null;
+						}else{
+							//skill notcharged so it doesn't release
+							skill.Uncharging();
+							arrowNockTransform.rotation = currentArrow.transform.rotation;
+							currentArrow.transform.parent = arrowNockTransform;
+							Util.ResetTransform( currentArrow.transform );
+							nocked = false;
+							bow.ReleaseNock();
+							hand.HoverUnlock( GetComponent<Interactable>() );
+							allowTeleport.teleportAllowed = true;
 						}
-						NowSkillStart();
-						skill = null;
+						
+					}else{
+						FireArrow();
 					}
 					//initiate cooldown if the skill of current arrow is fully charged
 					// check if skill is not null

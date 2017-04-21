@@ -63,13 +63,13 @@ public class PrepareSlamState : AIState {
             else if(timer <= seekTime && !slamCircle.GetComponent<SlamCircle>().isBreak){
                 timer += Time.deltaTime;
                 if(timer < 3f){
-                    circleLight.range += seekTime*3f*Time.deltaTime;
+                    // circleLight.range += seekTime*3f*Time.deltaTime;
                 }
                 else if(timer < 4.5f){
-                    circleLight.range += seekTime*50f*Time.deltaTime;
+                    // circleLight.range += seekTime*50f*Time.deltaTime;
                 }
                 else if(timer < 4.975f){
-                    circleLight.range -= seekTime*200f*Time.deltaTime;
+                    // circleLight.range -= seekTime*200f*Time.deltaTime;
                 }
                 Targeting();
             }

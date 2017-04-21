@@ -8,7 +8,7 @@ public class ContinuousExplosionForce : MonoBehaviour
 	public float radius = 50f;
 	public float upwardsModifier = 0.0f;
 	public ForceMode forceMode;
-	public int size = 20;
+	public int size = 0;
 	private List<GameObject> magnetObjList;
 
 	// Use this for initialization

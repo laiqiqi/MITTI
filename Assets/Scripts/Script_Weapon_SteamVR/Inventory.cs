@@ -46,6 +46,7 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		void updateWeaponPos(){
+			//this just cycles the weapons in the list
 			if (weaponArrayPos + 1 >= AllItemPackage.Count){
 				weaponArrayPos = 0;
 				itemPackage = AllItemPackage[weaponArrayPos];

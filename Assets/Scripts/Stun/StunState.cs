@@ -39,6 +39,8 @@ public class StunState : AIState {
         counter = 0f;
         AI.effectManager.CreateEffectByName(EffectName.STUN_5_SEC, AI.transform.position + (Vector3.up*2f));
         AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.rotation = Quaternion.Euler(90f, 0, 0);
+        AI.DisableMagnet();
+        // AI.magnet.transform.parent = null;
     }
 
     public void StateChangeCondition()
@@ -57,7 +59,9 @@ public class StunState : AIState {
         AI.NoRagdollMode();
         AI.effectManager.DestroyEffectByName(EffectName.STUN_5_SEC);
         AI.effectManager.RemoveEffectFromDictByName(EffectName.STUN_5_SEC);
-        AI.seekState.StartState();
+        AI.EditMagnet(1000f, 22);
+        AI.magnet.transform.parent = AI.body.transform;
+        AI.NextState();
     }
 
     void StunTimer(){
