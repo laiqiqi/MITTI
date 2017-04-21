@@ -61,7 +61,7 @@ public class BarCharge : MonoBehaviour {
 		textUpdater = UI.GetComponent<SkillObserver>();
 	}
 	private void UpdateText(){
-		textUpdater.UltimateChargeUpdate(bar.ToString());
+		textUpdater.UltimateChargeUpdate(bar.ToString()+"%");
 		
 	}
 	IEnumerator PassiveIncrease() {

@@ -29,7 +29,7 @@ namespace Valve.VR.InteractionSystem
 			CancelInvoke("SetOverCharge");
 			// StartCoroutine(decreaseGuage = DecreaseGuage());	
 			guage = 0;
-			fullycharged = false;
+			
 			overcharged = false;
 			DebugText(guage);
 		}
@@ -50,7 +50,8 @@ namespace Valve.VR.InteractionSystem
 		public override void InitiateSkillOnRelease(){
 			Debug.Log("skill A: Initiating skill");
 			if(fullycharged){
-				Invoke("activateSkill", 1);
+				Invoke("activateSkill", .8f);
+				fullycharged = false;
 			}
 			//call activateChild after 1 sec
 			//skill should not be activated right after it fires, so have to wait 1 second
@@ -93,7 +94,7 @@ namespace Valve.VR.InteractionSystem
 				// Debug.Log(guage);
 				if(guage == maxguage){
 					fullycharged = true;
-					Invoke("SetOverCharge",3);
+					Invoke("SetOverCharge",5);
 				}
 				DebugText(guage);
 				yield return new WaitForSeconds(0.005f);

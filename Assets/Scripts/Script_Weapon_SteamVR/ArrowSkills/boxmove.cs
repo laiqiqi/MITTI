@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class boxmove : MonoBehaviour {
 	float left, right;
 	Vector3 move;
+	public BigBox box;
 	public Text texthealth;
 	private float health = 1000;
 	public float speed;
@@ -29,12 +30,15 @@ public class boxmove : MonoBehaviour {
 	}
 
 	void ApplyDamage(float dmg){
+		if(box.GetCanSlash()){
 		Debug.Log(dmg);
 		if(health-dmg > 0)
 		health -= dmg;
 		else
 		health = 1000;
 		texthealth.text = health.ToString();
+		box.SetCanSlash(false);
+		}
 		
 	}
 }
