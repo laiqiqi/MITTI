@@ -13,7 +13,7 @@ public class ShootAIState : AIState {
 	}
 
 	public void StartState(){
-		enemy.currentState = enemy.shootState;
+//		enemy.currentState = enemy.shootState;
 	}
 
 	public void UpdateState(){

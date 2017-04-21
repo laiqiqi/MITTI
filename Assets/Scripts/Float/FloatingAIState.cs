@@ -29,6 +29,7 @@ public class FloatingAIState : AIState {
 	}
 
 	public void UpdateState(){
+		Debug.Log("floating");
 		Floating ();
 		enemy.transform.LookAt(enemy.player.transform);
 //		enemy.GetComponent<Rigidbody> ().velsocity = Vector3.zero;
@@ -36,10 +37,13 @@ public class FloatingAIState : AIState {
 
 	public void EndState(){
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = false;
+		if (enemy.AISword.GetComponent<AISword>().state == -1) {
+			enemy.NextState ();
+		}
 	}
 
 	public void StateChangeCondition(){
-		enemy.slashState.StartState ();
+//		enemy.slashState.StartState ();
 	}
 
 	void Floating(){
@@ -52,7 +56,7 @@ public class FloatingAIState : AIState {
 				// Random.Range (0f, 10f),
 				enemy.player.transform.position.z + Random.Range (-10f, 10f));
 			EndState ();
-			enemy.shootState.StartState ();
+//			enemy.shootState.StartState ();
 			// enemy.slashState.StartState ();
 			
 		}
@@ -63,7 +67,7 @@ public class FloatingAIState : AIState {
 				// Random.Range (0f, 10f),
 				enemy.player.transform.position.z + Random.Range (-10f, 10f));
 			EndState ();
-			enemy.prepareSlashState.StartState ();
+//			enemy.prepareSlashState.StartState ();
 			// enemy.escapeState.StartState();
 		}
 	}

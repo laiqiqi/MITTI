@@ -77,6 +77,7 @@ public class AISword : MonoBehaviour {
 				p.loop = false;
 //				p.Stop();
 			}
+			this.GetComponent<Rigidbody> ().useGravity = false;
 			state = -1;
 		} else if (state == 6) {
 			//effect in

@@ -17,7 +17,7 @@ public class PrepareSlashState : AIState {
 	}
 
 	public void StartState(){
-		AI.currentState = AI.prepareSlashState;
+//		AI.currentState = AI.prepareSlashState;
 //		AI.GetComponent<Rigidbody>().isKinematic = true;
 //		targetRotation =  Quaternion.AngleAxis(Random.Range(0f, 360f), AI.transform.right);
 		timetoSlash = 0f;
@@ -44,6 +44,6 @@ public class PrepareSlashState : AIState {
 	}
 
 	public void StateChangeCondition(){
-		AI.slashState.StartState ();
+//		AI.slashState.StartState ();
 	}
 }
