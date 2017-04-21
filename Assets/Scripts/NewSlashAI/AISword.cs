@@ -11,7 +11,7 @@ public class AISword : MonoBehaviour {
 	public bool isHitOther;
 	private float timeCount;
 	public bool virtualSword;
-	private bool isHide;
+	public bool isHide;
 	// Use this for initialization
 	void Start () {
 		speed = 300;
@@ -120,6 +120,8 @@ public class AISword : MonoBehaviour {
 					} else {
 						this.gameObject.SetActive (false);
 					}
+					state = -2;
+					isHide =false;
 				}
 			}
 			

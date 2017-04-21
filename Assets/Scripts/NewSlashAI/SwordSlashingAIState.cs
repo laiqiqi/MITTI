@@ -51,10 +51,12 @@ public class SwordSlashingAIState : AIState {
 //			GameObject sword = AI.AISword;
 			sc.GetComponent<AISwordController> ().state = 0;
 			sc.transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, 0f));
-			sword.transform.localPosition = new Vector3 (0f, 0f, 1f);
+//			sword.transform.localPosition = new Vector3 (0f, 0f, 1f);
+			sword.transform.localPosition = AI.transform.forward;
 			sword.transform.rotation = Quaternion.Euler (new Vector3 (90f, 0f, 0f));
 			sword.GetComponent<AISword> ().setHide ();
 			sword.gameObject.SetActive (true);
+			sword.GetComponent<Rigidbody> ().isKinematic = true;
 			sword.GetComponent<AISword> ().state = 6;
 
 			swords [i] = sword.gameObject;
@@ -173,6 +175,7 @@ public class SwordSlashingAIState : AIState {
 //		}
 		if(swords [i].GetComponent<AISword>().swordModel.GetComponent<FadeManager>().isShow) {
 			sc.GetComponent<AISwordController> ().state = 1;
+			swords[i].GetComponent<Rigidbody> ().isKinematic = false;
 		}
 
 //		sc.transform.Rotate (0f, speed * Time.deltaTime, 0f);
