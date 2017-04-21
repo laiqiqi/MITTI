@@ -56,20 +56,20 @@ public class PrepareSlamState : AIState {
             if(!hasCircle){
                 AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
                 slamCircle = AI.effectManager.CreateAndReturnCircleByName(MagicCircleName.SLAM_CIRCLE ,AIFrontPos);
-                slamCircle.transform.SetParent(AI.body.transform);
+                slamCircle.transform.SetParent(AI.transform);
                 circleLight = slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>();
                 hasCircle = true;
             }
             else if(timer <= seekTime && !slamCircle.GetComponent<SlamCircle>().isBreak){
                 timer += Time.deltaTime;
                 if(timer < 3f){
-                    circleLight.range += seekTime*3f*Time.deltaTime;
+                    // circleLight.range += seekTime*3f*Time.deltaTime;
                 }
                 else if(timer < 4.5f){
-                    circleLight.range += seekTime*50f*Time.deltaTime;
+                    // circleLight.range += seekTime*50f*Time.deltaTime;
                 }
                 else if(timer < 4.975f){
-                    circleLight.range -= seekTime*200f*Time.deltaTime;
+                    // circleLight.range -= seekTime*200f*Time.deltaTime;
                 }
                 Targeting();
             }

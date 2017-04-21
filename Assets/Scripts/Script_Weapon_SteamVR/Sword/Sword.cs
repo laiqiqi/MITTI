@@ -26,7 +26,7 @@ namespace Valve.VR.InteractionSystem
 		}
         void OnCollisionEnter(Collision col){
             if(col.transform.tag == "AI"){
-                col.gameObject.SendMessage("ApplyDamage", applyDamage(), SendMessageOptions.DontRequireReceiver);
+                col.collider.gameObject.SendMessageUpwards("ApplyDamage", applyDamage(), SendMessageOptions.DontRequireReceiver);
                 if(auraSkill != null && skillIsActive){
                     auraSkill.OnColEnter();
                 }

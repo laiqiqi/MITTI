@@ -28,7 +28,7 @@ public class OpeningState : AIState {
 		AI.AICube.gameObject.SetActive(false);
 		initialCube = AI.AICube.gameObject;
 		initialCube.GetComponent<AICube> ().setHide ();
-		upPos = AI.transform.position + (Vector3.up * 5f);
+		upPos = AI.transform.position + (Vector3.up * 4.5f);
 	}
 
 	public void UpdateState(){
@@ -99,7 +99,7 @@ public class OpeningState : AIState {
 	void FloatUp()
     {
 		if(Vector3.Distance(AI.transform.position, upPos) > 0.1f){
-			AI.transform.position = Vector3.MoveTowards(AI.transform.position, upPos, AI.speed * Time.deltaTime);
+			AI.transform.position = Vector3.MoveTowards(AI.transform.position, upPos, AI.speed/10 * Time.deltaTime);
 		}
         else{
 			subState = 0;

@@ -3,37 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class DamageDetection : MonoBehaviour {
-	private float health;
-	private GameObject HealthScale;
-	// private Slider slider;
-	// Use this for initialization
+	private float maxhealth;
+
+	public GameObject healthBar;
 	void Start () {
-		health = 100f;
+		maxhealth = StatePatternAI.instance.health;
 		// slider = GameObject.Find("Canvas/Slider").GetComponent<Slider>();
-		HealthScale = GameObject.Find("HealthBarManager/EmptyScale");
 	}
 	
-	// Update is called once per frame
 	void Update () {
-
+		// Debug.Log("AI Health: " + StatePatternAI.instance.health);
+		if(healthBar!=null){
+			// Debug.Log("Set!" + StatePatternAI.instance.health);
+			healthBar.transform.localScale = new Vector3(StatePatternAI.instance.health / maxhealth, 1, 1);
+		}	
 	}
-	void OnCollisionEnter(Collision colli){
-		// Debug.Log("hit by something");
-		WeaponDetail d = colli.gameObject.GetComponent<WeaponDetail>();
-		if(d != null){
-			takeDamage(d.getWeaponDamage());
-			if(health <= 0){
-				Destroy(gameObject);
-			}
-			updateHealthBar(d.getWeaponDamage());
+	void ApplyDamage(float dmg){
+		if(StatePatternAI.instance.health - dmg > 0){
+			StatePatternAI.instance.health -= dmg;
 		}
 	}
 
-	private void updateHealthBar(float damage){
-		HealthScale.transform.localScale -=  new Vector3(damage/100F,0,0) ;
-	}
-	void takeDamage(float damage){
-		health -= damage;
-		// Debug.Log(health);
-	}
+
 }

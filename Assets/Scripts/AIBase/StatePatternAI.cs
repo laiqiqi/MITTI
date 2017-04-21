@@ -74,7 +74,7 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		health = 100f;
+		// health = 100f;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
