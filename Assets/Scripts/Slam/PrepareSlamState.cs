@@ -30,6 +30,9 @@ public class PrepareSlamState : AIState {
         seekTime = 5f;
         AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
         moveToPos = new Vector3 (AI.transform.position.x, 2f, AI.transform.position.z);
+
+        AI.EditMagnet(1000, 100);
+        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -100f;
     }
 
     public void UpdateState()
@@ -56,7 +59,7 @@ public class PrepareSlamState : AIState {
             if(!hasCircle){
                 AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
                 slamCircle = AI.effectManager.CreateAndReturnCircleByName(MagicCircleName.SLAM_CIRCLE ,AIFrontPos);
-                slamCircle.transform.SetParent(AI.transform);
+                slamCircle.transform.SetParent(AI.body.transform);
                 circleLight = slamCircle.transform.GetChild(0).transform.GetChild(0).GetComponent<Light>();
                 hasCircle = true;
             }

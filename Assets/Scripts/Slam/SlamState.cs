@@ -55,6 +55,9 @@ public class SlamState : AIState {
         }
         Player.instance.GetComponent<PlayerStat>().isHitSlam = false;
         Player.instance.transform.SetParent(null);
+
+        AI.GetComponent<SphereCollider>().enabled = false;
+        AI.body.GetComponent<SphereCollider>().isTrigger = false;
         
         AI.prepareSlamState.StartState();
     }
@@ -72,7 +75,7 @@ public class SlamState : AIState {
             // Destroy(slamCol);
             // Player.instance.GetComponent<PlayerControl>().isHitSlam = false;
             // AI.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            AI.stunState.StartState(5f, AI.transform.forward * AI.speed);
+            AI.stunState.StartState(5f, AI.transform.forward * AI.speed * 2f);
         }
         else if(Vector3.Distance(AI.transform.position, moveToTarget) > 0.1f && !isStop){
             // Debug.Log("Moveeeee");

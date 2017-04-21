@@ -36,6 +36,7 @@ public class SlamCircle : MonoBehaviour {
 		}
 
 		CircleColorRecover();
+		this.transform.LookAt(StatePatternAI.instance.player.transform);
 	}
 
 	void OnTriggerEnter(Collider col){
