@@ -78,17 +78,17 @@ public class SwordSlashingAIState : AIState {
 		int i = 0;
 		foreach(GameObject sc in AI.swordController){
 			int state = sc.GetComponent<AISwordController> ().state;
-			Debug.Log (state);
+//			Debug.Log (state);
 			if (state == 0) {
-				Debug.Log ("state     0");
+//				Debug.Log ("state     0");
 				//Rotate sword
 				SubState0(sc, i);
 			} else if (state == 1) {
-				Debug.Log ("state     1");
+//				Debug.Log ("state     1");
 				//Prepare
 				SubState1(sc, i);
 			} else if (state == 2) {
-				Debug.Log ("state     2");
+//				Debug.Log ("state     2");
 				//Connect with joint
 				SubState2(sc, i);
 
@@ -113,20 +113,20 @@ public class SwordSlashingAIState : AIState {
 				Substate7(sc, i);
 
 			} else if (state == 8) {
-				Debug.Log ("state    8");
+//				Debug.Log ("state    8");
 				Substate8(sc, i);
 
 			}else if (state == -2) {
 				SubstateMoveInCircle(sc, i);
 
 			} else if (state == -1) {
-				Debug.Log ("state     -1");
+//				Debug.Log ("state     -1");
 				//OnJoinBreak
 			 	swords [i].GetComponent<Rigidbody> ().useGravity = true;
 				swords [i].GetComponent<AISword> ().state = 0;
 //				swords [i].transform.GetChild (2).GetComponent<Rigidbody> ().useGravity = true;
 			}
-			Debug.Log ("hitcount    " + hitCount);
+//			Debug.Log ("hitcount    " + hitCount);
 			if (hitCount >= 5) {
 				sc.GetComponent<AISwordController> ().state = 8;
 				hitCount = 0;
@@ -141,7 +141,7 @@ public class SwordSlashingAIState : AIState {
 //			Debug.Log (AI.transform.forwards);
 //			Debug.DrawLine (swords[i].transform.position, Vector3.Cross(AI.transform.forward, swords[i].transform.forward),Color.red);
 //			Debug.DrawLine (swords[i].transform.position, randomVector[i],Color.red);
-			Debug.DrawLine (swords[i].transform.position, -AI.transform.forward + AI.transform.position,Color.red);
+//			Debug.DrawLine (swords[i].transform.position, -AI.transform.forward + AI.transform.position,Color.red);
 			i++;
 		}
 	}
@@ -267,7 +267,7 @@ public class SwordSlashingAIState : AIState {
 			RandomVectorForSlashing (sc, i);
 			hitCount++;
 //			Debug.Log (hitCount);
-			Debug.Log("Count state == 2");
+//			Debug.Log("Count state == 2");
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
