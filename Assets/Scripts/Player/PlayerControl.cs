@@ -21,7 +21,7 @@ namespace Valve.VR.InteractionSystem
 			isIncre = false;
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
-			// head = VRCam.transform.FindChild("FollowHead").gameObject;
+			head = VRCam.transform.FindChild("FollowHead").gameObject;
 			camAA = VRCam.GetComponent<Antialiasing>();
 		}
 		

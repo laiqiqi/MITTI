@@ -74,7 +74,7 @@ public class StatePatternAI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		health = 100f;
+		// health = 100f;
 		effectManager = this.GetComponent<AIEffectManager>();
 		animationManager = this.GetComponent<AIAnimationManager>();
 
@@ -139,9 +139,9 @@ public class StatePatternAI: MonoBehaviour {
 		stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
 		AIStateFlow.Add(stunState, stunState.choice);
 
-		foreach(AIState state in AIStateFlow.Keys){
-			Debug.Log(state);
-		}
+		// foreach(AIState state in AIStateFlow.Keys){
+		// 	Debug.Log(state);
+		// }
 
 
 //		floatingState.StartState();
