@@ -29,6 +29,7 @@ public class FloatingAIState : AIState {
 	}
 
 	public void UpdateState(){
+		Debug.Log("floating");
 		Floating ();
 		enemy.transform.LookAt(enemy.player.transform);
 //		enemy.GetComponent<Rigidbody> ().velsocity = Vector3.zero;
