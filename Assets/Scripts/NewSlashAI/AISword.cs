@@ -57,6 +57,7 @@ public class AISword : MonoBehaviour {
 		} else if (state == 3) {
 			//While floating in air by shooting
 			this.GetComponent<Rigidbody> ().AddForce (-this.transform.forward * 200f);
+			this.GetComponent<MeleeWeaponTrail> ().Emit = true;
 //			RaycastHit hit;
 //			if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 3.1f)) {
 //				print ("Ray    " + hit.transform.tag);
@@ -145,6 +146,10 @@ public class AISword : MonoBehaviour {
 	void OnCollisionStay(Collision other){
 		if (other.transform.tag == "Player") {
 			isHit = true;
+			if (state == 3) {
+				this.GetComponent<Rigidbody> ().useGravity = true;
+				state = 0;
+			}
 //			state = -1;
 //			this.GetComponent<Rigidbody> ().useGravity = true;
 		} else if(other.transform.tag == "SwordGround"){
@@ -154,7 +159,7 @@ public class AISword : MonoBehaviour {
 		}else{
 //			Debug.Log ("hit other");
 			isHitOther = true;
-			if (state == 3) {
+			if (state == 3 || state == 0) {
 				isHide = true;
 				if (other.transform.tag == "Ground") {
 					RaycastHit hit;
@@ -164,9 +169,6 @@ public class AISword : MonoBehaviour {
 							state = 4;
 							this.transform.position += -this.transform.forward * 2;
 							this.GetComponent<Rigidbody> ().isKinematic = true;
-						}else {
-							this.GetComponent<Rigidbody> ().useGravity = true;
-							state = 0;
 						}
 					}
 				} else {
