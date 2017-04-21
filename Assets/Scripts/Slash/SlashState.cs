@@ -22,7 +22,7 @@ public class SlashState : AIState {
 	}
 
 	public void StartState(){
-		AI.currentState = AI.slashState;
+//		AI.currentState = AI.slashState;
 		AI.transform.GetChild(1).GetComponent<Rigidbody> ().isKinematic = false;
 //		AI.transform.LookAt (AI.player.transform);
 //		AI.transform.Rotate (0f, 0f, Random.Range(0f, 360f));

@@ -34,14 +34,14 @@ public class StatePatternAI: MonoBehaviour {
     [HideInInspector] public StompState stompState;
 	[HideInInspector] public PrepareDigStrikeState prepareDigStrikeState;
 	[HideInInspector] public DigStrikeState digStrikeState;
-	[HideInInspector] public ShootAIState shootState;
-	[HideInInspector] public SlashState slashState;
-	[HideInInspector] public ParryAIState parryState;
+//	[HideInInspector] public ShootAIState shootState;
+//	[HideInInspector] public SlashState slashState;
+//	[HideInInspector] public ParryAIState parryState;
 	[HideInInspector] public PrepareSlamState prepareSlamState;
 	[HideInInspector] public SlamState slamState;
 	[HideInInspector] public EscapeState escapeState;
 	[HideInInspector] public StopState stopState;
-	[HideInInspector] public PrepareSlashState prepareSlashState;
+//	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public StunState stunState;
 
 //	[HideInInspector] public SwordFloatingAIState swordFloatingAIState;
@@ -83,14 +83,14 @@ public class StatePatternAI: MonoBehaviour {
 		stompState = new StompState (this);
 		prepareDigStrikeState = new PrepareDigStrikeState (this);
 		digStrikeState = new DigStrikeState (this);
-		shootState = new ShootAIState (this);
+//		shootState = new ShootAIState (this);
 		// slashState = new SlashState (this);
-		parryState = new ParryAIState (this);
+//		parryState = new ParryAIState (this);
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
 		escapeState = new EscapeState (this);
 		stopState = new StopState(this);
-		prepareSlashState = new PrepareSlashState (this);
+//		prepareSlashState = new PrepareSlashState (this);
 		stunState = new StunState (this);
 //		swordFloatingAIState = new SwordFloatingAIState (this);
 		swordSlashingAIState = new SwordSlashingAIState (this);
@@ -106,8 +106,8 @@ public class StatePatternAI: MonoBehaviour {
 		openingState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
-		floatingState.choice.AddRange(new AIState[]{});
-		AIStateFlow.Add(floatingState, floatingState.choice);
+//		floatingState.choice.AddRange(new AIState[]{});
+//		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		seekState.choice.AddRange(new AIState[]{stompState});
 		AIStateFlow.Add(seekState, seekState.choice);
@@ -121,8 +121,8 @@ public class StatePatternAI: MonoBehaviour {
 		digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
 		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
 
-		shootState.choice.AddRange(new AIState[]{});
-		AIStateFlow.Add(shootState, shootState.choice);
+//		shootState.choice.AddRange(new AIState[]{});
+//		AIStateFlow.Add(shootState, shootState.choice);
 
 		prepareSlamState.choice.AddRange(new AIState[]{slamState});
 		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
@@ -139,20 +139,29 @@ public class StatePatternAI: MonoBehaviour {
 		stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
 		AIStateFlow.Add(stunState, stunState.choice);
 
+		swordSlashingAIState.choice.AddRange(new AIState[]{floatingState});
+		AIStateFlow.Add(swordSlashingAIState, swordSlashingAIState.choice);
+
+		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
+		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
+
+		floatingState.choice.AddRange(new AIState[]{swordSlashingAIState, swordShootingAIState});
+		AIStateFlow.Add(floatingState, floatingState.choice);
+
 		foreach(AIState state in AIStateFlow.Keys){
 			Debug.Log(state);
 		}
 
 
-//		floatingState.StartState();
+		floatingState.StartState();
 //		openingState.StartState();
-//		swordSlashingAIState.StartState();
+//		swordShootingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
-		stopState.StartState();
+//		stopState.StartState();
 	}
 	
 	// Update is called once per frame
@@ -183,7 +192,7 @@ public class StatePatternAI: MonoBehaviour {
 	void KeyboardController(){
 		if (Input.GetKeyDown (KeyCode.I)) {
 			currentState.EndState();
-			slashState.StartState();
+//			slashState.StartState();
 		}else if (Input.GetKeyDown (KeyCode.O)) {
 			currentState.EndState();
 			stopState.StartState();
@@ -226,8 +235,11 @@ public class StatePatternAI: MonoBehaviour {
 			else{
 
 			}
-		}
-		else{
+		}else if(currentState == floatingState){
+			if(AISword.GetComponent<AISword>().state == -1){
+				AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
+			}
+		}else{
 			Debug.Log("Next3");
 			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
 			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();

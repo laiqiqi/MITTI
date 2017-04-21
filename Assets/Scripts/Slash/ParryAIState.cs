@@ -16,7 +16,7 @@ public class ParryAIState : AIState {
 	}
 
 	public void StartState(){
-		enemy.currentState = enemy.parryState;
+//		enemy.currentState = enemy.parryState;
 		timeCount = 0;
 	}
 

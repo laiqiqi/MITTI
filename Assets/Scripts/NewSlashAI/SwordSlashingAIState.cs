@@ -48,7 +48,8 @@ public class SwordSlashingAIState : AIState {
 			RandomVectorForSlashing(sc ,i);
 			AI.AISword.transform.parent = sc.transform;
 			Transform sword = sc.transform.GetChild (0);
-
+//			GameObject sword = AI.AISword;
+			sc.GetComponent<AISwordController> ().state = 0;
 			sc.transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, 0f));
 			sword.transform.localPosition = new Vector3 (0f, 0f, 1f);
 			sword.transform.rotation = Quaternion.Euler (new Vector3 (90f, 0f, 0f));
@@ -74,7 +75,7 @@ public class SwordSlashingAIState : AIState {
 		AI.transform.LookAt (AI.player.transform);
 		int i = 0;
 		foreach(GameObject sc in AI.swordController){
-			int state = sc.GetComponent<AISwordController>().state;
+			int state = sc.GetComponent<AISwordController> ().state;
 			Debug.Log (state);
 			if (state == 0) {
 				Debug.Log ("state     0");
@@ -145,6 +146,8 @@ public class SwordSlashingAIState : AIState {
 
 	public void EndState(){
 		AI.GetComponent<Rigidbody>().isKinematic = false;
+
+//		sc.AddComponent<FixedJoint> ();
 	}
 
 	public void StateChangeCondition(){
@@ -179,7 +182,7 @@ public class SwordSlashingAIState : AIState {
 		Vector3 relativePos = sc.transform.position - swords [i].transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
 
-		rotation = Quaternion.Euler (rotation.eulerAngles.x, rotation.eulerAngles.y, 0);
+//		rotation = Quaternion.Euler (rotation.eulerAngles.x, rotation.eulerAngles.y, 0);
 		swords [i].transform.rotation = Quaternion.RotateTowards (swords [i].transform.rotation, rotation, speed * Time.deltaTime);
 
 		float distance = 3f;
@@ -340,10 +343,13 @@ public class SwordSlashingAIState : AIState {
 		AI.transform.position += -AI.transform.forward*Time.deltaTime*10;
 //		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, speed/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > 2*playerRadius) {
-			sc.GetComponent<AISwordController> ().state = -2;
-//			swords[i].GetComponent<AISword> ().state = 6;
+			sc.GetComponent<AISwordController> ().state = 10;
+			swords[i].GetComponent<AISword> ().state = 6;
+			AI.NextState ();
+			GameObject.Destroy (sc.GetComponent<FixedJoint> ());
+
 //			swords[i].gameObject.SetActive (false);
-			Debug.Log ("ssssss"+sc.GetComponent<AISwordController> ().state);
+//			Debug.Log ("ssssss"+sc.GetComponent<AISwordController> ().state);
 		}
 	}
 
