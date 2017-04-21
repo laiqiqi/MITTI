@@ -160,7 +160,7 @@ public class AISword : MonoBehaviour {
 				this.GetComponent<Rigidbody> ().isKinematic = true;
 			}
 		}else{
-//			Debug.Log ("hit other");
+//			Debug.Log ("other: name:"+other.transform.name+"   tag:"+other.transform.tag);
 			isHitOther = true;
 			if (state == 3 || state == 0) {
 				isHide = true;
@@ -185,8 +185,8 @@ public class AISword : MonoBehaviour {
 	void OnCollisionExit(Collision other){
 		if (other.transform.tag == "Player") {
 			isHit = false;
-		}else {
-			isHitOther = false;
 		}
+		isHitOther = false;
+		
 	}
 }

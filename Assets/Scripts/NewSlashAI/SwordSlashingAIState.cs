@@ -34,7 +34,7 @@ public class SwordSlashingAIState : AIState {
 	public void StartState(){
 		AI.currentState = AI.swordSlashingAIState;
 		speed = 200;
-		timecount = 0;
+		timecount = 1;
 		dir = 1;
 		hitCount = 0;
 		countState = new int[AI.swordController.Length];
@@ -103,11 +103,11 @@ public class SwordSlashingAIState : AIState {
 				//Prepare for new slashing
 				Substate4(sc, i);
 			} else if (state == 5) {
-//				Substate5(sc, i);
-				Substate6 (sc, i);
+				Substate5(sc, i);
+//				Substate6 (sc, i);
 
 			} else if (state == 6) {
-//				Substate6(sc, i);
+				Substate6(sc, i);
 
 			} else if (state == 7) {
 				Substate7(sc, i);
@@ -183,16 +183,22 @@ public class SwordSlashingAIState : AIState {
 
 	public void SubState1(GameObject sc, int i){
 		Vector3 relativePos = sc.transform.position - swords [i].transform.position;
+//		Vector3 relativePos = AI.transform.right - swords [i].transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
 
 //		rotation = Quaternion.Euler (rotation.eulerAngles.x, rotation.eulerAngles.y, 0);
+//		relativePos = AI.transform.right - swords [i].transform.position;
 		swords [i].transform.rotation = Quaternion.RotateTowards (swords [i].transform.rotation, rotation, speed * Time.deltaTime);
 
 		float distance = 3f;
+		dir = (int)Mathf.Pow (-1, Random.Range (1, 3));
+		randomVector [i] = AI.transform.position + AI.transform.right * -dir;
 		swords [i].transform.localPosition = Vector3.MoveTowards (swords [i].transform.localPosition, randomVector [i].normalized * distance, speed / 50f * Time.deltaTime);
-		if (Vector3.Distance (swords [i].transform.localPosition, randomVector [i].normalized * distance) < 1f
-			&& Quaternion.Angle (swords [i].transform.rotation, rotation) < 1f) {
-
+		if (Vector3.Distance (swords [i].transform.localPosition, randomVector [i].normalized * distance) < 0.01f
+			&& Quaternion.Angle (swords [i].transform.rotation, rotation) < 0.01f) {
+			if (Vector3.Angle (swords [i].transform.up, Vector3.up) > Vector3.Angle (swords [i].transform.up, -Vector3.up)) {
+				dir = -dir;
+			}
 			sc.GetComponent<AISwordController> ().state = 2;
 		}
 	}
@@ -204,7 +210,7 @@ public class SwordSlashingAIState : AIState {
 			sc.transform.LookAt (swords [i].transform);
 			sc.GetComponent<AISwordController> ().state = 4;
 			if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > playerRadius) {
-				sc.GetComponent<AISwordController> ().state = 5;
+				sc.GetComponent<AISwordController> ().state = 6;
 			}
 
 			sc.AddComponent<FixedJoint> ();
@@ -224,6 +230,7 @@ public class SwordSlashingAIState : AIState {
 	}
 
 	public void Substate3(GameObject sc, int i){
+		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
 		timecount += Time.deltaTime;
 		if (timecount > 10f) {
 			timecount = 10f;
@@ -232,10 +239,10 @@ public class SwordSlashingAIState : AIState {
 		if (swords [i].GetComponent<AISword> ().isHit) {
 			timecount /= 2;
 		}
-		int direction = -Mathf.RoundToInt ((randomVector [i].x - AI.transform.position.x) / Mathf.Abs (randomVector [i].x - AI.transform.position.x));
+//		int direction = -Mathf.RoundToInt ((randomVector [i].x - AI.transform.position.x) / Mathf.Abs (randomVector [i].x - AI.transform.position.x));
 
-		sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 200 * dir);
-		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
+		sc.GetComponent<Rigidbody> ().AddTorque (sc.transform.up * timecount * 400 * dir);
+//		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
 
 		if (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude > 1.5f) {
 			isStart[i] = true;
@@ -285,6 +292,10 @@ public class SwordSlashingAIState : AIState {
 		if (Mathf.Abs (angle) < 20) {
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
+
+		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > playerRadius) {
+			sc.GetComponent<AISwordController> ().state = 8;
+		}
 	}
 
 	public void Substate4(GameObject sc, int i){
@@ -292,7 +303,9 @@ public class SwordSlashingAIState : AIState {
 //		randomVector[i] = AI.transform.position + AIRandomForward;
 		Vector3 relativePos = randomVector[i] - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
-		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*6 * Time.deltaTime);
+//		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*6 * Time.deltaTime);
+//		float distance = Vector3.Distance();
+		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*10 * Time.deltaTime);
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
 			sc.GetComponent<AISwordController> ().state = 3;
 //			sc.GetComponent<Rigidbody> ().isKinematic = true;
@@ -300,28 +313,39 @@ public class SwordSlashingAIState : AIState {
 		}
 
 		if (swords[i].GetComponent<AISword>().isHitOther) {
+			Debug.Log ("State 4 hitother");
 			RandomVectorForSlashing (sc, i);
+			if(swords [i].GetComponent<AISword> ().isHitOther){
+				swords [i].GetComponent<AISword> ().isHitOther = false;
+			}
+		}
+
+		if (swords [i].GetComponent<AISword> ().isHit) {
+			sc.GetComponent<AISwordController> ().state = 8;
 		}
 	}
 
 	public void Substate5(GameObject sc, int i){
 		// move sword to the back of ai
+//		swords[i].GetComponent<Rigidbody>().isKinematic = true;
 		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
 //		randomVector [i] = AI.transform.position + -AI.transform.forward;
-		Vector3 relativePos = randomVector[i] - sc.transform.position;
+		Vector3 relativePos = AI.transform.right - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
-		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*6 * Time.deltaTime);
+		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*10 * Time.deltaTime);
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.01f) {
-			sc.GetComponent<AISwordController> ().state = 3;
+			sc.GetComponent<AISwordController> ().state = 6;
 		}
 	}
 
 	public void Substate6(GameObject sc, int i){
 		// move to player
+		sc.GetComponent<Rigidbody>().isKinematic = true;
 		Vector3 playerPos = AI.player.transform.position;
-		playerPos.y = AI.transform.position.y;
+		playerPos.y = 1f;
 		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, speed/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius) {
+			sc.GetComponent<Rigidbody>().isKinematic = false;
 			sc.GetComponent<AISwordController> ().state = 3;
 		}
 	}
