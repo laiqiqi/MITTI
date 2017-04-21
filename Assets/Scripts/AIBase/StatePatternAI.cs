@@ -34,25 +34,16 @@ public class StatePatternAI: MonoBehaviour {
     [HideInInspector] public StompState stompState;
 	[HideInInspector] public PrepareDigStrikeState prepareDigStrikeState;
 	[HideInInspector] public DigStrikeState digStrikeState;
-//	[HideInInspector] public ShootAIState shootState;
-//	[HideInInspector] public SlashState slashState;
-//	[HideInInspector] public ParryAIState parryState;
 	[HideInInspector] public PrepareSlamState prepareSlamState;
 	[HideInInspector] public SlamState slamState;
 	[HideInInspector] public EscapeState escapeState;
 	[HideInInspector] public StopState stopState;
-//	[HideInInspector] public PrepareSlashState prepareSlashState;
 	[HideInInspector] public StunState stunState;
 
-//	[HideInInspector] public SwordFloatingAIState swordFloatingAIState;
 	[HideInInspector] public SwordSlashingAIState swordSlashingAIState;
-//	[HideInInspector] public PrepareSlashingAIState prepareSlashingAIState;
 	[HideInInspector] public SwordFindingAIState swordFindingAIState;
-//	[HideInInspector] public SwordPullingAIState swordPullingAIState;
 	[HideInInspector] public SwordShootingAIState swordShootingAIState;
 	[HideInInspector] public OpeningState openingState;
-//	[HideInInspector] public bool isHit;
-//	[HideInInspector] public bool isParry;
 //----------------------------------------------------------------------------
 
 	//-------------------------------------------------
@@ -83,20 +74,13 @@ public class StatePatternAI: MonoBehaviour {
 		stompState = new StompState (this);
 		prepareDigStrikeState = new PrepareDigStrikeState (this);
 		digStrikeState = new DigStrikeState (this);
-//		shootState = new ShootAIState (this);
-		// slashState = new SlashState (this);
-//		parryState = new ParryAIState (this);
 		prepareSlamState = new PrepareSlamState (this);
 		slamState = new SlamState (this);
 		escapeState = new EscapeState (this);
 		stopState = new StopState(this);
-//		prepareSlashState = new PrepareSlashState (this);
 		stunState = new StunState (this);
-//		swordFloatingAIState = new SwordFloatingAIState (this);
 		swordSlashingAIState = new SwordSlashingAIState (this);
-//		prepareSlashingAIState = new PrepareSlashingAIState (this);
 		swordFindingAIState = new SwordFindingAIState (this);
-//		swordPullingAIState = new SwordPullingAIState (this);
 		swordShootingAIState = new SwordShootingAIState (this);
 		openingState = new OpeningState (this);
 
@@ -105,9 +89,6 @@ public class StatePatternAI: MonoBehaviour {
 
 		openingState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(openingState, openingState.choice);
-
-//		floatingState.choice.AddRange(new AIState[]{});
-//		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		seekState.choice.AddRange(new AIState[]{stompState});
 		AIStateFlow.Add(seekState, seekState.choice);
