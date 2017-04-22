@@ -16,8 +16,6 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject[] swordController;
 	public GameObject AISword;
 	public GameObject AICube;
-
-	public GameObject cube;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------

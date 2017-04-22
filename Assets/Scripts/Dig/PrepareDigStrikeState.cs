@@ -11,6 +11,7 @@ public class PrepareDigStrikeState : AIState {
     private float seekTime;
 	public string name{ get; }
     public List<AIState> choice{ get;set; }
+    private bool isDownSoundPlay;
 
     public PrepareDigStrikeState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
@@ -19,6 +20,7 @@ public class PrepareDigStrikeState : AIState {
     public void StartState()
     {
         Debug.Log("Prepare Dig Start");
+        isDownSoundPlay = false;
         AI.currentState = AI.prepareDigStrikeState;
         attackTarget = AI.player.transform.position;
         speed = 5f;
@@ -26,7 +28,7 @@ public class PrepareDigStrikeState : AIState {
                                  AI.transform.position.y-15f,
                                  AI.transform.position.z);
         timer = 0f;
-        seekTime = Random.Range(3f, 5f);
+        seekTime = Random.Range(2f, 3f);
 
         AI.animationManager.StopChargeStompAnim();
 
@@ -45,7 +47,6 @@ public class PrepareDigStrikeState : AIState {
                 Targeting();
             }
             else {
-                
                 EndState();
             }
         }
@@ -64,10 +65,14 @@ public class PrepareDigStrikeState : AIState {
     }
 
     void Dig(){
-        if(AI.transform.position.y <= 0.5){
+        if(AI.transform.position.y <= 1 && AI.transform.position.y >= -1){
             AI.speed = 0.1f;
+            if (!isDownSoundPlay){
+                AI.effectManager.PlaySoundByName(AISoundName.DIG_DOWN_SOUND);
+                isDownSoundPlay = true;
+            }
         }
-        else{
+        else if(AI.transform.position.y < -1){
             AI.speed = 10f;
         }
         AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, speed * Time.deltaTime);
