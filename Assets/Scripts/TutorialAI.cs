@@ -10,7 +10,7 @@ public class TutorialAI : MonoBehaviour {
 	public bool isEndTutor, isTutor;
 	public GameObject canvas;
 	public Text text;
-	public PlaySound canvasSoundPlayer, windTutorSound;
+	public PlaySound canvasSoundPlayer, windTutorSound, tutorBGM;
 	public GameObject[] minions;
 
 	private string[] talkScript;
@@ -101,6 +101,7 @@ public class TutorialAI : MonoBehaviour {
 			}
 			else if (counter == talkScript.Length-1) {
 				StartCoroutine(CountDown(7f));
+				tutorBGM.isStartFadeOut = true;
 			}
 			else{
 				StartCoroutine(CountDown(0.2f));
