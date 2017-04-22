@@ -12,7 +12,7 @@ namespace Valve.VR.InteractionSystem
 		public event SwordSkillFiredHandler SkillFired;
 		public event SwordUltimateFiredHandler UltFired;
 		public event SwordDamageDealtHandler DamageDealt;
-		public float slotDistance = 0.1f;
+		public float slotDistance = 0.2f;
 		public Transform auraTransform;
         public List<GameObject> auraPrefabs;
         private Sword sword;

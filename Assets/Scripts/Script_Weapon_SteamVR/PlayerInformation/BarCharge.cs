@@ -7,6 +7,8 @@ public class BarCharge : MonoBehaviour {
 	Canvas UI;
 
 	SkillObserver textUpdater;
+	public int IncreaseRateAdd = 10;
+	public float IncreaseSec = 0.5f;
 	int bar;
 	int max = 100;
 	int increase = 20;
@@ -66,12 +68,16 @@ public class BarCharge : MonoBehaviour {
 	}
 	IEnumerator PassiveIncrease() {
 		while(bar < max){
-			bar++;
+			if(bar + IncreaseRateAdd <= max){
+				bar += IncreaseRateAdd;
+			}else{
+				bar = max;
+			}
 				UpdateText();
 			if(bar == max){
 				textUpdater.UltimateOffCooldown();
 			}
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(IncreaseSec);
 		}
 	}
 }

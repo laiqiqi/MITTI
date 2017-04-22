@@ -5,6 +5,7 @@ using UnityEngine;
 public class AICube : MonoBehaviour {
 	private float speed;
 	public int state;
+	public DamageDetection AIDamage;
 	public GameObject effect;
 	public GameObject model;
 	public bool isHit;
@@ -90,6 +91,11 @@ public class AICube : MonoBehaviour {
 
 		}
 		// this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
+	}
+
+	void ApplyDamage(float dmg){
+		Debug.Log(" Bow arrow collision enter " + gameObject.name);
+		AIDamage.HitMagnetDmg(dmg);
 	}
 		
 }

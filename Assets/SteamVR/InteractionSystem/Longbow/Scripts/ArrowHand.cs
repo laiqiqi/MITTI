@@ -225,12 +225,12 @@ namespace Valve.VR.InteractionSystem
 						if(skill.GetFullyCharged()){ //if skill has been charged, give it some distance before it uncharges
 							if(!bow.uncharged){ //distance until it reaches set uncharged distance 
 								if(skill.GetChargingStatus()){
-									skill.Uncharging();
+									skill.Uncharging(false);
 								}	
 							}
 						}
 						else if(skill.GetChargingStatus()){//if it is not charging, then decrease right away
-							skill.Uncharging();
+							skill.Uncharging(false);
 						}else if(skill.OverCharged()){//once the bow overcharge (like in monster hunter arrow charge last 3s)
 							if(!bow.uncharged){//reset it at a fixed uncharged distance
 								skill.ResetOverCharge();
@@ -250,7 +250,7 @@ namespace Valve.VR.InteractionSystem
 					
 					if (skill != null){
 						if(skill.GetFullyCharged()){
-							skill.Uncharging();
+							skill.Uncharging(true);
 							FireArrow();
 							if(skill.GetSkillType() == "ultimate"){
 								if(UltimateFired != null){
@@ -265,7 +265,7 @@ namespace Valve.VR.InteractionSystem
 							skill = null;
 						}else{
 							//skill notcharged so it doesn't release
-							skill.Uncharging();
+							skill.Uncharging(false);
 							arrowNockTransform.rotation = currentArrow.transform.rotation;
 							currentArrow.transform.parent = arrowNockTransform;
 							Util.ResetTransform( currentArrow.transform );
@@ -391,7 +391,7 @@ namespace Valve.VR.InteractionSystem
 					currentArrow.GetComponent<Arrow>().SelfDestruct();
 					currentArrow.transform.parent = null;
 					currentArrow = null;
-					Debug.Log("skill changed");
+					// Debug.Log("skill changed");
 				}
 				
 			}

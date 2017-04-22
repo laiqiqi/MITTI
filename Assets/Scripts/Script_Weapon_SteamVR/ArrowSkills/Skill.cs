@@ -7,7 +7,7 @@ abstract public class Skill : MonoBehaviour {
 	public abstract bool GetChargingStatus();
 	// Use this for initialization
 	public abstract void Charging();
-	public abstract void Uncharging();
+	public abstract void Uncharging(bool OnRelease);
 	public abstract void InitiateSkillOnRelease();
 	public abstract void StopSkill();
 

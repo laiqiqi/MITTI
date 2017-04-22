@@ -98,7 +98,7 @@ namespace Valve.VR.InteractionSystem
 			Debug.Log("skill ended");
 		}
 		public override void OnNowEnable(){
-			Debug.Log("enable");
+			// Debug.Log("enable");
 			EnableUI();
 		}
 
@@ -170,7 +170,7 @@ namespace Valve.VR.InteractionSystem
 		void updateSelectedSkill(int skillPos){
 			if(skillPos != -1){
 				UIImages[skillPos].color = Color.yellow;
-				Debug.Log(UIImages[skillPos].color == Color.yellow);
+				// Debug.Log(UIImages[skillPos].color == Color.yellow);
 			}
 		}
 		void Show(){

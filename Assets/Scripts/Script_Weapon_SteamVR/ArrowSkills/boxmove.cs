@@ -18,15 +18,15 @@ public class boxmove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// if(transform.position.x <= left){
-		// 	transform.Translate(Vector3.right * Time.deltaTime * speed);
-		// 	move = Vector3.right;
-		// }else if(transform.position.x >= right){
-		// 	transform.Translate(Vector3.left * Time.deltaTime * speed);
-		// 	move = Vector3.left;
-		// }else{
-		// 	transform.Translate(move * Time.deltaTime * speed);
-		// }
+		if(transform.position.x <= left){
+			transform.Translate(Vector3.right * Time.deltaTime * speed);
+			move = Vector3.right;
+		}else if(transform.position.x >= right){
+			transform.Translate(Vector3.left * Time.deltaTime * speed);
+			move = Vector3.left;
+		}else{
+			transform.Translate(move * Time.deltaTime * speed);
+		}
 	}
 
 	void ApplyDamage(float dmg){

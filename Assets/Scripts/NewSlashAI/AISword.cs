@@ -16,6 +16,7 @@ public class AISword : MonoBehaviour {
 	public PlaySound swordAppearSound;
 	public PlaySound windSound;
 	public PlaySound swordHitSound;
+	public PlaySound swordSwipeSound;
 	// Use this for initialization
 	void Start () {
 		speed = 300;

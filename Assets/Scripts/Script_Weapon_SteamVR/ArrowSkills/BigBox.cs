@@ -14,11 +14,12 @@ public class BigBox : MonoBehaviour {
 		
 	}
 	void OnTriggerEnter(Collider col){
-		Debug.Log("Big box = trigger enter");
+		// Debug.Log("Big box = trigger enter");
+		Debug.Log(col.gameObject.name + " sphere collider entered");
 	}
 	void OnTriggerExit(Collider other)
     {
-        Debug.Log("Big box = trigger exit");
+        // Debug.Log("Big box = trigger exit");
 		CanSlash = true;
 	}
 	public void SetCanSlash(bool f){
