@@ -53,7 +53,8 @@ public class PrepareDigStrikeState : AIState {
     public void EndState()
     {
         Debug.Log("Prepare Dig End");
-        AI.digStrikeState.StartState();
+        // AI.digStrikeState.StartState();
+        AI.NextState();
     }
 
     public void StateChangeCondition()

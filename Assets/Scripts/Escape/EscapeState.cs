@@ -33,12 +33,13 @@ public class EscapeState : AIState {
 
 	public void EndState(){
 		AI.transform.GetComponent<Rigidbody> ().isKinematic = false;
+		AI.NextState();
 	}
 
 	public void StateChangeCondition(){
 
 		EndState ();
-		AI.seekState.StartState ();
+		// AI.seekState.StartState ();
 	}
 
 	public void Escape(){

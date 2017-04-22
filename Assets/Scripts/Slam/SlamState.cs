@@ -37,7 +37,8 @@ public class SlamState : AIState {
         slamCol.transform.SetParent(AI.transform);
         AI.GetComponent<SphereCollider>().enabled = true;
         AI.body.GetComponent<SphereCollider>().isTrigger = true;
-        AI.EditMagnet(1000, 22);
+
+        AI.EditMagnet(1000, 100);
     }
 
     public void UpdateState()
@@ -59,7 +60,8 @@ public class SlamState : AIState {
         AI.GetComponent<SphereCollider>().enabled = false;
         AI.body.GetComponent<SphereCollider>().isTrigger = false;
         
-        AI.prepareSlamState.StartState();
+        // AI.prepareSlamState.StartState();
+        AI.NextState();
     }
 
     public void StateChangeCondition()

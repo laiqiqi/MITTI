@@ -51,6 +51,7 @@ public class DigStrikeState : AIState {
     public void EndState()
     {
         Debug.Log("Dig Strike End");
+        AI.NextState();
     }
 
     public void StateChangeCondition()
@@ -80,7 +81,7 @@ public class DigStrikeState : AIState {
             AI.effectManager.RemoveEffectFromDictByName(EffectName.ROCKSPIKE);
             AI.animationManager.StopDigStrikeAnim();
 
-            AI.prepareSlamState.StartState();
+            EndState();
         }
     }
 }

@@ -42,7 +42,8 @@ public class SeekState : AIState {
     public void EndState()
     {
         Debug.Log("Seek End");
-        AI.stompState.StartState();
+        // AI.stompState.StartState();
+        AI.NextState();
     }
 
     public void StateChangeCondition()

@@ -50,8 +50,8 @@ public class StompState : AIState {
     {
         Debug.Log("Stomp End");
         AI.effectManager.RemoveEffectFromDictByName(EffectName.DIRTBLAST);
-        AI.prepareDigStrikeState.StartState();
-        // AI.seekState.StartState();
+        // AI.prepareDigStrikeState.StartState();
+        AI.NextState();
     }
 
     public void StateChangeCondition()

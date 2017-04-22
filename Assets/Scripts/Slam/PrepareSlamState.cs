@@ -43,7 +43,8 @@ public class PrepareSlamState : AIState {
     public void EndState()
     {
         Debug.Log("Prepare Slam End");
-        AI.slamState.StartState(this.attackTarget);
+        // AI.slamState.StartState(this.attackTarget);
+        AI.NextState();
     }
 
     public void StateChangeCondition()
