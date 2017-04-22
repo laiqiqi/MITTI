@@ -124,7 +124,7 @@ public class StatePatternAI: MonoBehaviour {
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
 		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
-													,seekState, prepareDigStrikeState, swordShootingAIState});
+													, seekState, prepareDigStrikeState, swordShootingAIState});
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		// foreach(AIState state in AIStateFlow.Keys){
