@@ -151,6 +151,11 @@ public class AISword : MonoBehaviour {
 		}
 		this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 	}
+	void OnCollisionEnter(Collision other){
+		if (other.transform.tag == "Player") {
+			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
+		}
+	}
 
 	void OnCollisionStay(Collision other){
 		if (other.transform.tag == "Player") {
