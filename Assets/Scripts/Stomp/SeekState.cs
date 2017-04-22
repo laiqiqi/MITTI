@@ -29,7 +29,9 @@ public class SeekState : AIState {
         timerBeforeTarget = 0;
 		target = AI.player.transform.position;
         AI.transform.rotation = new Quaternion(0, 0, 0, 0);
-        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -200f;
+        
+        AI.EditMagnet(1000, 100);
+        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -100f;
     }
 
     public void UpdateState()
