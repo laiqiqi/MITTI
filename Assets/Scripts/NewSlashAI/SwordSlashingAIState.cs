@@ -315,6 +315,7 @@ public class SwordSlashingAIState : AIState {
 //		float distance = Vector3.Distance();
 		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*10 * Time.deltaTime);
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
+			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
 			sc.GetComponent<AISwordController> ().state = 3;
 //			sc.GetComponent<Rigidbody> ().isKinematic = true;
 //			timeToStop = 0;
@@ -354,6 +355,7 @@ public class SwordSlashingAIState : AIState {
 		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, speed/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius) {
 			sc.GetComponent<Rigidbody>().isKinematic = false;
+			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
 			sc.GetComponent<AISwordController> ().state = 3;
 		}
 	}

@@ -125,8 +125,9 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
-													, seekState, prepareDigStrikeState, swordShootingAIState});
+//		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
+//													, seekState, prepareDigStrikeState, swordShootingAIState});
+		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		shootUltiState.choice.AddRange(new AIState[]{stopState});
@@ -137,10 +138,10 @@ public class StatePatternAI: MonoBehaviour {
 		// }
 
 
-		shootUltiState.StartState ();
+//		shootUltiState.StartState ();
 		// floatingState.StartState();
 //		openingState.StartState();
-//		swordShootingAIState.StartState();
+		swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
