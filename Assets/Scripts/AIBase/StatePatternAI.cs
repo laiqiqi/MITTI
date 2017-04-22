@@ -17,8 +17,6 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject AISword;
 	public GameObject AICube;
 	public GameObject UltiBullet;
-
-	public GameObject cube;
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------

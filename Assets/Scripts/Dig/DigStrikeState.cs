@@ -41,6 +41,7 @@ public class DigStrikeState : AIState {
 
         AI.EditMagnet(1000, 100);
         AI.magnet.GetComponent<ContinuousExplosionForce>().force = -200f;
+        AI.effectManager.PlaySoundByName(AISoundName.DIGSTRIKE_SOUND);
     }
 
     public void UpdateState()
@@ -64,10 +65,11 @@ public class DigStrikeState : AIState {
             AI.animationManager.StopChargeDigAnim();
             AI.animationManager.PlayDigStrikeAnim();
 
-            if(AI.transform.position != moveToTarget){
+            if(Vector3.Distance(AI.transform.position, moveToTarget) > 0.1f){
                 AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, speed * Time.deltaTime);
             }
-            else{                
+            else{
+                AI.effectManager.StopSoundByName(AISoundName.DIGSTRIKE_SOUND);                
                 if(!hasRSSummoner){
                     AI.effectManager.CreateEffectByName(EffectName.ROCKSPIKE ,attackTarget);
                     hasRSSummoner = true;

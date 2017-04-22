@@ -75,5 +75,9 @@ public class AIEffectManager : MonoBehaviour {
 	public void PlaySoundByName (string name) {
 		soundsDict[name].Play();
 	}
+
+	public void StopSoundByName (string name) {
+		soundsDict[name].Stop();
+	}
 //---------------------------------------------------------
 }
