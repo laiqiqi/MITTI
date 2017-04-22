@@ -76,6 +76,6 @@ public class FloatingAIState : AIState {
 			pos.x = new Vector2 (pos.x, pos.z).normalized.x * radiusOfMap;
 			pos.z = new Vector2 (pos.x, pos.z).normalized.y * radiusOfMap;
 		}
-
+		return pos;
 	}
 }
