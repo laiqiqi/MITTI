@@ -15,6 +15,7 @@ public class AISword : MonoBehaviour {
 	public bool isHide;
 	public PlaySound swordAppearSound;
 	public PlaySound windSound;
+	public PlaySound swordHitSound;
 	// Use this for initialization
 	void Start () {
 		speed = 300;
@@ -153,7 +154,8 @@ public class AISword : MonoBehaviour {
 	}
 	void OnCollisionEnter(Collision other){
 		if (other.transform.tag == "Player") {
-			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
+//			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
+			swordHitSound.Play ();
 		}
 	}
 
