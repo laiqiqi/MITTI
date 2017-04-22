@@ -8,6 +8,7 @@ namespace Valve.VR.InteractionSystem
 		// Use this for initialization
 		private TextMesh debugText;
 		public int cooldown;
+		public float chargeTime = 0.77f;
 		public bool charging = false; //if the arrow is charging
 		public bool fullycharged = false; // if the bow is fully charged (guage at 100)
 		public bool overcharged = false; // overcharged is having charged state for too long
@@ -17,13 +18,15 @@ namespace Valve.VR.InteractionSystem
 		private string skilltype = "ultimate";
 
 		private IEnumerator increaseGuage;
+		public ParticleSystem chargingAura;
 
 		void Start(){
 			debugText = GetComponentInChildren<TextMesh>();
 			increaseGuage = IncreaseGuage();
 		}
-		public override void Uncharging(){
+		public override void Uncharging(bool OnRelease){
 			charging = false;
+			chargingAura.Stop();
 			StopCoroutine(increaseGuage);		
 			Debug.Log("skill A: Uncharging");
 			CancelInvoke("SetOverCharge");
@@ -35,8 +38,9 @@ namespace Valve.VR.InteractionSystem
 		}
 		public override void Charging(){
 			charging = true;
+			chargingAura.Play();
 			//StopCoroutine(decreaseGuage);
-			Debug.Log("skill A: Charging");
+			
 			StartCoroutine(increaseGuage = IncreaseGuage());
 		}
 
@@ -69,6 +73,7 @@ namespace Valve.VR.InteractionSystem
 		public override bool GetFullyCharged(){return fullycharged;}
 		
 		public override void SetOverCharge(){
+			chargingAura.Stop();
 			//fully charged to false
 			//uncharge it
 			charging = false;
@@ -88,17 +93,20 @@ namespace Valve.VR.InteractionSystem
 		// Update is called once per frame
 
 		IEnumerator IncreaseGuage(){
-			Debug.Log("increasing");
-			while(guage < maxguage){
-				guage++;
-				// Debug.Log(guage);
-				if(guage == maxguage){
-					fullycharged = true;
-					Invoke("SetOverCharge",5);
-				}
-				DebugText(guage);
-				yield return new WaitForSeconds(0.005f);
-			}
+			// Debug.Log("increasing");
+			// while(guage < maxguage){
+			// 	guage++;
+			// 	// Debug.Log(guage);
+			// 	if(guage == maxguage){
+			// 		fullycharged = true;
+			// 		Invoke("SetOverCharge",5);
+			// 	}
+			// 	DebugText(guage);
+			// 	yield return new WaitForSeconds(0.0001f);
+			// }
+			yield return new WaitForSeconds(chargeTime);
+			fullycharged = true;
+			Invoke("SetOverCharge",5);
 		}
 		private void activateSkill(){
 			//Deactivat everything inside arrow

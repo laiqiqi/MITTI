@@ -252,6 +252,7 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		public void ArrowReleased()
 		{
+			chargepulled = false;
 			nocked = false;
 			hand.HoverUnlock( GetComponent<Interactable>() );
 			hand.otherHand.HoverUnlock( arrowHand.GetComponent<Interactable>() );
@@ -402,6 +403,7 @@ namespace Valve.VR.InteractionSystem
 		public void ReleaseNock() 
 		{
 			// ArrowHand tells us to do this when we release the buttons when bow is nocked but not drawn far enough
+			chargepulled = false;
 			nocked = false;
 			hand.HoverUnlock( GetComponent<Interactable>() );
 			this.StartCoroutine( this.ResetDrawAnim() );

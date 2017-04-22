@@ -44,10 +44,10 @@ public class Curve : MonoBehaviour {
 
 	IEnumerator fadeLineRenderer(){
 		TrailRenderer g = this.transform.GetComponent<TrailRenderer>();
-		Debug.Log(g.time + "gtime");
+		// Debug.Log(g.time + "gtime");
 		while(g.time > 0){
 			g.time = g.time - 0.4f;
-			Debug.Log(g.time);
+			// Debug.Log(g.time);
 			if(g.time == 0){
 
 				Destroy(gameObject);

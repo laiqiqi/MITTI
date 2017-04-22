@@ -74,7 +74,7 @@ namespace Valve.VR.InteractionSystem
 		public override void UltimateChargeUpdate(string number){
 			coolDownText[2].text = number;
 			
-			Debug.Log("text update " + coolDownText[2].text);
+			// Debug.Log("text update " + coolDownText[2].text);
 		}
 
 		public override void UltimateOnCooldown(){
@@ -170,7 +170,7 @@ namespace Valve.VR.InteractionSystem
 		void updateSelectedSkill(int skillPos){
 			if(skillPos != -1){
 				UIImages[skillPos].color = Color.yellow;
-				Debug.Log(UIImages[skillPos].color == Color.yellow);
+				// Debug.Log(UIImages[skillPos].color == Color.yellow);
 			}
 		}
 		void Show(){
