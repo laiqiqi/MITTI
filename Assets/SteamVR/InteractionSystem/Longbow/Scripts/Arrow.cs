@@ -34,6 +34,7 @@ namespace Valve.VR.InteractionSystem
 		private bool released;
 		private bool hasSpreadFire = false;
 		private bool hasApplyDmgToTarget = false;
+		private bool enterAIArrowRange = false;
 
 		private int travelledFrames = 0;
 
@@ -116,7 +117,7 @@ namespace Valve.VR.InteractionSystem
 				float rbSpeed = rb.velocity.sqrMagnitude;
 				bool canStick = ( targetPhysMaterial != null && collision.collider.sharedMaterial == targetPhysMaterial && rbSpeed > 0.2f );
 				bool hitBalloon = collision.collider.gameObject.GetComponent<Balloon>() != null;
-				bool hitAI = collision.collider.gameObject.tag == "AI";
+				bool hitAI = (collision.collider.gameObject.tag == "AI" || collision.collider.gameObject.tag == "Magnet");
 
 				if ( travelledFrames < 2 && !canStick )
 				{
@@ -158,7 +159,7 @@ namespace Valve.VR.InteractionSystem
 				{
 					// Only count collisions with good speed so that arrows on the ground can't deal damage
 					// always pop balloons
-					if ( rbSpeed > 0.1f && hitAI || hitBalloon )
+					if ( rbSpeed > 0.1f && enterAIArrowRange && hitAI || hitBalloon )
 					{
 						if ( !hasApplyDmgToTarget ){
 							collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
@@ -267,7 +268,13 @@ namespace Valve.VR.InteractionSystem
 		public void SelfDestruct(){
 			Destroy(gameObject);
 		}
-
+		//call by AIArrowCheck.cs
+		void EntersAIArrowRange(){
+			enterAIArrowRange = true;
+		}
+		void ExitsAIArrowRange(){
+			enterAIArrowRange = false;
+		}
 		//-------------------------------------------------
 		void OnDestroy()
 		{

@@ -217,7 +217,6 @@ namespace Valve.VR.InteractionSystem
 				NowDisableUI();
 				// Skill skill = currentArrow.GetComponent<Skill>();
 				if(skill != null){
-					Debug.Log(bow.chargepulled);
 					if(bow.chargepulled){//if bow pull far back enough
 						if (!skill.OverCharged() && !skill.GetChargingStatus()){
 							skill.Charging();

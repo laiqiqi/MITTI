@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Curve : MonoBehaviour {
 	public float damage = 20.0f;
-	private GameObject target1;
-	public float timeToLerp;
+	private Transform target1;
+	public float timeToLerp = 1;
 	private float timeLerped = 0.0f;
 	private Vector3 P0, P1, P2;
 	// Use this for initialization
 	void Start () {
-		target1 = GameObject.Find("Target1");
+		Transform[] targetPositions = GetComponentInParent<Target>().getTargetPositions();
+		Debug.Log(targetPositions);
+		target1 = targetPositions[Random.Range(0,targetPositions.Length)];
 		P0 = transform.position;
-		P1 = new Vector3(Random.Range(5.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
-		P2 = target1.transform.position;
+		P1 = new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
+		P2 = target1.position;
 	}
 	
 	// Update is called once per frame
@@ -27,27 +29,45 @@ public class Curve : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision collision){
-		if(collision.collider.gameObject.tag == "AI"){
-			collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
-			Rigidbody box = gameObject.GetComponent<Rigidbody>();
-			box.transform.parent = collision.collider.gameObject.transform;
+	void OnTriggerEnter(Collider col){
+		if(col.gameObject.name == "ArrowSphere"){
+
+		Debug.Log(gameObject.transform.name + " hit object name: " + col.gameObject.name + " tag " + col.gameObject.tag );
+		// StartCoroutine(fadeLineRenderer());
+		TrailRenderer trail = gameObject.GetComponent<TrailRenderer>();
+		trail.time = 0;
+		Rigidbody box = gameObject.GetComponent<Rigidbody>();
+			box.transform.parent = col.gameObject.transform;
 			box.velocity = Vector3.zero;
 			box.angularVelocity = Vector3.zero;
 			box.isKinematic = true;
 			box.useGravity = false;
 			box.transform.GetComponent<BoxCollider>().enabled = false;
-			StartCoroutine(fadeLineRenderer());
-			// Destroy(gameObject);
+		//play hit sound
 		}
+		// Destroy(gameObject);
 	}
+	// void OnCollisionEnter(Collision collision){
+	// 	if(collision.collider.gameObject.tag == "AI"){
+	// 		collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
+	// 		Rigidbody box = gameObject.GetComponent<Rigidbody>();
+	// 		box.transform.parent = collision.collider.gameObject.transform;
+	// 		box.velocity = Vector3.zero;
+	// 		box.angularVelocity = Vector3.zero;
+	// 		box.isKinematic = true;
+	// 		box.useGravity = false;
+	// 		box.transform.GetComponent<BoxCollider>().enabled = false;
+	// 		StartCoroutine(fadeLineRenderer());
+	// 		// Destroy(gameObject);
+	// 	}
+	// }
 
 	IEnumerator fadeLineRenderer(){
 		TrailRenderer g = this.transform.GetComponent<TrailRenderer>();
-		// Debug.Log(g.time + "gtime");
+		Debug.Log(g.time + "gtime");
 		while(g.time > 0){
 			g.time = g.time - 0.4f;
-			// Debug.Log(g.time);
+			Debug.Log(g.time);
 			if(g.time == 0){
 
 				Destroy(gameObject);

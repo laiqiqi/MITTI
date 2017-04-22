@@ -18,6 +18,7 @@ namespace Valve.VR.InteractionSystem
         private bool skillIsActive;
         private AuraSkill auraSkill;
         private GameObject aura;
+        private bool ableToHitAI = true;
 
 	    private delegate float ApplyDamage();
         ApplyDamage applyDamage;
@@ -25,11 +26,12 @@ namespace Valve.VR.InteractionSystem
 			applyDamage = GetBaseDamage;
 		}
         void OnCollisionEnter(Collision col){
-            if(col.transform.tag == "AI"){
+            if(col.transform.tag == "AI" && ableToHitAI){
                 col.collider.gameObject.SendMessageUpwards("ApplyDamage", applyDamage(), SendMessageOptions.DontRequireReceiver);
                 if(auraSkill != null && skillIsActive){
                     auraSkill.OnColEnter();
                 }
+                ableToHitAI = false;
             }
         }
 		public void Execute(){
@@ -62,6 +64,10 @@ namespace Valve.VR.InteractionSystem
         public void SetSkillAura(GameObject aura){
             this.aura = aura;
             auraSkill = aura.GetComponent<AuraSkill>();
+        }
+        //call by AISwordRadiusCheck.cs
+        void SetAbleHitAI(bool f){
+            ableToHitAI = f;
         }
 
         float GetBaseDamage(){

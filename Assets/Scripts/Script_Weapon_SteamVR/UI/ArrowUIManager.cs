@@ -98,7 +98,7 @@ namespace Valve.VR.InteractionSystem
 			Debug.Log("skill ended");
 		}
 		public override void OnNowEnable(){
-			Debug.Log("enable");
+			// Debug.Log("enable");
 			EnableUI();
 		}
 
