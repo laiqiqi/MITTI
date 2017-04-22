@@ -279,6 +279,7 @@ public class SwordSlashingAIState : AIState {
 
 		if (swords[i].GetComponent<AISword>().isHitOther) {
 			isStart [i] = false;
+			RandomVectorForSlashing (sc, i);
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
@@ -296,6 +297,7 @@ public class SwordSlashingAIState : AIState {
 		float angle = Vector3.Angle (heading, -AI.transform.forward);
 //		Debug.Log ("angle         "+angle);
 		if (Mathf.Abs (angle) < 20) {
+			RandomVectorForSlashing (sc, i);
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
