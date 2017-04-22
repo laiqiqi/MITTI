@@ -30,8 +30,7 @@ public class PrepareDigStrikeState : AIState {
 
         AI.animationManager.StopChargeStompAnim();
 
-        AI.EditMagnet(1000, 100);
-        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -100f;
+        AI.EditMagnet(0, 0);
     }
 
     public void UpdateState()

@@ -74,7 +74,7 @@ namespace Valve.VR.InteractionSystem
 		public override void UltimateChargeUpdate(string number){
 			coolDownText[2].text = number;
 			
-			Debug.Log("text update " + coolDownText[2].text);
+			// Debug.Log("text update " + coolDownText[2].text);
 		}
 
 		public override void UltimateOnCooldown(){

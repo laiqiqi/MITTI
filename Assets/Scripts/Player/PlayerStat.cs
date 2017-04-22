@@ -6,7 +6,7 @@ public class PlayerStat : MonoBehaviour {
 
 	// Use this for initialization
 	public float stamina;
-	public float staRegenRate;
+	public float staRegenRate, healthRegenRate;
 
 	public float health;
 
@@ -20,12 +20,14 @@ public class PlayerStat : MonoBehaviour {
 		staRegenRate = 0.5f;
 
 		health = 100;
+		healthRegenRate = 0.1f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		// StaminaRegen();
 		RegenStamina(staRegenRate);
+		RegenHealth(healthRegenRate);
 	}
 
 	void RegenStamina(float rate){
@@ -39,9 +41,29 @@ public class PlayerStat : MonoBehaviour {
 		}
 	}
 
+	void RegenHealth(float rate){
+		if(health < 100){
+			if(health + (rate) > 100){
+				health = 100;
+			}
+			else{
+				health += (rate);
+			}
+		}
+	}
+
 	public void ResetAllStatusToFalse() {
 		isHitSlam = false;
 		isStartDazzle = false;
 		isDazzle = false;
+	}
+
+	public void PlayerTakeDamage(float dmg) {
+		if(health - dmg < 0){
+			health = 0;
+		}
+		else{
+			health -= dmg;
+		}
 	}
 }
