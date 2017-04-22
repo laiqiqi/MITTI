@@ -128,6 +128,7 @@ public class SwordShootingAIState : AIState {
 					swordList [randomIndex].GetComponent<Rigidbody> ().isKinematic = false;
 					swordList [randomIndex].transform.parent = null;
 					swordList [randomIndex].GetComponent<AISword> ().state = 3;
+					swordList [randomIndex].GetComponent<AISword> ().windSound.Play ();
 //					swordList [randomIndex].GetComponent<Rigidbody> ().AddForce (-swordList[randomIndex].transform.forward*500f);
 					swordList.RemoveAt (randomIndex);
 					timeToShoot = 0;

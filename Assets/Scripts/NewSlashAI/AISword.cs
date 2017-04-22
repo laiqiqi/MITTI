@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class AISword : MonoBehaviour {
 	private float speed;
@@ -12,6 +13,8 @@ public class AISword : MonoBehaviour {
 	private float timeCount;
 	public bool virtualSword;
 	public bool isHide;
+	public PlaySound swordAppearSound;
+	public PlaySound windSound;
 	// Use this for initialization
 	void Start () {
 		speed = 300;
@@ -82,6 +85,7 @@ public class AISword : MonoBehaviour {
 		} else if (state == 6) {
 			//effect in
 			Debug.Log ("effect in");
+//			swordAppearSound.Play ();
 			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
 				p.loop = true;
 //				p.Play();
@@ -89,8 +93,10 @@ public class AISword : MonoBehaviour {
 			}
 			this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 			if (swordModel.GetComponent<FadeManager> ().isShow) {
+				swordAppearSound.Play ();
 				state = 7;
 			} else {
+				swordAppearSound.Play ();
 				state = 8;
 			}
 		} else if (state == 7) {
@@ -163,6 +169,7 @@ public class AISword : MonoBehaviour {
 //			Debug.Log ("other: name:"+other.transform.name+"   tag:"+other.transform.tag);
 			isHitOther = true;
 			if (state == 3 || state == 0) {
+				windSound.Stop ();
 				isHide = true;
 				if (other.transform.tag == "Ground") {
 					RaycastHit hit;
