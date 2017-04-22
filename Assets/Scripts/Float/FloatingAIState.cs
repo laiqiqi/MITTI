@@ -22,7 +22,7 @@ public class FloatingAIState : AIState {
 //		target = new GameObject ().transform;
 		target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
 			//			this.transform.position.y + Random.Range (-10f, 100f),
-			enemy.player.transform.position.y + Random.Range (0f, 2f),
+			enemy.player.transform.position.y + Random.Range (1f, 2f),
 			// Random.Range (0f, 10f),
 			enemy.player.transform.position.z + Random.Range (-10f, 10f));
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = true;
@@ -61,12 +61,11 @@ public class FloatingAIState : AIState {
 			// enemy.slashState.StartState ();
 			
 		}
-		if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < 3f){
-			target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
-				enemy.player.transform.position.y + Random.Range (1f, 2f),
-				//				this.transform.position.y + Random.Range (-10f, 10f),
-				// Random.Range (0f, 10f),
-				enemy.player.transform.position.z + Random.Range (-10f, 10f));
+		if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < 5f){
+//			target.position = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
+//				enemy.player.transform.position.y + Random.Range (1f, 2f),
+//				enemy.player.transform.position.z + Random.Range (-10f, 10f));
+			target.position = enemy.transform.position - enemy.transform.forward* 5f;
 			EndState ();
 //			enemy.prepareSlashState.StartState ();
 			// enemy.escapeState.StartState();

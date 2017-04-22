@@ -176,6 +176,7 @@ public class SwordSlashingAIState : AIState {
 		if(swords [i].GetComponent<AISword>().swordModel.GetComponent<FadeManager>().isShow) {
 			sc.GetComponent<AISwordController> ().state = 1;
 			swords[i].GetComponent<Rigidbody> ().isKinematic = false;
+			dir =(int)Mathf.Pow (-1, Random.Range (1, 3));
 		}
 
 //		sc.transform.Rotate (0f, speed * Time.deltaTime, 0f);
@@ -191,14 +192,19 @@ public class SwordSlashingAIState : AIState {
 		swords [i].transform.rotation = Quaternion.RotateTowards (swords [i].transform.rotation, rotation, speed * Time.deltaTime);
 
 		float distance = 3f;
-		dir = (int)Mathf.Pow (-1, Random.Range (1, 3));
-		randomVector [i] = AI.transform.position + AI.transform.right * -dir;
-		swords [i].transform.localPosition = Vector3.MoveTowards (swords [i].transform.localPosition, randomVector [i].normalized * distance, speed / 50f * Time.deltaTime);
-		if (Vector3.Distance (swords [i].transform.localPosition, randomVector [i].normalized * distance) < 0.01f
+//		dir = (int)Mathf.Pow (-1, Random.Range (1, 3));
+//		dir = 1;
+//		randomVector [i] = AI.transform.position + AI.transform.right * -dir;
+		randomVector[i] = AI.transform.right *distance*dir + AI.transform.position;
+		swords [i].transform.position = Vector3.MoveTowards (swords [i].transform.position, randomVector [i], speed / 50f * Time.deltaTime);
+		Debug.DrawLine (swords [i].transform.position,randomVector [i], Color.red);
+
+		if (Vector3.Distance (swords [i].transform.position, randomVector [i]) < 0.01f
 			&& Quaternion.Angle (swords [i].transform.rotation, rotation) < 0.01f) {
-			if (Vector3.Angle (swords [i].transform.up, Vector3.up) > Vector3.Angle (swords [i].transform.up, -Vector3.up)) {
-				dir = -dir;
-			}
+//			if (Vector3.Angle (swords [i].transform.up, Vector3.up) > Vector3.Angle (swords [i].transform.up, -Vector3.up)) {
+////				dir = -dir;
+//			}
+			dir = -dir;
 			sc.GetComponent<AISwordController> ().state = 2;
 		}
 	}
