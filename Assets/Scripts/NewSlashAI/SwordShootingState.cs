@@ -33,6 +33,7 @@ public class SwordShootingAIState : AIState {
 //		initialSword = AI.swordController [0].transform.GetChild (0).gameObject;
 		AI.AISword.transform.parent = AI.swordController[0].transform;
 		AI.AISword.gameObject.SetActive(false);
+		AI.AISword.GetComponent<Rigidbody> ().isKinematic = true;
 		AI.AISword.transform.localPosition = new Vector3 (0f, 0f, 1f);
 		AI.AISword.transform.rotation = Quaternion.Euler (new Vector3 (90f, 0f, 0f));
 //		AI.AISword.gameObject.SetActive(true);
