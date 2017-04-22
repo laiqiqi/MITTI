@@ -126,7 +126,7 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-		floatingState.choice.AddRange(new AIState[]{swordSlashingAIState, swordShootingAIState});
+		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });//, swordShootingAIState});
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		foreach(AIState state in AIStateFlow.Keys){
@@ -217,9 +217,7 @@ public class StatePatternAI: MonoBehaviour {
 
 			}
 		}else if(currentState == floatingState){
-			if(AISword.GetComponent<AISword>().state == -1){
-				AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
-			}
+			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
 		}else{
 			Debug.Log("Next3");
 			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));

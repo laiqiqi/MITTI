@@ -11,7 +11,7 @@ public class AISword : MonoBehaviour {
 	public bool isHitOther;
 	private float timeCount;
 	public bool virtualSword;
-	private bool isHide;
+	public bool isHide;
 	// Use this for initialization
 	void Start () {
 		speed = 300;
@@ -120,6 +120,8 @@ public class AISword : MonoBehaviour {
 					} else {
 						this.gameObject.SetActive (false);
 					}
+					state = -2;
+					isHide =false;
 				}
 			}
 			
@@ -158,7 +160,7 @@ public class AISword : MonoBehaviour {
 				this.GetComponent<Rigidbody> ().isKinematic = true;
 			}
 		}else{
-//			Debug.Log ("hit other");
+//			Debug.Log ("other: name:"+other.transform.name+"   tag:"+other.transform.tag);
 			isHitOther = true;
 			if (state == 3 || state == 0) {
 				isHide = true;
@@ -183,8 +185,8 @@ public class AISword : MonoBehaviour {
 	void OnCollisionExit(Collision other){
 		if (other.transform.tag == "Player") {
 			isHit = false;
-		}else {
-			isHitOther = false;
 		}
+		isHitOther = false;
+		
 	}
 }
