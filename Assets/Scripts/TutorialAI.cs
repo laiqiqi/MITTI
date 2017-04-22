@@ -45,13 +45,12 @@ public class TutorialAI : MonoBehaviour {
 								"Use it to heal yourself.", //17
 								"The blue crystal has great magic power.", //18
 								"Diffuse it with the sword then it will become magic greatsword.", //19
-								"It is so powerful that you have to hold it two-handed.", //20
-								"A hit with the enchanted sword will deplete all the crystal power.", //21
-								"Crystals have the cooldown time to recover its power, use it wisely.", //22
-								"I hope this is the last time seeing you.", //23
-								"Defeat you own creation.", //24
-								"Bring peace to this land and you can rest in peace.", //25
-								"GoodLuck."}; //26
+								"A hit with the enchanted sword will deplete all the crystal power.", //20
+								"Crystals have the cooldown time to recover its power, use it wisely.", //21
+								"I hope this is the last time seeing you.", //22
+								"Defeat you own creation.", //23
+								"Bring peace to this land and you can rest in peace.", //24
+								"GoodLuck."}; //25
 
 		isEndTutor = false;
 		isTutor = false;
@@ -79,25 +78,24 @@ public class TutorialAI : MonoBehaviour {
 
 	void Tutorial(){
 
-		// else{ // Tutorial Start!!!
+		// Tutorial Start!!!
 		if(counter == nextScriptIndex && !isEndTutor){
 			if (counter == 0) {
 				// wait for <--- sec to go to ^ index
 				StartCoroutine(CountDown(0f));
 			}
 			else if (counter == 2) {
-				// StartCoroutine(CountDown(10f));
 				StartCoroutine(CountDown(1f));
 			}
-			// else if (counter == 3) {
-			// 	isTutor = true;
-			// }
+			else if (counter == 3) {
+				isTutor = true;
+				StartCoroutine(CountDown(0.2f));
+			}
 			else if (counter == 10) {
 				foreach (GameObject minion in minions) {
 					minion.SetActive(true);
 				}
 				if(hitCounter >= 2){
-					Debug.Log("NextTalk");
 					StartCoroutine(CountDown(0f));
 				}
 			}
@@ -108,9 +106,8 @@ public class TutorialAI : MonoBehaviour {
 				StartCoroutine(CountDown(0.2f));
 			}
 		}
-		// }
+
 		if(counter == 10 && hitCounter >= 2){
-			Debug.Log("Next");
 			StartCoroutine(CountDown(0f));
 			hitCounter = 0;
 		}
@@ -139,10 +136,7 @@ public class TutorialAI : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		// if(col.tag.Equals("Sword") && !isTutor){
-		// 	isEndTutor = true;
-		// }
-		if(col.tag.Equals("Sword")){
+		if(col.tag.Equals("Sword") && !isTutor){
 			isEndTutor = true;
 		}
 	}
