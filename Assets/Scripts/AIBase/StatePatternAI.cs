@@ -123,12 +123,12 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-//		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
-//													, seekState, prepareDigStrikeState, swordShootingAIState});
-		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
+		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
+													, seekState, prepareDigStrikeState, swordShootingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
-		shootUltiState.choice.AddRange(new AIState[]{stopState});
+		shootUltiState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(shootUltiState, shootUltiState.choice);
 
 		// foreach(AIState state in AIStateFlow.Keys){
@@ -139,13 +139,13 @@ public class StatePatternAI: MonoBehaviour {
 //		shootUltiState.StartState ();
 		// floatingState.StartState();
 //		openingState.StartState();
-		swordSlashingAIState.StartState();
+		// swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
-//		stopState.StartState();
+		stopState.StartState();
 	}
 	
 	// Update is called once per frame
@@ -232,7 +232,7 @@ public class StatePatternAI: MonoBehaviour {
 	}
 
 	public void DisableMagnet() {
-		magnet.GetComponent<ContinuousExplosionForce>().radius = 0;
+		magnet.GetComponent<ContinuousExplosionForce>().force = 0;
 		magnet.GetComponent<ContinuousExplosionForce>().size = 0;
 		// magnet.transform.parent = null;
 	}
