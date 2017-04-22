@@ -58,10 +58,11 @@ public class StunState : AIState {
         AI.NoRagdollMode();
         AI.effectManager.DestroyEffectByName(EffectName.STUN_5_SEC);
         AI.effectManager.RemoveEffectFromDictByName(EffectName.STUN_5_SEC);
-        AI.EditMagnet(1000f, 22);
+        AI.EditMagnet(1000f, 100);
         AI.magnet.transform.parent = AI.body.transform;
         AI.GetComponent<SphereCollider>().enabled = false;
         AI.body.GetComponent<SphereCollider>().isTrigger = false;
+        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -1000f;
         
         AI.NextState();
     }

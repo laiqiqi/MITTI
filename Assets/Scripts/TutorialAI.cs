@@ -101,7 +101,6 @@ public class TutorialAI : MonoBehaviour {
 			}
 			else if (counter == talkScript.Length-1) {
 				StartCoroutine(CountDown(7f));
-				tutorBGM.isStartFadeOut = true;
 			}
 			else{
 				StartCoroutine(CountDown(0.2f));
@@ -159,6 +158,7 @@ public class TutorialAI : MonoBehaviour {
 				}
 
 				windTutorSound.isStartFadeOut = true;
+				tutorBGM.isStartFadeOut = true;
 			}
 		}
 	}

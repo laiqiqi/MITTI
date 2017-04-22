@@ -21,7 +21,7 @@ public class PrepareDigStrikeState : AIState {
         Debug.Log("Prepare Dig Start");
         AI.currentState = AI.prepareDigStrikeState;
         attackTarget = AI.player.transform.position;
-        speed = 30f;
+        speed = 5f;
         moveToTarget = new Vector3(AI.transform.position.x,
                                  AI.transform.position.y-15f,
                                  AI.transform.position.z);
@@ -30,12 +30,13 @@ public class PrepareDigStrikeState : AIState {
 
         AI.animationManager.StopChargeStompAnim();
 
-        AI.EditMagnet(0, 0);
+        AI.DisableMagnet();
     }
 
     public void UpdateState()
     {
-        if(AI.transform.position.y > moveToTarget.y){
+        AI.DisableMagnet();
+        if(AI.transform.position.y - moveToTarget.y >= 0.1f){
             Dig();
         }
         else{
@@ -63,6 +64,12 @@ public class PrepareDigStrikeState : AIState {
     }
 
     void Dig(){
+        if(AI.transform.position.y <= 0.5){
+            AI.speed = 0.1f;
+        }
+        else{
+            AI.speed = 10f;
+        }
         AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, speed * Time.deltaTime);
     }
 

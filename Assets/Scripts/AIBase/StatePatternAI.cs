@@ -123,8 +123,9 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
-													, seekState, prepareDigStrikeState, swordShootingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
+		// 											, seekState, prepareDigStrikeState, swordShootingAIState});
+		floatingState.choice.AddRange (new AIState[]{prepareDigStrikeState});
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		// foreach(AIState state in AIStateFlow.Keys){
@@ -227,7 +228,7 @@ public class StatePatternAI: MonoBehaviour {
 	}
 
 	public void DisableMagnet() {
-		magnet.GetComponent<ContinuousExplosionForce>().radius = 0;
+		magnet.GetComponent<ContinuousExplosionForce>().force = 0;
 		magnet.GetComponent<ContinuousExplosionForce>().size = 0;
 		// magnet.transform.parent = null;
 	}

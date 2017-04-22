@@ -40,7 +40,7 @@ public class DigStrikeState : AIState {
         AI.effectManager.CreateCircleByName(MagicCircleName.DIG_CIRCLE ,attackTarget);
 
         AI.EditMagnet(1000, 100);
-        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -100f;
+        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -200f;
     }
 
     public void UpdateState()

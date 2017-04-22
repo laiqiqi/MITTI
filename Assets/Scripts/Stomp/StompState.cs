@@ -7,7 +7,7 @@ public class StompState : AIState {
     private Vector3 attackTarget;
     private Vector3 dirtPos;
     private Vector3 attackEndPos;
-    private bool isCreateDirt;
+    private bool isCreateDirt, isPassVertex, isPlayStomping;
 	public string name{ get;}
     public List<AIState> choice{ get;set; }
 
@@ -21,6 +21,8 @@ public class StompState : AIState {
         Debug.Log("Stomp Start");
         AI.currentState = AI.stompState;
         isCreateDirt = false;
+        isPassVertex = false;
+        isPlayStomping = false;
 
         attackTarget = new Vector3(AI.transform.position.x,
                                 //enemy.player.transform.position.y - 0.7f,
@@ -83,6 +85,18 @@ public class StompState : AIState {
         }
         else if(AI.animationManager.CheckBodyAnimState(0, "ChargeStomp")){
            AI.animationManager.StopSeekAnim();
+        }
+
+        if(AI.body.transform.localPosition.y >= 14){
+            isPassVertex = true;
+        }
+        if(isPassVertex) {
+            if(AI.body.transform.localPosition.y <= 14){
+                if(!isPlayStomping){
+                    AI.effectManager.PlaySoundByName(AISoundName.STOPMING_SOUND);
+                    isPlayStomping = true;
+                }
+            }
         }
     }
 }

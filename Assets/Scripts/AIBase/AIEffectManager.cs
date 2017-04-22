@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class AIEffectManager : MonoBehaviour {
 
@@ -13,14 +14,21 @@ public class AIEffectManager : MonoBehaviour {
 	public Dictionary<string, GameObject> skillEffectsDict = new Dictionary<string, GameObject>();
 	public Dictionary<string, GameObject> tempEffects = new Dictionary<string, GameObject>();
 
+	public PlaySound[] sounds;
+	public Dictionary<string, PlaySound> soundsDict = new Dictionary<string, PlaySound>();
+
 	// Use this for initialization
 	void Awake () {
-		for(int i=0; i<magicCircles.Length; i++){
+		for(int i=0; i<magicCircles.Length; i++) {
 			magicCirclesDict.Add(magicCircles[i].name, magicCircles[i]);
 		}
 
-		for(int i=0; i<skillEffects.Length; i++){
+		for(int i=0; i<skillEffects.Length; i++) {
 			skillEffectsDict.Add(skillEffects[i].name, skillEffects[i]);
+		}
+
+		for(int i=0; i<sounds.Length; i++ ){
+			soundsDict.Add(sounds[i].name, sounds[i]);
 		}
 	}
 
@@ -28,20 +36,20 @@ public class AIEffectManager : MonoBehaviour {
 		
 	}
 //-----------MagicCircles----------------------------------
-	public void CreateCircleByName(string name ,Vector3 effectPos) {
+	public void CreateCircleByName (string name ,Vector3 effectPos) {
 		GameObject circle = (GameObject)Instantiate(magicCirclesDict[name], effectPos, Quaternion.identity);
 		tempCircles.Add(name, circle);
 	}
-	public GameObject CreateAndReturnCircleByName(string name, Vector3 effectPos) {
+	public GameObject CreateAndReturnCircleByName (string name, Vector3 effectPos) {
 		GameObject effect = (GameObject)Instantiate(magicCirclesDict[name], effectPos, Quaternion.identity);
 		tempCircles.Add(name, effect);
 		return tempCircles[name];
 	}
-	public void DestroyCircleByName(string name) {
+	public void DestroyCircleByName (string name) {
 		Destroy(tempCircles[name]);
 	}
 
-	public void RemoveCircleFromDictByName(string name){
+	public void RemoveCircleFromDictByName (string name){
 		tempCircles.Remove(name);
 	}
 //---------------------------------------------------------
@@ -50,17 +58,22 @@ public class AIEffectManager : MonoBehaviour {
 		GameObject effect = (GameObject)Instantiate(skillEffectsDict[name], effectPos, Quaternion.identity);
 		tempEffects.Add(name, effect);
 	}
-	public GameObject CreateAndReturnEffectByName(string name, Vector3 effectPos) {
+	public GameObject CreateAndReturnEffectByName (string name, Vector3 effectPos) {
 		GameObject effect = (GameObject)Instantiate(skillEffectsDict[name], effectPos, Quaternion.identity);
 		tempEffects.Add(name, effect);
 		return tempEffects[name];
 	}
-	public void DestroyEffectByName(string name) {
+	public void DestroyEffectByName (string name) {
 		Destroy(tempEffects[name]);
 	}
 
-	public void RemoveEffectFromDictByName(string name){
+	public void RemoveEffectFromDictByName (string name) {
 		tempEffects.Remove(name);
+	}
+//---------------------------------------------------------
+//-----------SoundEffect-----------------------------------
+	public void PlaySoundByName (string name) {
+		soundsDict[name].Play();
 	}
 //---------------------------------------------------------
 }
