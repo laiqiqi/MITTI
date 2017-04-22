@@ -90,7 +90,7 @@ public class GameState : MonoBehaviour {
 	}
 
 	void AIOpening(){
-		if(StatePatternAI.instance.transform.position.y > 4.5f){
+		if(StatePatternAI.instance.transform.position.y > 4.4f){
 			sceneDestroyer.SetActive(true);
 		}
 

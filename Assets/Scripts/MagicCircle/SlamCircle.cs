@@ -36,14 +36,15 @@ public class SlamCircle : MonoBehaviour {
 		}
 
 		CircleColorRecover();
+		this.transform.LookAt(StatePatternAI.instance.player.transform);
 	}
 
 	void OnTriggerEnter(Collider col){
 		// Debug.Log("Hit "+col);
-		if(col.tag == "PlayerWeapon"){
+		if(col.tag.Equals("Sword") || col.tag.Equals("projectile")){
 			Debug.Log("HitSlamCircle");
 			circle.GetComponent<Renderer>().material.SetColor("_TintColor", hitColor);
-			health -= 30f;
+			health -= 50f;
 		}
 	}
 

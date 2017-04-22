@@ -48,7 +48,7 @@ public class SceneDestroyer : MonoBehaviour
 			}
 		}
 
-		transform.Rotate(Vector3.up);
+		transform.Rotate(Vector3.up * speed*Time.fixedDeltaTime);
 		
 		// if(moveFront){
 		// 	transform.position = Vector3.MoveTowards(transform.position, maxPos, speed*Time.fixedDeltaTime);

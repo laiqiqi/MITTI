@@ -18,7 +18,23 @@ public class SlamState : AIState {
 	}
     public void StartState()
     {
-        
+        Debug.Log("Slam Start");
+        AI.currentState = AI.slamState;
+        isStop = false;
+        isStun = false;
+        isEnd = false;
+        AI.speed = 30f;
+        this.attackTarget = AI.player.transform.position + (Vector3.up*0.5f);
+        moveToTarget = this.attackTarget + AI.transform.forward*30f;
+
+        AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
+        AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
+        slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward + AI.transform.up*0.05f);
+        slamCol.transform.SetParent(AI.transform);
+        AI.GetComponent<SphereCollider>().enabled = true;
+        AI.body.GetComponent<SphereCollider>().isTrigger = true;
+
+        AI.EditMagnet(1000, 100);
     }
     public void StartState(Vector3 attackTarget)
     {
@@ -37,7 +53,8 @@ public class SlamState : AIState {
         slamCol.transform.SetParent(AI.transform);
         AI.GetComponent<SphereCollider>().enabled = true;
         AI.body.GetComponent<SphereCollider>().isTrigger = true;
-        AI.EditMagnet(1000, 22);
+
+        AI.EditMagnet(1000, 100);
     }
 
     public void UpdateState()
@@ -55,8 +72,12 @@ public class SlamState : AIState {
         }
         Player.instance.GetComponent<PlayerStat>().isHitSlam = false;
         Player.instance.transform.SetParent(null);
+
+        AI.GetComponent<SphereCollider>().enabled = false;
+        AI.body.GetComponent<SphereCollider>().isTrigger = false;
         
-        AI.prepareSlamState.StartState();
+        // AI.prepareSlamState.StartState();
+        AI.NextState();
     }
 
     public void StateChangeCondition()
@@ -72,7 +93,7 @@ public class SlamState : AIState {
             // Destroy(slamCol);
             // Player.instance.GetComponent<PlayerControl>().isHitSlam = false;
             // AI.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            AI.stunState.StartState(5f, AI.transform.forward * AI.speed);
+            AI.stunState.StartState(5f, AI.transform.forward * AI.speed * 2f);
         }
         else if(Vector3.Distance(AI.transform.position, moveToTarget) > 0.1f && !isStop){
             // Debug.Log("Moveeeee");

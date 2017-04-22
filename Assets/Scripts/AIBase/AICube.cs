@@ -43,7 +43,7 @@ public class AICube : MonoBehaviour {
 			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
 				p.loop = true;
 				//				p.Play();
-				Debug.Log ("loop       " + p.loop);
+				// Debug.Log ("loop       " + p.loop);
 			}
 			this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 			if (model.GetComponent<FadeManager> ().isShow) {

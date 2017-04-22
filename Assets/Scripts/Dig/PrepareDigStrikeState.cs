@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PrepareDigStrikeState : AIState {
-    private readonly StatePatternAI enemy;
+    private readonly StatePatternAI AI;
     private Vector3 attackTarget;
     private Vector3 moveToTarget;
     private float speed;
@@ -13,27 +13,29 @@ public class PrepareDigStrikeState : AIState {
     public List<AIState> choice{ get;set; }
 
     public PrepareDigStrikeState(StatePatternAI statePatternAI){
-		enemy = statePatternAI;
+		AI = statePatternAI;
         choice = new List<AIState>();
 	}
     public void StartState()
     {
         Debug.Log("Prepare Dig Start");
-        enemy.currentState = enemy.prepareDigStrikeState;
-        attackTarget = enemy.player.transform.position;
+        AI.currentState = AI.prepareDigStrikeState;
+        attackTarget = AI.player.transform.position;
         speed = 30f;
-        moveToTarget = new Vector3(enemy.transform.position.x,
-                                 enemy.transform.position.y-15f,
-                                 enemy.transform.position.z);
+        moveToTarget = new Vector3(AI.transform.position.x,
+                                 AI.transform.position.y-15f,
+                                 AI.transform.position.z);
         timer = 0f;
         seekTime = Random.Range(3f, 5f);
 
-        enemy.animationManager.StopChargeStompAnim();
+        AI.animationManager.StopChargeStompAnim();
+
+        AI.EditMagnet(0, 0);
     }
 
     public void UpdateState()
     {
-        if(enemy.transform.position.y > moveToTarget.y){
+        if(AI.transform.position.y > moveToTarget.y){
             Dig();
         }
         else{
@@ -51,7 +53,8 @@ public class PrepareDigStrikeState : AIState {
     public void EndState()
     {
         Debug.Log("Prepare Dig End");
-        enemy.digStrikeState.StartState();
+        // AI.digStrikeState.StartState();
+        AI.NextState();
     }
 
     public void StateChangeCondition()
@@ -60,13 +63,13 @@ public class PrepareDigStrikeState : AIState {
     }
 
     void Dig(){
-        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, moveToTarget, speed * Time.deltaTime);
+        AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, speed * Time.deltaTime);
     }
 
     void Targeting(){
-        attackTarget = new Vector3(enemy.player.transform.position.x,
-                                 enemy.player.transform.position.y-17f,
-                                 enemy.player.transform.position.z);
-        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, attackTarget, speed * Time.deltaTime);
+        attackTarget = new Vector3(AI.player.transform.position.x,
+                                 AI.player.transform.position.y-17f,
+                                 AI.player.transform.position.z);
+        AI.transform.position = Vector3.MoveTowards(AI.transform.position, attackTarget, speed * Time.deltaTime);
     }
 }

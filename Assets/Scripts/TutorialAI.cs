@@ -7,15 +7,17 @@ using Valve.VR.InteractionSystem;
 public class TutorialAI : MonoBehaviour {
 
 	public float frequency, magnitude;
-	public bool isEndTutor, isCountDown;
+	public bool isEndTutor, isTutor;
 	public GameObject canvas;
 	public Text text;
-	public PlaySound canvasSoundPlayer, windTutorSound;
+	public PlaySound canvasSoundPlayer, windTutorSound, tutorBGM;
+	public GameObject[] minions;
 
 	private string[] talkScript;
 	private int counter, nextScriptIndex;
 	private Animator canvasAnimator, textAnimator;
 	private Color color;
+	public int hitCounter;
 
 	// Use this for initialization
 	void Start () {
@@ -32,8 +34,8 @@ public class TutorialAI : MonoBehaviour {
 								"Now you know how to evade.", //6
 								"Try pick up a bow from your back.", //7
 								"Press a trigger button when your controller is at your back.", //8
-								"Now shoot at the minions. Put at the bow and hold arrow trigger.", //9
-								"Good job, use you can use skills by touching the touch pad.", //10
+								"Now shoot at the minions. Put arrow at the bow and hold trigger.", //9
+								"Good job, you can use skills by touching the left touch pad.", //10
 								"Skilled-arrow must be fully charged to shoot", //11
 								"They have cooldown time. Be aware of it.", //12
 								"Let’s try another weapon, the legendary sword.", //13
@@ -43,16 +45,15 @@ public class TutorialAI : MonoBehaviour {
 								"Use it to heal yourself.", //17
 								"The blue crystal has great magic power.", //18
 								"Diffuse it with the sword then it will become magic greatsword.", //19
-								"It is so powerful that you have to hold it two-handed.", //20
-								"A hit with the enchanted sword will deplete all the crystal power.", //21
-								"Crystals have the cooldown time to recover its power, use it wisely.", //22
-								"I hope this is the last time seeing you.", //23
-								"Defeat you own creation.", //24
-								"Bring peace to this land and you can rest in peace.", //25
-								"GoodLuck."}; //26
+								"A hit with the enchanted sword will deplete all the crystal power.", //20
+								"Crystals have the cooldown time to recover its power, use it wisely.", //21
+								"I hope this is the last time seeing you.", //22
+								"Defeat you own creation.", //23
+								"Bring peace to this land and you can rest in peace.", //24
+								"GoodLuck."}; //25
 
 		isEndTutor = false;
-		isCountDown = false;
+		isTutor = false;
 
 		color = this.GetComponent<Renderer>().material.GetColor("_Color");
 
@@ -77,23 +78,40 @@ public class TutorialAI : MonoBehaviour {
 
 	void Tutorial(){
 
-		// else{ // Tutorial Start!!!
-			if(counter == nextScriptIndex && !isEndTutor){
-				float sec = 0.2f;
-
-				if (counter == 0) {
-					sec = 0f;
-				}
-				else if (counter == 2) {
-					sec = 10f;
-				}
-				else if (counter == talkScript.Length-1) {
-					sec = 7f;
-				}
-				StartCoroutine(CountDown(sec));
+		// Tutorial Start!!!
+		if(counter == nextScriptIndex && !isEndTutor){
+			if (counter == 0) {
+				// wait for <--- sec to go to ^ index
+				StartCoroutine(CountDown(0f));
 			}
-		// }
+			else if (counter == 2) {
+				StartCoroutine(CountDown(1f));
+			}
+			else if (counter == 3) {
+				isTutor = true;
+				StartCoroutine(CountDown(0.2f));
+			}
+			else if (counter == 10) {
+				foreach (GameObject minion in minions) {
+					minion.SetActive(true);
+				}
+				if(hitCounter >= 2){
+					StartCoroutine(CountDown(0f));
+				}
+			}
+			else if (counter == talkScript.Length-1) {
+				StartCoroutine(CountDown(7f));
+				tutorBGM.isStartFadeOut = true;
+			}
+			else{
+				StartCoroutine(CountDown(0.2f));
+			}
+		}
 
+		if(counter == 10 && hitCounter >= 2){
+			StartCoroutine(CountDown(0f));
+			hitCounter = 0;
+		}
 		nextScriptIndex = counter+1;
 	}
 
@@ -119,7 +137,7 @@ public class TutorialAI : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		if(col.Equals("SkillSword")){
+		if(col.tag.Equals("Sword") && !isTutor){
 			isEndTutor = true;
 		}
 	}
@@ -136,6 +154,10 @@ public class TutorialAI : MonoBehaviour {
 			}
 			else{
 				Destroy(canvas.gameObject);
+				foreach (GameObject minion in minions) {
+					Destroy(minion);
+				}
+
 				windTutorSound.isStartFadeOut = true;
 			}
 		}

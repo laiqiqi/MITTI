@@ -40,7 +40,6 @@ public class StunState : AIState {
         AI.effectManager.CreateEffectByName(EffectName.STUN_5_SEC, AI.transform.position + (Vector3.up*2f));
         AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.rotation = Quaternion.Euler(90f, 0, 0);
         AI.DisableMagnet();
-        // AI.magnet.transform.parent = null;
     }
 
     public void StateChangeCondition()
@@ -61,11 +60,14 @@ public class StunState : AIState {
         AI.effectManager.RemoveEffectFromDictByName(EffectName.STUN_5_SEC);
         AI.EditMagnet(1000f, 22);
         AI.magnet.transform.parent = AI.body.transform;
+        AI.GetComponent<SphereCollider>().enabled = false;
+        AI.body.GetComponent<SphereCollider>().isTrigger = false;
+        
         AI.NextState();
     }
 
     void StunTimer(){
-        Debug.Log("Now Stun");
+        // Debug.Log("Now Stun");
         AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.position = AI.body.transform.position + (Vector3.up*2.5f);
         if(counter < stunTime){
             counter += 1*Time.fixedDeltaTime;
@@ -73,5 +75,14 @@ public class StunState : AIState {
         else{
             EndState();
         }
+    }
+
+    void MagnetDown(){
+        AI.magnet.GetComponent<ContinuousExplosionForce>().size = 0;
+        AI.magnet.SetActive(false);
+    }
+
+    void MagnetUp(){
+        AI.magnet.GetComponent<ContinuousExplosionForce>().size = 15;
     }
 }

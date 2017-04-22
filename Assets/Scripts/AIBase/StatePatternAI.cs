@@ -16,6 +16,7 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject[] swordController;
 	public GameObject AISword;
 	public GameObject AICube;
+	public GameObject UltiBullet;
 
 	public GameObject cube;
 //-----------------------------Sword Components-------------------------------
@@ -44,6 +45,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public SwordFindingAIState swordFindingAIState;
 	[HideInInspector] public SwordShootingAIState swordShootingAIState;
 	[HideInInspector] public OpeningState openingState;
+	[HideInInspector] public ShootUltiState shootUltiState;
 //----------------------------------------------------------------------------
 
 	//-------------------------------------------------
@@ -83,7 +85,7 @@ public class StatePatternAI: MonoBehaviour {
 		swordFindingAIState = new SwordFindingAIState (this);
 		swordShootingAIState = new SwordShootingAIState (this);
 		openingState = new OpeningState (this);
-
+		shootUltiState = new ShootUltiState (this);
 //		isHit = false;
 //		isParry = false;
 
@@ -93,31 +95,28 @@ public class StatePatternAI: MonoBehaviour {
 		seekState.choice.AddRange(new AIState[]{stompState});
 		AIStateFlow.Add(seekState, seekState.choice);
 
-		stompState.choice.AddRange(new AIState[]{});
+		stompState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(stompState, stompState.choice);
 
 		prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
 		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
 
-		digStrikeState.choice.AddRange(new AIState[]{seekState, prepareSlamState});
+		digStrikeState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
-
-//		shootState.choice.AddRange(new AIState[]{});
-//		AIStateFlow.Add(shootState, shootState.choice);
 
 		prepareSlamState.choice.AddRange(new AIState[]{slamState});
 		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
 
-		slamState.choice.AddRange(new AIState[]{escapeState});
+		slamState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(slamState, slamState.choice);
 
-		escapeState.choice.AddRange(new AIState[]{slamState});
+		escapeState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(escapeState, escapeState.choice);
 
 		stopState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stopState, stopState.choice);
 
-		stunState.choice.AddRange(new AIState[]{seekState, escapeState, prepareDigStrikeState});
+		stunState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(stunState, stunState.choice);
 
 		swordSlashingAIState.choice.AddRange(new AIState[]{floatingState});
@@ -126,14 +125,19 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });//, swordShootingAIState});
+		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
+													, seekState, prepareDigStrikeState, swordShootingAIState});
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
-		foreach(AIState state in AIStateFlow.Keys){
-			Debug.Log(state);
-		}
+		shootUltiState.choice.AddRange(new AIState[]{stopState});
+		AIStateFlow.Add(shootUltiState, shootUltiState.choice);
+
+		// foreach(AIState state in AIStateFlow.Keys){
+		// 	Debug.Log(state);
+		// }
 
 
+		shootUltiState.StartState ();
 		// floatingState.StartState();
 //		openingState.StartState();
 //		swordShootingAIState.StartState();
@@ -202,6 +206,7 @@ public class StatePatternAI: MonoBehaviour {
 	public void NextState(){
 		// Debug.Log(currentState == awokenState);
 		// Debug.Log(AIStateFlow[currentState].Count);
+		// if(health <= )
 		if(AIStateFlow[currentState].Count == 1){
 			Debug.Log("Next1");
 			Debug.Log(AIStateFlow[currentState][0]);
@@ -214,11 +219,13 @@ public class StatePatternAI: MonoBehaviour {
 				stunState.StartState();
 			}
 			else{
-
+				AIStateFlow[currentState][0].StartState();
 			}
-		}else if(currentState == floatingState){
-			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
-		}else{
+		}
+		// }else if(currentState == floatingState){
+		// 	AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
+		// }
+		else{
 			Debug.Log("Next3");
 			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
 			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
