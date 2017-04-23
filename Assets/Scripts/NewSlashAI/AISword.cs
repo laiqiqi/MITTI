@@ -17,6 +17,7 @@ public class AISword : MonoBehaviour {
 	public PlaySound windSound;
 	public PlaySound swordHitSound;
 	public PlaySound swordSwipeSound;
+	public PlaySound swordHitFreshSound;
 	// Use this for initialization
 	void Start () {
 		speed = 300;
@@ -159,6 +160,7 @@ public class AISword : MonoBehaviour {
 			swordHitSound.Play ();
 		} else if (other.transform.tag == "Player") {
 			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
+			swordHitFreshSound.Play ();
 		}
 	}
 
