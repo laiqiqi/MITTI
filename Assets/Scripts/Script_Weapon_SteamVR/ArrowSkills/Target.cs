@@ -12,7 +12,7 @@ public class Target : MonoBehaviour {
 		// if(TargetAI == null){
 			// TargetAI = GameObject.Find("LastAI");
 			// TargetAI = GameObject.Find("Target1");
-			TargetAI = GameObject.Find("Group/LastAI");
+			TargetAI = GameObject.Find("LastAI");
 			Debug.Log(TargetAI);
 			hitPositions = TargetAI.GetComponent<ExplodeTarget_Arrow>().targets;
 			Debug.Log("hitPos" + hitPositions);

@@ -87,7 +87,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		openingState.choice.AddRange(new AIState[]{floatingState});
+		openingState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
 		seekState.choice.AddRange(new AIState[]{stompState});
@@ -125,7 +125,7 @@ public class StatePatternAI: MonoBehaviour {
 
 		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
 													, seekState, prepareDigStrikeState, swordShootingAIState});
-		// floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
+		// floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		shootUltiState.choice.AddRange(new AIState[]{floatingState});

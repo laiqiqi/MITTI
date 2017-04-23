@@ -27,6 +27,7 @@ public class DamageDetection : MonoBehaviour {
 		}else{
 			startHealth -= dmg;
 		} 
+		StatePatternAI.instance.health = startHealth;
 		WriteText();
 	}
 

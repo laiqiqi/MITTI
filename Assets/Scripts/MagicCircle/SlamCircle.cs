@@ -11,7 +11,7 @@ public class SlamCircle : MonoBehaviour {
 	public GameObject slamBreak;
 	// Use this for initialization
 	void Start () {
-		health = 100f;
+		health = 100;
 		isBreak = false;
 
 		circle = this.transform.GetChild(0).gameObject;
@@ -31,16 +31,19 @@ public class SlamCircle : MonoBehaviour {
 		if(health <= 0f) {
 			isBreak = true;
 			slamBreak.SetActive(true);
+			slamBreak.transform.SetParent(null);
 			circle.SetActive(false);
 			this.transform.SetParent(null);
+			health = 100f;
 		}
-
-		CircleColorRecover();
-		this.transform.LookAt(StatePatternAI.instance.player.transform);
+		else{
+			CircleColorRecover();
+			this.transform.LookAt(StatePatternAI.instance.player.transform);
+		}
 	}
 
 	void OnTriggerEnter(Collider col){
-		// Debug.Log("Hit "+col);
+		// Debug.Log("Hit Collider"+col);
 		if(col.tag.Equals("Sword") || col.tag.Equals("projectile")){
 			Debug.Log("HitSlamCircle");
 			circle.GetComponent<Renderer>().material.SetColor("_TintColor", hitColor);

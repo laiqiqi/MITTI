@@ -14,14 +14,18 @@ namespace Valve.VR.InteractionSystem
 		private PlayerStat playerStat;
 		private GameObject head;
 		private Antialiasing camAA;
-		private bool isIncre;
+		private bool isIncre, isDash;
+		private float timer, counter;
 		public float rate, limit;
 		[HideInInspector] public Collision colInfo;
 		void Start () {
+			timer = 2f;
+			counter = 0f;
 			isIncre = false;
+			isDash = false;
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
-			// head = VRCam.transform.FindChild("FollowHead").gameObject;
+			head = VRCam.transform.FindChild("FollowHead").gameObject;
 			camAA = VRCam.GetComponent<Antialiasing>();
 		}
 		
@@ -29,6 +33,19 @@ namespace Valve.VR.InteractionSystem
 		void Update () {
 			HandsEvent();
 			Dazzle();
+			// if(transform.position.y <= 0.1f && !isDash){
+			// 	GetComponent<Rigidbody>().isKinematic = true;
+			// }
+
+			// if(isDash){
+			// 	if(counter < timer){
+			// 		counter += 0.1f;
+			// 	}
+			// 	else{
+			// 		isDash = false;
+			// 		counter = 0;
+			// 	}
+			// }
 		}
 		void HandsEvent() {
 			foreach ( Hand hand in player.hands ){
@@ -49,6 +66,7 @@ namespace Valve.VR.InteractionSystem
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
+				isDash = true;
 			}
 		}
 
