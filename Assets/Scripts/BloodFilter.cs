@@ -16,7 +16,16 @@ public class BloodFilter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		color.a = (100 - playerStat.health)/100f;
-		this.GetComponent<Image>().material.SetColor("_Color", color);
+		if (Player.instance.GetComponent<PlayerStat>().isTakeDamage) {
+			color.a = 1;
+			this.GetComponent<Image>().material.SetColor("_Color", color);
+			Player.instance.GetComponent<PlayerStat>().isTakeDamage = false;
+		}
+		else {
+			if(this.GetComponent<Image>().material.GetColor("_Color").a > 0){
+				color.a -= 0.2f;
+				this.GetComponent<Image>().material.SetColor("_Color", color);
+			}
+		}
 	}
 }
