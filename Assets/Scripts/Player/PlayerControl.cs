@@ -9,6 +9,7 @@ namespace Valve.VR.InteractionSystem
 
 		// Use this for initialization
 		public GameObject VRCam;
+		public bool isOnFloor;
 
 		private Player player = null;
 		private PlayerStat playerStat;
@@ -23,9 +24,11 @@ namespace Valve.VR.InteractionSystem
 			counter = 0f;
 			isIncre = false;
 			isDash = false;
+			isOnFloor = false;
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
-			head = VRCam.transform.FindChild("FollowHead").gameObject;
+			// head = VRCam.transform.FindChild("FollowHead").gameObject;
+			// head = VRCam;
 			camAA = VRCam.GetComponent<Antialiasing>();
 		}
 		
@@ -33,19 +36,19 @@ namespace Valve.VR.InteractionSystem
 		void Update () {
 			HandsEvent();
 			Dazzle();
-			// if(transform.position.y <= 0.1f && !isDash){
-			// 	GetComponent<Rigidbody>().isKinematic = true;
-			// }
 
-			// if(isDash){
-			// 	if(counter < timer){
-			// 		counter += 0.1f;
-			// 	}
-			// 	else{
-			// 		isDash = false;
-			// 		counter = 0;
-			// 	}
-			// }
+			if(isDash){
+				if(counter < timer){
+					counter += 0.1f;
+				}
+				else{
+					if(isOnFloor) {
+						isDash = false;
+						counter = 0;
+						GetComponent<Rigidbody>().isKinematic = true;
+					}
+				}
+			}
 		}
 		void HandsEvent() {
 			foreach ( Hand hand in player.hands ){
@@ -62,8 +65,9 @@ namespace Valve.VR.InteractionSystem
 		void Dash() {
 			Debug.Log("dash");
 			if (playerStat.stamina >= 50f) {
+				GetComponent<Rigidbody>().isKinematic = false;
 				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				Vector3 direction = new Vector3(head.transform.right.x * 8.5f, 0f, head.transform.right.z * 8.5f);
+				Vector3 direction = new Vector3(VRCam.transform.right.x * 10f, 0f, VRCam.transform.right.z * 10f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
@@ -113,6 +117,13 @@ namespace Valve.VR.InteractionSystem
 			camAA.offsetScale = 0.2f;
 			camAA.blurRadius = 18;
 			player.GetComponent<PlayerStat>().isDazzle = false;
+		}
+
+		void OnTriggerEnter (Collider col) {
+			if(col.tag.Equals("Floor")){
+				Debug.Log("Player landing");
+				isOnFloor = true;
+			}
 		}
 	}
 }
