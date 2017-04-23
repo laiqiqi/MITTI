@@ -154,14 +154,16 @@ public class AISword : MonoBehaviour {
 		this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 	}
 	void OnCollisionEnter(Collision other){
-		if (other.transform.tag == "Player") {
+		if (other.transform.tag == "playsword") {
 //			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
 			swordHitSound.Play ();
+		} else if (other.transform.tag == "Player") {
+			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
 		}
 	}
 
 	void OnCollisionStay(Collision other){
-		if (other.transform.tag == "Player") {
+		if (other.transform.tag == "playsword") {
 			isHit = true;
 			if (state == 3) {
 				this.GetComponent<Rigidbody> ().useGravity = true;
@@ -199,7 +201,7 @@ public class AISword : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision other){
-		if (other.transform.tag == "Player") {
+		if (other.transform.tag == "playsword") {
 			isHit = false;
 			this.transform.tag = "AISword";
 			state = 10;
