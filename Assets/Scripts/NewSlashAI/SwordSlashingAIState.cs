@@ -183,6 +183,7 @@ public class SwordSlashingAIState : AIState {
 	}
 
 	public void SubState1(GameObject sc, int i){
+//		sc.transform.rotation = Quaternion.Euler (new Vector3(0, 0, 0));
 		Vector3 relativePos = sc.transform.position - swords [i].transform.position;
 //		Vector3 relativePos = AI.transform.right - swords [i].transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
@@ -195,7 +196,7 @@ public class SwordSlashingAIState : AIState {
 //		dir = (int)Mathf.Pow (-1, Random.Range (1, 3));
 //		dir = 1;
 //		randomVector [i] = AI.transform.position + AI.transform.right * -dir;
-		randomVector[i] = AI.transform.right *distance*dir + AI.transform.position;
+		randomVector[i] = AI.transform.right *distance*dir + AI.transform.position - AI.transform.forward;
 		swords [i].transform.position = Vector3.MoveTowards (swords [i].transform.position, randomVector [i], speed / 50f * Time.deltaTime);
 		Debug.DrawLine (swords [i].transform.position,randomVector [i], Color.red);
 
@@ -351,7 +352,7 @@ public class SwordSlashingAIState : AIState {
 		// move to player
 		sc.GetComponent<Rigidbody>().isKinematic = true;
 		Vector3 playerPos = AI.player.transform.position;
-		playerPos.y = 1f;
+		playerPos.y = 2f;
 		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, speed/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius) {
 			sc.GetComponent<Rigidbody>().isKinematic = false;
