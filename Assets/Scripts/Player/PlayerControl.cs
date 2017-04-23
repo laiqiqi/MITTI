@@ -62,6 +62,7 @@ namespace Valve.VR.InteractionSystem
 		void Dash() {
 			Debug.Log("dash");
 			if (playerStat.stamina >= 50f) {
+				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 				Vector3 direction = new Vector3(head.transform.right.x * 8.5f, 0f, head.transform.right.z * 8.5f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
@@ -112,11 +113,6 @@ namespace Valve.VR.InteractionSystem
 			camAA.offsetScale = 0.2f;
 			camAA.blurRadius = 18;
 			player.GetComponent<PlayerStat>().isDazzle = false;
-		}
-
-		public void TakeDamage(float damage){
-			playerStat.health -= damage;
-			
 		}
 	}
 }
