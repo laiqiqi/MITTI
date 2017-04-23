@@ -202,7 +202,7 @@ public class AISword : MonoBehaviour {
 		if (other.transform.tag == "Player") {
 			isHit = false;
 			this.transform.tag = "AISword";
-			state = 0;
+			state = 10;
 		}
 		isHitOther = false;
 		
