@@ -14,6 +14,10 @@ namespace Valve.VR.InteractionSystem
 		public bool overcharged = false; // overcharged is having charged state for too long
 		private float guage = 0;
 		private float maxguage = 100f;
+		public PlaySound ArrowExplode;
+		public PlaySound ArrowCharge;
+		public PlaySound ArrowChargeComplete;
+
 
 		private string skilltype = "ultimate";
 
@@ -27,6 +31,7 @@ namespace Valve.VR.InteractionSystem
 		public override void Uncharging(bool OnRelease){
 			charging = false;
 			chargingAura.Stop();
+			ArrowCharge.Stop();
 			StopCoroutine(increaseGuage);		
 			Debug.Log("skill A: Uncharging");
 			CancelInvoke("SetOverCharge");
@@ -39,6 +44,7 @@ namespace Valve.VR.InteractionSystem
 		public override void Charging(){
 			charging = true;
 			chargingAura.Play();
+			ArrowCharge.Play();
 			//StopCoroutine(decreaseGuage);
 			
 			StartCoroutine(increaseGuage = IncreaseGuage());
@@ -74,6 +80,7 @@ namespace Valve.VR.InteractionSystem
 		
 		public override void SetOverCharge(){
 			chargingAura.Stop();
+			ArrowCharge.Stop();
 			//fully charged to false
 			//uncharge it
 			charging = false;
@@ -106,6 +113,7 @@ namespace Valve.VR.InteractionSystem
 			// }
 			yield return new WaitForSeconds(chargeTime);
 			fullycharged = true;
+			ArrowChargeComplete.Play();
 			Invoke("SetOverCharge",5);
 		}
 		private void activateSkill(){
@@ -117,6 +125,7 @@ namespace Valve.VR.InteractionSystem
 					child.gameObject.SetActive(false);
 				}else{
 					child.gameObject.SetActive(true);
+					ArrowExplode.Play();
 				}
 			}
 		}

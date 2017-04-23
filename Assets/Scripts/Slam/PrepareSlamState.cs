@@ -78,6 +78,10 @@ public class PrepareSlamState : AIState {
                 Targeting();
             }
             else if(slamCircle.GetComponent<SlamCircle>().isBreak){
+                AI.GetComponent<SphereCollider>().enabled = true;
+                AI.body.GetComponent<SphereCollider>().isTrigger = true;
+                AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
+                AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
                 AI.stunState.StartState(5f);
             }
             else{

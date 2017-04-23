@@ -62,7 +62,7 @@ public class GameState : MonoBehaviour {
 			RenderSettings.skybox = skyboxNorm;
 			normalLight.SetActive(true);
 			chaosLight.SetActive(false);
-			
+			Destroy(StatePatternAI.instance.gameObject);
 		}
 	}
 

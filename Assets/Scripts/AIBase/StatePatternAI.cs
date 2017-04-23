@@ -87,7 +87,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		openingState.choice.AddRange(new AIState[]{floatingState});
+		openingState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
 		seekState.choice.AddRange(new AIState[]{stompState});
@@ -123,9 +123,9 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-//		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
-//													, seekState, prepareDigStrikeState, swordShootingAIState});
-		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
+		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
+													, seekState, prepareDigStrikeState, swordShootingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		shootUltiState.choice.AddRange(new AIState[]{floatingState});
@@ -139,13 +139,13 @@ public class StatePatternAI: MonoBehaviour {
 //		shootUltiState.StartState ();
 		// floatingState.StartState();
 //		openingState.StartState();
-		swordSlashingAIState.StartState();
+		// swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
-//		stopState.StartState();
+		stopState.StartState();
 	}
 	
 	// Update is called once per frame

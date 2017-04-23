@@ -11,7 +11,7 @@ public class PlayerStat : MonoBehaviour {
 	public float health;
 
 //--------------------Player Status--------------------------
-	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle;
+	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage;
 //-----------------------------------------------------------
 	void Start () {
 		ResetAllStatusToFalse();
@@ -59,6 +59,7 @@ public class PlayerStat : MonoBehaviour {
 	}
 
 	public void PlayerTakeDamage(float dmg) {
+		isTakeDamage = true;
 		if(health - dmg < 0){
 			health = 0;
 		}
