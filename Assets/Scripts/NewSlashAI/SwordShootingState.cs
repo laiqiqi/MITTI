@@ -127,6 +127,7 @@ public class SwordShootingAIState : AIState {
 					int randomIndex = Random.Range (0, swordList.Count);
 					swordList [randomIndex].GetComponent<Rigidbody> ().isKinematic = false;
 					swordList [randomIndex].transform.parent = null;
+					swordList [randomIndex].transform.tag = "AISwordShoot";
 					swordList [randomIndex].GetComponent<AISword> ().state = 3;
 					swordList [randomIndex].GetComponent<AISword> ().windSound.Play ();
 //					swordList [randomIndex].GetComponent<Rigidbody> ().AddForce (-swordList[randomIndex].transform.forward*500f);

@@ -9,10 +9,12 @@ public class PlayerRigidController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if(col.gameObject.tag == "AISword"){
-			Debug.Log("hit");
-			col.rigidbody.AddForce(col.impulse * (100 ));
+		if (col.gameObject.tag == "AISword") {
+			Debug.Log ("hit");
+			col.rigidbody.AddForce (col.impulse * (100));
 
+		} else if (col.gameObject.tag == "AISwordShoot"){
+			col.rigidbody.AddForce (col.impulse * (10));
 		}
 	}
 }

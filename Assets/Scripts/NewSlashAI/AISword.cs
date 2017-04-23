@@ -165,6 +165,7 @@ public class AISword : MonoBehaviour {
 			isHit = true;
 			if (state == 3) {
 				this.GetComponent<Rigidbody> ().useGravity = true;
+				this.GetComponent<Rigidbody> ().angularDrag = 0;
 				state = 0;
 			}
 //			state = -1;
@@ -200,6 +201,8 @@ public class AISword : MonoBehaviour {
 	void OnCollisionExit(Collision other){
 		if (other.transform.tag == "Player") {
 			isHit = false;
+			this.transform.tag = "AISword";
+			state = 0;
 		}
 		isHitOther = false;
 		
