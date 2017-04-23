@@ -17,6 +17,7 @@ public class AISword : MonoBehaviour {
 	public PlaySound windSound;
 	public PlaySound swordHitSound;
 	public PlaySound swordSwipeSound;
+	public PlaySound swordHitFreshSound;
 	// Use this for initialization
 	void Start () {
 		speed = 300;
@@ -154,17 +155,21 @@ public class AISword : MonoBehaviour {
 		this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 	}
 	void OnCollisionEnter(Collision other){
-		if (other.transform.tag == "Player") {
+		if (other.transform.tag == "playsword") {
 //			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
 			swordHitSound.Play ();
+		} else if (other.transform.tag == "Player") {
+			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
+			swordHitFreshSound.Play ();
 		}
 	}
 
 	void OnCollisionStay(Collision other){
-		if (other.transform.tag == "Player") {
+		if (other.transform.tag == "playsword") {
 			isHit = true;
 			if (state == 3) {
 				this.GetComponent<Rigidbody> ().useGravity = true;
+				this.GetComponent<Rigidbody> ().angularDrag = 0;
 				state = 0;
 			}
 //			state = -1;
@@ -198,8 +203,10 @@ public class AISword : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision other){
-		if (other.transform.tag == "Player") {
+		if (other.transform.tag == "playsword") {
 			isHit = false;
+			this.transform.tag = "AISword";
+			state = 10;
 		}
 		isHitOther = false;
 		
