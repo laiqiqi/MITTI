@@ -21,6 +21,7 @@ namespace Valve.VR.InteractionSystem
 
 		private IEnumerator increaseGuage;
 		public ParticleSystem chargingAura;
+		public PlaySound fireChargeSound;
 		void Start(){
 			debugText = GetComponentInChildren<TextMesh>();
 			increaseGuage = IncreaseGuage();
@@ -29,6 +30,7 @@ namespace Valve.VR.InteractionSystem
 		public override void Uncharging(bool OnRelease){
 			charging = false;
 			chargingAura.Stop();
+			fireChargeSound.Stop();
 			if(!OnRelease){
 			fire.DestroyFire();
 			}
@@ -43,6 +45,7 @@ namespace Valve.VR.InteractionSystem
 		}
 		public override void Charging(){
 			chargingAura.Play();
+			fireChargeSound.Play();
 			charging = true;
 			//StopCoroutine(decreaseGuage);
 			Debug.Log("skill B: Charging");
@@ -106,6 +109,7 @@ namespace Valve.VR.InteractionSystem
 			fullycharged = true;
 			InitiateSkillOnCharge();
 			chargingAura.Stop();
+			fireChargeSound.Stop();
 			Invoke("SetOverCharge",5);
 		}
 		public override int GetCoolDown(){return cooldown;}
