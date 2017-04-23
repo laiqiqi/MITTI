@@ -77,7 +77,9 @@ public class GameState : MonoBehaviour {
 			fallingWindSoundPlayer.isStartFadeOut = true;
 			isNearFallPlay = true;
 		}
-		if(Player.instance.transform.position.y <= 2f){
+		if(Player.instance.GetComponent<PlayerControl>().isOnFloor == true){
+			Player.instance.GetComponent<Rigidbody>().isKinematic = true;
+			
 			tutorialState = false;
 			AIOpen = true;
 

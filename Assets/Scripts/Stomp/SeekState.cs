@@ -42,6 +42,7 @@ public class SeekState : AIState {
     public void EndState()
     {
         Debug.Log("Seek End");
+        AI.ResetBody();
         // AI.stompState.StartState();
         AI.NextState();
     }
