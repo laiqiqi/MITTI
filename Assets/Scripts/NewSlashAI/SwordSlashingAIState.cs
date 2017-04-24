@@ -315,13 +315,15 @@ public class SwordSlashingAIState : AIState {
 			sc.GetComponent<AISwordController> ().state = 8;
 		}
 		
-		if (timecount > 3) {
-			Vector2 v1 = new Vector2 (AI.transform.position.x, AI.transform.position.z);
-			Vector2 v2 = new Vector2 (AI.player.transform.position.x, AI.player.transform.position.z);
-			if (Vector2.Distance (v1, v2) < 1f || Vector3.Distance (AI.transform.position, AI.player.transform.position) < 3f) {
-				timecount -= Time.deltaTime * 3f;
+//		if (timecount > 3) {
+		Vector2 v1 = new Vector2 (AI.transform.position.x, AI.transform.position.z);
+		Vector2 v2 = new Vector2 (AI.player.transform.position.x, AI.player.transform.position.z);
+		if (Vector2.Distance (v1, v2) < 1f || Vector3.Distance (AI.transform.position, AI.player.transform.position) < 3f) {
+			if (timecount < 0) {
 				sc.GetComponent<AISwordController> ().state = 8;
 			}
+			timecount -= Time.deltaTime * 3f;
+//			}
 		}
 	}
 
