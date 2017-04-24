@@ -8,13 +8,14 @@ public class PlayerStat : MonoBehaviour {
 	public float stamina;
 	public float staRegenRate, healthRegenRate;
 
-	public float health;
+	public float health, maxHealth;
 
 //--------------------Player Status--------------------------
 	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage;
 //-----------------------------------------------------------
 	void Start () {
 		ResetAllStatusToFalse();
+		maxHealth = health;
 		
 		stamina = 100;
 		staRegenRate = 0.5f;

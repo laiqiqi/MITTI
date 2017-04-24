@@ -10,6 +10,7 @@ public class DamageDetection : MonoBehaviour {
 	// public GameObject healthBar;
 	void Start () {
 		startHealth = maxHealth;
+		StatePatternAI.instance.health = startHealth;
 		// maxhealth = StatePatternAI.instance.health;
 		// slider = GameObject.Find("Canvas/Slider").GetComponent<Slider>();
 	}
@@ -28,6 +29,15 @@ public class DamageDetection : MonoBehaviour {
 			startHealth -= dmg;
 		} 
 		StatePatternAI.instance.health = startHealth;
+		// if(startHealth - dmg <= 0) {
+		// 	 startHealth = maxHealth;
+		// }else{
+		// 	startHealth -= dmg;
+		// } 
+		// StatePatternAI.instance.health = startHealth;
+		// WriteText();
+
+
 		WriteText();
 	}
 

@@ -27,5 +27,8 @@ public class BloodFilter : MonoBehaviour {
 				this.GetComponent<Image>().material.SetColor("_Color", color);
 			}
 		}
+
+		// color.a = playerStat.health/playerStat.maxHealth;
+		// this.GetComponent<Image>().material.SetColor("_Color", color);
 	}
 }
