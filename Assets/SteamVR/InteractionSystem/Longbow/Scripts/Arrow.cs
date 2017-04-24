@@ -12,6 +12,8 @@ namespace Valve.VR.InteractionSystem
 	public class Arrow : MonoBehaviour
 	{
 		public ParticleSystem glintParticle;
+		public ParticleSystem hitAIParticle;
+		public ParticleSystem hitMagnetParticle;
 		public Rigidbody arrowHeadRB;
 		public Rigidbody shaftRB;
 		public float damage = 5f;
@@ -117,8 +119,8 @@ namespace Valve.VR.InteractionSystem
 				float rbSpeed = rb.velocity.sqrMagnitude;
 				bool canStick = ( targetPhysMaterial != null && collision.collider.sharedMaterial == targetPhysMaterial && rbSpeed > 0.2f );
 				bool hitBalloon = collision.collider.gameObject.GetComponent<Balloon>() != null;
-				bool hitAI = (collision.collider.gameObject.tag == "AI" || collision.collider.gameObject.tag == "Magnet");
-
+				bool hitAI = collision.collider.gameObject.tag == "AI" ;
+				bool hitMagnet = collision.collider.gameObject.tag == "Magnet";
 				if ( travelledFrames < 2 && !canStick )
 				{
 					// Reset transform but halve your velocity
@@ -146,8 +148,16 @@ namespace Valve.VR.InteractionSystem
 
 				FireSource arrowFire = gameObject.GetComponentInChildren<FireSource>();
 				FireSource fireSourceOnTarget = collision.collider.GetComponentInParent<FireSource>();
-
-				if ( arrowFire != null && arrowFire.isBurning && ( fireSourceOnTarget != null ) )
+				//original
+				// if ( arrowFire != null && arrowFire.isBurning && ( fireSourceOnTarget != null ) )
+				// {
+				// 	if ( !hasSpreadFire )
+				// 	{
+				// 		collision.collider.gameObject.SendMessageUpwards( "FireExposure", gameObject, SendMessageOptions.DontRequireReceiver );
+				// 		hasSpreadFire = true;
+				// 	}
+				// }
+				if ( arrowFire != null && arrowFire.isBurning )
 				{
 					if ( !hasSpreadFire )
 					{
@@ -159,9 +169,30 @@ namespace Valve.VR.InteractionSystem
 				{
 					// Only count collisions with good speed so that arrows on the ground can't deal damage
 					// always pop balloons
-					if ( rbSpeed > 0.1f && enterAIArrowRange && hitAI || hitBalloon )
+					if ( rbSpeed > 0.1f && enterAIArrowRange && hitAI || hitMagnet || hitBalloon )
 					{
 						if ( !hasApplyDmgToTarget ){
+							if(hitAI){
+								//playAIparticle
+								if(hitAIParticle != null){
+									Debug.Log("hit AI");
+									ParticleSystem part = Instantiate(hitAIParticle);
+									part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
+                					part.gameObject.transform.parent = null;
+                					part.gameObject.transform.position = collision.contacts[0].point;
+									part.Play();
+								}
+							}
+							if(hitMagnet){
+								//playMagnetparticle
+								if(hitMagnetParticle != null){
+									ParticleSystem part = Instantiate(hitMagnetParticle);
+									part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
+                					part.gameObject.transform.parent = null;
+                					part.gameObject.transform.position = collision.contacts[0].point;
+									part.Play();
+								}
+							}
 							collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
 							Debug.Log(collision.collider.gameObject.name);
 							gameObject.SendMessage( "HasAppliedDamage", damage,SendMessageOptions.DontRequireReceiver );

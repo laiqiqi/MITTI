@@ -12,12 +12,14 @@ public class TutorialAI : MonoBehaviour {
 	public Text text;
 	public PlaySound canvasSoundPlayer, windTutorSound, tutorBGM;
 	public GameObject[] minions;
+	public GameObject frontPic, rightPic;
 
 	private string[] talkScript;
 	private int counter, nextScriptIndex;
 	private Animator canvasAnimator, textAnimator;
 	private Color color;
 	public int hitCounter;
+	public Sprite[] viveButtons;
 
 	// Use this for initialization
 	void Start () {
@@ -26,31 +28,32 @@ public class TutorialAI : MonoBehaviour {
 		counter++;
 
 		talkScript = new string[]{"Hello, Arcane transmutor.", //0
-								"Hit me with the magic greatsword, if this is not the first time.", //1
+								"Shoot me with the arrow, if this is not the first time.", //1
 								"It seem like you had lost all of your memory.", //2
 								"I will show you how to use your power.", //3
 								"Let’s start with special movement.", //4
-								"You can press the touchpad to quickly dash forward.", //5
+								"You can press the both touchpad to quickly dash forward.", //5
 								"Now you know how to evade.", //6
 								"Try pick up a bow from your back.", //7
 								"Press a trigger button when your controller is at your back.", //8
 								"Now shoot at the minions. Put arrow at the bow and hold trigger.", //9
-								"Good job, you can use skills by touching the left touch pad.", //10
+								"Good job, you can choose skills by touching the left touch pad.", //10
 								"Skilled-arrow must be fully charged to shoot", //11
 								"They have cooldown time. Be aware of it.", //12
 								"Let’s try another weapon, the legendary sword.", //13
 								"Press the trigger button at your back again.", //14
 								"The sword can imbue with the magic crystals to gain special power.", //15
-								"The red crystal give the magic power absorption skill when hit.", //16
-								"Use it to heal yourself.", //17
-								"The blue crystal has great magic power.", //18
-								"Diffuse it with the sword then it will become magic greatsword.", //19
-								"A hit with the enchanted sword will deplete all the crystal power.", //20
-								"Crystals have the cooldown time to recover its power, use it wisely.", //21
-								"I hope this is the last time seeing you.", //22
-								"Defeat you own creation.", //23
-								"Bring peace to this land and you can rest in peace.", //24
-								"GoodLuck."}; //25
+								"Use touch pad to select crystal and put in your sword.", //16
+								"The red crystal give the magic power absorption skill when hit.", //17
+								"Use it to heal yourself.", //18
+								"The blue crystal has great magic power.", //19
+								"Diffuse it with the sword then it will become magic greatsword.", //20
+								"A hit with the enchanted sword will deplete all the crystal power.", //21
+								"Crystals have the cooldown time to recover its power, use it wisely.", //22
+								"I hope this is the last time seeing you.", //23
+								"Defeat you own creation.", //24
+								"Bring peace to this land and you can rest in peace.", //25
+								"GoodLuck."}; //26
 
 		isEndTutor = false;
 		isTutor = false;
@@ -59,8 +62,6 @@ public class TutorialAI : MonoBehaviour {
 
 		canvasAnimator = canvas.GetComponent<Animator>();
 		textAnimator = text.GetComponent<Animator>();
-
-		// NextTalkScript();
 	}
 	
 	// Update is called once per frame
@@ -85,25 +86,25 @@ public class TutorialAI : MonoBehaviour {
 				StartCoroutine(CountDown(0f));
 			}
 			else if (counter == 2) {
-				StartCoroutine(CountDown(1f));
+				StartCoroutine(CountDown(10f));
 			}
 			else if (counter == 3) {
 				isTutor = true;
-				StartCoroutine(CountDown(0.2f));
+				StartCoroutine(CountDown(5f)); 
 			}
 			else if (counter == 10) {
 				foreach (GameObject minion in minions) {
 					minion.SetActive(true);
 				}
 				if(hitCounter >= 2){
-					StartCoroutine(CountDown(0f));
+					StartCoroutine(CountDown(0f)); // teach arrow
 				}
 			}
 			else if (counter == talkScript.Length-1) {
-				StartCoroutine(CountDown(7f));
+				StartCoroutine(CountDown(7f)); // last time
 			}
 			else{
-				StartCoroutine(CountDown(0.2f));
+				StartCoroutine(CountDown(5f)); // others time
 			}
 		}
 
@@ -112,6 +113,34 @@ public class TutorialAI : MonoBehaviour {
 			hitCounter = 0;
 		}
 		nextScriptIndex = counter+1;
+	}
+
+	void TutorPicControl() {
+		if(counter == 5){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		}
+		if(counter == 8){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+		}
+		if(counter == 9){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+		}
+		else if(counter == 10){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		}
+		else if(counter == 14){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+		}
+		else if(counter == 16){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		}
+
 	}
 
 	IEnumerator CountDown(float sec){
@@ -128,6 +157,7 @@ public class TutorialAI : MonoBehaviour {
 
 	void NextTalkScript(){
 		UpdateText(talkScript[counter]);
+		TutorPicControl();
 		counter++;
 	}
 
@@ -136,7 +166,7 @@ public class TutorialAI : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		if(col.tag.Equals("Sword") && !isTutor){
+		if (col.tag.Equals("projectile") && !isTutor) {
 			isEndTutor = true;
 		}
 	}

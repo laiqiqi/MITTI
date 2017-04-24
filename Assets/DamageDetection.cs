@@ -10,6 +10,7 @@ public class DamageDetection : MonoBehaviour {
 	// public GameObject healthBar;
 	void Start () {
 		startHealth = maxHealth;
+		StatePatternAI.instance.health = startHealth;
 		// maxhealth = StatePatternAI.instance.health;
 		// slider = GameObject.Find("Canvas/Slider").GetComponent<Slider>();
 	}
@@ -23,11 +24,20 @@ public class DamageDetection : MonoBehaviour {
 	}
 	void ApplyDamage(float dmg){
 		if(startHealth - dmg <= 0) {
-			 startHealth = maxHealth;
+			 startHealth = 0;
 		}else{
 			startHealth -= dmg;
 		} 
 		StatePatternAI.instance.health = startHealth;
+		// if(startHealth - dmg <= 0) {
+		// 	 startHealth = maxHealth;
+		// }else{
+		// 	startHealth -= dmg;
+		// } 
+		// StatePatternAI.instance.health = startHealth;
+		// WriteText();
+
+
 		WriteText();
 	}
 
@@ -36,7 +46,7 @@ public class DamageDetection : MonoBehaviour {
 	}
 
 	public void HitMagnetDmg(float dmg){
-		ApplyDamage(dmg);
+		ApplyDamage(dmg/2f);
 	}
 
 	void OnTriggerEnter(Collider col){

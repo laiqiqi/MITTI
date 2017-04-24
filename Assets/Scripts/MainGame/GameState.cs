@@ -10,7 +10,7 @@ public class GameState : MonoBehaviour {
 	public Material skyboxChaos;
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
-	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay;
+	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI;
 	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer;
 	public GameObject sceneDestroyer, sceneProps;
 	public GameObject playerTransFilter;
@@ -23,6 +23,8 @@ public class GameState : MonoBehaviour {
 		mainGame = false;
 		end = false;
 		isFallingPlay = false;
+		isNearFallPlay = false;
+		isDestroyAI = false;
 		Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), sceneDestroyer.GetComponent<Collider>());
 		Physics.IgnoreLayerCollision(10, 9);
 	}
@@ -53,16 +55,22 @@ public class GameState : MonoBehaviour {
 			if(Player.instance.GetComponent<PlayerStat>().health <= 0){
 				Debug.Log("You Die");
 				mainGame = false;
-				sceneCon.ChangeScene(SceneController.DEAD);
+				sceneCon.ChangeScene(SceneController.MAIN_MENU);
 			}
 		}
 
 		if(end) {
 			Debug.Log("End");
-			RenderSettings.skybox = skyboxNorm;
-			normalLight.SetActive(true);
-			chaosLight.SetActive(false);
-			Destroy(StatePatternAI.instance.gameObject);
+			if(!isDestroyAI){
+				RenderSettings.skybox = skyboxNorm;
+				normalLight.SetActive(true);
+				chaosLight.SetActive(false);
+				Destroy(StatePatternAI.instance.gameObject);
+				outerEnvi.SetActive(true);
+				isDestroyAI = true;
+			}
+
+			Player.instance.transform.position = Player.instance.transform.position + Vector3.up * 0.1f;
 		}
 	}
 
@@ -83,7 +91,7 @@ public class GameState : MonoBehaviour {
 			tutorialState = false;
 			AIOpen = true;
 
-			Destroy(outerEnvi);
+			outerEnvi.SetActive(false);
 			Destroy(tutorAI);
 			
 			StatePatternAI.instance.stopState.EndState();

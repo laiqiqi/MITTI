@@ -15,6 +15,7 @@ public class AISword : MonoBehaviour {
 	public bool isHide;
 	public PlaySound swordAppearSound;
 	public PlaySound windSound;
+	public float damage = 10f;
 	public PlaySound swordHitSound;
 	public PlaySound swordSwipeSound;
 	public PlaySound swordHitFreshSound;
@@ -155,11 +156,12 @@ public class AISword : MonoBehaviour {
 		this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 	}
 	void OnCollisionEnter(Collision other){
-		if (other.transform.tag == "playsword") {
+		if (other.transform.tag == "playersword") {
 //			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
 			swordHitSound.Play ();
 		} else if (other.transform.tag == "Player") {
-			other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
+			// other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
+			Player.instance.GetComponent<PlayerStat>().PlayerTakeDamage(damage);
 			swordHitFreshSound.Play ();
 		}
 	}

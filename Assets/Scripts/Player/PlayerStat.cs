@@ -8,13 +8,14 @@ public class PlayerStat : MonoBehaviour {
 	public float stamina;
 	public float staRegenRate, healthRegenRate;
 
-	public float health;
+	public float health, maxHealth;
 
 //--------------------Player Status--------------------------
 	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage;
 //-----------------------------------------------------------
 	void Start () {
 		ResetAllStatusToFalse();
+		maxHealth = health;
 		
 		stamina = 100;
 		staRegenRate = 0.5f;
@@ -26,6 +27,7 @@ public class PlayerStat : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// StaminaRegen();
+		// Debug.Log("Player y pos: " + transform.position.y);
 		RegenStamina(staRegenRate);
 		RegenHealth(healthRegenRate);
 	}
@@ -67,4 +69,6 @@ public class PlayerStat : MonoBehaviour {
 			health -= dmg;
 		}
 	}
+
+	
 }
