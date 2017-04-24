@@ -44,6 +44,7 @@ public class StatePatternAI: MonoBehaviour {
 	[HideInInspector] public SwordShootingAIState swordShootingAIState;
 	[HideInInspector] public OpeningState openingState;
 	[HideInInspector] public ShootUltiState shootUltiState;
+	[HideInInspector] public DeadState deadState;
 //----------------------------------------------------------------------------
 
 	//-------------------------------------------------
@@ -84,11 +85,12 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState = new SwordShootingAIState (this);
 		openingState = new OpeningState (this);
 		shootUltiState = new ShootUltiState (this);
+		deadState = new DeadState (this);
 //		isHit = false;
 //		isParry = false;
 
 		// openingState.choice.AddRange(new AIState[]{prepareSlamState});
-		openingState.choice.AddRange(new AIState[]{swordSlashingAIState});
+		openingState.choice.AddRange(new AIState[]{deadState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
 		seekState.choice.AddRange(new AIState[]{stompState});
@@ -124,9 +126,10 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-		// floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
-		// 											, seekState, prepareDigStrikeState, swordShootingAIState});
-		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
+		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
+		 											, seekState, prepareDigStrikeState, swordShootingAIState});
+//		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
+//		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		shootUltiState.choice.AddRange(new AIState[]{floatingState});
@@ -138,15 +141,17 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		shootUltiState.StartState ();
-		// floatingState.StartState();
+		floatingState.StartState();
 //		openingState.StartState();
+//		deadState.StartState();
 		// swordSlashingAIState.StartState();
 		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
-		stopState.StartState();
+//		stopState.StartState();
+
 	}
 	
 	// Update is called once per frame
@@ -154,6 +159,7 @@ public class StatePatternAI: MonoBehaviour {
 		// KeyboardController();
 //		Debug.Log(currentState);
 		currentState.UpdateState();
+		Debug.LogWarning (AIStateFlow[floatingState].Count);
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
@@ -208,13 +214,13 @@ public class StatePatternAI: MonoBehaviour {
 		// Debug.Log(AIStateFlow[currentState].Count);
 		// if(health <= )
 		if(AIStateFlow[currentState].Count == 1){
-			Debug.Log("Next1");
+//			Debug.Log("Next1");
 			Debug.Log(AIStateFlow[currentState][0]);
 			AIStateFlow[currentState][0].StartState();
 			// currentState = AIStateFlow[currentState][0];
 		}
 		else if(currentState == slamState){
-			Debug.Log("Next2");
+//			Debug.Log("Next2");
 			if(slamState.isStun){
 				stunState.StartState();
 			}
@@ -226,9 +232,16 @@ public class StatePatternAI: MonoBehaviour {
 		// 	AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
 		// }
 		else{
-			Debug.Log("Next3");
-			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
-			AIStateFlow[currentState][Random.Range(0, AIStateFlow[currentState].Count)].StartState();
+//			Debug.Log("Next3");
+//			Debug.Log(Random.Range(0, AIStateFlow[currentState].Count));
+			int randomInt = Random.Range (0, AIStateFlow [currentState].Count);
+			AIState randState = AIStateFlow [currentState] [randomInt];
+//			StartCoroutine (CooldownForState(100f, randState));
+			if (randState.name != floatingState.name) {
+				randState.StartState();
+				StartCoroutine (CooldownForState(100f, randState));
+				AIStateFlow [floatingState].Remove (randState);
+			}
 		}
 	}
 
@@ -243,5 +256,13 @@ public class StatePatternAI: MonoBehaviour {
 		magnet.GetComponent<ContinuousExplosionForce>().size = size;
 		// magnet.transform.parent = body.transform;
 		// magnet.transform.localPosition = Vector3.zero;	
+	}
+
+	IEnumerator CooldownForState(float waitTime, AIState state){
+		yield return new WaitForSeconds(waitTime);
+		Debug.Log ("add state");
+//		floatingState.choice.Add (state);
+		AIStateFlow[floatingState].Add(state);
+
 	}
 }
