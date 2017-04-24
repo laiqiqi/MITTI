@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Valve.VR.InteractionSystem;
 
 public class SwordSlashingAIState : AIState {
 	private readonly StatePatternAI AI;
@@ -26,7 +27,7 @@ public class SwordSlashingAIState : AIState {
 
 	public SwordSlashingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
-//		target = new GameObject ().transform;
+		target = new GameObject ().transform;
 //		circleCenter = new GameObject ().transform;
 		choice = new List<AIState>();
 	}
@@ -74,7 +75,12 @@ public class SwordSlashingAIState : AIState {
 	}
 
 	public void UpdateState(){
-		AI.transform.LookAt (AI.player.transform);
+		Vector3 pos = AI.player.transform.position;
+		pos.y = AI.player.GetComponent<Player> ().bodyCollider.GetComponent<CapsuleCollider> ().height / 2f;
+//		Transform tran;
+		target.position = pos;
+		AI.transform.LookAt (target);
+//		AI.transform.LookAt (AI.player.transform);
 		int i = 0;
 		foreach(GameObject sc in AI.swordController){
 			int state = sc.GetComponent<AISwordController> ().state;
@@ -240,11 +246,12 @@ public class SwordSlashingAIState : AIState {
 		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
 		timecount += Time.deltaTime;
 		if (timecount > 10f) {
-			timecount = 10f;
+			Debug.Log ("Time exceed to the limit");
+//			timecount = 10f;
 		}
 
 		if (swords [i].GetComponent<AISword> ().isHit) {
-			timecount /= 2;
+//			timecount /= 2;
 		}
 //		int direction = -Mathf.RoundToInt ((randomVector [i].x - AI.transform.position.x) / Mathf.Abs (randomVector [i].x - AI.transform.position.x));
 
@@ -318,6 +325,7 @@ public class SwordSlashingAIState : AIState {
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
 			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
 			sc.GetComponent<AISwordController> ().state = 3;
+			timecount = 0;
 //			sc.GetComponent<Rigidbody> ().isKinematic = true;
 //			timeToStop = 0;
 		}
@@ -358,6 +366,7 @@ public class SwordSlashingAIState : AIState {
 			sc.GetComponent<Rigidbody>().isKinematic = false;
 			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
 			sc.GetComponent<AISwordController> ().state = 3;
+			timecount = 0;
 		}
 	}
 
