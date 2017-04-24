@@ -8,6 +8,7 @@ namespace Valve.VR.InteractionSystem
 
 		// Use this for initialization
         public event DamageDealtHandler OnDamageDealt;
+        public ParticleSystem hitAIParticle;
         public GameObject bloodBlade;
         public GameObject ultBlade;
         public GameObject blade;
@@ -26,7 +27,16 @@ namespace Valve.VR.InteractionSystem
 			applyDamage = GetBaseDamage;
 		}
         void OnCollisionEnter(Collision col){
+            if(col.transform.tag == "Magnet"){
+
+            }
             if(col.transform.tag == "AI" && ableToHitAI){
+                //hit particle
+                ParticleSystem part = Instantiate(hitAIParticle);
+                part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
+                part.gameObject.transform.parent = null;
+                part.gameObject.transform.position = col.contacts[0].point;
+                part.Play();
                 col.collider.gameObject.SendMessageUpwards("ApplyDamage", applyDamage(), SendMessageOptions.DontRequireReceiver);
                 if(auraSkill != null && skillIsActive){
                     auraSkill.OnColEnter();

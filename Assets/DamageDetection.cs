@@ -23,7 +23,7 @@ public class DamageDetection : MonoBehaviour {
 	}
 	void ApplyDamage(float dmg){
 		if(startHealth - dmg <= 0) {
-			 startHealth = maxHealth;
+			 startHealth = 0;
 		}else{
 			startHealth -= dmg;
 		} 
@@ -36,7 +36,7 @@ public class DamageDetection : MonoBehaviour {
 	}
 
 	public void HitMagnetDmg(float dmg){
-		ApplyDamage(dmg);
+		ApplyDamage(dmg/2f);
 	}
 
 	void OnTriggerEnter(Collider col){

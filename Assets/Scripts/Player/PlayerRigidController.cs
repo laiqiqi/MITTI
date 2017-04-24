@@ -18,8 +18,8 @@ public class PlayerRigidController : MonoBehaviour {
 		} else if (col.gameObject.tag == "AISwordShoot"){
 			col.rigidbody.AddForce (col.impulse * (10));
 		}
-		Debug.Log ("contactsPoint         "+col.contacts[0].point);
-		Debug.Log ("position              "+this.transform.position);
+		// Debug.Log ("contactsPoint         "+col.contacts[0].point);
+		// Debug.Log ("position              "+this.transform.position);
 		Instantiate (metalHitFX, col.contacts[0].point, Quaternion.LookRotation(col.transform.position));
 	}
 }

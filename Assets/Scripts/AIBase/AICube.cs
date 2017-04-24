@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class AICube : MonoBehaviour {
 	private float speed;
 	public int state;
 	public DamageDetection AIDamage;
+	public FireSource AIFire;
 	public GameObject effect;
 	public GameObject model;
 	public bool isHit;
@@ -97,5 +99,10 @@ public class AICube : MonoBehaviour {
 		Debug.Log(" Bow arrow collision enter " + gameObject.name);
 		AIDamage.HitMagnetDmg(dmg);
 	}
+
+	private void FireExposure()
+		{
+			AIFire.gameObject.SendMessage( "FireExposure", gameObject, SendMessageOptions.DontRequireReceiver );
+		}
 		
 }
