@@ -61,6 +61,9 @@ public class FloatingAIState : AIState {
 //				enemy.player.transform.position.y + Random.Range (1f, 2f),
 //				enemy.player.transform.position.z + Random.Range (-10f, 10f));
 			target.position = enemy.transform.position - enemy.transform.forward* 5f;
+
+			// EndState ();
+
 //			enemy.prepareSlashState.StartState ();
 			// enemy.escapeState.StartState();
 		}

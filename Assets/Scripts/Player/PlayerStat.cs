@@ -27,6 +27,7 @@ public class PlayerStat : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// StaminaRegen();
+		// Debug.Log("Player y pos: " + transform.position.y);
 		RegenStamina(staRegenRate);
 		RegenHealth(healthRegenRate);
 	}
@@ -68,4 +69,6 @@ public class PlayerStat : MonoBehaviour {
 			health -= dmg;
 		}
 	}
+
+	
 }

@@ -58,6 +58,22 @@ namespace Valve.VR.InteractionSystem
 
 		private void HandHoverUpdate( Hand hand )
 		{
+		// 	private IEnumerator ArrowReleaseHaptics()
+		// {
+		// 	yield return new WaitForSeconds( 0.05f );
+
+		// 	hand.otherHand.controller.TriggerHapticPulse( 1500 );
+		// 	yield return new WaitForSeconds( 0.05f );
+
+		// 	hand.otherHand.controller.TriggerHapticPulse( 800 );
+		// 	yield return new WaitForSeconds( 0.05f );
+
+		// 	hand.otherHand.controller.TriggerHapticPulse( 500 );
+		// 	yield return new WaitForSeconds( 0.05f );
+
+		// 	hand.otherHand.controller.TriggerHapticPulse( 300 );
+		// }
+			hand.controller.TriggerHapticPulse( 500 );
 			if ( requireTriggerPressToTake )
 			{
 				if ( hand.controller != null && hand.controller.GetHairTriggerDown() )
