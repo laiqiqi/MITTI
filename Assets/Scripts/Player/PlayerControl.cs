@@ -45,6 +45,7 @@ namespace Valve.VR.InteractionSystem
 					if(isOnFloor) {
 						isDash = false;
 						counter = 0;
+						player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
 						GetComponent<Rigidbody>().isKinematic = true;
 					}
 				}

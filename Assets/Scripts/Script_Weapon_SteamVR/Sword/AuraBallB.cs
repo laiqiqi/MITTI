@@ -10,6 +10,7 @@ namespace Valve.VR.InteractionSystem
 		public int duration = 5;
 		public float damage = 20.0f;
 		public int cooldown = 20;
+		public float heal = 10f;
 		public float healpercent = 0.5f;
 		private PlayerHealth health;
 		private string skillType = "normal";
@@ -40,7 +41,7 @@ namespace Valve.VR.InteractionSystem
 			//stop and revert all effects
 		}
 		public void OnColEnter(){
-			health.ApplyHealing(damage * healpercent);
+			Player.instance.GetComponent<PlayerStat>().PlayerHeal(heal);
 		}
 		public float GetSkillDamage(){
 			return damage;

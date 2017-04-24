@@ -75,11 +75,12 @@ public class SwordSlashingAIState : AIState {
 	}
 
 	public void UpdateState(){
-//		Vector3 pos = AI.player.transform.position;
-//		pos.y = AI.player.GetComponent<Player> ().bodyCollider.GetComponent<CapsuleCollider> ().height / 2f;
-////		Transform tran;
-//		target.position = pos;
-//		AI.transform.LookAt (target);
+		// Vector3 pos = AI.player.transform.position;
+		// pos.y = AI.player.GetComponent<Player> ().bodyCollider.GetComponent<CapsuleCollider> ().height / 2f;
+		// pos.y = AI.player.transform.position.y /2f;
+//		Transform tran;
+		// target.position = pos;
+		// AI.transform.LookAt (target);
 		AI.transform.LookAt (AI.player.transform);
 		int i = 0;
 		foreach(GameObject sc in AI.swordController){
