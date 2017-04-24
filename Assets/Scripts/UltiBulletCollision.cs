@@ -25,6 +25,7 @@ public class UltiBulletCollision : MonoBehaviour {
 			if (timeCount > timeToDestroy) {
 				this.GetComponent<ParticleSystem> ().loop = false;
 				if(!this.GetComponent<ParticleSystem>().IsAlive()){
+					StatePatternAI.instance.effectManager.StopSoundByName (AISoundName.Ulti_SOUND);
 					Destroy (this.gameObject);
 					state = 0;
 				}
