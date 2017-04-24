@@ -55,8 +55,8 @@ namespace Valve.VR.InteractionSystem
 			Debug.Log("55555555555555555555555 sword reveryed bitch");
 			swordRef.transform.localScale = originalScale;
 			this.sword.ultBlade.gameObject.SetActive(false);
-			swordRef.GetComponent<BoxCollider>().center.Set(orignalColCenter.x,orignalColCenter.y,orignalColCenter.z);
-			swordRef.GetComponent<BoxCollider>().size.Set(originalColScale.x,originalColScale.y,originalColScale.z);
+			swordRef.GetComponent<BoxCollider>().center = orignalColCenter;
+			swordRef.GetComponent<BoxCollider>().size = originalColScale;
 			// this.sword.blade.gameObject.SetActive(true);
 			SelfDestruct();
 
