@@ -7,6 +7,7 @@ public class SwordPullingAIState : AIState {
 	public string name{ get;}
 	private float speed;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public SwordPullingAIState(AITest statePatternAI){
 		AI = statePatternAI;

@@ -14,6 +14,7 @@ public class SlashState : AIState {
 	private int countState;
 	private float oldVelocity;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public SlashState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

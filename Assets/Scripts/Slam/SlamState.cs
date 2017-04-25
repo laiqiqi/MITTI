@@ -11,6 +11,7 @@ public class SlamState : AIState {
     private GameObject slamCol;
 	public string name{ get;}
     public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
     public SlamState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

@@ -15,6 +15,7 @@ public class PrepareSlamState : AIState {
     private Light circleLight;
 	public string name{ get; }
     public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
     public PrepareSlamState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

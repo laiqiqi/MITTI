@@ -8,6 +8,7 @@ public class StunState : AIState {
     private readonly StatePatternAI AI;
     private float stunTime, counter;
     public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
     public StunState(StatePatternAI AI){
         this.AI = AI;

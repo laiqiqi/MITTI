@@ -13,6 +13,7 @@ public class DigStrikeState : AIState {
     private bool hasRSSummoner;
 	public string name{ get;}
     public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
     public DigStrikeState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

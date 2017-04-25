@@ -11,6 +11,7 @@ public class SwordFindingAIState : AIState {
 	private GameObject swordControllerTarget;
 	private int subState;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public SwordFindingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;
