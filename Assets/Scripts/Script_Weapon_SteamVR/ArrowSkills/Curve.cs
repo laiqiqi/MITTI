@@ -20,7 +20,7 @@ public class Curve : MonoBehaviour {
 			//check state  for target
 			Debug.Log(GameState.instance.tutorialState +"TUTORIALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 			if(GameState.instance.tutorialState){
-				Debug.Log(GameState.instance.tutorialState +"ININININI TUTORIALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+				Debug.Log(GameState.instance.tutorialState +"Tageting tutorail AIIAIAIAAIAIAIAIAIAIAIA");
 				targetObj  = FindObjectOfType<TutorialAI>().gameObject;
 				target1 = targetObj.transform;
 			}else if(GameState.instance.mainGame){
@@ -80,7 +80,7 @@ public class Curve : MonoBehaviour {
 				Debug.Log("curve mat all good");
 				Debug.Log("curve mat all good");
 				Debug.Log("curve mat all good");
-				col.gameObject.SendMessageUpwards("ApplyDamage",15f, SendMessageOptions.DontRequireReceiver );
+				col.gameObject.SendMessageUpwards("ApplyDamage",damage, SendMessageOptions.DontRequireReceiver );
 				p.Play();
 				playHit.Play();
 				Debug.Log(gameObject.transform.name + " hit object name: " + col.gameObject.name + " tag " + col.gameObject.tag );

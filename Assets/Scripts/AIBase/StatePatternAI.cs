@@ -166,7 +166,7 @@ public class StatePatternAI: MonoBehaviour {
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
 
-//		stopState.StartState();
+		stopState.StartState();
 
 //		stopState.StartState();
 //		ChangeColorAI();
