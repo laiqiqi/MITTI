@@ -6,31 +6,45 @@ public class Curve : MonoBehaviour {
 	public float damage = 20.0f;
 	private Transform target1;
 	public float timeToLerp = 1;
+	public float timeToDeath = 1.2f;
 	private float timeLerped = 0.0f;
 	private Vector3 P0, P1, P2;
 	// Use this for initialization
 	void Start () {
-		Transform[] targetPositions = GetComponentInParent<Target>().getTargetPositions();
-		Debug.Log(targetPositions);
-		target1 = targetPositions[Random.Range(0,targetPositions.Length)];
-		P0 = transform.position;
-		P1 = new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
-		P2 = target1.position;
+		target1 = GameObject.Find("LastAI").transform;
+		if(target1 != null){
+			Transform[] targetPositions = target1.GetComponent<ExplodeTarget_Arrow>().targets;
+			Debug.Log(targetPositions);
+			target1 = targetPositions[Random.Range(0,targetPositions.Length)];
+			P0 = transform.position;
+			P1 = new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
+			P2 = target1.position;
+			StartCoroutine(death());
+		}else{
+			Destroy(gameObject);
+		}
+	}
+	IEnumerator death(){
+		yield return new WaitForSeconds(timeToDeath);
+		Destroy(gameObject);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		P2 = target1.transform.position;
-		timeLerped += Time.deltaTime;
-		float t = timeLerped / timeToLerp;
-		if (t >= 0 && t <= 1){
-			transform.position = (1-t)*(1-t)*P0 + 2*(1-t)*t*P1 + t*t*P2;
-			transform.LookAt(target1.transform);
+		if(target1 != null){
+			P2 = target1.transform.position;
+			timeLerped += Time.deltaTime;
+			float t = timeLerped / timeToLerp;
+			if (t >= 0 && t <= 1){
+				transform.position = (1-t)*(1-t)*P0 + 2*(1-t)*t*P1 + t*t*P2;
+				transform.LookAt(target1.transform);
+			}
 		}
 	}
 
 	void OnTriggerEnter(Collider col){
 		if(col.gameObject.name == "ArrowSphere"){
+			//play hit
 
 		Debug.Log(gameObject.transform.name + " hit object name: " + col.gameObject.name + " tag " + col.gameObject.tag );
 		// StartCoroutine(fadeLineRenderer());

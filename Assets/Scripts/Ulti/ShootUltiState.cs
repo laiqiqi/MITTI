@@ -28,6 +28,7 @@ public class ShootUltiState : AIState {
 		AI.transform.LookAt (AI.player.transform);
 		Ulti = GameObject.Instantiate (AI.UltiBullet,AI.transform.position+ AI.transform.forward * 2f, Quaternion.identity)as GameObject;
 		Ulti.GetComponent<UltiBulletCollision> ().player = AI.player.transform;
+		AI.effectManager.PlaySoundByName (AISoundName.Ulti_SOUND);
 	}
 
 	public void UpdateState(){

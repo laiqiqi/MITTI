@@ -8,19 +8,20 @@ public class PlayerStat : MonoBehaviour {
 	public float stamina;
 	public float staRegenRate, healthRegenRate;
 
-	public float health, maxHealth;
+	public float  maxHealth;
+	[HideInInspector] public float health;
 
 //--------------------Player Status--------------------------
-	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage;
+	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage, isHeal;
 //-----------------------------------------------------------
 	void Start () {
 		ResetAllStatusToFalse();
-		maxHealth = health;
+		health = maxHealth;
 		
 		stamina = 100;
 		staRegenRate = 0.5f;
 
-		health = 100;
+	
 		healthRegenRate = 0.1f;
 	}
 	
@@ -69,6 +70,17 @@ public class PlayerStat : MonoBehaviour {
 			health -= dmg;
 		}
 	}
+
+	public void PlayerHeal(float heal){
+		isHeal = true;
+		if(health + heal >= maxHealth){
+			health = maxHealth;
+		}
+		else{
+			health += heal;
+		}
+	}
+
 
 	
 }
