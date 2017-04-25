@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class GameState : MonoBehaviour {
 	private SceneController sceneCon = new SceneController();
+	private Color black = Color.black;
+	private Color white = Color.white;
+
 
 	public Material skyboxChaos;
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
-	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth;
+	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth, isWaitDie;
 	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer;
+	public GameObject dieSound;
 	public GameObject sceneDestroyer, sceneProps;
 	public GameObject playerTransFilter;
-
+	public GameObject dieBG, dieText;
 	// Use this for initialization
 	private static GameState _instance;
 		public static GameState instance
@@ -29,6 +34,8 @@ public class GameState : MonoBehaviour {
 			}
 		}
 	void Start () {
+		Debug.Log("Game Start");
+
 		tutorialState = true;
 		AIOpen = false;
 		afterAIOpen = false;
@@ -38,8 +45,12 @@ public class GameState : MonoBehaviour {
 		isNearFallPlay = false;
 		isDestroyAI = false;
 		isPlayEarth = false;
+		isWaitDie = false;
 		Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), sceneDestroyer.GetComponent<Collider>());
 		Physics.IgnoreLayerCollision(10, 9);
+
+		black.a = 0;
+		white.a = 0;
 	}
 	void OnEnable(){
 		_instance = this;
@@ -62,7 +73,7 @@ public class GameState : MonoBehaviour {
 
 		if(mainGame) {
 			RotateSkyBox();
-
+			Debug.Log(Player.instance.GetComponent<PlayerStat>().health);
 			if(StatePatternAI.instance.health <= 0){
 				Debug.Log("Purify");
 				mainGame = false;
@@ -70,8 +81,19 @@ public class GameState : MonoBehaviour {
 			}
 			if(Player.instance.GetComponent<PlayerStat>().health <= 0){
 				Debug.Log("You Die");
-				mainGame = false;
-				sceneCon.ChangeScene(SceneController.MAIN_MENU);
+				StatePatternAI.instance.stopState.StartState();
+				// mainGame = false;
+				if (!isWaitDie) {
+					dieBG.SetActive(true);
+					isWaitDie = true;
+					dieSound.SetActive(true);
+					StartCoroutine(WaitDie());
+				}
+				black.a += 0.005f;
+				white.a += 0.005f;
+
+				dieBG.GetComponent<Image>().color = black;
+				dieText.GetComponent<Image>().color = white;
 			}
 		}
 
@@ -90,6 +112,11 @@ public class GameState : MonoBehaviour {
 
 			Player.instance.transform.position = Player.instance.transform.position + Vector3.up * 0.1f;
 		}
+	}
+
+	IEnumerator WaitDie(){
+		yield return new WaitForSeconds(10f);
+		sceneCon.ChangeScene(SceneController.MAIN_MENU);
 	}
 
 	void TutorialState(){
@@ -153,6 +180,7 @@ public class GameState : MonoBehaviour {
 			mainGame = true;
 			Destroy(sceneDestroyer);
 			Destroy(sceneProps);
+			earthQuakeSoundPlayer.Stop();
 		}
 	}
 
@@ -164,4 +192,6 @@ public class GameState : MonoBehaviour {
 			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.01f);
 		}
 	}
+
+
 }

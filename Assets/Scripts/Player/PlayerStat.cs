@@ -12,9 +12,11 @@ public class PlayerStat : MonoBehaviour {
 	[HideInInspector] public float health;
 
 //--------------------Player Status--------------------------
-	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage, isHeal;
+	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage, isHeal, isDead;
 //-----------------------------------------------------------
 	void Start () {
+		isDead = false;
+
 		ResetAllStatusToFalse();
 		health = maxHealth;
 		
@@ -29,12 +31,15 @@ public class PlayerStat : MonoBehaviour {
 	void Update () {
 		// StaminaRegen();
 		// Debug.Log("Player y pos: " + transform.position.y);
+		if(health <= 0){
+			isDead = false;
+		}
 		RegenStamina(staRegenRate);
-		RegenHealth(healthRegenRate);
+		// RegenHealth(healthRegenRate);
 	}
 
 	void RegenStamina(float rate){
-		if(stamina < 100){
+		if(stamina < 100 && !isDead){
 			if(stamina + (rate) > 100){
 				stamina = 100;
 			}
@@ -45,7 +50,7 @@ public class PlayerStat : MonoBehaviour {
 	}
 
 	void RegenHealth(float rate){
-		if(health < 100){
+		if(health < 100 && !isDead){
 			if(health + (rate) > 100){
 				health = 100;
 			}
@@ -63,8 +68,9 @@ public class PlayerStat : MonoBehaviour {
 
 	public void PlayerTakeDamage(float dmg) {
 		isTakeDamage = true;
-		if(health - dmg < 0){
+		if(health - dmg <= 0){
 			health = 0;
+			isDead = true;
 		}
 		else{
 			health -= dmg;

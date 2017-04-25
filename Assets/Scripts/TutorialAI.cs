@@ -27,6 +27,7 @@ public class TutorialAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		text.material.SetColor("_Color", Color.white);
 		counter = -1;
 		nextScriptIndex = counter+1;
 
