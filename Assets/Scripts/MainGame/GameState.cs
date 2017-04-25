@@ -15,12 +15,24 @@ public class GameState : MonoBehaviour {
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
 	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth, isWaitDie;
-	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer;
+	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer, mainBGM;
 	public GameObject dieSound;
 	public GameObject sceneDestroyer, sceneProps;
 	public GameObject playerTransFilter;
 	public GameObject dieBG, dieText;
 	// Use this for initialization
+	private static GameState _instance;
+		public static GameState instance
+		{
+			get
+			{
+				if ( _instance == null )
+				{
+					_instance = FindObjectOfType<GameState>();
+				}
+				return _instance;
+			}
+		}
 	void Start () {
 		Debug.Log("Game Start");
 
@@ -40,6 +52,9 @@ public class GameState : MonoBehaviour {
 		black.a = 0;
 		white.a = 0;
 	}
+	void OnEnable(){
+		_instance = this;
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -51,6 +66,7 @@ public class GameState : MonoBehaviour {
 		}
 		if(AIOpen) {
 			AIOpening();
+			PlayMainBGM();
 		}
 		if(afterAIOpen) {
 			AfterAIOpening();
@@ -83,6 +99,7 @@ public class GameState : MonoBehaviour {
 		}
 
 		if(end) {
+			StopMainBGM();
 			Debug.Log("End");
 			if(!isDestroyAI){
 				Player.instance.GetComponent<Rigidbody>().useGravity = false;
@@ -103,7 +120,12 @@ public class GameState : MonoBehaviour {
 		yield return new WaitForSeconds(10f);
 		sceneCon.ChangeScene(SceneController.MAIN_MENU);
 	}
-
+	void PlayMainBGM(){
+		mainBGM.Play();
+	}
+	void StopMainBGM(){
+		mainBGM.Stop();
+	}
 	void TutorialState(){
 		if(tutorAI.GetComponent<TutorialAI>().isEndTutor && !isFallingPlay){
 			Destroy(tutorEnvi.gameObject);

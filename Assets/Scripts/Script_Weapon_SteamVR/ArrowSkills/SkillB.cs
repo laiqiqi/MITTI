@@ -7,7 +7,7 @@ namespace Valve.VR.InteractionSystem
 
 		// Use this for initialization
 		private FireSource fire;
-		private TextMesh debugText;
+		// private TextMesh debugText;
 		public int cooldown;
 		public float chargeTime = 0.77f;
 		public bool charging = false; //if the arrow is charging
@@ -23,7 +23,7 @@ namespace Valve.VR.InteractionSystem
 		public ParticleSystem chargingAura;
 		public PlaySound fireChargeSound;
 		void Start(){
-			debugText = GetComponentInChildren<TextMesh>();
+			// debugText = GetComponentInChildren<TextMesh>();
 			increaseGuage = IncreaseGuage();
 			fire = GetComponentInChildren<FireSource>();
 		}
@@ -114,7 +114,7 @@ namespace Valve.VR.InteractionSystem
 		}
 		public override int GetCoolDown(){return cooldown;}
 		void DebugText(float guage){
-			debugText.text = guage.ToString();
+			// debugText.text = guage.ToString();
 		}
 
 		public override string GetSkillType(){

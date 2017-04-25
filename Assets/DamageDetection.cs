@@ -24,6 +24,7 @@ public class DamageDetection : MonoBehaviour {
 		// }	
 	}
 	void ApplyDamage(float dmg){
+		Debug.Log("damage applies");
 		if(startHealth - dmg <= 0) {
 			 startHealth = 0;
 		}else{
@@ -47,10 +48,21 @@ public class DamageDetection : MonoBehaviour {
 		texthealth.text = startHealth.ToString();
 	}
 
+	void FireExposureDamage(float dmg){
+		Debug.Log("Fire has been applied");
+		StartCoroutine(BurnDamage(dmg, 8f));
+	}
 	public void HitMagnetDmg(float dmg){
 		ApplyDamage(dmg/2f);
 	}
-
+	IEnumerator BurnDamage(float dmg, float sec){
+		float count = 0;
+		while(count <= sec){
+			count++;
+			ApplyDamage(dmg/sec);
+			yield return new WaitForSeconds(1f);
+		}
+	}
 	void OnTriggerEnter(Collider col){
 
 	}

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class DebugUI : MonoBehaviour {
 
 	// Use this for initialization
-	public GameObject playerStat;
+	private GameObject playerStat;
 	private Text staText;
 
 	void Start () {
 		staText = this.transform.Find("Text").GetComponent<Text>();
+		playerStat = Player.instance.gameObject;
 	}
 	
 	// Update is called once per frame

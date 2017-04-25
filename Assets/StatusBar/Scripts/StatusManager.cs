@@ -16,7 +16,7 @@ public class StatusManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 pos1 = Player.transform.position;
+		Vector3 pos1 = Player.instance.headCollider.transform.position + Player.instance.headCollider.transform.forward;
 		pos1.y = 0;
 		Vector3 pos2 = this.transform.position;
 		pos2.y = 0;

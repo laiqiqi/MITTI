@@ -157,49 +157,74 @@ namespace Valve.VR.InteractionSystem
 				// 		hasSpreadFire = true;
 				// 	}
 				// }
-				if ( arrowFire != null && arrowFire.isBurning )
-				{
-					if ( !hasSpreadFire )
-					{
-						collision.collider.gameObject.SendMessageUpwards( "FireExposure", gameObject, SendMessageOptions.DontRequireReceiver );
-						hasSpreadFire = true;
-					}
-				}
-				else
-				{
+				// if ( arrowFire != null && arrowFire.isBurning )
+				// {
+				// 	if ( !hasSpreadFire )
+				// 	{
+				// 		collision.collider.gameObject.SendMessageUpwards( "FireExposure", gameObject, SendMessageOptions.DontRequireReceiver );
+				// 		hasSpreadFire = true;
+				// 	}
+				// }
+				// else
+				// {
 					// Only count collisions with good speed so that arrows on the ground can't deal damage
 					// always pop balloons
-					if ( rbSpeed > 0.1f && enterAIArrowRange && hitAI || hitMagnet || hitBalloon )
+					if ( rbSpeed > 0.1f && hitAI || hitMagnet || hitBalloon )
 					{
-						if ( !hasApplyDmgToTarget ){
-							if(hitAI){
-								//playAIparticle
-								if(hitAIParticle != null){
-									Debug.Log("hit AI");
-									ParticleSystem part = Instantiate(hitAIParticle);
-									part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
-                					part.gameObject.transform.parent = null;
-                					part.gameObject.transform.position = collision.contacts[0].point;
-									part.Play();
+						if(enterAIArrowRange){
+							if ( !hasApplyDmgToTarget ){
+								if(hitAI){
+									if ( arrowFire != null && arrowFire.isBurning )
+									{
+										if ( !hasSpreadFire )
+										{
+											collision.collider.gameObject.SendMessageUpwards( "FireExposure", gameObject, SendMessageOptions.DontRequireReceiver );
+											collision.collider.gameObject.SendMessageUpwards( "FireExposureDamage", 80f, SendMessageOptions.DontRequireReceiver );
+											hasSpreadFire = true;
+										}
+									}
+									//playAIparticle
+									if(hitAIParticle != null){
+										Debug.Log("hit AI");
+										ParticleSystem part = Instantiate(hitAIParticle);
+										part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
+										part.gameObject.transform.parent = null;
+										part.gameObject.transform.position = collision.contacts[0].point;
+										part.Play();
+									}
+									collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
 								}
-							}
-							if(hitMagnet){
-								//playMagnetparticle
-								if(hitMagnetParticle != null){
-									ParticleSystem part = Instantiate(hitMagnetParticle);
-									part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
-                					part.gameObject.transform.parent = null;
-                					part.gameObject.transform.position = collision.contacts[0].point;
-									part.Play();
+								else if(hitMagnet){
+									//playMagnetparticle
+									if ( arrowFire != null && arrowFire.isBurning )
+									{
+										if ( !hasSpreadFire )
+										{
+											collision.collider.gameObject.SendMessageUpwards( "FireExposure", gameObject, SendMessageOptions.DontRequireReceiver );
+											collision.collider.gameObject.SendMessageUpwards( "FireExposureDamage", 80f, SendMessageOptions.DontRequireReceiver );
+											Debug.Log("fire exposure on magnet");
+											hasSpreadFire = true;
+										}
+									}
+									if(hitMagnetParticle != null){
+										Debug.Log("hit magnat");
+										ParticleSystem part = Instantiate(hitMagnetParticle);
+										part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
+										part.gameObject.transform.parent = null;
+										part.gameObject.transform.position = collision.contacts[0].point;
+										part.Play();
+									}
+									collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage/2f, SendMessageOptions.DontRequireReceiver );
 								}
+								
+								
+								Debug.Log(collision.collider.gameObject.name);
+								gameObject.SendMessage( "HasAppliedDamage", damage,SendMessageOptions.DontRequireReceiver );
+								hasApplyDmgToTarget = true;
 							}
-							collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage, SendMessageOptions.DontRequireReceiver );
-							Debug.Log(collision.collider.gameObject.name);
-							gameObject.SendMessage( "HasAppliedDamage", damage,SendMessageOptions.DontRequireReceiver );
-							hasApplyDmgToTarget = true;
 						}
 					}
-				}
+				// }
 
 				if ( hitBalloon )
 				{

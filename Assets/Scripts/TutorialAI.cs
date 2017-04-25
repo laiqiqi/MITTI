@@ -74,7 +74,6 @@ public class TutorialAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 		MoveUpDown();
 		LookAtPlayer();
 
@@ -128,7 +127,7 @@ public class TutorialAI : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log(counter);
+		// Debug.Log(counter);
 	}
 
 	// void AutoTutorial(){
