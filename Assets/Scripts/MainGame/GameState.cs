@@ -62,6 +62,8 @@ public class GameState : MonoBehaviour {
 		if(end) {
 			Debug.Log("End");
 			if(!isDestroyAI){
+				Player.instance.GetComponent<Rigidbody>().useGravity = false;
+				Player.instance.GetComponent<Rigidbody>().isKinematic = true;
 				RenderSettings.skybox = skyboxNorm;
 				normalLight.SetActive(true);
 				chaosLight.SetActive(false);

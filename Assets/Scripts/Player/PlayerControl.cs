@@ -15,7 +15,7 @@ namespace Valve.VR.InteractionSystem
 		private PlayerStat playerStat;
 		private GameObject head;
 		private Antialiasing camAA;
-		private bool isIncre, isDash;
+		public bool isIncre, isDash, isDashable;
 		private float timer, counter;
 		public float rate, limit;
 		[HideInInspector] public Collision colInfo;
@@ -25,6 +25,7 @@ namespace Valve.VR.InteractionSystem
 			isIncre = false;
 			isDash = false;
 			isOnFloor = false;
+			// isDashable = false;
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
 			// head = VRCam.transform.FindChild("FollowHead").gameObject;
@@ -42,14 +43,15 @@ namespace Valve.VR.InteractionSystem
 					counter += 0.1f;
 				}
 				else{
+					isDash = false;
 					if(isOnFloor) {
-						isDash = false;
 						counter = 0;
 						player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
 						GetComponent<Rigidbody>().isKinematic = true;
 					}
 				}
 			}
+			// Debug.Log(isDashable);
 		}
 		void HandsEvent() {
 			foreach ( Hand hand in player.hands ){
@@ -65,7 +67,7 @@ namespace Valve.VR.InteractionSystem
 		}
 		void Dash() {
 			Debug.Log("dash");
-			if (playerStat.stamina >= 50f) {
+			if (playerStat.stamina >= 50f && isDashable) {
 				GetComponent<Rigidbody>().isKinematic = false;
 				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 				Vector3 direction = new Vector3(VRCam.transform.right.x * 10f, 0f, VRCam.transform.right.z * 10f);
@@ -73,6 +75,7 @@ namespace Valve.VR.InteractionSystem
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
 				isDash = true;
+				isOnFloor = false;
 			}
 		}
 
@@ -121,9 +124,10 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		void OnTriggerEnter (Collider col) {
-			if(col.tag.Equals("Floor")){
+			if(col.tag.Equals("Floor") && !isDash){
 				Debug.Log("Player landing");
 				isOnFloor = true;
+				isDashable = true;
 			}
 		}
 	}

@@ -37,7 +37,10 @@ public class OpeningState : AIState {
 			FloatUp();
 		}
 		else if (subState == 0) {
-			AI.effectManager.sounds [3].Play ();
+			AI.effectManager.PlaySoundByName (AISoundName.OPENING_SOUND);
+			AI.effectManager.PlaySoundByName (AISoundName.AI_SOUND);
+//			AI.effectManager.sounds [AISoundName.OPENING_SOUND].Play ();
+//			AI.effectManager.sounds [AISoundName.AI_SOUND].Play ();
 			Debug.Log ("testtt");
 			for (int i = 0; i < numCube; i++) {
 				Vector3 pos = new Vector3 (AI.transform.position.x + Random.Range (-2f, 2f), AI.transform.position.y + Random.Range (-2f, 2f), AI.transform.position.z + Random.Range (-2f, 2f));
