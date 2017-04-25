@@ -10,7 +10,7 @@ public class AIBodyCollision : MonoBehaviour {
 
 	void Start() {
 		hitPos = null;
-		AI = this.transform.GetComponentInParent<StatePatternAI>();
+		AI = StatePatternAI.instance.GetComponent<StatePatternAI>();
 		player = Player.instance.gameObject;
 		// Debug.Log(player.name);
 	}
@@ -28,7 +28,8 @@ public class AIBodyCollision : MonoBehaviour {
 
 				player.GetComponent<PlayerStat>().health -= 2f;
 				player.GetComponent<PlayerStat>().isHitSlam = true;
-				player.transform.SetParent(AI.transform);
+				player.GetComponent<Rigidbody>().isKinematic = false;
+				player.GetComponent<Rigidbody>().AddForce(AI.transform.forward*5f + AI.transform.right*Random.Range(-5f, 5f));
 			}
 		}
 		else{

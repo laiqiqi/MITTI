@@ -68,10 +68,11 @@ public class SlamState : AIState {
         AI.effectManager.DestroyEffectByName(EffectName.SLAM_COLLIDER);
         AI.effectManager.RemoveEffectFromDictByName(EffectName.SLAM_COLLIDER);
         // Destroy(slamCol);
-        if(Player.instance.GetComponent<PlayerStat>().isHitSlam == true){
-            Player.instance.GetComponent<Rigidbody>().AddForce(AI.transform.forward*10f, ForceMode.Impulse);
-        }
+        // if(Player.instance.GetComponent<PlayerStat>().isHitSlam == true){
+        //     Player.instance.GetComponent<Rigidbody>().AddForce(AI.transform.forward*10f, ForceMode.Impulse);
+        // }
         Player.instance.GetComponent<PlayerStat>().isHitSlam = false;
+        Player.instance.GetComponent<Rigidbody>().isKinematic = true;
         Player.instance.transform.SetParent(null);
 
         AI.GetComponent<SphereCollider>().enabled = false;

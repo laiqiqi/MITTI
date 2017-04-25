@@ -284,8 +284,9 @@ public class StatePatternAI: MonoBehaviour {
 	public void EditMagnet(float radius, int size) {
 		magnet.GetComponent<ContinuousExplosionForce>().radius = radius;
 		magnet.GetComponent<ContinuousExplosionForce>().size = size;
+		
 		// magnet.transform.parent = body.transform;
-		// magnet.transform.localPosition = Vector3.zero;	
+		magnet.transform.localPosition = Vector3.zero;	
 	}
 
 	IEnumerator CooldownForState(float waitTime, AIState state){
