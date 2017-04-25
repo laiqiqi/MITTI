@@ -6,7 +6,6 @@ public class PrepareDigStrikeState : AIState {
     private readonly StatePatternAI AI;
     private Vector3 attackTarget;
     private Vector3 moveToTarget;
-    private float speed;
     private float timer;
     private float seekTime;
 	public string name{ get; }
@@ -24,7 +23,7 @@ public class PrepareDigStrikeState : AIState {
         isDownSoundPlay = false;
         AI.currentState = AI.prepareDigStrikeState;
         attackTarget = AI.player.transform.position;
-        speed = 5f;
+        AI.speed = 5f;
         moveToTarget = new Vector3(AI.transform.position.x,
                                  AI.transform.position.y-15f,
                                  AI.transform.position.z);
@@ -32,8 +31,6 @@ public class PrepareDigStrikeState : AIState {
         seekTime = Random.Range(2f, 3f);
 
         AI.animationManager.StopChargeStompAnim();
-
-        AI.DisableMagnet();
     }
 
     public void UpdateState()
@@ -66,23 +63,26 @@ public class PrepareDigStrikeState : AIState {
     }
 
     void Dig(){
-        if(AI.transform.position.y <= 1 && AI.transform.position.y >= -1){
-            AI.speed = 0.1f;
+        if(AI.transform.position.y <= 1 && AI.transform.position.y >= -2){
+            AI.speed = 1f;
+            if (AI.transform.position.y <= 0){
+                AI.DisableMagnet();
+            }
             if (!isDownSoundPlay){
                 AI.effectManager.PlaySoundByName(AISoundName.DIG_DOWN_SOUND);
                 isDownSoundPlay = true;
             }
         }
-        else if(AI.transform.position.y < -1){
+        else if(AI.transform.position.y < -2){
             AI.speed = 10f;
         }
-        AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, speed * Time.deltaTime);
+        AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, AI.speed * Time.deltaTime);
     }
 
     void Targeting(){
         attackTarget = new Vector3(AI.player.transform.position.x,
                                  AI.player.transform.position.y-17f,
                                  AI.player.transform.position.z);
-        AI.transform.position = Vector3.MoveTowards(AI.transform.position, attackTarget, speed * Time.deltaTime);
+        AI.transform.position = Vector3.MoveTowards(AI.transform.position, attackTarget, AI.speed * Time.deltaTime);
     }
 }

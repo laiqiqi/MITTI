@@ -40,8 +40,6 @@ public class DigStrikeState : AIState {
 
         AI.effectManager.CreateCircleByName(MagicCircleName.DIG_CIRCLE ,attackTarget);
 
-        AI.EditMagnet(1000, 100);
-        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -200f;
         AI.effectManager.PlaySoundByName(AISoundName.DIGSTRIKE_SOUND);
     }
 
@@ -72,6 +70,8 @@ public class DigStrikeState : AIState {
             else{
                 AI.effectManager.StopSoundByName(AISoundName.DIGSTRIKE_SOUND);                
                 if(!hasRSSummoner){
+                    AI.EditMagnet(1000, 100);
+                    AI.magnet.GetComponent<ContinuousExplosionForce>().force = -200f;
                     AI.effectManager.CreateEffectByName(EffectName.ROCKSPIKE ,attackTarget);
                     hasRSSummoner = true;
                 }

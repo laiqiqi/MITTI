@@ -10,8 +10,8 @@ public class GameState : MonoBehaviour {
 	public Material skyboxChaos;
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
-	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI;
-	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer;
+	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth;
+	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer;
 	public GameObject sceneDestroyer, sceneProps;
 	public GameObject playerTransFilter;
 
@@ -37,6 +37,7 @@ public class GameState : MonoBehaviour {
 		isFallingPlay = false;
 		isNearFallPlay = false;
 		isDestroyAI = false;
+		isPlayEarth = false;
 		Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), sceneDestroyer.GetComponent<Collider>());
 		Physics.IgnoreLayerCollision(10, 9);
 	}
@@ -103,6 +104,10 @@ public class GameState : MonoBehaviour {
 			isNearFallPlay = true;
 		}
 		if(Player.instance.GetComponent<PlayerControl>().isOnFloor == true){
+			if(!isPlayEarth){
+				earthQuakeSoundPlayer.Play();
+				isPlayEarth = true;
+			}
 			Player.instance.GetComponent<Rigidbody>().isKinematic = true;
 			
 			tutorialState = false;
