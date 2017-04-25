@@ -300,6 +300,7 @@ public class StatePatternAI: MonoBehaviour {
 	void ChangeColorAI(){
 		GameObject fog = body.transform.GetChild (0).transform.GetChild (2).gameObject;
 		ParticleSystem ps = fog.GetComponent<ParticleSystem>();
+		Material pr = fog.GetComponent<ParticleSystemRenderer>().material;
 		float h, s, v;
 		Color.RGBToHSV (ps.startColor, out h, out s, out v);
 		v = health/maxHealth;
@@ -308,16 +309,21 @@ public class StatePatternAI: MonoBehaviour {
 		if (s < 0f) {
 			s = 0;
 		}
-		ps.startColor = Color.HSVToRGB (h, s, v);
+//		ps.startColor = Color.HSVToRGB (h, s, v);
+		pr.SetColor("_TintColor", Color.HSVToRGB (h, s, v));
+
 
 	}
 
 	public void ChangeColorByDamage(){
 		GameObject fog = body.transform.GetChild (0).transform.GetChild (2).gameObject;
 		ParticleSystem ps = fog.GetComponent<ParticleSystem>();
+		Material pr = fog.GetComponent<ParticleSystemRenderer>().material;
 		float h, s, v;
 		Color.RGBToHSV (ps.startColor, out h, out s, out v);
 		s = 1;
-		ps.startColor = Color.HSVToRGB (h, s, v);
+//		ps.startColor = Color.HSVToRGB (h, s, v);
+		pr.SetColor("_TintColor", Color.HSVToRGB (h, s, v));
+
 	}
 }
