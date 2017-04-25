@@ -9,6 +9,7 @@ public class FloatingAIState : AIState {
 	public string name{ get;}
 	public List<AIState> choice{ get;set; }
 	public float radiusOfMap = 18;
+	public float stateDelay{ get;set;}
 
 	public FloatingAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
@@ -18,9 +19,9 @@ public class FloatingAIState : AIState {
 	}
 
 	public void StartState(){
+//		Debug.Log ("start   floating");
 		enemy.currentState = enemy.floatingState;
 		speed = 5f;
-//		target = new GameObject ().transform;
 		target.position = RandomPosition();
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = true;
 	}

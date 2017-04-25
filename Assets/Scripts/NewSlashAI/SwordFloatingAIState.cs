@@ -9,6 +9,7 @@ public class SwordFloatingAIState : AIState {
 	private float agility;
 	private Transform target;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public SwordFloatingAIState(AITest statePatternAI){
 		AI = statePatternAI;

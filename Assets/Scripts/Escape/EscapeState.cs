@@ -8,6 +8,7 @@ public class EscapeState : AIState {
 	public Transform wayPoint;
 	public float speed;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public EscapeState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

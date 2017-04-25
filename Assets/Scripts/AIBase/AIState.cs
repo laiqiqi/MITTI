@@ -6,6 +6,7 @@ public interface AIState
 {
 	string name{ get;}
 	List<AIState> choice{ get;set; }
+	float stateDelay{ get; set;}
 	void StartState();
 
 	void UpdateState();

@@ -12,6 +12,7 @@ public class SeekState : AIState {
     private float timerBeforeTarget;
 	public string name{ get; }
     public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
     public SeekState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

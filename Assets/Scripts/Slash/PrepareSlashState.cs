@@ -9,6 +9,7 @@ public class PrepareSlashState : AIState {
 	private float timetoSlash;
 	private float slashDegrees;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public PrepareSlashState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

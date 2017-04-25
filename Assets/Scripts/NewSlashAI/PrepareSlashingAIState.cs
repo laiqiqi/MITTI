@@ -9,6 +9,7 @@ public class PrepareSlashingAIState : AIState {
 	private Vector3 randomVector;
 	private int subState;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public PrepareSlashingAIState(AITest statePatternAI){
 		AI = statePatternAI;
