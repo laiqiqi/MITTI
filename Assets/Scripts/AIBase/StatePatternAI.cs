@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class StatePatternAI: MonoBehaviour {
 	public float health;
+	public float maxHealth;
 	// public Transform target;
 	public float speed;
 	public float agile;
@@ -154,6 +155,7 @@ public class StatePatternAI: MonoBehaviour {
 //		stopState.StartState();
 
 //		stopState.StartState();
+		ChangeColorAI();
 	}
 	
 	// Update is called once per frame
@@ -161,7 +163,8 @@ public class StatePatternAI: MonoBehaviour {
 		// KeyboardController();
 //		Debug.Log(currentState);
 		currentState.UpdateState();
-		 Debug.LogWarning (AIStateFlow[floatingState].Count);
+//		 Debug.LogWarning (AIStateFlow[floatingState].Count);
+		ChangeColorAI();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
@@ -279,5 +282,24 @@ public class StatePatternAI: MonoBehaviour {
 
 	}
 
+	void ChangeColorAI(){
+		GameObject fog = body.transform.GetChild (0).transform.GetChild (2).gameObject;
+		ParticleSystem ps = fog.GetComponent<ParticleSystem>();
+		float h, s, v;
+		Color.RGBToHSV (ps.startColor, out h, out s, out v);
+		v = health/100f;
+//		s = maxHealth/100f;
+		s -= 0.01f;
+		ps.startColor = Color.HSVToRGB (h, s, v);
 
+	}
+
+	void ChangeColorByDamage(){
+		GameObject fog = body.transform.GetChild (0).transform.GetChild (2).gameObject;
+		ParticleSystem ps = fog.GetComponent<ParticleSystem>();
+		float h, s, v;
+		Color.RGBToHSV (ps.startColor, out h, out s, out v);
+		s = 100f;
+		ps.startColor = Color.HSVToRGB (h, s, v);
+	}
 }
