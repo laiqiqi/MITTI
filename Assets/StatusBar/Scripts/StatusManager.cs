@@ -16,6 +16,9 @@ public class StatusManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Vector3 newPos = this.transform.position;
+		newPos.y = Player.instance.transform.position.y;
+		this.transform.position = newPos;
 		Vector3 pos1 = Player.instance.headCollider.transform.position + Player.instance.headCollider.transform.forward;
 		pos1.y = 0;
 		Vector3 pos2 = this.transform.position;
@@ -23,7 +26,7 @@ public class StatusManager : MonoBehaviour {
 		Vector3 relativePos = pos1 - pos2;
 		this.transform.rotation = Quaternion.LookRotation (relativePos);
 		PlayerStat ps = Player.instance.GetComponent<PlayerStat> ();
-		HPBar.gameObject.GetComponent<Image> ().fillAmount = ps.health/ps.maxHealth*0.5f;
+		HPBar.gameObject.GetComponent<Image> ().fillAmount = ps.health / ps.maxHealth * 0.5f;
 		StaminaBar.gameObject.GetComponent<Image> ().fillAmount = ps.stamina/100f*0.5f;
 
 	}
