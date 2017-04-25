@@ -10,6 +10,7 @@ public class KillAIButton : MonoBehaviour{
 	}
 
 	public void SkipTutorial() {
+		Debug.Log("EndTutor");
 		tutorialAI.GetComponent<TutorialAI>().isEndTutor = true;
 	}
 

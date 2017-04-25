@@ -200,6 +200,7 @@ public class TutorialAI : MonoBehaviour {
 		yield return new WaitForSeconds(sec);
 
 		if(counter+1 == talkScript.Length){
+			Debug.Log("EndTutor");
 			isEndTutor = true;
 		}
 
@@ -231,6 +232,7 @@ public class TutorialAI : MonoBehaviour {
 	void OnTriggerEnter(Collider col) {
 		Debug.Log(isTutor);
 		if (col.tag.Equals("projectile") && !isTutor) {
+			Debug.Log("EndTutor");
 			isEndTutor = true;
 		}
 	}
@@ -281,6 +283,7 @@ public class TutorialAI : MonoBehaviour {
 			TutorPicControl();
 		}
 		else{
+			Debug.Log("EndTutor");
 			isEndTutor = true;
 		}
 	}
