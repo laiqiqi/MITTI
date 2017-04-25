@@ -50,7 +50,11 @@ public class SwordShootingAIState : AIState {
 	}
 
 	public void UpdateState(){
-		AI.transform.LookAt (AI.player.transform);
+		Vector2 pos1 = new Vector2 (AI.transform.position.x, AI.transform.position.z);
+		Vector2 pos2 = new Vector2 (AI.player.transform.position.x, AI.player.transform.position.z);
+		if(Vector2.Distance(pos1, pos2) > 0.5){
+			AI.transform.LookAt (AI.player.transform);
+		}
 		if (subState == 0) {
 			// Debug.Log ("000000000000");
 			 SubState0_2 ();
