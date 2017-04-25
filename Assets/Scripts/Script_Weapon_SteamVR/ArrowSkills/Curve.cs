@@ -20,10 +20,13 @@ public class Curve : MonoBehaviour {
 			//check state  for target
 			Debug.Log(GameState.instance.tutorialState +"TUTORIALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 			if(GameState.instance.tutorialState){
-				Debug.Log(GameState.instance.tutorialState +"Tageting tutorail AIIAIAIAAIAIAIAIAIAIAIA");
-				targetObj  = FindObjectOfType<TutorialAI>().gameObject;
-				target1 = targetObj.transform;
+				// Debug.Log(GameState.instance.tutorialState +"Tageting tutorail AIIAIAIAAIAIAIAIAIAIAIA");
+				// // targetObj  = FindObjectOfType<TutorialAI>().gameObject;
+				//  targetObj  = FindObjectOfType<StatePatternAI>().gameObject;
+				// target1 = targetObj.transform;
+				Destroy(gameObject);
 			}else if(GameState.instance.mainGame){
+				Debug.Log("gamestate instance");
 				targetObj = FindObjectOfType<StatePatternAI>().gameObject;
 				target1 = targetObj.transform;
 			}
@@ -55,8 +58,10 @@ public class Curve : MonoBehaviour {
 			P2 = target1.transform.position;
 			timeLerped += Time.deltaTime;
 			float t = timeLerped / timeToLerp;
+			// Debug.Log("target1 transform " + P2 + " target object" + target1.root.gameObject);
 			if (t >= 0 && t <= 1){
 				transform.position = (1-t)*(1-t)*P0 + 2*(1-t)*t*P1 + t*t*P2;
+				// Debug.Log("transform current pos" + transform.position);
 				transform.LookAt(target1.transform);
 			}
 		}else{
@@ -66,20 +71,12 @@ public class Curve : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
+		Debug.LogWarning("hit on triiger enter" + col.gameObject.name + "targetObj" + targetObj );
 		if(targetObj != null){
+			Debug.Log("target obj: " + targetObj.name + "transform " + target1.gameObject);
 			//check col 
 			//play hit
 			if(col.sharedMaterial == curveArrowMat){
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
-				Debug.Log("curve mat all good");
 				col.gameObject.SendMessageUpwards("ApplyDamage",damage, SendMessageOptions.DontRequireReceiver );
 				p.Play();
 				playHit.Play();

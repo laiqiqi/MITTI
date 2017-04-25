@@ -306,7 +306,7 @@ public class StatePatternAI: MonoBehaviour {
 		v = health/maxHealth;
 //		s = maxHealth/100f;
 		s -= 0.01f;
-		Debug.Log("ssssssssssssss"+s);
+		// Debug.Log("ssssssssssssss"+s);
 		if (s < 0f) {
 			s = 0;
 		}
