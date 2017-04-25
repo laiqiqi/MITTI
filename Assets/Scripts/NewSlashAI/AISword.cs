@@ -42,19 +42,19 @@ public class AISword : MonoBehaviour {
 			if (this.transform.position.y < 4f && this.transform.position.y > 1f && !isHitOther) {
 				RaycastHit hit;
 				if (Physics.Raycast (this.transform.position, this.transform.right, out hit, 10f)) {
-					print ("Ray    " + hit.transform.tag);
+					// print ("Ray    " + hit.transform.tag);
 					if (hit.transform.tag == "Floor") {
 						this.gameObject.layer = LayerMask.NameToLayer ("AISword");
 						this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
 					}
 				} else if (Physics.Raycast (this.transform.position, -this.transform.right, out hit, 10f)) {
-					print ("Ray    " + hit.transform.tag);
+					// print ("Ray    " + hit.transform.tag);
 					if (hit.transform.tag == "Floor") {
 						this.gameObject.layer = LayerMask.NameToLayer ("AISword");
 						this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
 					}
 				} else if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 3.1f)) {
-					print ("Ray    " + hit.transform.tag);
+					// print ("Ray    " + hit.transform.tag);
 					if (hit.transform.tag == "Floor") {
 						this.gameObject.layer = LayerMask.NameToLayer ("AISword");
 						this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");

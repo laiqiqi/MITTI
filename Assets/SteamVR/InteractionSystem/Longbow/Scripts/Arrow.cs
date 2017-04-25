@@ -202,6 +202,7 @@ namespace Valve.VR.InteractionSystem
 										{
 											collision.collider.gameObject.SendMessageUpwards( "FireExposure", gameObject, SendMessageOptions.DontRequireReceiver );
 											collision.collider.gameObject.SendMessageUpwards( "FireExposureDamage", 80f, SendMessageOptions.DontRequireReceiver );
+											Debug.Log("fire exposure on magnet");
 											hasSpreadFire = true;
 										}
 									}

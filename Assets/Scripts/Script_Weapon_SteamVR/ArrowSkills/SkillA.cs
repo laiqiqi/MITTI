@@ -6,7 +6,7 @@ namespace Valve.VR.InteractionSystem
 	public class SkillA : Skill {
 
 		// Use this for initialization
-		private TextMesh debugText;
+		// private TextMesh debugText;
 		public int cooldown;
 		public float chargeTime = 0.77f;
 		public bool charging = false; //if the arrow is charging
@@ -25,7 +25,7 @@ namespace Valve.VR.InteractionSystem
 		public ParticleSystem chargingAura;
 
 		void Start(){
-			debugText = GetComponentInChildren<TextMesh>();
+			// debugText = GetComponentInChildren<TextMesh>();
 			increaseGuage = IncreaseGuage();
 		}
 		public override void Uncharging(bool OnRelease){
@@ -131,7 +131,7 @@ namespace Valve.VR.InteractionSystem
 		}
 		public override int GetCoolDown(){return cooldown;}
 		void DebugText(float guage){
-			debugText.text = guage.ToString();
+			// debugText.text = guage.ToString();
 		}
 
 		public override string GetSkillType(){

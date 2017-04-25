@@ -49,7 +49,7 @@ public class DamageDetection : MonoBehaviour {
 	}
 
 	void FireExposureDamage(float dmg){
-		Debug.Log("appplr fire");
+		Debug.Log("Fire has been applied");
 		StartCoroutine(BurnDamage(dmg, 8f));
 	}
 	public void HitMagnetDmg(float dmg){

@@ -126,7 +126,7 @@ public class TutorialAI : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log(counter);
+		// Debug.Log(counter);
 	}
 
 	// void AutoTutorial(){

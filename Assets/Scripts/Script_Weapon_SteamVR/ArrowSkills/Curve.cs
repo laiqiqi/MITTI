@@ -11,13 +11,16 @@ public class Curve : MonoBehaviour {
 	public float timeToDeath = 2.5f;
 	private float timeLerped = 0.0f;
 	public PhysicMaterial curveArrowMat;
+	public ParticleSystem p;
 	public PlaySound playHit;
 	private Vector3 P0, P1, P2;
 	// Use this for initialization
 	void Start () {
 		if(GameState.instance != null && GameState.instance.tutorialState || GameState.instance.mainGame){
 			//check state  for target
+			Debug.Log(GameState.instance.tutorialState +"TUTORIALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 			if(GameState.instance.tutorialState){
+				Debug.Log(GameState.instance.tutorialState +"ININININI TUTORIALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
 				targetObj  = FindObjectOfType<TutorialAI>().gameObject;
 				target1 = targetObj.transform;
 			}else if(GameState.instance.mainGame){
@@ -37,6 +40,7 @@ public class Curve : MonoBehaviour {
 			}
 
 		}else{
+			Debug.Log("Fucking delete godamn it");
 			Destroy(gameObject);
 		}
 	}
@@ -55,6 +59,9 @@ public class Curve : MonoBehaviour {
 				transform.position = (1-t)*(1-t)*P0 + 2*(1-t)*t*P1 + t*t*P2;
 				transform.LookAt(target1.transform);
 			}
+		}else{
+			Debug.Log("Fucking delete godamn it");
+			Destroy(gameObject);
 		}
 	}
 
@@ -62,7 +69,19 @@ public class Curve : MonoBehaviour {
 		if(targetObj != null){
 			//check col 
 			//play hit
-			if(col.material == curveArrowMat){
+			if(col.sharedMaterial == curveArrowMat){
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				Debug.Log("curve mat all good");
+				col.gameObject.SendMessageUpwards("ApplyDamage",15f, SendMessageOptions.DontRequireReceiver );
+				p.Play();
 				playHit.Play();
 				Debug.Log(gameObject.transform.name + " hit object name: " + col.gameObject.name + " tag " + col.gameObject.tag );
 				TrailRenderer trail = gameObject.GetComponent<TrailRenderer>();

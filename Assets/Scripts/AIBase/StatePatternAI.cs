@@ -91,7 +91,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isParry = false;
 
 //		openingState.choice.AddRange(new AIState[]{prepareSlamState});
-		 openingState.choice.AddRange(new AIState[]{floatingState});
+		 openingState.choice.AddRange(new AIState[]{stopState});
 		AIStateFlow.Add(openingState, openingState.choice);
 		openingState.stateDelay = 0;
 
@@ -303,7 +303,8 @@ public class StatePatternAI: MonoBehaviour {
 		Color.RGBToHSV (ps.startColor, out h, out s, out v);
 		v = health/maxHealth;
 //		s = maxHealth/100f;
-		s -= 0.01f;
+		s -= 0.003f;
+		Debug.Log("ssssssssssssss"+s);
 		if (s < 0f) {
 			s = 0;
 		}

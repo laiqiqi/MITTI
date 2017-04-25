@@ -41,7 +41,7 @@ public class AICube : MonoBehaviour {
 			state = -1;
 		} else if (state == 6) {
 			//effect in
-			Debug.Log ("effect in");
+			// Debug.Log ("effect in");
 			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
 				p.loop = true;
 				//				p.Play();
@@ -108,7 +108,8 @@ public class AICube : MonoBehaviour {
 	
 	void FireExposureDamage(float dmg)
 		{
-			AIFire.gameObject.SendMessage( "FireExposureDamage", dmg, SendMessageOptions.DontRequireReceiver );
+			Debug.Log("Fire exposure on ai cube");
+			AIDamage.gameObject.SendMessage( "FireExposureDamage", dmg, SendMessageOptions.DontRequireReceiver );
 		}
 		
 }
