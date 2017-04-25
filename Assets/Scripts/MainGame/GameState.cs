@@ -14,7 +14,7 @@ public class GameState : MonoBehaviour {
 	public Material skyboxChaos;
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
-	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth, isWaitDie;
+	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth, isWaitDie, BGMplay;
 	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer, mainBGM;
 	public GameObject dieSound;
 	public GameObject sceneDestroyer, sceneProps;
@@ -42,6 +42,7 @@ public class GameState : MonoBehaviour {
 		mainGame = false;
 		end = false;
 		isFallingPlay = false;
+		BGMplay = false;
 		isNearFallPlay = false;
 		isDestroyAI = false;
 		isPlayEarth = false;
@@ -65,8 +66,11 @@ public class GameState : MonoBehaviour {
 			TutorialState();
 		}
 		if(AIOpen) {
-			AIOpening();
+			if(!BGMplay){
 			PlayMainBGM();
+			BGMplay = true;
+			}
+			AIOpening();
 		}
 		if(afterAIOpen) {
 			AfterAIOpening();
@@ -99,7 +103,10 @@ public class GameState : MonoBehaviour {
 		}
 
 		if(end) {
-			StopMainBGM();
+			if(BGMplay){
+				StopMainBGM();
+				BGMplay = false;
+			}
 			Debug.Log("End");
 			if(!isDestroyAI){
 				Player.instance.GetComponent<Rigidbody>().useGravity = false;
@@ -122,12 +129,15 @@ public class GameState : MonoBehaviour {
 	}
 	void PlayMainBGM(){
 		mainBGM.Play();
+		Debug.LogWarning("Main bgm is playing");
 	}
 	void StopMainBGM(){
 		mainBGM.Stop();
 	}
 	void TutorialState(){
+		Debug.Log(tutorAI.GetComponent<TutorialAI>().isEndTutor);
 		if(tutorAI.GetComponent<TutorialAI>().isEndTutor && !isFallingPlay){
+			Debug.Log("Destryo tutorenvi");
 			Destroy(tutorEnvi.gameObject);
 			fallingWindSoundPlayer.Play();
 			isFallingPlay = true;

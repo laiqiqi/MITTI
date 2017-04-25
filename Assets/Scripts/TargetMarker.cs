@@ -22,4 +22,8 @@ public class TargetMarker : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 	}
+
+	void OnDestroy() {
+        print("Script was destroyed");
+    }
 }
