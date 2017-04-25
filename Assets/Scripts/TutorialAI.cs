@@ -7,11 +7,12 @@ using Valve.VR.InteractionSystem;
 public class TutorialAI : MonoBehaviour {
 
 	public float frequency, magnitude;
-	public bool isEndTutor, isTutor;
+	public bool isEndTutor, isTutor, isUpdateText, isHitTarget, isCreateTarget;
 	public GameObject canvas;
 	public Text text;
 	public PlaySound canvasSoundPlayer, windTutorSound, tutorBGM;
 	public GameObject[] minions;
+	public GameObject nextArrow, backArrow;
 	public GameObject frontPic, rightPic;
 
 	private string[] talkScript;
@@ -21,11 +22,13 @@ public class TutorialAI : MonoBehaviour {
 	public int hitCounter;
 	public Sprite[] viveButtons;
 
+	public GameObject queryChan;
+	public GameObject dashTarget;
+
 	// Use this for initialization
 	void Start () {
 		counter = -1;
 		nextScriptIndex = counter+1;
-		counter++;
 
 		talkScript = new string[]{"Hello, Arcane transmutor.", //0
 								"Shoot me with the arrow, if this is not the first time.", //1
@@ -36,7 +39,7 @@ public class TutorialAI : MonoBehaviour {
 								"Now you know how to evade.", //6
 								"Try pick up a bow from your back.", //7
 								"Press a trigger button when your controller is at your back.", //8
-								"Now shoot at the minions. Put arrow at the bow and hold trigger.", //9
+								"Shoot at the arrow to proceed. Put arrow at the bow and hold trigger.", //9
 								"Good job, you can choose skills by touching the left touch pad.", //10
 								"Skilled-arrow must be fully charged to shoot", //11
 								"They have cooldown time. Be aware of it.", //12
@@ -57,11 +60,15 @@ public class TutorialAI : MonoBehaviour {
 
 		isEndTutor = false;
 		isTutor = false;
+		isUpdateText = false;
+		isHitTarget = false;
 
 		color = this.GetComponent<Renderer>().material.GetColor("_Color");
 
 		canvasAnimator = canvas.GetComponent<Animator>();
 		textAnimator = text.GetComponent<Animator>();
+
+		NextTalkScript();
 	}
 	
 	// Update is called once per frame
@@ -70,6 +77,7 @@ public class TutorialAI : MonoBehaviour {
 		MoveUpDown();
 		LookAtPlayer();
 
+		// AutoTutorial();
 		Tutorial();
 
 		FadeOut();
@@ -78,49 +86,93 @@ public class TutorialAI : MonoBehaviour {
 	}
 
 	void Tutorial(){
-
 		// Tutorial Start!!!
-		if(counter == nextScriptIndex && !isEndTutor){
-			if (counter == 0) {
-				// wait for <--- sec to go to ^ index
-				StartCoroutine(CountDown(0f));
-			}
-			else if (counter == 2) {
-				StartCoroutine(CountDown(10f));
-			}
-			else if (counter == 3) {
-				isTutor = true;
-				StartCoroutine(CountDown(5f)); 
-			}
-			else if (counter == 10) {
-				foreach (GameObject minion in minions) {
-					minion.SetActive(true);
+		if(counter < talkScript.Length && !isEndTutor){
+			if (!isUpdateText) {
+				// Debug.Log("isTutor "+isTutor);
+				if (counter == 1) {
+					//Wait for down sec to next
+					StartCoroutine(CountDown(10f));
 				}
-				if(hitCounter >= 2){
-					StartCoroutine(CountDown(0f)); // teach arrow
+				else if (counter == 2) {
+					isTutor = true;
+					StartCoroutine(CountDown(10f));
 				}
-			}
-			else if (counter == talkScript.Length-1) {
-				StartCoroutine(CountDown(7f)); // last time
-			}
-			else{
-				StartCoroutine(CountDown(5f)); // others time
+				else if (counter == 3) {
+					StartCoroutine(CountDown(5f));
+				}
+				else if (counter < 5) {
+					StartCoroutine(CountDown(5f));
+				}
+				else if (counter == 5) {
+					if(!isCreateTarget){
+						dashTarget.SetActive(true);
+						isCreateTarget = true;
+					}
+					if(isHitTarget){
+						Debug.Log("Hit target");
+						StartCoroutine(CountDown(0f));
+					}
+				}
+				else if (counter == 6 || counter == 7 || counter == 8) {
+					Debug.Log("In 6 7 8");
+					StartCoroutine(CountDown(5f));
+				}
+				else if(counter == 9) {
+					nextArrow.SetActive(true);
+					backArrow.SetActive(false);
+				}
+				else if(counter == 10) {
+					backArrow.SetActive(true);
+				}
 			}
 		}
-
-		if(counter == 10 && hitCounter >= 2){
-			StartCoroutine(CountDown(0f));
-			hitCounter = 0;
-		}
-		nextScriptIndex = counter+1;
+		Debug.Log(counter);
 	}
+
+	// void AutoTutorial(){
+	// 	// Tutorial Start!!!
+	// 	if(counter == nextScriptIndex && !isEndTutor){
+	// 		if (counter == 0) {
+	// 			// wait for <--- sec to go to ^ index
+	// 			StartCoroutine(CountDown(0f));
+	// 		}
+	// 		else if (counter == 2) {
+	// 			StartCoroutine(CountDown(10f));
+	// 		}
+	// 		else if (counter == 3) {
+	// 			isTutor = true;
+	// 			StartCoroutine(CountDown(5f)); 
+	// 		}
+	// 		else if (counter == 10) {
+	// 			foreach (GameObject minion in minions) {
+	// 				minion.SetActive(true);
+	// 			}
+	// 			if(hitCounter >= 2){
+	// 				StartCoroutine(CountDown(0f)); // teach arrow
+	// 			}
+	// 		}
+	// 		else if (counter == talkScript.Length-1) {
+	// 			StartCoroutine(CountDown(7f)); // last time
+	// 		}
+	// 		else{
+	// 			StartCoroutine(CountDown(5f)); // others time
+	// 		}
+	// 	}
+
+	// 	if(counter == 10 && hitCounter >= 2){
+	// 		StartCoroutine(CountDown(0f));
+	// 		hitCounter = 0;
+	// 	}
+	// 	nextScriptIndex = counter+1;
+	// }
 
 	void TutorPicControl() {
 		if(counter == 5){
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
 			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
 		}
-		if(counter == 8){
+		if(counter == 7){
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
 			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
 		}
@@ -140,13 +192,14 @@ public class TutorialAI : MonoBehaviour {
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
 			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
 		}
-
 	}
 
 	IEnumerator CountDown(float sec){
+		isUpdateText = true;
+
 		yield return new WaitForSeconds(sec);
 
-		if(counter == talkScript.Length){
+		if(counter+1 == talkScript.Length){
 			isEndTutor = true;
 		}
 
@@ -155,10 +208,20 @@ public class TutorialAI : MonoBehaviour {
 		}
 	}
 
+	// IEnumerator WaitAndNextTalk(float sec){
+	// 	isWaitToTalk = true;
+	// 	if(counter+1 == talkScript.Length){
+	// 		isEndTutor = true;
+	// 	}
+	// 	yield return new WaitForSeconds(sec);
+	// 	counter++;
+	// }
+
 	void NextTalkScript(){
+		counter++;
 		UpdateText(talkScript[counter]);
 		TutorPicControl();
-		counter++;
+		isUpdateText = false;
 	}
 
 	void MoveUpDown() {
@@ -166,6 +229,7 @@ public class TutorialAI : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
+		Debug.Log(isTutor);
 		if (col.tag.Equals("projectile") && !isTutor) {
 			isEndTutor = true;
 		}
@@ -208,5 +272,24 @@ public class TutorialAI : MonoBehaviour {
 
 		canvasAnimator.SetBool("isStartPopUp", false);
 		textAnimator.SetBool("isStartPopUp", false);
+	}
+
+	public void Next () {
+		if(counter+1 < talkScript.Length){
+			counter++;
+			UpdateText(talkScript[counter]);
+			TutorPicControl();
+		}
+		else{
+			isEndTutor = true;
+		}
+	}
+
+	public void Back () {
+		if(counter-1 > 0){
+			counter--;
+			UpdateText(talkScript[counter]);
+			TutorPicControl();
+		}
 	}
 }

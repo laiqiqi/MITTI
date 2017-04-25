@@ -44,7 +44,7 @@ public class SlamCircle : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col){
 		// Debug.Log("Hit Collider"+col);
-		if(col.tag.Equals("Sword") || col.tag.Equals("projectile")){
+		if(col.tag.Equals("playersword") || col.tag.Equals("projectile")){
 			Debug.Log("HitSlamCircle");
 			circle.GetComponent<Renderer>().material.SetColor("_TintColor", hitColor);
 			health -= 50f;

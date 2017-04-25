@@ -140,12 +140,12 @@ public class StatePatternAI: MonoBehaviour {
 		// floatingState.StartState();
 //		openingState.StartState();
 		// swordSlashingAIState.StartState();
-		floatingState.StartState();
+		// floatingState.StartState();
 		// seekState.StartState();
 		// stompState.StartState();
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
-		// stopState.StartState();
+		stopState.StartState();
 	}
 	
 	// Update is called once per frame
