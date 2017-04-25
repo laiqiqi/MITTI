@@ -10,6 +10,7 @@ public class PrepareDigStrikeState : AIState {
     private float seekTime;
 	public string name{ get; }
     public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
     private bool isDownSoundPlay;
 
     public PrepareDigStrikeState(StatePatternAI statePatternAI){

@@ -7,6 +7,7 @@ public class ParryAIState : AIState {
 	public string name{ get;}
 	private float timeCount;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public ParryAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;

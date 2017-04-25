@@ -10,6 +10,7 @@ public class DeadState : AIState {
 	private List<GameObject> cubes;
 	private float radius;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 	private GameObject initialCube;
 	private int numCube = 20;
 	private Vector3 upPos;

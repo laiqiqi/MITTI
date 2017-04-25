@@ -11,6 +11,7 @@ public class DamageDetection : MonoBehaviour {
 	void Start () {
 		startHealth = maxHealth;
 		StatePatternAI.instance.health = startHealth;
+		StatePatternAI.instance.maxHealth = maxHealth;
 		// maxhealth = StatePatternAI.instance.health;
 		// slider = GameObject.Find("Canvas/Slider").GetComponent<Slider>();
 	}
@@ -29,6 +30,7 @@ public class DamageDetection : MonoBehaviour {
 			startHealth -= dmg;
 		} 
 		StatePatternAI.instance.health = startHealth;
+		StatePatternAI.instance.ChangeColorByDamage ();
 		// if(startHealth - dmg <= 0) {
 		// 	 startHealth = maxHealth;
 		// }else{

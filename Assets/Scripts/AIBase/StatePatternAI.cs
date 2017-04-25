@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class StatePatternAI: MonoBehaviour {
 	public float health;
+	public float maxHealth;
 	// public Transform target;
 	public float speed;
 	public float agile;
@@ -89,51 +90,65 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		openingState.choice.AddRange(new AIState[]{prepareSlamState});
-		// openingState.choice.AddRange(new AIState[]{deadState});
+//		openingState.choice.AddRange(new AIState[]{prepareSlamState});
+		 openingState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(openingState, openingState.choice);
+		openingState.stateDelay = 0;
 
 		seekState.choice.AddRange(new AIState[]{stompState});
 		AIStateFlow.Add(seekState, seekState.choice);
+		seekState.stateDelay = 0;
 
 		stompState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(stompState, stompState.choice);
+		stompState.stateDelay = 0;
 
 		prepareDigStrikeState.choice.AddRange(new AIState[]{digStrikeState});
 		AIStateFlow.Add(prepareDigStrikeState, prepareDigStrikeState.choice);
+		prepareDigStrikeState.stateDelay = 0;
 
 		digStrikeState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(digStrikeState, digStrikeState.choice);
+		digStrikeState.stateDelay = 0;
 
 		prepareSlamState.choice.AddRange(new AIState[]{slamState});
 		AIStateFlow.Add(prepareSlamState, prepareSlamState.choice);
+		prepareSlamState.stateDelay = 0;
 
 		slamState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(slamState, slamState.choice);
+		slamState.stateDelay = 0;
 
 		escapeState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(escapeState, escapeState.choice);
+		escapeState.stateDelay = 0;
 
 		stopState.choice.AddRange(new AIState[]{});
 		AIStateFlow.Add(stopState, stopState.choice);
+		stopState.stateDelay = 0;
 
 		stunState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(stunState, stunState.choice);
+		stunState.stateDelay = 0;
 
 		swordSlashingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordSlashingAIState, swordSlashingAIState.choice);
+		swordSlashingAIState.stateDelay = 0;
 
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
+		swordShootingAIState.stateDelay = 0;
 
-		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
-		 											, seekState, prepareDigStrikeState, swordShootingAIState});
+//		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
+//		 											, seekState, prepareDigStrikeState, swordShootingAIState});
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
-//		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
+		floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
 		AIStateFlow.Add(floatingState, floatingState.choice);
+		floatingState.stateDelay = 0;
 
 		shootUltiState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(shootUltiState, shootUltiState.choice);
+		shootUltiState.stateDelay = 0;
 
 		// foreach(AIState state in AIStateFlow.Keys){
 		// 	Debug.Log(state);
@@ -141,8 +156,8 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		shootUltiState.StartState ();
-		// floatingState.StartState();
-//		openingState.StartState();
+//		floatingState.StartState();
+		openingState.StartState();
 //		deadState.StartState();
 		// swordSlashingAIState.StartState();
 		// floatingState.StartState();
@@ -151,9 +166,10 @@ public class StatePatternAI: MonoBehaviour {
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
 
-		stopState.StartState();
+//		stopState.StartState();
 
 //		stopState.StartState();
+//		ChangeColorAI();
 	}
 	
 	// Update is called once per frame
@@ -161,7 +177,8 @@ public class StatePatternAI: MonoBehaviour {
 		// KeyboardController();
 //		Debug.Log(currentState);
 		currentState.UpdateState();
-		// Debug.LogWarning (AIStateFlow[floatingState].Count);
+//		 Debug.LogWarning (AIStateFlow[floatingState].Count);
+		ChangeColorAI();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
@@ -215,7 +232,18 @@ public class StatePatternAI: MonoBehaviour {
 		// Debug.Log(currentState == awokenState);
 		// Debug.Log(AIStateFlow[currentState].Count);
 		// if(health <= )
-		if(AIStateFlow[currentState].Count == 1){
+		if(currentState == floatingState){
+			if (AIStateFlow [currentState].Count > 0) {
+				int randomInt = Random.Range (0, AIStateFlow [currentState].Count);
+				AIState randState = AIStateFlow [currentState] [randomInt];
+				//			StartCoroutine (CooldownForState(100f, randState));
+				if (randState != floatingState) {
+					randState.StartState ();
+					StartCoroutine (CooldownForState (randState.stateDelay, randState));
+					AIStateFlow [floatingState].Remove (randState);
+				}
+			}
+		}else if(AIStateFlow[currentState].Count == 1){
 //			Debug.Log("Next1");
 			Debug.Log(AIStateFlow[currentState][0]);
 			AIStateFlow[currentState][0].StartState();
@@ -267,5 +295,29 @@ public class StatePatternAI: MonoBehaviour {
 //		floatingState.choice.Add (state);
 		AIStateFlow[floatingState].Add(state);
 
+	}
+
+	void ChangeColorAI(){
+		GameObject fog = body.transform.GetChild (0).transform.GetChild (2).gameObject;
+		ParticleSystem ps = fog.GetComponent<ParticleSystem>();
+		float h, s, v;
+		Color.RGBToHSV (ps.startColor, out h, out s, out v);
+		v = health/maxHealth;
+//		s = maxHealth/100f;
+		s -= 0.01f;
+		if (s < 0f) {
+			s = 0;
+		}
+		ps.startColor = Color.HSVToRGB (h, s, v);
+
+	}
+
+	public void ChangeColorByDamage(){
+		GameObject fog = body.transform.GetChild (0).transform.GetChild (2).gameObject;
+		ParticleSystem ps = fog.GetComponent<ParticleSystem>();
+		float h, s, v;
+		Color.RGBToHSV (ps.startColor, out h, out s, out v);
+		s = 1;
+		ps.startColor = Color.HSVToRGB (h, s, v);
 	}
 }

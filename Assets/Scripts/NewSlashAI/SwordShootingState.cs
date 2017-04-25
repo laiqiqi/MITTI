@@ -15,6 +15,7 @@ public class SwordShootingAIState : AIState {
 	private float timeToShoot;
 	private float delayToShoot;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public SwordShootingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

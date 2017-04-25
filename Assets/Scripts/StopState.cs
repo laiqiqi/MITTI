@@ -6,6 +6,7 @@ public class StopState : AIState {
 	private readonly StatePatternAI enemy;
 	public string name{ get;}
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public StopState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;

@@ -11,6 +11,7 @@ public class ShootUltiState : AIState {
 	private float timeToShoot;
 	private float timeCount;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 	private GameObject Ulti;
 
 	public ShootUltiState(StatePatternAI statePatternAI){

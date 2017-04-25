@@ -10,6 +10,7 @@ public class StompState : AIState {
     private bool isCreateDirt, isPassVertex, isPlayStomping;
 	public string name{ get;}
     public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
     public StompState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

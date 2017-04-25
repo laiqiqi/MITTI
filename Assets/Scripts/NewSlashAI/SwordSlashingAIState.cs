@@ -24,6 +24,7 @@ public class SwordSlashingAIState : AIState {
 	private Vector3 AIRandomForward;
 	private float timeToStop;
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public SwordSlashingAIState(StatePatternAI statePatternAI){
 		AI = statePatternAI;

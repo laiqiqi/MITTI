@@ -6,6 +6,7 @@ public class ShootAIState : AIState {
 	private readonly StatePatternAI enemy;
 	public string name{ get;}
 	public List<AIState> choice{ get;set; }
+	public float stateDelay{ get;set;}
 
 	public ShootAIState(StatePatternAI statePatternAI){
 		enemy = statePatternAI;
