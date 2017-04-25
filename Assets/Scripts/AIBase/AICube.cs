@@ -95,10 +95,10 @@ public class AICube : MonoBehaviour {
 		// this.effect.GetComponent<PSMeshRendererUpdater> ().UpdateMeshEffect ();
 	}
 
-	void ApplyDamage(float dmg){
-		Debug.Log(" Bow arrow collision enter " + gameObject.name);
-		AIDamage.HitMagnetDmg(dmg);
-	}
+	// void ApplyDamage(float dmg){
+	// 	Debug.Log(" Bow arrow collision enter " + gameObject.name);
+	// 	AIDamage.HitMagnetDmg(dmg);
+	// }
 
 	private void FireExposure()
 		{

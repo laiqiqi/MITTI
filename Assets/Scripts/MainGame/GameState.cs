@@ -16,6 +16,18 @@ public class GameState : MonoBehaviour {
 	public GameObject playerTransFilter;
 
 	// Use this for initialization
+	private static GameState _instance;
+		public static GameState instance
+		{
+			get
+			{
+				if ( _instance == null )
+				{
+					_instance = FindObjectOfType<GameState>();
+				}
+				return _instance;
+			}
+		}
 	void Start () {
 		tutorialState = true;
 		AIOpen = false;
@@ -27,6 +39,9 @@ public class GameState : MonoBehaviour {
 		isDestroyAI = false;
 		Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), sceneDestroyer.GetComponent<Collider>());
 		Physics.IgnoreLayerCollision(10, 9);
+	}
+	void OnEnable(){
+		_instance = this;
 	}
 	
 	// Update is called once per frame

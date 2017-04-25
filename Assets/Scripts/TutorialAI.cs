@@ -73,7 +73,6 @@ public class TutorialAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 		MoveUpDown();
 		LookAtPlayer();
 

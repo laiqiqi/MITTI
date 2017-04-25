@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class PlayerRigidController : MonoBehaviour {
 	// Use this for initialization
 	public GameObject metalHitFX;
 
 	void Start () {
-		
+		Physics.IgnoreCollision( GetComponent<BoxCollider>(), Player.instance.headCollider );
+		Physics.IgnoreCollision( GetComponent<BoxCollider>(), Player.instance.bodyCollider );
 	}
 
 	void OnCollisionEnter(Collision col){
