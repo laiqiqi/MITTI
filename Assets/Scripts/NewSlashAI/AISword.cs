@@ -43,19 +43,19 @@ public class AISword : MonoBehaviour {
 				RaycastHit hit;
 				if (Physics.Raycast (this.transform.position, this.transform.right, out hit, 10f)) {
 					print ("Ray    " + hit.transform.tag);
-					if (hit.transform.tag == "Ground") {
+					if (hit.transform.tag == "Floor") {
 						this.gameObject.layer = LayerMask.NameToLayer ("AISword");
 						this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
 					}
 				} else if (Physics.Raycast (this.transform.position, -this.transform.right, out hit, 10f)) {
 					print ("Ray    " + hit.transform.tag);
-					if (hit.transform.tag == "Ground") {
+					if (hit.transform.tag == "Floor") {
 						this.gameObject.layer = LayerMask.NameToLayer ("AISword");
 						this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
 					}
 				} else if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 3.1f)) {
 					print ("Ray    " + hit.transform.tag);
-					if (hit.transform.tag == "Ground") {
+					if (hit.transform.tag == "Floor") {
 						this.gameObject.layer = LayerMask.NameToLayer ("AISword");
 						this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
 					}
@@ -68,7 +68,7 @@ public class AISword : MonoBehaviour {
 //			RaycastHit hit;
 //			if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 3.1f)) {
 //				print ("Ray    " + hit.transform.tag);
-//				if (hit.transform.tag == "Ground") {
+//				if (hit.transform.tag == "Floor") {
 //			this.gameObject.layer = LayerMask.NameToLayer ("AISword");
 //			this.transform.GetChild (0).gameObject.layer = LayerMask.NameToLayer ("AISword");
 
@@ -186,10 +186,10 @@ public class AISword : MonoBehaviour {
 			if (state == 3 || state == 0) {
 				windSound.Stop ();
 				isHide = true;
-				if (other.transform.tag == "Ground") {
+				if (other.transform.tag == "Floor") {
 					RaycastHit hit;
 					if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 5f)) {
-						if (hit.transform.tag == "Ground") {
+						if (hit.transform.tag == "Floor") {
 							Debug.Log ("Sword 44444");
 							state = 4;
 							this.transform.position += -this.transform.forward * 2;
