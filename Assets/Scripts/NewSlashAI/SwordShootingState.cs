@@ -125,7 +125,7 @@ public class SwordShootingAIState : AIState {
 				foreach (GameObject sword in swordList) {
 					sword.transform.LookAt (2 * sword.transform.position - AI.player.transform.position);	
 				}
-				Debug.Log ("arrayyyy");
+				// Debug.Log ("arrayyyy");
 				if (timeToShoot > delayToShoot) {
 					Debug.Log ("shoot");
 					int randomIndex = Random.Range (0, swordList.Count);

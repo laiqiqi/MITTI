@@ -213,7 +213,7 @@ namespace Valve.VR.InteractionSystem
 										part.gameObject.transform.position = collision.contacts[0].point;
 										part.Play();
 									}
-									collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage/2, SendMessageOptions.DontRequireReceiver );
+									collision.collider.gameObject.SendMessageUpwards( "ApplyDamage", damage/2f, SendMessageOptions.DontRequireReceiver );
 								}
 								
 								

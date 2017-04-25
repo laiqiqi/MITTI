@@ -15,7 +15,7 @@ public class Curve : MonoBehaviour {
 	private Vector3 P0, P1, P2;
 	// Use this for initialization
 	void Start () {
-		if(GameState.instance.tutorialState || GameState.instance.mainGame){
+		if(GameState.instance != null && GameState.instance.tutorialState || GameState.instance.mainGame){
 			//check state  for target
 			if(GameState.instance.tutorialState){
 				targetObj  = FindObjectOfType<TutorialAI>().gameObject;
