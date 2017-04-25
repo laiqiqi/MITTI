@@ -89,8 +89,8 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		openingState.choice.AddRange(new AIState[]{prepareSlamState});
-		// openingState.choice.AddRange(new AIState[]{deadState});
+//		openingState.choice.AddRange(new AIState[]{prepareSlamState});
+		 openingState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
 		seekState.choice.AddRange(new AIState[]{stompState});
@@ -126,10 +126,10 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 
-		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
-		 											, seekState, prepareDigStrikeState, swordShootingAIState});
+//		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
+//		 											, seekState, prepareDigStrikeState, swordShootingAIState});
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
-//		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
+		floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
 		AIStateFlow.Add(floatingState, floatingState.choice);
 
 		shootUltiState.choice.AddRange(new AIState[]{floatingState});
@@ -141,8 +141,8 @@ public class StatePatternAI: MonoBehaviour {
 
 
 //		shootUltiState.StartState ();
-		// floatingState.StartState();
-//		openingState.StartState();
+//		floatingState.StartState();
+		openingState.StartState();
 //		deadState.StartState();
 		// swordSlashingAIState.StartState();
 		// floatingState.StartState();
@@ -151,7 +151,7 @@ public class StatePatternAI: MonoBehaviour {
 		// prepareDigStrikeState.StartState();
 		// prepareSlamState.StartState();
 
-		stopState.StartState();
+//		stopState.StartState();
 
 //		stopState.StartState();
 	}
@@ -161,7 +161,7 @@ public class StatePatternAI: MonoBehaviour {
 		// KeyboardController();
 //		Debug.Log(currentState);
 		currentState.UpdateState();
-		// Debug.LogWarning (AIStateFlow[floatingState].Count);
+		 Debug.LogWarning (AIStateFlow[floatingState].Count);
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
@@ -215,7 +215,18 @@ public class StatePatternAI: MonoBehaviour {
 		// Debug.Log(currentState == awokenState);
 		// Debug.Log(AIStateFlow[currentState].Count);
 		// if(health <= )
-		if(AIStateFlow[currentState].Count == 1){
+		if(currentState == floatingState){
+			if (AIStateFlow [currentState].Count > 0) {
+				int randomInt = Random.Range (0, AIStateFlow [currentState].Count);
+				AIState randState = AIStateFlow [currentState] [randomInt];
+				//			StartCoroutine (CooldownForState(100f, randState));
+				if (randState != floatingState) {
+					randState.StartState ();
+					StartCoroutine (CooldownForState (20f, randState));
+					AIStateFlow [floatingState].Remove (randState);
+				}
+			}
+		}else if(AIStateFlow[currentState].Count == 1){
 //			Debug.Log("Next1");
 			Debug.Log(AIStateFlow[currentState][0]);
 			AIStateFlow[currentState][0].StartState();
@@ -267,4 +278,6 @@ public class StatePatternAI: MonoBehaviour {
 		AIStateFlow[floatingState].Add(state);
 
 	}
+
+
 }
