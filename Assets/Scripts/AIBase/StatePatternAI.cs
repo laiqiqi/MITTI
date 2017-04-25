@@ -89,8 +89,8 @@ public class StatePatternAI: MonoBehaviour {
 //		isHit = false;
 //		isParry = false;
 
-		// openingState.choice.AddRange(new AIState[]{prepareSlamState});
-		openingState.choice.AddRange(new AIState[]{deadState});
+		openingState.choice.AddRange(new AIState[]{prepareSlamState});
+		// openingState.choice.AddRange(new AIState[]{deadState});
 		AIStateFlow.Add(openingState, openingState.choice);
 
 		seekState.choice.AddRange(new AIState[]{stompState});
@@ -161,7 +161,7 @@ public class StatePatternAI: MonoBehaviour {
 		// KeyboardController();
 //		Debug.Log(currentState);
 		currentState.UpdateState();
-		Debug.LogWarning (AIStateFlow[floatingState].Count);
+		// Debug.LogWarning (AIStateFlow[floatingState].Count);
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
