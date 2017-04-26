@@ -114,6 +114,7 @@ public class GameState : MonoBehaviour {
 				RenderSettings.ambientIntensity = 5f;
 				skyboxNorm.SetFloat("_Exposure", 8f);
 				Player.instance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+				Player.instance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 				Player.instance.GetComponent<Rigidbody>().useGravity = false;
 				Player.instance.GetComponent<Rigidbody>().isKinematic = true;
 				RenderSettings.skybox = skyboxNorm;
@@ -169,7 +170,7 @@ public class GameState : MonoBehaviour {
 				isPlayEarth = true;
 			}
 			Player.instance.GetComponent<Rigidbody>().isKinematic = true;
-			Player.instance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY;
+			Player.instance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 			
 			tutorialState = false;
 			AIOpen = true;

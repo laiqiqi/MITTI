@@ -19,17 +19,17 @@ public class AIBodyCollision : MonoBehaviour {
 		// AI.bodyColInfo = col;
 		if(AI.currentState == AI.slamState){
 			if(col.tag == "Player"){
-				if(hitPos == null){
-					hitPos = new GameObject();
-					hitPos.name = "HitPos";
-					hitPos.transform.position = player.transform.position;
-					hitPos.transform.SetParent(AI.transform);
-				}
+				// if(hitPos == null){
+				// 	hitPos = new GameObject();
+				// 	hitPos.name = "HitPos";
+				// 	hitPos.transform.position = player.transform.position;
+				// 	hitPos.transform.SetParent(AI.transform);
+				// }
 
-				player.GetComponent<PlayerStat>().health -= 2f;
+				player.GetComponent<PlayerStat>().PlayerTakeDamage(40f);
 				player.GetComponent<PlayerStat>().isHitSlam = true;
 				player.GetComponent<Rigidbody>().isKinematic = false;
-				player.GetComponent<Rigidbody>().AddForce(AI.transform.forward*5f + AI.transform.right*Random.Range(-5f, 5f));
+				player.GetComponent<Rigidbody>().AddForce(AI.transform.forward*5f + AI.transform.right*Random.Range(-5, 5f), ForceMode.Impulse);
 			}
 		}
 		else{

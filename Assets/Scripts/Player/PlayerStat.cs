@@ -9,10 +9,10 @@ public class PlayerStat : MonoBehaviour {
 	public float staRegenRate, healthRegenRate;
 
 	public float maxHealth;
-	[HideInInspector] public float health;
+	public float health;
 
 //--------------------Player Status--------------------------
-	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage, isHeal, isDead;
+	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage, isHeal, isDead, isWaitToKine;
 //-----------------------------------------------------------
 	void Start () {
 		isDead = false;
@@ -35,6 +35,19 @@ public class PlayerStat : MonoBehaviour {
 		}
 		RegenStamina(staRegenRate);
 		// RegenHealth(healthRegenRate);
+
+		if (isHitSlam) {
+			if(!isWaitToKine){
+				isWaitToKine = true;
+				StartCoroutine(WaitThreeSec());
+			}
+		}
+	}
+
+	IEnumerator WaitThreeSec() {
+		yield return new WaitForSeconds(3f);
+		GetComponent<Rigidbody>().isKinematic = true;
+		isHitSlam = false;
 	}
 
 	void RegenStamina(float rate){
