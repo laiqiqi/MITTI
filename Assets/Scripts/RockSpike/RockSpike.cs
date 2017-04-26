@@ -45,11 +45,10 @@ public class RockSpike : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision col) {
-		if(col.collider.tag == "Player" && isHit == false){
+	void OnTriggerEnter(Collider col) {
+		if(col.tag.Equals("Player") && !isHit){
 			isHit = true;
-			Debug.Log(col.collider.tag);
-			Player.instance.GetComponent<PlayerStat>().health -= 10f;
+			Player.instance.GetComponent<PlayerStat>().PlayerTakeDamage(20f);
 		}
 	}
 

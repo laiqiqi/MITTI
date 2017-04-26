@@ -40,12 +40,19 @@ public class RockBlast : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter (Collision col) {
-		// Debug.Log(col.collider.tag);
-		if(col.collider.tag == "Player" && !isHit && isHasDamage){
+	// void OnCollisionEnter (Collision col) {
+	// 	// Debug.Log(col.collider.tag);
+	// 	if(col.collider.tag == "Player" && !isHit && isHasDamage){
+	// 		isHit = true;
+	// 		Debug.Log(col.collider.tag);
+	// 		Player.instance.GetComponent<PlayerStat>().health -= 50f;
+	// 	}
+	// }
+
+	void OnTriggerEnter (Collider col)  {
+		if(col.tag.Equals("Player") && !isHit && isHasDamage){
 			isHit = true;
-			Debug.Log(col.collider.tag);
-			Player.instance.GetComponent<PlayerStat>().health -= 50f;
+			Player.instance.GetComponent<PlayerStat>().PlayerTakeDamage(50f);
 		}
 	}
 

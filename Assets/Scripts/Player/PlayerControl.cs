@@ -20,7 +20,7 @@ namespace Valve.VR.InteractionSystem
 		public float rate, limit;
 		[HideInInspector] public Collision colInfo;
 		void Start () {
-			timer = 2f;
+			timer = 3f;
 			counter = 0f;
 			isIncre = false;
 			isDash = false;
@@ -70,7 +70,7 @@ namespace Valve.VR.InteractionSystem
 			if (playerStat.stamina >= 50f && isDashable) {
 				GetComponent<Rigidbody>().isKinematic = false;
 				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				Vector3 direction = new Vector3(VRCam.transform.right.x * 10f, 0f, VRCam.transform.right.z * 10f);
+				Vector3 direction = new Vector3(VRCam.transform.right.x * 5f, 0f, VRCam.transform.right.z * 5f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;

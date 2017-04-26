@@ -139,10 +139,18 @@ public class StatePatternAI: MonoBehaviour {
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 		swordShootingAIState.stateDelay = 0;
 
+
+		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
+		//  											, seekState, prepareDigStrikeState, swordShootingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
+		// floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
+
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
 //		 											, seekState, prepareDigStrikeState, swordShootingAIState});
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
 		floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
+
 		AIStateFlow.Add(floatingState, floatingState.choice);
 		floatingState.stateDelay = 0;
 
