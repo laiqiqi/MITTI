@@ -21,6 +21,7 @@ public class OpeningState : AIState {
 	}
 
 	public void StartState(){
+		Debug.Log("Start Opening");
 		AI.currentState = AI.openingState;
 		speed = 200;
 		subState = -1;

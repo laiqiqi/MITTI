@@ -71,7 +71,7 @@ public class SlamState : AIState {
         // if(Player.instance.GetComponent<PlayerStat>().isHitSlam == true){
         //     Player.instance.GetComponent<Rigidbody>().AddForce(AI.transform.forward*10f, ForceMode.Impulse);
         // }
-        Player.instance.GetComponent<PlayerStat>().isHitSlam = false;
+        // Player.instance.GetComponent<PlayerStat>().isHitSlam = false;
         Player.instance.GetComponent<Rigidbody>().isKinematic = true;
         Player.instance.transform.SetParent(null);
 

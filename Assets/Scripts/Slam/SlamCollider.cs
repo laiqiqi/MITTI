@@ -14,6 +14,7 @@ public class SlamCollider : MonoBehaviour {
 		if(StatePatternAI.instance.slamState.isEnd){
 			Destroy(this.gameObject);
 		}
+		Debug.Log(Player.instance.GetComponent<PlayerStat>().isHitSlam);
 	}
 	void OnTriggerEnter(Collider collider) {
 		player = Player.instance.gameObject;
@@ -21,8 +22,8 @@ public class SlamCollider : MonoBehaviour {
 			Debug.Log(collider.tag);
 			StatePatternAI.instance.slamState.isStop = true;
 			if(player.GetComponent<PlayerStat>().isHitSlam == true){
-				Debug.Log("Hit player against " + collider.tag);
-				player.GetComponent<PlayerStat>().health -= 50f;
+				// Debug.Log("Hit player against " + collider.tag);
+				// player.GetComponent<PlayerStat>().health -= 50f;
 			}
 			else{
 				StatePatternAI.instance.slamState.isStun = true;
