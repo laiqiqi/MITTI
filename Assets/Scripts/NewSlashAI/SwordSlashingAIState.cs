@@ -7,6 +7,7 @@ public class SwordSlashingAIState : AIState {
 	private readonly StatePatternAI AI;
 	public string name{ get;}
 	private float speed;
+	private float agile;
 	private Vector3[] randomVector;
 	private int subState;
 	private float timecount;
@@ -35,7 +36,12 @@ public class SwordSlashingAIState : AIState {
 
 	public void StartState(){
 		AI.currentState = AI.swordSlashingAIState;
-		speed = 200;
+		speed = 400;
+		agile = 200;
+		if(AI.isRage){
+//			speed = 400;
+			agile = 300;
+		}
 		timecount = 1;
 		dir = 1;
 		hitCount = 0;
@@ -198,15 +204,15 @@ public class SwordSlashingAIState : AIState {
 
 //		rotation = Quaternion.Euler (rotation.eulerAngles.x, rotation.eulerAngles.y, 0);
 //		relativePos = AI.transform.right - swords [i].transform.position;
-		swords [i].transform.rotation = Quaternion.RotateTowards (swords [i].transform.rotation, rotation, speed * Time.deltaTime);
+		swords [i].transform.rotation = Quaternion.RotateTowards (swords [i].transform.rotation, rotation, agile * Time.deltaTime);
 
 		float distance = 3f;
 //		dir = (int)Mathf.Pow (-1, Random.Range (1, 3));
 //		dir = 1;
 //		randomVector [i] = AI.transform.position + AI.transform.right * -dir;
 		randomVector[i] = AI.transform.right *distance*dir + AI.transform.position - AI.transform.forward;
-		swords [i].transform.position = Vector3.MoveTowards (swords [i].transform.position, randomVector [i], speed / 50f * Time.deltaTime);
-		Debug.DrawLine (swords [i].transform.position,randomVector [i], Color.red);
+		swords [i].transform.position = Vector3.MoveTowards (swords [i].transform.position, randomVector [i], agile / 50f * Time.deltaTime);
+//		Debug.DrawLine (swords [i].transform.position,randomVector [i], Color.red);
 
 		if (Vector3.Distance (swords [i].transform.position, randomVector [i]) < 0.01f
 			&& Quaternion.Angle (swords [i].transform.rotation, rotation) < 0.01f) {
@@ -335,7 +341,7 @@ public class SwordSlashingAIState : AIState {
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
 //		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*6 * Time.deltaTime);
 //		float distance = Vector3.Distance();
-		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*10 * Time.deltaTime);
+		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, agile*10 * Time.deltaTime);
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
 			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
 			sc.GetComponent<AISwordController> ().state = 3;
@@ -364,7 +370,7 @@ public class SwordSlashingAIState : AIState {
 //		randomVector [i] = AI.transform.position + -AI.transform.forward;
 		Vector3 relativePos = AI.transform.right - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
-		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, speed*10 * Time.deltaTime);
+		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, agile*10 * Time.deltaTime);
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.01f) {
 			sc.GetComponent<AISwordController> ().state = 6;
 		}
@@ -375,7 +381,7 @@ public class SwordSlashingAIState : AIState {
 		sc.GetComponent<Rigidbody>().isKinematic = true;
 		Vector3 playerPos = AI.player.transform.position;
 		playerPos.y = 0f;
-		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, speed/10f * Time.deltaTime);
+		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, agile/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius) {
 			sc.GetComponent<Rigidbody>().isKinematic = false;
 			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();

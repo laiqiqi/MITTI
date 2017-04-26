@@ -91,7 +91,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isParry = false;
 
 //		openingState.choice.AddRange(new AIState[]{prepareSlamState});
-		 openingState.choice.AddRange(new AIState[]{floatingState});
+		 openingState.choice.AddRange(new AIState[]{stopState});
 		AIStateFlow.Add(openingState, openingState.choice);
 		openingState.stateDelay = 0;
 
@@ -139,11 +139,18 @@ public class StatePatternAI: MonoBehaviour {
 		AIStateFlow.Add(swordShootingAIState, swordShootingAIState.choice);
 		swordShootingAIState.stateDelay = 0;
 
+
 		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
 		//  											, seekState, prepareDigStrikeState, swordShootingAIState});
 		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
 		// floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
-		floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
+		// floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
+
+//		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
+//		 											, seekState, prepareDigStrikeState, swordShootingAIState});
+//		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
+		floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
+
 		AIStateFlow.Add(floatingState, floatingState.choice);
 		floatingState.stateDelay = 0;
 
@@ -180,6 +187,7 @@ public class StatePatternAI: MonoBehaviour {
 		currentState.UpdateState();
 //		 Debug.LogWarning (AIStateFlow[floatingState].Count);
 		ChangeColorAI();
+		isDead ();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
@@ -328,5 +336,18 @@ public class StatePatternAI: MonoBehaviour {
 //		ps.startColor = Color.HSVToRGB (h, s, v);
 		pr.SetColor("_TintColor", Color.HSVToRGB (h, s, v));
 
+	}
+
+	void isDead(){
+		if (isRage = false) {
+			if(health < maxHealth * 40f/100f){
+				isRage = true;
+				AIStateFlow[floatingState].Add(shootUltiState);
+			}
+		}
+
+		if(health <= 0f){
+			deadState.StartState ();
+		}
 	}
 }
