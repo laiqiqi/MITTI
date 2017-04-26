@@ -23,7 +23,7 @@ public class SwordShootingAIState : AIState {
 	}
 
 	public void StartState(){
-		Debug.Log("aaaa=====");
+//		Debug.Log("aaaa=====");
 		AI.currentState = AI.swordShootingAIState;
 		speed = 200;
 		subState = 0;
@@ -128,7 +128,7 @@ public class SwordShootingAIState : AIState {
 				}
 				// Debug.Log ("arrayyyy");
 				if (timeToShoot > delayToShoot) {
-					Debug.Log ("shoot");
+//					Debug.Log ("shoot");
 					int randomIndex = Random.Range (0, swordList.Count);
 					swordList [randomIndex].GetComponent<Rigidbody> ().isKinematic = false;
 					swordList [randomIndex].transform.parent = null;
