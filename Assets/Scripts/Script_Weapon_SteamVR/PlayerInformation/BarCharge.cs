@@ -7,11 +7,11 @@ public class BarCharge : MonoBehaviour {
 	Canvas UI;
 
 	SkillObserver textUpdater;
-	public int IncreaseRateAdd = 10;
+	public int IncreaseRateAdd = 5;
 	public float IncreaseSec = 0.5f;
 	int bar;
 	int max = 100;
-	int increase = 20;
+	public int increase = 10;
 
 	private IEnumerator passiveIncrease;
 	void Start () {

@@ -13,6 +13,7 @@ namespace Valve.VR.InteractionSystem
         public GameObject ultBlade;
         public GameObject blade;
         public float BaseDamage = 10.0f;
+        public float CritDamage = 20.0f;
         public Transform auraSlotTransform;
 		private List<SkillObserver> observers = new List<SkillObserver>();
 		private Hand hand;

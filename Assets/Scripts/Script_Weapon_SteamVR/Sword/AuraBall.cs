@@ -37,8 +37,8 @@ namespace Valve.VR.InteractionSystem
 			originalScale = new Vector3(swordScale.x,swordScale.y,swordScale.z);
 			originalColScale = new Vector3(swordCol.size.x,swordCol.size.y,swordCol.size.z);
 			orignalColCenter = new Vector3(swordCol.center.x,swordCol.center.y,swordCol.center.z);
-			swordCol.center = new Vector3(swordCol.center.x,swordCol.center.y, 14.4f);
-			swordCol.size = new Vector3(0.47f,swordCol.center.y, 27.2f);
+			swordCol.center = new Vector3(swordCol.center.x,swordCol.center.y, 24.3f);
+			swordCol.size = new Vector3(swordCol.center.x,swordCol.center.y,47f);
 		
 // Center z 8.1-> 14.4
 // Size z 14.54 -> 27.2
