@@ -35,6 +35,7 @@ public class GameState : MonoBehaviour {
 		}
 	void Start () {
 		Debug.Log("Game Start");
+		playerTransFilter.SetActive(true);
 
 		tutorialState = true;
 		AIOpen = false;
