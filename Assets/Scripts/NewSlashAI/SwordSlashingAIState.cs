@@ -380,7 +380,7 @@ public class SwordSlashingAIState : AIState {
 		// move to player
 		sc.GetComponent<Rigidbody>().isKinematic = true;
 		Vector3 playerPos = AI.player.transform.position;
-		playerPos.y = -1f;
+		playerPos.y = -0.2f;
 		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, agile/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius) {
 			sc.GetComponent<Rigidbody>().isKinematic = false;

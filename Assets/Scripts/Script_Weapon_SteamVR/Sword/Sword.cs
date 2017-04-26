@@ -9,6 +9,7 @@ namespace Valve.VR.InteractionSystem
 		// Use this for initialization
         public event DamageDealtHandler OnDamageDealt;
         public ParticleSystem hitAIParticle;
+        public ParticleSystem hitMagParticle;
         public GameObject bloodBlade;
         public GameObject ultBlade;
         public GameObject blade;
@@ -28,17 +29,37 @@ namespace Valve.VR.InteractionSystem
 			applyDamage = GetBaseDamage;
 		}
         void OnCollisionEnter(Collision col){
-            if(col.transform.tag == "Magnet"){
-
+            bool hitMagnetFirst = false;
+            if(col.transform.tag == "Magnet" && ableToHitAI){
+                hitMagnetFirst = true;
             }
             if(col.transform.tag == "AI" && ableToHitAI){
                 //hit particle
-                ParticleSystem part = Instantiate(hitAIParticle);
-                part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
-                part.gameObject.transform.parent = null;
-                part.gameObject.transform.position = col.contacts[0].point;
-                part.Play();
-                col.collider.gameObject.SendMessageUpwards("ApplyDamage", applyDamage(), SendMessageOptions.DontRequireReceiver);
+                if(hitMagnetFirst){
+                    ParticleSystem part1 = Instantiate(hitMagParticle);
+                    part1.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
+                    part1.gameObject.transform.parent = null;
+                    part1.gameObject.transform.position = col.contacts[0].point;
+                    part1.Play();
+                }else{
+                    ParticleSystem part = Instantiate(hitAIParticle);
+                    part.gameObject.GetComponent<ParticleSelfDestruct>().enabled = true;
+                    part.gameObject.transform.parent = null;
+                    part.gameObject.transform.position = col.contacts[0].point;
+                    part.Play();
+                }
+                //apply dmg
+                if(skillIsActive){
+                    col.collider.gameObject.SendMessageUpwards("ApplyDamage", applyDamage(), SendMessageOptions.DontRequireReceiver);
+                }else{
+                    if(hitMagnetFirst){
+                        col.collider.gameObject.SendMessageUpwards("ApplyDamage", applyDamage(), SendMessageOptions.DontRequireReceiver);
+                    }else{
+                        col.collider.gameObject.SendMessageUpwards("ApplyDamage", CritDamage, SendMessageOptions.DontRequireReceiver);
+                    }
+                }
+
+                //apply on hit effects
                 if(auraSkill != null && skillIsActive){
                     auraSkill.OnColEnter();
                 }

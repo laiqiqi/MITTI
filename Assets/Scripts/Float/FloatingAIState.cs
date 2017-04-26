@@ -75,7 +75,7 @@ public class FloatingAIState : AIState {
 
 	Vector3 RandomPosition(){
 		Vector3 pos = new Vector3 (enemy.player.transform.position.x + Random.Range (-10f, 10f),
-			enemy.player.transform.position.y + Random.Range (0.5f, 1.25f),
+			enemy.player.transform.position.y + Random.Range (0.5f, 1f),
 			enemy.player.transform.position.z + Random.Range (-10f, 10f));
 
 		if(Vector2.Distance(new Vector2(pos.x, pos.z), Vector2.zero) > radiusOfMap){
