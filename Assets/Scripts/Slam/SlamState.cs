@@ -24,9 +24,12 @@ public class SlamState : AIState {
         isStop = false;
         isStun = false;
         isEnd = false;
-        AI.speed = 30f;
+        AI.speed = 20f;
+        if(AI.isRage){
+            AI.speed = 30f;
+        }
         this.attackTarget = AI.player.transform.position + (Vector3.up*0.5f);
-        moveToTarget = this.attackTarget + AI.transform.forward*30f;
+        moveToTarget = this.attackTarget + AI.transform.forward*15f;
 
         AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
         AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
@@ -37,26 +40,26 @@ public class SlamState : AIState {
 
         AI.EditMagnet(1000, 100);
     }
-    public void StartState(Vector3 attackTarget)
-    {
-        Debug.Log("Slam Start");
-        AI.currentState = AI.slamState;
-        isStop = false;
-        isStun = false;
-        isEnd = false;
-        AI.speed = 30f;
-        this.attackTarget = attackTarget;
-        moveToTarget = this.attackTarget + AI.transform.forward*30f;
+    // public void StartState(Vector3 attackTarget)
+    // {
+    //     Debug.Log("Slam Start");
+    //     AI.currentState = AI.slamState;
+    //     isStop = false;
+    //     isStun = false;
+    //     isEnd = false;
+    //     AI.speed = 30f;
+    //     this.attackTarget = attackTarget;
+    //     moveToTarget = this.attackTarget + AI.transform.forward*30f;
 
-        AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
-        AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
-        slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward + AI.transform.up*0.05f);
-        slamCol.transform.SetParent(AI.transform);
-        AI.GetComponent<SphereCollider>().enabled = true;
-        AI.body.GetComponent<SphereCollider>().isTrigger = true;
+    //     AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
+    //     AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
+    //     slamCol = AI.effectManager.CreateAndReturnEffectByName(EffectName.SLAM_COLLIDER ,AI.transform.position + AI.transform.forward + AI.transform.up*0.05f);
+    //     slamCol.transform.SetParent(AI.transform);
+    //     AI.GetComponent<SphereCollider>().enabled = true;
+    //     AI.body.GetComponent<SphereCollider>().isTrigger = true;
 
-        AI.EditMagnet(1000, 100);
-    }
+    //     AI.EditMagnet(1000, 100);
+    // }
 
     public void UpdateState()
     {

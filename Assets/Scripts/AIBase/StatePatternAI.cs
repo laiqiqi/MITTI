@@ -18,6 +18,7 @@ public class StatePatternAI: MonoBehaviour {
 	public GameObject AISword;
 	public GameObject AICube;
 	public GameObject UltiBullet;
+	
 //-----------------------------Sword Components-------------------------------
 	
 //----------------------------------------------------------------------------
@@ -87,6 +88,7 @@ public class StatePatternAI: MonoBehaviour {
 		openingState = new OpeningState (this);
 		shootUltiState = new ShootUltiState (this);
 		deadState = new DeadState (this);
+		isRage = false;
 //		isHit = false;
 //		isParry = false;
 
@@ -119,7 +121,7 @@ public class StatePatternAI: MonoBehaviour {
 		AIStateFlow.Add(slamState, slamState.choice);
 		slamState.stateDelay = 0;
 
-		escapeState.choice.AddRange(new AIState[]{floatingState});
+		escapeState.choice.AddRange(new AIState[]{prepareSlamState});
 		AIStateFlow.Add(escapeState, escapeState.choice);
 		escapeState.stateDelay = 0;
 
@@ -140,16 +142,17 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.stateDelay = 0;
 
 
-		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
-		//  											, seekState, prepareDigStrikeState, swordShootingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
+		//  											, seekState, prepareDigStrikeState, swordShootingAIState
+		// 											, swordSlashingAIState});
 		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
-		// floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
+		floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
 		// floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
 
-//		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
-//		 											, seekState, prepareDigStrikeState, swordShootingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
+		//  											, seekState, prepareDigStrikeState, swordShootingAIState});
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
-		floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
+		// floatingState.choice.AddRange (new AIState[]{ prepareDigStrikeState });
 
 		AIStateFlow.Add(floatingState, floatingState.choice);
 		floatingState.stateDelay = 0;
@@ -339,7 +342,7 @@ public class StatePatternAI: MonoBehaviour {
 	}
 
 	void isDead(){
-		if (isRage = false) {
+		if (isRage == false) {
 			if(health < maxHealth * 40f/100f){
 				isRage = true;
 				AIStateFlow[floatingState].Add(shootUltiState);

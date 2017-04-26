@@ -34,7 +34,10 @@ public class DigStrikeState : AIState {
         moveToTarget = new Vector3(attackTarget.x,
                                  attackTarget.y + 3f,
                                  attackTarget.z);
-        speed = 25f;
+        AI.speed = 25f;
+        if(AI.isRage){
+            AI.speed = 30f;
+        }
         timer = 0f;
         seekTime = Random.Range(3f, 5f);
 
@@ -65,7 +68,7 @@ public class DigStrikeState : AIState {
             AI.animationManager.PlayDigStrikeAnim();
 
             if(Vector3.Distance(AI.transform.position, moveToTarget) > 0.1f){
-                AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, speed * Time.deltaTime);
+                AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, AI.speed * Time.deltaTime);
             }
             else{
                 AI.effectManager.StopSoundByName(AISoundName.DIGSTRIKE_SOUND);                
