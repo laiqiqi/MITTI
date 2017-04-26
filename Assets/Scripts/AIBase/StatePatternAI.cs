@@ -149,7 +149,7 @@ public class StatePatternAI: MonoBehaviour {
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
 //		 											, seekState, prepareDigStrikeState, swordShootingAIState});
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
-		floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
+		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState });
 
 		AIStateFlow.Add(floatingState, floatingState.choice);
 		floatingState.stateDelay = 0;
@@ -339,7 +339,7 @@ public class StatePatternAI: MonoBehaviour {
 	}
 
 	void isDead(){
-		if (isRage = false) {
+		if (isRage == false) {
 			if(health < maxHealth * 40f/100f){
 				isRage = true;
 				AIStateFlow[floatingState].Add(shootUltiState);
