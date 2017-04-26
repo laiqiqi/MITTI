@@ -8,7 +8,7 @@ public class PlayerStat : MonoBehaviour {
 	public float stamina;
 	public float staRegenRate, healthRegenRate;
 
-	public float  maxHealth;
+	public float maxHealth;
 	[HideInInspector] public float health;
 
 //--------------------Player Status--------------------------
@@ -23,8 +23,7 @@ public class PlayerStat : MonoBehaviour {
 		stamina = 100;
 		staRegenRate = 0.5f;
 
-	
-		healthRegenRate = 0.1f;
+		healthRegenRate = 0.01f;
 	}
 	
 	// Update is called once per frame

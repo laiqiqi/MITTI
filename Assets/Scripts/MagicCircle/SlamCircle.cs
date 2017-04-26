@@ -24,9 +24,10 @@ public class SlamCircle : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(circle.GetComponent<SelfRotate>().isOkColor){
-			circleCollider.enabled = true;
-		}
+		circleCollider.enabled = true;
+		// if(circle.GetComponent<SelfRotate>().isOkColor){
+		// 	circleCollider.enabled = true;
+		// }
 
 		if(health <= 0f) {
 			isBreak = true;
@@ -47,7 +48,7 @@ public class SlamCircle : MonoBehaviour {
 		if(col.tag.Equals("playersword") || col.tag.Equals("projectile")){
 			Debug.Log("HitSlamCircle");
 			circle.GetComponent<Renderer>().material.SetColor("_TintColor", hitColor);
-			health -= 50f;
+			health -= 20f;
 		}
 	}
 

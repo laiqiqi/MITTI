@@ -15,7 +15,7 @@ public class GameState : MonoBehaviour {
 	public Material skyboxNorm;
 	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
 	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth, isWaitDie, BGMplay;
-	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer, mainBGM;
+	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer, mainBGM, endSong;
 	public GameObject dieSound;
 	public GameObject sceneDestroyer, sceneProps;
 	public GameObject playerTransFilter;
@@ -78,18 +78,19 @@ public class GameState : MonoBehaviour {
 
 		if(mainGame) {
 			RotateSkyBox();
-			Debug.Log(Player.instance.GetComponent<PlayerStat>().health);
+			// Debug.Log(Player.instance.GetComponent<PlayerStat>().health);
 			if(StatePatternAI.instance.health <= 0){
 				Debug.Log("Purify");
 				mainGame = false;
 				end = true;
 			}
 			if(Player.instance.GetComponent<PlayerStat>().health <= 0){
-				Debug.Log("You Die");
+				// Debug.Log("You Die");
 				StatePatternAI.instance.stopState.StartState();
 				// mainGame = false;
 				if (!isWaitDie) {
 					dieBG.SetActive(true);
+					StopMainBGM();
 					isWaitDie = true;
 					dieSound.SetActive(true);
 					StartCoroutine(WaitDie());
@@ -109,6 +110,10 @@ public class GameState : MonoBehaviour {
 			}
 			Debug.Log("End");
 			if(!isDestroyAI){
+				RenderSettings.ambientMode = AmbientMode.Skybox;
+				RenderSettings.ambientIntensity = 5f;
+				skyboxNorm.SetFloat("_Exposure", 8f);
+				Player.instance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 				Player.instance.GetComponent<Rigidbody>().useGravity = false;
 				Player.instance.GetComponent<Rigidbody>().isKinematic = true;
 				RenderSettings.skybox = skyboxNorm;
@@ -117,9 +122,20 @@ public class GameState : MonoBehaviour {
 				Destroy(StatePatternAI.instance.gameObject);
 				outerEnvi.SetActive(true);
 				isDestroyAI = true;
+				endSong.Play();
 			}
 
-			Player.instance.transform.position = Player.instance.transform.position + Vector3.up * 0.1f;
+			if(skyboxNorm.GetFloat("_Exposure") > 1.3f){
+				skyboxNorm.SetFloat("_Exposure", skyboxNorm.GetFloat("_Exposure") - 0.1f);
+				RenderSettings.ambientIntensity -= 0.055f;
+			}
+
+			if(Player.instance.transform.position.y < 500){
+				Player.instance.transform.position = Player.instance.transform.position + Vector3.up * 0.05f;
+			}
+			else {
+				sceneCon.ChangeScene(SceneController.MAIN_MENU);
+			}
 		}
 	}
 
@@ -135,7 +151,7 @@ public class GameState : MonoBehaviour {
 		mainBGM.Stop();
 	}
 	void TutorialState(){
-		Debug.Log(tutorAI.GetComponent<TutorialAI>().isEndTutor);
+		// Debug.Log(tutorAI.GetComponent<TutorialAI>().isEndTutor);
 		if(tutorAI.GetComponent<TutorialAI>().isEndTutor && !isFallingPlay){
 			Debug.Log("Destryo tutorenvi");
 			Destroy(tutorEnvi.gameObject);
@@ -153,6 +169,7 @@ public class GameState : MonoBehaviour {
 				isPlayEarth = true;
 			}
 			Player.instance.GetComponent<Rigidbody>().isKinematic = true;
+			Player.instance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY;
 			
 			tutorialState = false;
 			AIOpen = true;
