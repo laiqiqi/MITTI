@@ -44,11 +44,15 @@ namespace Valve.VR.InteractionSystem
 				}
 				else{
 					isDash = false;
-					if(isOnFloor) {
-						counter = 0;
-						player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
-						GetComponent<Rigidbody>().isKinematic = true;
-					}
+					isDashable = true;
+					counter = 0;
+					player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
+					GetComponent<Rigidbody>().isKinematic = true;
+					// if(isOnFloor) {
+					// 	counter = 0;
+					// 	player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
+					// 	GetComponent<Rigidbody>().isKinematic = true;
+					// }
 				}
 			}
 			// Debug.Log(isDashable);
@@ -75,6 +79,7 @@ namespace Valve.VR.InteractionSystem
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
 				isDash = true;
+				isDashable = false;
 				isOnFloor = false;
 			}
 		}

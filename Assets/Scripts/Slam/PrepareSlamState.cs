@@ -26,7 +26,10 @@ public class PrepareSlamState : AIState {
         Debug.Log("Prepare Slam Start");
         hasCircle = false;
         AI.currentState = AI.prepareSlamState;
-        speed = 20f;
+        AI.speed = 20f;
+        if(AI.isRage){
+            AI.speed = 30f;
+        }
         timer = 0f;
         seekTime = 5f;
         AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
@@ -55,7 +58,7 @@ public class PrepareSlamState : AIState {
 
      void Prepare() {
         if(AI.transform.position.y > 2.5f || AI.transform.position.y < 1.9f){
-            AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToPos, (speed/2)*Time.deltaTime);
+            AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToPos, (AI.speed/2)*Time.deltaTime);
         }
         else{
             if(!hasCircle){

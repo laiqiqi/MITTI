@@ -35,6 +35,7 @@ public class GameState : MonoBehaviour {
 		}
 	void Start () {
 		Debug.Log("Game Start");
+		playerTransFilter.SetActive(true);
 
 		tutorialState = true;
 		AIOpen = false;
@@ -82,7 +83,11 @@ public class GameState : MonoBehaviour {
 			if(StatePatternAI.instance.health <= 0){
 				Debug.Log("Purify");
 				mainGame = false;
-				end = true;
+				if(BGMplay){
+					StopMainBGM();
+					BGMplay = false;
+				}
+				// end = true;
 			}
 			if(Player.instance.GetComponent<PlayerStat>().health <= 0){
 				// Debug.Log("You Die");
@@ -104,10 +109,10 @@ public class GameState : MonoBehaviour {
 		}
 
 		if(end) {
-			if(BGMplay){
-				StopMainBGM();
-				BGMplay = false;
-			}
+			// if(BGMplay){
+			// 	StopMainBGM();
+			// 	BGMplay = false;
+			// }
 			Debug.Log("End");
 			if(!isDestroyAI){
 				RenderSettings.ambientMode = AmbientMode.Skybox;

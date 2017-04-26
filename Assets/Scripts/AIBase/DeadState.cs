@@ -73,6 +73,7 @@ public class DeadState : AIState {
 				AI.body.GetComponent<Rigidbody> ().isKinematic = false;
 				AI.body.GetComponent<Rigidbody> ().useGravity = true;
 				subState = 3;
+				EndState();
 			}
 		}else if(subState == 3){
 			
@@ -92,6 +93,7 @@ public class DeadState : AIState {
 
 	public void EndState(){
 		Debug.Log("EndOpen");
+		GameState.instance.end = true;
 //		AI.NextState();
 	}
 

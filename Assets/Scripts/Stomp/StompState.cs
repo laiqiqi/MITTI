@@ -39,6 +39,9 @@ public class StompState : AIState {
                                 -1f,
                                 AI.transform.position.z);
         AI.speed = 35f;
+        if(AI.isRage){
+            AI.speed = 45f;
+        }
 
         AI.animationManager.PlayChargeStompAnim();
         AI.effectManager.CreateCircleByName(MagicCircleName.STOMP_CIRCLE ,attackTarget);

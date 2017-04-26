@@ -5,11 +5,10 @@ using Valve.VR.InteractionSystem;
 
 public class UltiBulletCollision : MonoBehaviour {
 	public int state;
-	public Transform player;
 	private float timeCount;
 	private float timeToDestroy;
 	void Start() {
-
+		state = 0;
 	}
 
 	void Update(){
@@ -21,7 +20,7 @@ public class UltiBulletCollision : MonoBehaviour {
 		} else if (state == 2) {
 //			this.transform.LookAt (player);
 //			this.transform.position += this.transform.forward * 5f * Time.deltaTime;
-			this.transform.position = Vector3.MoveTowards (this.transform.position, player.transform.position, 5f * Time.deltaTime);
+			this.transform.position = Vector3.MoveTowards (this.transform.position, Player.instance.transform.position, 2f * Time.deltaTime);
 			if (timeCount > timeToDestroy) {
 				this.GetComponent<ParticleSystem> ().loop = false;
 				if(!this.GetComponent<ParticleSystem>().IsAlive()){

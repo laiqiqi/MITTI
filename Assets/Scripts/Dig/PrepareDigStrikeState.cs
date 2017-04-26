@@ -24,12 +24,16 @@ public class PrepareDigStrikeState : AIState {
         AI.currentState = AI.prepareDigStrikeState;
         attackTarget = AI.player.transform.position;
         AI.speed = 5f;
+        if(AI.isRage){
+            AI.speed = 8f;
+        }
         moveToTarget = new Vector3(AI.transform.position.x,
                                  AI.transform.position.y-15f,
                                  AI.transform.position.z);
         timer = 0f;
         seekTime = Random.Range(2f, 3f);
-
+        Transform a = new GameObject().transform;
+        a.position = moveToTarget;
         AI.animationManager.StopChargeStompAnim();
     }
 
@@ -64,7 +68,13 @@ public class PrepareDigStrikeState : AIState {
 
     void Dig(){
         if(AI.transform.position.y <= 1 && AI.transform.position.y >= -2){
-            AI.speed = 1f;
+            if(AI.isRage){
+                AI.speed = 4f;
+            }
+            else{
+                AI.speed = 1f;
+            }
+
             if (AI.transform.position.y <= 0){
                 AI.DisableMagnet();
             }
@@ -74,7 +84,12 @@ public class PrepareDigStrikeState : AIState {
             }
         }
         else if(AI.transform.position.y < -2){
-            AI.speed = 10f;
+            if(AI.isRage){
+                AI.speed = 10f;
+            }
+            else{
+                AI.speed = 5f;
+            }
         }
         AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToTarget, AI.speed * Time.deltaTime);
     }

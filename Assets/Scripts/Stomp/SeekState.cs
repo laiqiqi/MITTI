@@ -23,7 +23,10 @@ public class SeekState : AIState {
     {
         Debug.Log("Seek Start");
         AI.currentState = AI.seekState;
-        speed = 10f;
+        AI.speed = 10f;
+        if(AI.isRage){
+            AI.speed = 17f;
+        }
         frequency = 3f;
         seekTime = Random.Range(3f, 5f);
         timer = 0;
@@ -76,6 +79,6 @@ public class SeekState : AIState {
                                     AI.player.transform.position.y + 10f,
                                     AI.player.transform.position.z);
         
-        AI.transform.position = Vector3.MoveTowards(AI.transform.position, target, speed * Time.deltaTime);
+        AI.transform.position = Vector3.MoveTowards(AI.transform.position, target, AI.speed * Time.deltaTime);
     }
 }
