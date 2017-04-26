@@ -10,6 +10,7 @@ public class PlayerStat : MonoBehaviour {
 
 	public float maxHealth;
 	public float health;
+	public ParticleSystem HealParticle;
 
 //--------------------Player Status--------------------------
 	[HideInInspector] public bool isHitSlam, isStartDazzle, isDazzle, isTakeDamage, isHeal, isDead, isWaitToKine;

@@ -41,7 +41,14 @@ namespace Valve.VR.InteractionSystem
 			//stop and revert all effects
 		}
 		public void OnColEnter(){
-			Player.instance.GetComponent<PlayerStat>().PlayerHeal(heal);
+			
+			PlayerStat f = Player.instance.GetComponent<PlayerStat>();
+			Debug.Log(f.health + "before heal");
+			f.PlayerHeal(heal);
+			//play particle
+			f.HealParticle.Play();
+			//play sound
+			Debug.Log(f.health + "after heal");
 		}
 		public float GetSkillDamage(){
 			return damage;
