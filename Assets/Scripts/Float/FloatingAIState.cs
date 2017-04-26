@@ -22,6 +22,9 @@ public class FloatingAIState : AIState {
 //		Debug.Log ("start   floating");
 		enemy.currentState = enemy.floatingState;
 		speed = 5f;
+		if (enemy.isRage) {
+			speed = 10f;
+		}
 		target.position = RandomPosition();
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = true;
 	}

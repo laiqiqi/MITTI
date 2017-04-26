@@ -179,6 +179,7 @@ public class StatePatternAI: MonoBehaviour {
 		currentState.UpdateState();
 //		 Debug.LogWarning (AIStateFlow[floatingState].Count);
 		ChangeColorAI();
+		isDead ();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
@@ -329,7 +330,7 @@ public class StatePatternAI: MonoBehaviour {
 
 	}
 
-	public void Dead(){
+	void isDead(){
 		if (isRage = false) {
 			if(health < maxHealth * 40f/100f){
 				isRage = true;

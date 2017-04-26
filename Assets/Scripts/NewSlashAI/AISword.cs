@@ -30,6 +30,9 @@ public class AISword : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (StatePatternAI.instance.isRage) {
+			damage = 15f;
+		}
 //		Debug.Log("Velocity    "+this.GetComponent<Rigidbody> ().velocity);
 //		Debug.Log("Angular     "+this.GetComponent<Rigidbody> ().angularVelocity);
 		if (state == 1) {
@@ -161,7 +164,9 @@ public class AISword : MonoBehaviour {
 			swordHitSound.Play ();
 		} else if (other.transform.tag == "Player") {
 			// other.gameObject.GetComponent<PlayerStat> ().PlayerTakeDamage (10f);
-			Player.instance.GetComponent<PlayerStat>().PlayerTakeDamage(damage);
+			if(!(state==0 || this.GetComponent<Rigidbody> ().useGravity == true)){
+				Player.instance.GetComponent<PlayerStat>().PlayerTakeDamage(damage);
+			}
 			swordHitFreshSound.Play ();
 		}
 	}
