@@ -154,7 +154,7 @@ public class SwordSlashingAIState : AIState {
 //	 		Debug.Log (randomVector[i]);
 //			Debug.Log (AI.transform.forwards);
 //			Debug.DrawLine (swords[i].transform.position, Vector3.Cross(AI.transform.forward, swords[i].transform.forward),Color.red);
-			Debug.DrawLine (swords[i].transform.position, randomVector[i],Color.red);
+//			Debug.DrawLine (swords[i].transform.position, randomVector[i],Color.red);
 //			Debug.DrawLine (swords[i].transform.position, -AI.transform.forward + AI.transform.position,Color.red);
 			i++;
 		}
@@ -254,7 +254,7 @@ public class SwordSlashingAIState : AIState {
 		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
 		timecount += Time.deltaTime;
 		if (timecount > 5f) {
-			Debug.Log ("Time exceed to the limit");
+//			Debug.Log ("Time exceed to the limit");
 //			timecount = 10f;
 			sc.GetComponent<AISwordController> ().state = 8;
 		}
@@ -351,7 +351,7 @@ public class SwordSlashingAIState : AIState {
 		}
 
 		if (swords[i].GetComponent<AISword>().isHitOther) {
-			Debug.Log ("State 4 hitother");
+//			Debug.Log ("State 4 hitother");
 			RandomVectorForSlashing (sc, i);
 			if(swords [i].GetComponent<AISword> ().isHitOther){
 				swords [i].GetComponent<AISword> ().isHitOther = false;

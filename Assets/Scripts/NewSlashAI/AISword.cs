@@ -91,7 +91,7 @@ public class AISword : MonoBehaviour {
 			state = -1;
 		} else if (state == 6) {
 			//effect in
-			Debug.Log ("effect in");
+//			Debug.Log ("effect in");
 //			swordAppearSound.Play ();
 			foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
 				p.loop = true;
@@ -195,7 +195,7 @@ public class AISword : MonoBehaviour {
 					RaycastHit hit;
 					if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 5f)) {
 						if (hit.transform.tag == "Floor") {
-							Debug.Log ("Sword 44444");
+//							Debug.Log ("Sword 44444");
 							state = 4;
 							this.transform.position += -this.transform.forward * 2;
 							this.GetComponent<Rigidbody> ().isKinematic = true;
