@@ -7,7 +7,7 @@ public class TargetMarker : MonoBehaviour {
 
 	public GameObject tutorAI;
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 		tutorAI.GetComponent<TutorialAI>().isHitTarget = false;
 		Player.instance.GetComponent<PlayerControl>().isDashable = true;
 		Debug.Log(Player.instance.GetComponent<PlayerControl>().isDashable);

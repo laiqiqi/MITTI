@@ -20,7 +20,7 @@ namespace Valve.VR.InteractionSystem
 		public float rate, limit;
 		[HideInInspector] public Collision colInfo;
 		void Start () {
-			timer = 3f;
+			timer = 4f;
 			counter = 0f;
 			isIncre = false;
 			isDash = false;
@@ -47,7 +47,9 @@ namespace Valve.VR.InteractionSystem
 					isDashable = true;
 					counter = 0;
 					player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
-					GetComponent<Rigidbody>().isKinematic = true;
+					if(!GameState.instance.tutorialState){
+						GetComponent<Rigidbody>().isKinematic = true;
+					}
 					// if(isOnFloor) {
 					// 	counter = 0;
 					// 	player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
@@ -72,14 +74,16 @@ namespace Valve.VR.InteractionSystem
 		void Dash() {
 			Debug.Log("dash");
 			if (playerStat.stamina >= 50f && isDashable) {
+				counter = 0;
 				GetComponent<Rigidbody>().isKinematic = false;
+
 				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				Vector3 direction = new Vector3(VRCam.transform.right.x * 5f, 0f, VRCam.transform.right.z * 5f);
+				Vector3 direction = new Vector3(VRCam.transform.right.x * 10f, 0f, VRCam.transform.right.z * 10f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
 				isDash = true;
-				isDashable = false;
+				// isDashable = false;
 				isOnFloor = false;
 			}
 		}

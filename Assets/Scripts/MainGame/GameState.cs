@@ -178,6 +178,7 @@ public class GameState : MonoBehaviour {
 			Player.instance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 			
 			tutorialState = false;
+			Player.instance.GetComponent<Rigidbody>().isKinematic = false;
 			AIOpen = true;
 
 			outerEnvi.SetActive(false);

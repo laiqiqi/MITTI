@@ -36,7 +36,7 @@ public class TutorialAI : MonoBehaviour {
 								"It seem like you had lost all of your memory.", //2
 								"I will show you how to use your power.", //3
 								"Let’s start with special movement.", //4
-								"You can press the both touchpad to quickly dash forward.", //5
+								"You can press any touchpad to quickly dash forward.", //5
 								"Now you know how to evade.", //6
 								"Try pick up a bow from your back.", //7
 								"Press a trigger button when your controller is at your back.", //8

@@ -21,6 +21,7 @@ public class DeadState : AIState {
 	}
 
 	public void StartState(){
+		GameState.instance.end = true;
 		AI.currentState = AI.deadState;
 		speed = 200;
 		subState = 0;
