@@ -22,17 +22,18 @@ public class GameState : MonoBehaviour {
 	public GameObject dieBG, dieText;
 	// Use this for initialization
 	private static GameState _instance;
-		public static GameState instance
+	public static GameState instance
+	{
+		get
 		{
-			get
+			if ( _instance == null )
 			{
-				if ( _instance == null )
-				{
-					_instance = FindObjectOfType<GameState>();
-				}
-				return _instance;
+				_instance = FindObjectOfType<GameState>();
 			}
+			return _instance;
 		}
+	}
+
 	void Start () {
 		Debug.Log("Game Start");
 		playerTransFilter.SetActive(true);
@@ -68,8 +69,8 @@ public class GameState : MonoBehaviour {
 		}
 		if(AIOpen) {
 			if(!BGMplay){
-			PlayMainBGM();
-			BGMplay = true;
+				PlayMainBGM();
+				BGMplay = true;
 			}
 			AIOpening();
 		}
