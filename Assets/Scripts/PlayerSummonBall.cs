@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class PlayerSummonBall : MonoBehaviour {
 
-	public GameObject transFilter;
+	public GameObject transFilter, portalLight, portal;
 	public PlaySound windSoundPlayer1, windSoundPlayer2, lightSoundPlayer, sceneChangeSound;
 
 	private SceneController sceneCon;
 	private Color color;
-	private bool isChangeScene, isPlayChangeScene;
+	private bool isChangeScene, isPlayChangeScene, isLightUp;
 	// Use this for initialization
 	void Start () {
 		sceneCon = new SceneController();
@@ -20,6 +20,7 @@ public class PlayerSummonBall : MonoBehaviour {
 		color = Color.white;
 		color.a = 0f;
 		transFilter.GetComponent<Image>().material.SetColor("_Color", color);
+		isLightUp = true;
 	}
 
 	void Update () {
@@ -37,15 +38,40 @@ public class PlayerSummonBall : MonoBehaviour {
 				sceneCon.ChangeScene(SceneController.GAME);
 			}
 		}
+		
+		PortalLightControl();
 	}
 
 	void OnTriggerEnter(Collider col) {
 		if(col.tag == "Player"){
-			isChangeScene = true;
 			transFilter.SetActive(true);
 			windSoundPlayer1.isStartFadeOut = true;
 			windSoundPlayer2.isStartFadeOut = true;
 			lightSoundPlayer.isStartFadeOut = true;
+			isChangeScene = true;
 		}
+	}
+
+	void PortalLightControl() {
+		if(isLightUp) {
+			if(portalLight.GetComponent<Light>().intensity <= 2.5f){
+				portalLight.GetComponent<Light>().intensity += 0.05f;
+				var emission = portal.GetComponent<ParticleSystem>().emission;
+				emission.rateOverTime = 200f;
+			}
+			else{
+				isLightUp = !isLightUp;
+			}
+		}
+		else if(!isLightUp){
+			if(portalLight.GetComponent<Light>().intensity >= 2.25f){
+				portalLight.GetComponent<Light>().intensity -= 0.05f;
+				var emission = portal.GetComponent<ParticleSystem>().emission;
+				emission.rateOverTime = 100f;
+			}
+			else{
+				isLightUp = !isLightUp;
+			}
+		} 
 	}
 }
