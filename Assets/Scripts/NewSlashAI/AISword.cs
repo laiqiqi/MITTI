@@ -172,7 +172,7 @@ public class AISword : MonoBehaviour {
 	}
 
 	void OnCollisionStay(Collision other){
-		if (other.transform.tag == "playsword") {
+		if (other.transform.tag == "playsword" || other.transform.tag == "Player") {
 			isHit = true;
 			if (state == 3) {
 				this.GetComponent<Rigidbody> ().useGravity = true;
