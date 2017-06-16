@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GameState : MonoBehaviour {
 	private SceneController sceneCon = new SceneController();
 	private Color black = Color.black;
-	private Color white = Color.white;
+	private Color dieTextColor;
 
 
 	public Material skyboxChaos;
@@ -19,20 +19,21 @@ public class GameState : MonoBehaviour {
 	public GameObject dieSound;
 	public GameObject sceneDestroyer, sceneProps;
 	public GameObject playerTransFilter;
-	public GameObject dieBG, dieText;
+	public GameObject dieCanvas, dieBG, dieText;
 	// Use this for initialization
 	private static GameState _instance;
-		public static GameState instance
+	public static GameState instance
+	{
+		get
 		{
-			get
+			if ( _instance == null )
 			{
-				if ( _instance == null )
-				{
-					_instance = FindObjectOfType<GameState>();
-				}
-				return _instance;
+				_instance = FindObjectOfType<GameState>();
 			}
+			return _instance;
 		}
+	}
+
 	void Start () {
 		Debug.Log("Game Start");
 		playerTransFilter.SetActive(true);
@@ -49,10 +50,12 @@ public class GameState : MonoBehaviour {
 		isPlayEarth = false;
 		isWaitDie = false;
 		Physics.IgnoreCollision(StatePatternAI.instance.body.GetComponent<Collider>(), sceneDestroyer.GetComponent<Collider>());
+		
 		Physics.IgnoreLayerCollision(10, 9);
 
 		black.a = 0;
-		white.a = 0;
+		dieTextColor = dieText.GetComponent<Text>().color;
+		dieTextColor.a = 0;
 	}
 	void OnEnable(){
 		_instance = this;
@@ -68,8 +71,8 @@ public class GameState : MonoBehaviour {
 		}
 		if(AIOpen) {
 			if(!BGMplay){
-			PlayMainBGM();
-			BGMplay = true;
+				PlayMainBGM();
+				BGMplay = true;
 			}
 			AIOpening();
 		}
@@ -94,17 +97,17 @@ public class GameState : MonoBehaviour {
 				StatePatternAI.instance.stopState.StartState();
 				// mainGame = false;
 				if (!isWaitDie) {
-					dieBG.SetActive(true);
+					dieCanvas.SetActive(true);
 					StopMainBGM();
 					isWaitDie = true;
 					dieSound.SetActive(true);
 					StartCoroutine(WaitDie());
 				}
 				black.a += 0.005f;
-				white.a += 0.005f;
+				dieTextColor.a += 0.005f;
 
 				dieBG.GetComponent<Image>().color = black;
-				dieText.GetComponent<Image>().color = white;
+				dieText.GetComponent<Text>().color = dieTextColor;
 			}
 		}
 
