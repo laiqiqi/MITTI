@@ -188,8 +188,20 @@ public class SwordSlashingAIState : AIState {
 //			sc.GetComponent<AISwordController> ().state = 1;
 //		}
 		Vector3 playerPosY = AI.transform.position;
-		playerPosY.y = AI.player.transform.position.y + 3f;
+		playerPosY.y = AI.player.transform.position.y + 2f;
 		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPosY, speed/100f * Time.deltaTime);
+//		if(Vector3.Distance( AI.transform.position, AI.player.transform.position) < 5f){
+//			AI.transform.position += -AI.transform.forward * Time.deltaTime * 4;
+//		}
+
+		Vector2 v1 = new Vector2 (AI.transform.position.x, AI.transform.position.z);
+		Vector2 v2 = new Vector2 (AI.player.transform.position.x, AI.player.transform.position.z);
+		if (Vector2.Distance (v1, v2) < 2f) {
+			Vector2 dir2 = v1 - v2;
+			Vector3 dir = new Vector3 (dir2.x, 0f, dir2.y);
+			AI.transform.position += dir;
+		}
+
 		if(swords [i].GetComponent<AISword>().swordModel.GetComponent<FadeManager>().isShow) {
 			sc.GetComponent<AISwordController> ().state = 1;
 			swords[i].GetComponent<Rigidbody> ().isKinematic = true;
@@ -275,6 +287,7 @@ public class SwordSlashingAIState : AIState {
 		}
 		if (swords[i].GetComponent<AISword>().isHit) {
 			isStart[i] = false;
+			swords [i].GetComponent<MeleeWeaponTrail> ().StopDrawing();
 		}
 			
 //		Debug.Log (sc.GetComponent<Rigidbody> ().angularVelocity.magnitude - oldVelocity [i]);
@@ -338,7 +351,8 @@ public class SwordSlashingAIState : AIState {
 	}
 
 	public void Substate4(GameObject sc, int i){
-		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
+//		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
+		swords [i].GetComponent<MeleeWeaponTrail> ().StopDrawing();
 //		randomVector[i] = AI.transform.position + AIRandomForward;
 		Vector3 relativePos = randomVector[i] - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
@@ -348,6 +362,7 @@ public class SwordSlashingAIState : AIState {
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
 			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
 			swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
+//			swords [i].GetComponent<MeleeWeaponTrail> ().StartDrawing ();
 			sc.GetComponent<AISwordController> ().state = 3;
 			timecount = 0;
 //			sc.GetComponent<Rigidbody> ().isKinematic = true;
@@ -370,7 +385,8 @@ public class SwordSlashingAIState : AIState {
 	public void Substate5(GameObject sc, int i){
 		// move sword to the back of ai
 //		swords[i].GetComponent<Rigidbody>().isKinematic = true;
-		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
+//		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
+		swords [i].GetComponent<MeleeWeaponTrail> ().StopDrawing();
 //		randomVector [i] = AI.transform.position + -AI.transform.forward;
 		Vector3 relativePos = AI.transform.right - sc.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos);
@@ -389,6 +405,7 @@ public class SwordSlashingAIState : AIState {
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) < playerRadius) {
 			sc.GetComponent<Rigidbody>().isKinematic = false;
 			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
+			swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
 			sc.GetComponent<AISwordController> ().state = 3;
 			timecount = 0;
 		}
@@ -410,13 +427,15 @@ public class SwordSlashingAIState : AIState {
 //		Vector3 playerPos = AI.player.transform.position;
 //		playerPos.y = AI.transform.position.y;
 //		Debug.Log("88888888888888888888888");
-		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
+//		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = false;
+//		swords [i].GetComponent<MeleeWeaponTrail> ().StopDrawing();
 		AI.transform.position += -AI.transform.forward*Time.deltaTime*10;
 //		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPos, speed/10f * Time.deltaTime);
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > 2*playerRadius) {
 			sc.GetComponent<AISwordController> ().state = 10;
 			swords[i].GetComponent<AISword> ().state = 6;
 			AI.NextState ();
+			swords [i].GetComponent<MeleeWeaponTrail> ().StopDrawing();
 			GameObject.Destroy (sc.GetComponent<FixedJoint> ());
 
 //			swords[i].gameObject.SetActive (false);
