@@ -187,8 +187,9 @@ public class SwordSlashingAIState : AIState {
 //		if (Mathf.Abs (angle) < 20 ) {
 //			sc.GetComponent<AISwordController> ().state = 1;
 //		}
-
-
+		Vector3 playerPosY = AI.transform.position;
+		playerPosY.y = AI.player.transform.position.y + 3f;
+		AI.transform.position = Vector3.MoveTowards (AI.transform.position, playerPosY, speed/100f * Time.deltaTime);
 		if(swords [i].GetComponent<AISword>().swordModel.GetComponent<FadeManager>().isShow) {
 			sc.GetComponent<AISwordController> ().state = 1;
 			swords[i].GetComponent<Rigidbody> ().isKinematic = true;
