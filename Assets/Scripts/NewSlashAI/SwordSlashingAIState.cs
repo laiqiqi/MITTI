@@ -187,6 +187,8 @@ public class SwordSlashingAIState : AIState {
 //		if (Mathf.Abs (angle) < 20 ) {
 //			sc.GetComponent<AISwordController> ().state = 1;
 //		}
+
+
 		if(swords [i].GetComponent<AISword>().swordModel.GetComponent<FadeManager>().isShow) {
 			sc.GetComponent<AISwordController> ().state = 1;
 			swords[i].GetComponent<Rigidbody> ().isKinematic = true;
@@ -251,7 +253,7 @@ public class SwordSlashingAIState : AIState {
 	}
 
 	public void Substate3(GameObject sc, int i){
-		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
+//		swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
 		timecount += Time.deltaTime;
 		if (timecount > 5f) {
 //			Debug.Log ("Time exceed to the limit");
@@ -344,6 +346,7 @@ public class SwordSlashingAIState : AIState {
 		sc.transform.rotation = Quaternion.RotateTowards (sc.transform.rotation, rotation, agile*10 * Time.deltaTime);
 		if (Quaternion.Angle (sc.transform.rotation, rotation) < 0.1f) {
 			swords [i].GetComponent<AISword> ().swordSwipeSound.Play ();
+			swords [i].GetComponent<MeleeWeaponTrail> ().Emit = true;
 			sc.GetComponent<AISwordController> ().state = 3;
 			timecount = 0;
 //			sc.GetComponent<Rigidbody> ().isKinematic = true;
