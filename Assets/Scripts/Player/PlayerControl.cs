@@ -15,13 +15,17 @@ namespace Valve.VR.InteractionSystem
 		private PlayerStat playerStat;
 		private GameObject head;
 		private Antialiasing camAA;
-		public bool isIncre, isDash, isDashable;
+
+		public bool isDash, isDashable;
 		private float timer, counter;
+
+		public bool isIncre;
 		public float rate, limit;
 		[HideInInspector] public Collision colInfo;
 		void Start () {
 			timer = 4f;
 			counter = 0f;
+
 			isIncre = false;
 			isDash = false;
 			isOnFloor = false;
@@ -78,12 +82,11 @@ namespace Valve.VR.InteractionSystem
 				GetComponent<Rigidbody>().isKinematic = false;
 
 				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				Vector3 direction = new Vector3(VRCam.transform.right.x * 10f, 0f, VRCam.transform.right.z * 10f);
+				Vector3 direction = new Vector3(VRCam.transform.right.x * 6f, 0f, VRCam.transform.right.z * 6f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
 				isDash = true;
-				// isDashable = false;
 				isOnFloor = false;
 			}
 		}
