@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class PlayerSummonBall : MonoBehaviour {
 
-	public GameObject transFilter, portalLight, portal;
+	public GameObject transFilter, portalLight, portal, gameName;
 	public PlaySound windSoundPlayer1, windSoundPlayer2, lightSoundPlayer, sceneChangeSound;
 
 	private SceneController sceneCon;
-	private Color color;
+	private Color color, gameTitleColor;
 	private bool isChangeScene, isPlayChangeScene, isLightUp;
+	private float r, g, b;
 	// Use this for initialization
 	void Start () {
 		sceneCon = new SceneController();
@@ -21,6 +22,10 @@ public class PlayerSummonBall : MonoBehaviour {
 		color.a = 0f;
 		transFilter.GetComponent<Image>().material.SetColor("_Color", color);
 		isLightUp = true;
+		gameTitleColor = gameName.GetComponent<SpriteRenderer>().color;
+		r = gameTitleColor.r;
+		g = gameTitleColor.g;
+		b = gameTitleColor.b;
 	}
 
 	void Update () {
@@ -35,7 +40,7 @@ public class PlayerSummonBall : MonoBehaviour {
 				}
 			}
 			else{
-				sceneCon.ChangeScene(SceneController.GAME);
+				sceneCon.ChangeScene(SceneController.TUTOR_PART1);
 			}
 		}
 		
@@ -58,6 +63,11 @@ public class PlayerSummonBall : MonoBehaviour {
 				portalLight.GetComponent<Light>().intensity += 0.05f;
 				var emission = portal.GetComponent<ParticleSystem>().emission;
 				emission.rateOverTime = 200f;
+				r += 0.05f;
+				g += 0.05f;
+				b += 0.05f;
+				Color color = new Color(r, g, b, 1);
+				gameName.GetComponent<SpriteRenderer>().color = color;
 			}
 			else{
 				isLightUp = !isLightUp;
@@ -68,6 +78,11 @@ public class PlayerSummonBall : MonoBehaviour {
 				portalLight.GetComponent<Light>().intensity -= 0.05f;
 				var emission = portal.GetComponent<ParticleSystem>().emission;
 				emission.rateOverTime = 100f;
+				r -= 0.05f;
+				g -= 0.05f;
+				b -= 0.05f;
+				Color color = new Color(r, g, b, 1);
+				gameName.GetComponent<SpriteRenderer>().color = color;
 			}
 			else{
 				isLightUp = !isLightUp;
