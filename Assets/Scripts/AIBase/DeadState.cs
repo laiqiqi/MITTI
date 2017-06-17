@@ -21,7 +21,8 @@ public class DeadState : AIState {
 	}
 
 	public void StartState(){
-		GameState.instance.end = true;
+//		GameState.instance.end = true;
+		AI.isDead = true;
 		AI.currentState = AI.deadState;
 		speed = 200;
 		subState = 0;
@@ -90,6 +91,7 @@ public class DeadState : AIState {
 		else{
 			subState = 1;
 		}
+//		Debug.Log ("aaaaaaaaaaaaaaaa");
 	}
 
 	public void EndState(){
