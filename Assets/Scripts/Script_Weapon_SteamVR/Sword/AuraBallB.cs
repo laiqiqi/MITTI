@@ -26,6 +26,9 @@ namespace Valve.VR.InteractionSystem
 		public string GetSkillType(){
 			return skillType;
 		}
+		public string GetName(){
+			return "Life Steal";
+		}
 		public void Execute(GameObject sword){
 			StartCoroutine(executionTime);
 			this.sword = sword.GetComponent<Sword>();

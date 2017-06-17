@@ -5,6 +5,8 @@ namespace Valve.VR.InteractionSystem
 	public delegate void SwordSkillFiredHandler(int cooldown);
 	public delegate void SwordUltimateFiredHandler();
 	public delegate void SwordDamageDealtHandler();
+	public delegate void AuraSkillNotify();
+	public delegate void AuraCombinedNotify();
 	public class AuraHand : MonoBehaviour {
 
 		// Use this for initialization
@@ -12,6 +14,8 @@ namespace Valve.VR.InteractionSystem
 		public event SwordSkillFiredHandler SkillFired;
 		public event SwordUltimateFiredHandler UltFired;
 		public event SwordDamageDealtHandler DamageDealt;
+		public event AuraSkillNotify AuraChange;
+		public event AuraCombinedNotify AuraCombined;
 		public float slotDistance = 0.2f;
 		public Transform auraTransform;
         public List<GameObject> auraPrefabs;
@@ -77,6 +81,9 @@ namespace Valve.VR.InteractionSystem
 							}
 						}
 						combined = true;
+						if(AuraCombined != null){
+							AuraCombined();
+						}
 
 						combinedAuraToSword();
 						}
@@ -105,9 +112,21 @@ namespace Valve.VR.InteractionSystem
 		public GameObject GetCurrentAura(){
 			return currentAura;
 		}
+
+		public string GetCurrentAuraName(){
+			return currentAura.GetComponent<AuraSkill>().GetName();
+		}
+
+		private void OnAuraChange(){
+			if(AuraChange != null){
+				AuraChange();
+			}
+		}
+		
         public void ChangeSkill(int auraSlot){
 			if(auraSlot != -1 && auraSlot != auraPos){
 				auraPos = auraSlot;
+				OnAuraChange();
 				if(currentAura!=null){
 					currentAura.GetComponent<AuraSkill>().SelfDestruct();
 					currentAura.transform.parent = null;

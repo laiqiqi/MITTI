@@ -26,6 +26,10 @@ namespace Valve.VR.InteractionSystem
 		}
 		public void OnColEnter(){
 		}
+
+		public string GetName(){
+			return "Ultimate";
+		}
 		public void Execute(GameObject sword ){
 			//store reference, initial transform blah blah
 			swordRef = sword;

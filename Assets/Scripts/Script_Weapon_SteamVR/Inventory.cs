@@ -5,11 +5,14 @@ namespace Valve.VR.InteractionSystem
 {
 
 	public delegate void WeaponChangeHandler(GameObject spawnedObject, Canvas spawnedUI);
+
+	public delegate void WeaponChangerNotifier();
 	
 	[RequireComponent( typeof( Interactable ) )]
 
 	public class Inventory : MonoBehaviour {
 		public event WeaponChangeHandler WeaponChanged;
+		public event WeaponChangerNotifier WeaponNotify;
 		public List<ItemPackage> AllItemPackage;
 		
 		[EnumFlags]
@@ -18,6 +21,7 @@ namespace Valve.VR.InteractionSystem
 
 		public bool requireTriggerPressToTake;
 		private GameObject spawnedItem;
+		private GameObject otherHandObject;
 		private GameObject UIspawnedItem;
 		private Canvas spawnedUI;
 		private ItemPackage itemPackage;
@@ -39,9 +43,22 @@ namespace Valve.VR.InteractionSystem
 			// }
 		}
 
+		public GameObject GetSpawnedItem(){
+			return spawnedItem;
+		}
+		public GameObject GetOtherHandItem(){
+			return otherHandObject;
+		}
+
 		private void OnWeaponChanged(GameObject newWeapon, Canvas newUI){
 			if(WeaponChanged != null){
 				WeaponChanged(newWeapon, newUI);
+			}
+		}
+
+		private void OnWeaponNotify(){
+			if(WeaponNotify != null){
+				WeaponNotify();
 			}
 		}
 
@@ -135,6 +152,7 @@ namespace Valve.VR.InteractionSystem
 			RemoveAllItemsFromHand( hand );
 			RemoveAllItemsFromHand( hand.otherHand );
 			OnWeaponChanged(null, null);
+			OnWeaponNotify();
 		}
 		private void SpawnAndAttachObject( Hand hand )
 		{
@@ -199,6 +217,7 @@ namespace Valve.VR.InteractionSystem
 			if ( ( itemPackage.otherHandItemPrefab != null ) && ( hand.otherHand.controller != null ) )
 			{
 				GameObject otherHandObjectToAttach = GameObject.Instantiate( itemPackage.otherHandItemPrefab );
+				otherHandObject = otherHandObjectToAttach;
 				otherHandObjectToAttach.SetActive( true );
 				hand.otherHand.AttachObject( otherHandObjectToAttach, attachmentFlags );
 				UIspawnedItem = otherHandObjectToAttach;
@@ -208,6 +227,7 @@ namespace Valve.VR.InteractionSystem
 			
 			SpawnAndAttachItemSkillUI( hand );
 			OnWeaponChanged(UIspawnedItem, spawnedUI);
+			OnWeaponNotify();
 			UIspawnedItem = null;
 			spawnedUI = null;
 			updateWeaponPos();
