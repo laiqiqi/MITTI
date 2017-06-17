@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneController{
 	public const string MAIN_MENU = "StartScene";
+	public const string TUTOR_PART1 = "TutorialPart1";
 	public const string GAME = "MainGameWithTutorial";
 	public const string DEAD = "";
 
