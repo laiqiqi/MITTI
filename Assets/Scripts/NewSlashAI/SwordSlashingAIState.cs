@@ -92,7 +92,7 @@ public class SwordSlashingAIState : AIState {
 		int i = 0;
 		foreach(GameObject sc in AI.swordController){
 			int state = sc.GetComponent<AISwordController> ().state;
-//			Debug.Log (state);
+			Debug.Log ("check          "+state);
 			if (state == 0) {
 //				Debug.Log ("state     0");
 				//Rotate sword
@@ -311,8 +311,11 @@ public class SwordSlashingAIState : AIState {
 		}
 
 		if (swords[i].GetComponent<AISword>().isHitOther) {
+//			Debug.Log ("hitother!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			isStart [i] = false;
-			RandomVectorForSlashing (sc, i);
+//			RandomVectorForSlashing (sc, i);
+//			dir = (int)Mathf.Pow (-1, Random.Range (1, 3));
+			RandomVectorForHitOther(sc, i);
 			sc.GetComponent<AISwordController> ().state = 4;
 		}
 
@@ -329,10 +332,10 @@ public class SwordSlashingAIState : AIState {
 		Vector3 heading = swords [i].transform.position - AI.transform.position;
 		float angle = Vector3.Angle (heading, -AI.transform.forward);
 //		Debug.Log ("angle         "+angle);
-		if (Mathf.Abs (angle) < 20) {
-			RandomVectorForSlashing (sc, i);
-			sc.GetComponent<AISwordController> ().state = 4;
-		}
+//		if (Mathf.Abs (angle) < 20) {
+//			RandomVectorForSlashing (sc, i);
+//			sc.GetComponent<AISwordController> ().state = 4;
+//		}
 			
 		if (Vector3.Distance (AI.transform.position, AI.player.transform.position) > playerRadius) {
 			sc.GetComponent<AISwordController> ().state = 8;
@@ -371,10 +374,11 @@ public class SwordSlashingAIState : AIState {
 
 		if (swords[i].GetComponent<AISword>().isHitOther) {
 //			Debug.Log ("State 4 hitother");
-			RandomVectorForSlashing (sc, i);
-			if(swords [i].GetComponent<AISword> ().isHitOther){
-				swords [i].GetComponent<AISword> ().isHitOther = false;
-			}
+//			RandomVectorForSlashing (sc, i);
+//			if(swords [i].GetComponent<AISword> ().isHitOther){
+//				swords [i].GetComponent<AISword> ().isHitOther = false;
+//			}
+			RandomVectorForHitOther(sc, i);
 		}
 
 		if (swords [i].GetComponent<AISword> ().isHit) {
@@ -457,4 +461,19 @@ public class SwordSlashingAIState : AIState {
 		randomVector[i] = AI.transform.position + AIRandomForward;
 	}
 
+	public void RandomVectorForHitOther(GameObject sc, int i){
+		Vector3 AIForward = AI.transform.position - AI.transform.forward + AI.transform.right;
+		Vector3 NAIForward = AI.transform.position - AI.transform.forward + AI.transform.right*-1;
+		//			randomVector[i] = AI.transform.position + AIRandomForward;
+		float posDistance = Vector3.Distance(AIForward, AI.AISword.transform.position);
+		float negDistance = Vector3.Distance(NAIForward, AI.AISword.transform.position);
+		if (posDistance < negDistance) {
+			randomVector [i] = AIForward + AI.transform.up * Random.Range (0f, 5f);
+			dir = -1;
+		} else {
+			randomVector [i] = NAIForward + AI.transform.up * Random.Range (0f, 5f);
+			dir = 1;
+		}
+		swords [i].GetComponent<AISword> ().isHitOther = false;
+	}
 }
