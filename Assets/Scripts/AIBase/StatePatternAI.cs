@@ -9,6 +9,7 @@ public class StatePatternAI: MonoBehaviour {
 	public float speed;
 	public float agile;
 	public bool isRage;
+	public bool isDead;
 	public GameObject player;
 	public GameObject bullet;
 	public GameObject body;
@@ -93,6 +94,7 @@ public class StatePatternAI: MonoBehaviour {
 //		isParry = false;
 
 //		openingState.choice.AddRange(new AIState[]{prepareSlamState});
+//		openingState.choice.AddRange(new AIState[]{deadState});
 		openingState.choice.AddRange(new AIState[]{floatingState});
 		AIStateFlow.Add(openingState, openingState.choice);
 		openingState.stateDelay = 0;
@@ -147,9 +149,10 @@ public class StatePatternAI: MonoBehaviour {
 //													, swordSlashingAIState, prepareSlamState
 //		 											, seekState, prepareDigStrikeState, swordSlashingAIState});
 //		 floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
-		 floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
+//		 floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
 		// floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
 //		floatingState.choice.AddRange (new AIState[]{swordSlashingAIState});
+//		floatingState.choice.AddRange (new AIState[]{dState});
 
 		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
 		//  											, seekState, prepareDigStrikeState, swordShootingAIState});
@@ -192,7 +195,7 @@ public class StatePatternAI: MonoBehaviour {
 		currentState.UpdateState();
 //		 Debug.LogWarning (AIStateFlow[floatingState].Count);
 		ChangeColorAI();
-		isDead ();
+		checkDead ();
 		// KeyboardController();
 		// Debug.Log(currentState.name);
 		// if(magnet.transform.parent == body.transform){
@@ -259,7 +262,7 @@ public class StatePatternAI: MonoBehaviour {
 			}
 		}else if(AIStateFlow[currentState].Count == 1){
 //			Debug.Log("Next1");
-			Debug.Log(AIStateFlow[currentState][0]);
+//			Debug.Log(AIStateFlow[currentState][0]);
 			AIStateFlow[currentState][0].StartState();
 			// currentState = AIStateFlow[currentState][0];
 		}
@@ -343,7 +346,7 @@ public class StatePatternAI: MonoBehaviour {
 
 	}
 
-	void isDead(){
+	void checkDead(){
 		if (isRage == false) {
 			if(health < maxHealth * 40f/100f){
 				isRage = true;
@@ -351,7 +354,7 @@ public class StatePatternAI: MonoBehaviour {
 			}
 		}
 
-		if(health <= 0f){
+		if(health <= 0f && !isDead){
 			deadState.StartState ();
 		}
 	}

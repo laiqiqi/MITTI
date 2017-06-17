@@ -83,15 +83,15 @@ public class GameState : MonoBehaviour {
 		if(mainGame) {
 			RotateSkyBox();
 			// Debug.Log(Player.instance.GetComponent<PlayerStat>().health);
-			if(StatePatternAI.instance.health <= 0){
-				Debug.Log("Purify");
-				mainGame = false;
-				if(BGMplay){
-					StopMainBGM();
-					BGMplay = false;
-				}
-				// end = true;
-			}
+//			if(StatePatternAI.instance.health <= 0){
+//				Debug.Log("Purify");
+//				mainGame = false;
+//				if(BGMplay){
+//					StopMainBGM();
+//					BGMplay = false;
+//				}
+//				// end = true;
+//			}
 			if(Player.instance.GetComponent<PlayerStat>().health <= 0){
 				// Debug.Log("You Die");
 				StatePatternAI.instance.stopState.StartState();
@@ -116,6 +116,12 @@ public class GameState : MonoBehaviour {
 			// 	StopMainBGM();
 			// 	BGMplay = false;
 			// }
+			Debug.Log("Purify");
+			mainGame = false;
+			if(BGMplay){
+				StopMainBGM();
+				BGMplay = false;
+			}
 			Debug.Log("End");
 			if(!isDestroyAI){
 				RenderSettings.ambientMode = AmbientMode.Skybox;
