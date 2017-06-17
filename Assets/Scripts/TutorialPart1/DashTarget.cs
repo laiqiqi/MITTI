@@ -17,7 +17,7 @@ public class DashTarget : MonoBehaviour {
 
 	public void OnTriggerEnter (Collider col){
 		if(col.tag.Equals("Player")){
-			tutorPart1Con.GetComponent<TutorPartOneGameController>().killCount += 1;
+			tutorPart1Con.GetComponent<TutorPartOneGameController>().dashCount += 1;
 			Destroy(this.gameObject);
 		}
 	}
