@@ -10,7 +10,7 @@ public class TutorDashState : AIState {
 	public float stateDelay{ get;set;}
 
     private string[] talkScript;
-    private bool isWaitToNext, isCountDown, isDashToAllTarget;
+    private bool isWaitToNext, isCountDown, isCountDownScene;
     private float counter, timeLimit;
     private int talkCounter;
 
@@ -24,6 +24,7 @@ public class TutorDashState : AIState {
     {
         isWaitToNext = false;
         isCountDown = false;
+        isCountDownScene = false;
         talkScript = new string[]{"Hello, Arcane transmutor.", //0
 								"Shoot me with the arrow, if this is not the first time.", //1
 								"It seem like you had lost all of your memory.", //2
@@ -35,10 +36,8 @@ public class TutorDashState : AIState {
 								"Go to yellow light that appear around.", //8
 								"Good job, now you know how to evade and move around."}; //9
 
-        AI.currentState = AI.tutorDashState;
         talkCounter = 0;
-        Debug.Log(talkScript[talkCounter]);
-        Talk();
+        AI.currentState = AI.tutorDashState;
     }
 
 	public void StateChangeCondition()
@@ -53,7 +52,7 @@ public class TutorDashState : AIState {
 
 	public void EndState()
     {
-
+        AI.tutorArrowState.StartState();
 	}
 
     void Talk() {
@@ -62,21 +61,30 @@ public class TutorDashState : AIState {
             talkCounter++;
             isWaitToNext = true;
         }
-        if(talkCounter == 9){
-            if(isDashToAllTarget){
-                Countdown(0.5f);
+        else if(talkCounter == 2){ 
+            if(AI.isEndTutor){
+                CountdownChangeScene(4f);
             }
-            else if(AI.gameCon.GetComponent<TutorPartOneGameController>().killCount == 0){
+            else{
+                Countdown(5f);
+            }
+        }
+        else if(talkCounter == 3){ 
+            AI.isTutor = true;
+            Countdown(2f);
+        }
+        else if(talkCounter == 9){   
+            if(AI.gameCon.GetComponent<TutorPartOneGameController>().dashCount == 0){
                 AI.dashTarget[0].SetActive(true);
             }
-            else if(AI.gameCon.GetComponent<TutorPartOneGameController>().killCount == 1){
+            else if(AI.gameCon.GetComponent<TutorPartOneGameController>().dashCount == 1){
                 AI.dashTarget[1].SetActive(true);
             }
-            else if(AI.gameCon.GetComponent<TutorPartOneGameController>().killCount == 2){
+            else if(AI.gameCon.GetComponent<TutorPartOneGameController>().dashCount == 2){
                 AI.dashTarget[2].SetActive(true);
             }
-            else if(AI.gameCon.GetComponent<TutorPartOneGameController>().killCount == 3){
-                isDashToAllTarget = true;
+            else if(AI.gameCon.GetComponent<TutorPartOneGameController>().dashCount == 3){
+                EndState();
             }
         }
         else {
@@ -93,13 +101,32 @@ public class TutorDashState : AIState {
             isCountDown = true;
         }
         else{
-            Debug.Log("count down");
+            // Debug.Log("count down");
             if(counter < timeLimit){
                 counter += 0.01f;
             }
             else{
                 isWaitToNext = false;
                 isCountDown = false;
+            }
+        }
+    }
+
+    void CountdownChangeScene(float sec){
+        if(!isCountDownScene){
+            AI.UpdateText("I will send you to defeat your own creation. I hope this is the last time. Good luck.");
+            timeLimit = sec;
+            counter = 0;
+            isWaitToNext = true;
+            isCountDown = true;
+            isCountDownScene = true;
+        }
+        else{
+            if(counter < timeLimit){
+                counter += 0.01f;
+            }
+            else{
+                AI.gameCon.GetComponent<TutorPartOneGameController>().sceneCon.ChangeScene(SceneController.GAME);
             }
         }
     }
