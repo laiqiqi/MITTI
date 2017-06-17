@@ -15,6 +15,9 @@ namespace Valve.VR.InteractionSystem
 	public delegate void UltimateFireHandler();
 	public delegate void DamageHandler();
 	public delegate void SkillFireHandler(int cooldown);
+	public delegate void ArrowAttachedHandler();
+	public delegate void ArrowFiredHandler();
+	public delegate void SkillChangeHandler();
 	public class ArrowHand : MonoBehaviour
 	{
 		private Hand hand;
@@ -23,6 +26,9 @@ namespace Valve.VR.InteractionSystem
 		public event UltimateFireHandler UltimateFired;
 		public event DamageHandler DamageDealt;
 		public event SkillFireHandler SkillFired;
+		public event ArrowAttachedHandler ArrowAttached;
+		public event ArrowFiredHandler ArrowFired;
+		public event SkillChangeHandler SkillChange;
 		private GameObject currentArrow;
 		public GameObject arrowPrefab;
 		public List<GameObject> arrowPrefabs;
@@ -202,7 +208,9 @@ namespace Valve.VR.InteractionSystem
 							skill = null;
 						}
 					}
-
+					if(ArrowAttached!=null){
+						ArrowAttached();
+					}
 					nocked = true;
 					bow.StartNock( this );
 					hand.HoverLock( GetComponent<Interactable>() );
@@ -216,6 +224,7 @@ namespace Valve.VR.InteractionSystem
 			if (nocked && hand.controller.GetPress( SteamVR_Controller.ButtonMask.Trigger )){
 				NowDisableUI();
 				// Skill skill = currentArrow.GetComponent<Skill>();
+				
 				if(skill != null){
 					if(bow.chargepulled){//if bow pull far back enough
 						if (!skill.OverCharged() && !skill.GetChargingStatus()){
@@ -328,6 +337,9 @@ namespace Valve.VR.InteractionSystem
 
 			currentArrow.GetComponent<Arrow>().ArrowReleased( bow.GetArrowVelocity() );
 			bow.ArrowReleased();
+			if(ArrowFired != null){
+				ArrowFired();
+			}
 
 			allowArrowSpawn = false;
 			Invoke( "EnableArrowSpawn", 0.5f );
@@ -391,6 +403,9 @@ namespace Valve.VR.InteractionSystem
 					currentArrow.GetComponent<Arrow>().SelfDestruct();
 					currentArrow.transform.parent = null;
 					currentArrow = null;
+					if(SkillChange != null){
+						SkillChange();
+					}
 					// Debug.Log("skill changed");
 				}
 				

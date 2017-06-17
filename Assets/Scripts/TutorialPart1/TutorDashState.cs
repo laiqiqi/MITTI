@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class TutorDashState : AIState {
 
@@ -71,6 +72,10 @@ public class TutorDashState : AIState {
         }
         else if(talkCounter == 3){ 
             AI.isTutor = true;
+            Countdown(2f);
+        }
+        else if(talkCounter == 8){
+            Player.instance.GetComponent<PlayerControl>().isDashable=true;
             Countdown(2f);
         }
         else if(talkCounter == 9){   
