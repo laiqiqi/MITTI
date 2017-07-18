@@ -37,4 +37,11 @@ public class ContinuousExplosionForce : MonoBehaviour
 			}
 		}
 	}
+
+	void OnCollisionEnter (Collision collision) {
+ 
+		if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "SwordGround") {
+			Physics.IgnoreCollision(collision.collider, this.GetComponent<Collider>());
+		}
+	}
 }

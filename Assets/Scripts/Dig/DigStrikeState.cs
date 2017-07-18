@@ -53,7 +53,7 @@ public class DigStrikeState : AIState {
 
     public void EndState()
     {
-        Debug.Log("Dig Strike End");
+        // Debug.Log("Dig Strike End");
         AI.NextState();
     }
 

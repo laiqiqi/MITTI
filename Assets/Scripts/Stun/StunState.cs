@@ -59,11 +59,11 @@ public class StunState : AIState {
         AI.NoRagdollMode();
         AI.effectManager.DestroyEffectByName(EffectName.STUN_5_SEC);
         AI.effectManager.RemoveEffectFromDictByName(EffectName.STUN_5_SEC);
-        AI.EditMagnet(1000f, 100);
-        AI.magnet.transform.parent = AI.body.transform;
+        // AI.magnet.transform.parent = AI.body.transform;
         AI.GetComponent<SphereCollider>().enabled = false;
         AI.body.GetComponent<SphereCollider>().isTrigger = false;
-        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -1000f;
+        AI.EditMagnet(1000, 100);
+        AI.magnet.GetComponent<ContinuousExplosionForce>().force = -200f;
         
         AI.NextState();
     }
@@ -79,12 +79,12 @@ public class StunState : AIState {
         }
     }
 
-    void MagnetDown(){
-        AI.magnet.GetComponent<ContinuousExplosionForce>().size = 0;
-        AI.magnet.SetActive(false);
-    }
+    // void MagnetDown(){
+    //     AI.magnet.GetComponent<ContinuousExplosionForce>().size = 0;
+    //     AI.magnet.SetActive(false);
+    // }
 
-    void MagnetUp(){
-        AI.magnet.GetComponent<ContinuousExplosionForce>().size = 15;
-    }
+    // void MagnetUp(){
+    //     AI.magnet.GetComponent<ContinuousExplosionForce>().size = 15;
+    // }
 }

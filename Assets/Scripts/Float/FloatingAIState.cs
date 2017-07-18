@@ -40,7 +40,7 @@ public class FloatingAIState : AIState {
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = false;
 		Debug.Log("enemy     AISword      "+ enemy.AISword.GetComponent<AISword>().state);
 		if (enemy.AISword.GetComponent<AISword>().state == -2) {
-			Debug.Log ("asdlkfjalkdfjl;kasdjfkl;a");
+			// Debug.Log ("asdlkfjalkdfjl;kasdjfkl;a");
 			enemy.NextState ();
 		}
 	}
