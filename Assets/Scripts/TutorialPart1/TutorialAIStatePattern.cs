@@ -13,7 +13,7 @@ public class TutorialAIStatePattern : MonoBehaviour {
 	public PlaySound canvasSoundPlayer, tutorBGM;
 	public GameObject[] minions;
 	public GameObject nextArrow, backArrow;
-	public GameObject frontPic, rightPic;
+	public GameObject leftPic, rightPic;
 
 	private string[] talkScript;
 	private int counter, nextScriptIndex;
@@ -26,16 +26,18 @@ public class TutorialAIStatePattern : MonoBehaviour {
 	public GameObject queryChan;
 	public GameObject[] dashTarget;
 
-	public GameObject gameCon;
+	// public GameObject gameCon;
 
 	[HideInInspector] public AIState currentState;
 	[HideInInspector] public TutorDashState tutorDashState;
-	[HideInInspector] public TutorArrowState tutorArrowState;
+	// [HideInInspector] public TutorArrowState tutorArrowState;
+
+	public int dashCount;
 
 	// Use this for initialization
 	void Start () {
 		tutorDashState = new TutorDashState(this);
-		tutorArrowState = new TutorArrowState(this);
+		// tutorArrowState = new TutorArrowState(this);
 
 		text.material.SetColor("_Color", Color.white);
 		
@@ -63,31 +65,9 @@ public class TutorialAIStatePattern : MonoBehaviour {
 		// FadeOut();
 	}
 
-	void TutorPicControl() {
-		if(counter == 5){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
-		if(counter == 7){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
-		}
-		if(counter == 9){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
-		}
-		else if(counter == 10){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
-		else if(counter == 14){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
-		}
-		else if(counter == 16){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
+	public void SetTutorPicControl(Sprite left, Sprite right) {
+		leftPic.GetComponent<SpriteRenderer>().sprite = left;
+		rightPic.GetComponent<SpriteRenderer>().sprite = right;
 	}
 
 	void MoveUpDown() {
@@ -96,7 +76,8 @@ public class TutorialAIStatePattern : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col) {
 		Debug.Log(isTutor);
-		if (col.tag.Equals("projectile") && !isTutor) {
+		// if (col.tag.Equals("projectile") && !isTutor) {
+		if (col.tag.Equals("projectile")) {
 			Debug.Log("EndTutor");
 			isEndTutor = true;
 		}

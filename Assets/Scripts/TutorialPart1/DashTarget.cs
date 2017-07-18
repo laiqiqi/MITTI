@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DashTarget : MonoBehaviour {
 
-	public GameObject tutorPart1Con;
+	public TutorialAIStatePattern tutorAI;
 	// Use this for initialization
 	void Start () {
 		
@@ -17,7 +17,7 @@ public class DashTarget : MonoBehaviour {
 
 	public void OnTriggerEnter (Collider col){
 		if(col.tag.Equals("Player")){
-			tutorPart1Con.GetComponent<TutorPartOneGameController>().dashCount += 1;
+			tutorAI.dashCount += 1;
 			Destroy(this.gameObject);
 		}
 	}

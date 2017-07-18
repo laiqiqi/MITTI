@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneController{
 	public const string MAIN_MENU = "StartScene";
-	public const string TUTOR_PART1 = "TutorialPart1";
-	public const string GAME = "MainGameWithTutorial";
-	public const string DEAD = "";
+	public const string DASH_TUTOR = "DashTutorial";
+	public const string ARROW_TUTOR = "ArrowTutorial";
+	public const string SWORD_TUTOR = "SwordTutorial";
+	public const string GAME = "MainGame";
 
 	public void ChangeScene(string sceneName){
 		SceneManager.LoadScene(sceneName);

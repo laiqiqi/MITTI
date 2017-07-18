@@ -37,7 +37,7 @@ public class TutorArrowState : AIState {
                                 "Very good, Let's move to next area."}; //10
 
         talkCounter = 0;
-        AI.currentState = AI.tutorArrowState;
+        // AI.currentState = AI.tutorArrowState;
     }
 
 	public void StateChangeCondition()

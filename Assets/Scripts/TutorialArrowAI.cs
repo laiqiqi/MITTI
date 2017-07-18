@@ -46,7 +46,7 @@ public class TutorialArrowAI : MonoBehaviour {
 		counter = -1;
 		nextScriptIndex = counter+1;
 
-		talkScript = new string[]{"Take out your bow", //0
+		talkScript = new string[]{"Take out your bow, move your main hand at your back when it vibrate press grip button", //0
 								"Bring the arrow close to the bow then press and hold trigger",
 								"Fantastic, now let's try to hit some targets",
 								"To change the arrow skills, touch the touchpad on the arrow hand",
@@ -234,10 +234,10 @@ public class TutorialArrowAI : MonoBehaviour {
 	// }
 
 	void TutorPicControl() {
-		// if(counter == 5){
-		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		// }
+		if(counter == 0){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		}
 		if(counter == 7){
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
 			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];

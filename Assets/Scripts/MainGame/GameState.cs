@@ -56,6 +56,8 @@ public class GameState : MonoBehaviour {
 		black.a = 0;
 		dieTextColor = dieText.GetComponent<Text>().color;
 		dieTextColor.a = 0;
+
+		fallingWindSoundPlayer.Play();
 	}
 	void OnEnable(){
 		_instance = this;
@@ -167,17 +169,21 @@ public class GameState : MonoBehaviour {
 	}
 	void TutorialState(){
 		// Debug.Log(tutorAI.GetComponent<TutorialAI>().isEndTutor);
-		if(tutorAI.GetComponent<TutorialAI>().isEndTutor && !isFallingPlay){
-			Debug.Log("Destryo tutorenvi");
-			Destroy(tutorEnvi.gameObject);
-			fallingWindSoundPlayer.Play();
-			isFallingPlay = true;
-		}
+		// if(tutorAI.GetComponent<TutorialAI>().isEndTutor && !isFallingPlay){
+		// 	Debug.Log("Destryo tutorenvi");
+		// 	Destroy(tutorEnvi.gameObject);
+		// 	fallingWindSoundPlayer.Play();
+		// 	isFallingPlay = true;
+		// }
+		// fallingWindSoundPlayer.Play();
+		// isFallingPlay = true;
+
 		if(Player.instance.transform.position.y <= 150f && !isNearFallPlay){
 			nearFloorSoundPlayer.Play();
 			fallingWindSoundPlayer.isStartFadeOut = true;
 			isNearFallPlay = true;
 		}
+
 		if(Player.instance.GetComponent<PlayerControl>().isOnFloor == true){
 			if(!isPlayEarth){
 				earthQuakeSoundPlayer.Play();

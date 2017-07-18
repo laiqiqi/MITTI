@@ -28,7 +28,7 @@ public class PrepareDigStrikeState : AIState {
             AI.speed = 8f;
         }
         moveToTarget = new Vector3(AI.transform.position.x,
-                                 AI.transform.position.y-15f,
+                                 AI.transform.position.y-10f,
                                  AI.transform.position.z);
         timer = 0f;
         seekTime = Random.Range(2f, 3f);
@@ -39,7 +39,7 @@ public class PrepareDigStrikeState : AIState {
 
     public void UpdateState()
     {
-        AI.DisableMagnet();
+        // AI.DisableMagnet();
         if(AI.transform.position.y - moveToTarget.y >= 0.1f){
             Dig();
         }
@@ -75,7 +75,7 @@ public class PrepareDigStrikeState : AIState {
                 AI.speed = 1f;
             }
 
-            if (AI.transform.position.y <= 0){
+            if (AI.transform.position.y <= 0.5f){
                 AI.DisableMagnet();
             }
             if (!isDownSoundPlay){

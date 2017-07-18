@@ -4,10 +4,10 @@ using UnityEngine;
 using Valve.VR.InteractionSystem;
 using UnityEngine.UI;
 
-public class PlayerSummonBall : MonoBehaviour {
+public class PlayerSummonBallTutor : MonoBehaviour {
 
-	public GameObject transFilter, portalLight, portal, gameName;
-	public PlaySound windSoundPlayer1, windSoundPlayer2, lightSoundPlayer, sceneChangeSound;
+	public GameObject transFilter, portalLight, portal;
+	public PlaySound lightSoundPlayer, sceneChangeSound;
 
 	private SceneController sceneCon;
 	private Color color, gameTitleColor;
@@ -15,6 +15,7 @@ public class PlayerSummonBall : MonoBehaviour {
 	private float r, g, b;
 	// Use this for initialization
 	void Start () {
+		DontDestroyOnLoad(this.gameObject);
 		sceneCon = new SceneController();
 		isChangeScene = false;
 		isPlayChangeScene = true;
@@ -22,10 +23,6 @@ public class PlayerSummonBall : MonoBehaviour {
 		color.a = 0f;
 		transFilter.GetComponent<Image>().material.SetColor("_Color", color);
 		isLightUp = true;
-		gameTitleColor = gameName.GetComponent<SpriteRenderer>().color;
-		r = gameTitleColor.r;
-		g = gameTitleColor.g;
-		b = gameTitleColor.b;
 	}
 
 	void Update () {
@@ -40,7 +37,7 @@ public class PlayerSummonBall : MonoBehaviour {
 				}
 			}
 			else{
-				sceneCon.ChangeScene(SceneController.DASH_TUTOR);
+				sceneCon.ChangeScene(SceneController.GAME);
 			}
 		}
 		
@@ -50,8 +47,6 @@ public class PlayerSummonBall : MonoBehaviour {
 	void OnTriggerEnter(Collider col) {
 		if(col.tag == "Player"){
 			transFilter.SetActive(true);
-			windSoundPlayer1.isStartFadeOut = true;
-			windSoundPlayer2.isStartFadeOut = true;
 			lightSoundPlayer.isStartFadeOut = true;
 			isChangeScene = true;
 		}
@@ -67,7 +62,6 @@ public class PlayerSummonBall : MonoBehaviour {
 				g += 0.05f;
 				b += 0.05f;
 				Color color = new Color(r, g, b, 1);
-				gameName.GetComponent<SpriteRenderer>().color = color;
 			}
 			else{
 				isLightUp = !isLightUp;
@@ -82,7 +76,6 @@ public class PlayerSummonBall : MonoBehaviour {
 				g -= 0.05f;
 				b -= 0.05f;
 				Color color = new Color(r, g, b, 1);
-				gameName.GetComponent<SpriteRenderer>().color = color;
 			}
 			else{
 				isLightUp = !isLightUp;
