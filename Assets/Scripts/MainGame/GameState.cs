@@ -20,6 +20,7 @@ public class GameState : MonoBehaviour {
 	public GameObject sceneDestroyer, sceneProps;
 	public GameObject playerTransFilter;
 	public GameObject dieCanvas, dieBG, dieText;
+	public GameObject endCredit;
 	// Use this for initialization
 	private static GameState _instance;
 	public static GameState instance
@@ -118,7 +119,7 @@ public class GameState : MonoBehaviour {
 			// 	StopMainBGM();
 			// 	BGMplay = false;
 			// }
-			Debug.Log("Purify");
+			// Debug.Log("Purify");
 			mainGame = false;
 			if(BGMplay){
 				StopMainBGM();
@@ -145,14 +146,18 @@ public class GameState : MonoBehaviour {
 			if(skyboxNorm.GetFloat("_Exposure") > 1.3f){
 				skyboxNorm.SetFloat("_Exposure", skyboxNorm.GetFloat("_Exposure") - 0.1f);
 				RenderSettings.ambientIntensity -= 0.055f;
+				endCredit.gameObject.SetActive(true);
 			}
 
 			if(Player.instance.transform.position.y < 500){
 				Player.instance.transform.position = Player.instance.transform.position + Vector3.up * 0.05f;
+				if(endCredit.GetComponent<EndCreditController>().isEnd){
+					sceneCon.ChangeScene(SceneController.MAIN_MENU);
+				}
 			}
-			else {
-				sceneCon.ChangeScene(SceneController.MAIN_MENU);
-			}
+			// else if(endCredit.GetComponent<EndCreditController>().isEnd){
+			// 	sceneCon.ChangeScene(SceneController.MAIN_MENU);
+			// }
 		}
 	}
 
