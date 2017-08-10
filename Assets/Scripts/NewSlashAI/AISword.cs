@@ -172,6 +172,7 @@ public class AISword : MonoBehaviour {
 	}
 
 	void OnCollisionStay(Collision other){
+		isHide = true;
 		if (other.transform.tag == "playsword" || other.transform.tag == "Player") {
 			isHit = true;
 			if (state == 3) {
