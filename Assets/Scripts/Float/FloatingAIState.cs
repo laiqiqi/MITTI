@@ -26,6 +26,7 @@ public class FloatingAIState : AIState {
 			speed = 10f;
 		}
 		target.position = RandomPosition();
+		enemy.magnet.GetComponent<ContinuousExplosionForce>().force = -50f;
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = true;
 	}
 

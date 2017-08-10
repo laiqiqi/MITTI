@@ -13,7 +13,7 @@ public class GameState : MonoBehaviour {
 
 	public Material skyboxChaos;
 	public Material skyboxNorm;
-	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI;
+	public GameObject normalLight, chaosLight, outerEnvi, tutorEnvi, tutorAI, endFloor;
 	public bool tutorialState, AIOpen, afterAIOpen, mainGame, end, isFallingPlay, isNearFallPlay, isDestroyAI, isPlayEarth, isWaitDie, BGMplay;
 	public PlaySound fallingWindSoundPlayer, nearFloorSoundPlayer, earthQuakeSoundPlayer, mainBGM, endSong;
 	public GameObject dieSound;
@@ -136,7 +136,7 @@ public class GameState : MonoBehaviour {
 			// 	BGMplay = false;
 			// }
 			// Debug.Log("Purify");
-			// StartCoroutine(UploadRecordTime(time));
+			// StartCoroutine(UploadRecordTime(time)); //////////////////////////////////////////////////
 			mainGame = false;
 			if(BGMplay){
 				StopMainBGM();
@@ -144,6 +144,7 @@ public class GameState : MonoBehaviour {
 			}
 			// Debug.Log("End");
 			if(!isDestroyAI){
+				endFloor.SetActive(true);
 				RenderSettings.ambientMode = AmbientMode.Skybox;
 				RenderSettings.ambientIntensity = 5f;
 				skyboxNorm.SetFloat("_Exposure", 8f);

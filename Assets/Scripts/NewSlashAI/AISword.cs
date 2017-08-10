@@ -108,26 +108,36 @@ public class AISword : MonoBehaviour {
 			}
 		} else if (state == 7) {
 			//sword out
-			swordModel.GetComponent<FadeManager> ().Fade (-0.01f);
+			swordModel.GetComponent<FadeManager> ().Fade (-0.03f);
+			// swordModel.GetComponent<FadeManager> ().Fade (Time.deltaTime*3f);
 //			Debug.Log (swordModel.GetComponent<FadeManager> ().alpha);
 			if (!swordModel.GetComponent<FadeManager> ().isShow) {
 				state = 5;
 			}
 		} else if (state == 8) {
 			//sword in
-			swordModel.GetComponent<FadeManager> ().Fade (0.01f);
+			swordModel.GetComponent<FadeManager> ().Fade (0.03f);
+			// swordModel.GetComponent<FadeManager> ().Fade (-(Time.deltaTime*3f));
 			if (swordModel.GetComponent<FadeManager> ().isShow) {
 				state = 5;
 			}
 		} else if (state == -1) {
+			
 			if (!swordModel.GetComponent<FadeManager> ().isShow) {
+				Debug.Log("isShow");
+				// Debug.Log(this.effect.transform.GetComponentsInChildren<ParticleSystem>().Length);
 				int count = 0;
 				foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>()) {
+				// foreach (ParticleSystem p in this.effect.transform.GetComponentsInChildren<ParticleSystem>().) {
+
 					if(p.IsAlive() == false){
+						Debug.Log("isAlive false");
 						count++;
 					}
 				}
+				Debug.Log(count+"after foreach");
 				if (count == 2) {
+					Debug.Log("Count2");
 					if (virtualSword) {
 						Destroy (this.gameObject);
 					} else {
@@ -178,7 +188,7 @@ public class AISword : MonoBehaviour {
 			if (state == 3) {
 				this.GetComponent<Rigidbody> ().useGravity = true;
 				this.GetComponent<Rigidbody> ().angularDrag = 0;
-				state = 0;
+				// state = 0;
 			}
 //			state = -1;
 //			this.GetComponent<Rigidbody> ().useGravity = true;
@@ -197,14 +207,14 @@ public class AISword : MonoBehaviour {
 					if (Physics.Raycast (this.transform.position, -this.transform.forward, out hit, 5f)) {
 						if (hit.transform.tag == "Floor") {
 //							Debug.Log ("Sword 44444");
-							state = 4;
+							// state = 4;
 							this.transform.position += -this.transform.forward * 2;
 							this.GetComponent<Rigidbody> ().isKinematic = true;
 						}
 					}
 				} else {
 					this.GetComponent<Rigidbody> ().useGravity = true;
-					state = 0;
+					// state = 0;
 				}
 			}
 		}
@@ -214,7 +224,7 @@ public class AISword : MonoBehaviour {
 		if (other.transform.tag == "playsword") {
 			isHit = false;
 			this.transform.tag = "AISword";
-			state = 10;
+			// state = 10;
 		}
 		isHitOther = false;
 		

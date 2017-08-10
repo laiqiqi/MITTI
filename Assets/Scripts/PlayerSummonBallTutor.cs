@@ -27,7 +27,7 @@ public class PlayerSummonBallTutor : MonoBehaviour {
 
 	void Update () {
 		if(isChangeScene){
-			Debug.Log(transFilter.GetComponent<Image>().material.GetColor("_Color").a);
+			// Debug.Log(transFilter.GetComponent<Image>().material.GetColor("_Color").a);
 			if(transFilter.GetComponent<Image>().material.GetColor("_Color").a < 1f){
 				color.a += 0.05f;
 				transFilter.GetComponent<Image>().material.SetColor("_Color", color);

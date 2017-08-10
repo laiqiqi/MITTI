@@ -13,4 +13,8 @@ public class SceneController{
 	public void ChangeScene(string sceneName){
 		SceneManager.LoadScene(sceneName);
 	}
+
+	public string GetCurrentScene(){
+		return SceneManager.GetActiveScene().name;
+	}
 }

@@ -108,7 +108,7 @@ public class TutorDashState : MonoBehaviour, AIState {
 
     void Countdown(float sec){
         if(!isCountDown){
-            Debug.Log("wait");
+            // Debug.Log("wait");
             timeLimit = sec;
             counter = 0;
             isWaitToNext = true;

@@ -22,6 +22,8 @@ namespace Valve.VR.InteractionSystem
 		public bool isIncre;
 		public float rate, limit;
 		[HideInInspector] public Collision colInfo;
+
+		private SceneController sceneCon = new SceneController();
 		void Start () {
 			timer = 4f;
 			counter = 0f;
@@ -29,7 +31,12 @@ namespace Valve.VR.InteractionSystem
 			isIncre = false;
 			isDash = false;
 			isOnFloor = false;
-			isDashable = true;
+			if(sceneCon.GetCurrentScene().Equals(SceneController.GAME) || sceneCon.GetCurrentScene().Equals(SceneController.MAIN_MENU)){
+				isDashable = false;
+			}
+			else{
+				isDashable = true;
+			}
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
 			// head = VRCam.transform.FindChild("FollowHead").gameObject;
@@ -51,9 +58,9 @@ namespace Valve.VR.InteractionSystem
 					isDashable = true;
 					counter = 0;
 					player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
-					if(!GameState.instance.tutorialState){
-						GetComponent<Rigidbody>().isKinematic = true;
-					}
+					// if(!GameState.instance.tutorialState){
+					// 	GetComponent<Rigidbody>().isKinematic = true;
+					// }
 					// if(isOnFloor) {
 					// 	counter = 0;
 					// 	player.transform.rotation = Quaternion.EulerAngles(0, 0, 0);
@@ -69,7 +76,10 @@ namespace Valve.VR.InteractionSystem
 				{
 					if ( hand.controller.GetPressDown( Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad ) )
 					{
-						Debug.Log("pressed");
+						// Debug.Log("pressed");
+						if(sceneCon.GetCurrentScene().Equals(SceneController.MAIN_MENU)){
+							player.transform.position = Vector3.zero;
+						}
 						Dash();
 					}
 				}
@@ -94,7 +104,7 @@ namespace Valve.VR.InteractionSystem
 		void Dazzle() {
 			if(player.GetComponent<PlayerStat>().isStartDazzle){
 				camAA.showGeneratedNormals = true;
-				camAA.offsetScale = 2;
+				camAA.offsetScale = 1.5f;
 				camAA.blurRadius = 25;
 
 				StartCoroutine(SetDazzleTimer());
@@ -127,7 +137,7 @@ namespace Valve.VR.InteractionSystem
 		}
 
 		IEnumerator SetDazzleTimer(){
-			yield return new WaitForSeconds(12f);
+			yield return new WaitForSeconds(10f);
 			Debug.Log("StopDazzle");
 			camAA.showGeneratedNormals = false;
 			camAA.offsetScale = 0.2f;
