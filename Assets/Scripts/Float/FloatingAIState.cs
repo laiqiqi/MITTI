@@ -40,8 +40,8 @@ public class FloatingAIState : AIState {
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = false;
 		Debug.Log("enemy     AISword      "+ enemy.AISword.GetComponent<AISword>().state);
 		int countVirtualSword = 0;
-		foreach(AISword sword in GameObject.FindGameObjectsWithTag("AISword")){
-			if (sword.virtualSword) {
+		foreach(GameObject sword in GameObject.FindGameObjectsWithTag("AISword")){
+			if (sword.GetComponent<AISword>().virtualSword) {
 				countVirtualSword++;
 			}
 		}
