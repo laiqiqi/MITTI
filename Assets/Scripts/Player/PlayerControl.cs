@@ -92,7 +92,7 @@ namespace Valve.VR.InteractionSystem
 				GetComponent<Rigidbody>().isKinematic = false;
 
 				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				Vector3 direction = new Vector3(VRCam.transform.right.x * 9f, 0f, VRCam.transform.right.z * 9f);
+				Vector3 direction = new Vector3(VRCam.transform.right.x * 8f, 0f, VRCam.transform.right.z * 8f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;
@@ -103,6 +103,7 @@ namespace Valve.VR.InteractionSystem
 
 		void Dazzle() {
 			if(player.GetComponent<PlayerStat>().isStartDazzle){
+				camAA.enabled = true;
 				camAA.showGeneratedNormals = true;
 				camAA.offsetScale = 1.5f;
 				camAA.blurRadius = 25;
@@ -143,6 +144,7 @@ namespace Valve.VR.InteractionSystem
 			camAA.offsetScale = 0.2f;
 			camAA.blurRadius = 18;
 			player.GetComponent<PlayerStat>().isDazzle = false;
+			camAA.enabled = false;
 		}
 
 		void OnTriggerEnter (Collider col) {

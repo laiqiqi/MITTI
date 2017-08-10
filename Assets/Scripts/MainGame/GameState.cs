@@ -122,8 +122,8 @@ public class GameState : MonoBehaviour {
 					dieSound.SetActive(true);
 					StartCoroutine(WaitDie());
 				}
-				black.a += 0.005f;
-				dieTextColor.a += 0.005f;
+				black.a += 0.01f;
+				dieTextColor.a += 0.01f;
 
 				dieBG.GetComponent<Image>().color = black;
 				dieText.GetComponent<Text>().color = dieTextColor;
@@ -144,7 +144,6 @@ public class GameState : MonoBehaviour {
 			}
 			// Debug.Log("End");
 			if(!isDestroyAI){
-				endFloor.SetActive(true);
 				RenderSettings.ambientMode = AmbientMode.Skybox;
 				RenderSettings.ambientIntensity = 5f;
 				skyboxNorm.SetFloat("_Exposure", 8f);

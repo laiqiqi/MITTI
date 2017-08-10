@@ -22,6 +22,7 @@ public class DeadState : AIState {
 
 	public void StartState(){
 //		GameState.instance.end = true;
+		GameState.instance.endFloor.SetActive(true);
 		AI.isDead = true;
 		AI.currentState = AI.deadState;
 		speed = 200;
