@@ -14,6 +14,15 @@ public class PlayerSummonBall : MonoBehaviour {
 	private bool isChangeScene, isPlayChangeScene, isLightUp;
 	private float r, g, b;
 	// Use this for initialization
+
+	void Awake () {
+		// #if DEVELOPMENT_BUILD
+		// Debug.logger.logEnabled=true;
+		// #else
+		Debug.unityLogger.logEnabled=false;
+		// #endif
+	}
+	
 	void Start () {
 		sceneCon = new SceneController();
 		isChangeScene = false;

@@ -35,6 +35,8 @@ public class TutorialSwordAI : MonoBehaviour {
 	public GameObject queryChan;
 	public GameObject dashTarget;
 
+	private SceneController sceneCon = new SceneController();
+
 	// Use this for initialization
 	void Start () {
 		Player.instance.GetComponent<PlayerControl>().isDashable = true;
@@ -341,6 +343,7 @@ public class TutorialSwordAI : MonoBehaviour {
 
 				windTutorSound.isStartFadeOut = true;
 				tutorBGM.isStartFadeOut = true;
+				sceneCon.ChangeScene(SceneController.GAME);
 			}
 		}
 	}

@@ -62,7 +62,7 @@ public class RockBlast : MonoBehaviour {
     }
 
 	void AssignDebrisCollision(){
-		RockDebris1.collision.SetPlane(0, environment.transform.FindChild("Floor").transform);
-		RockDebris2.collision.SetPlane(0, environment.transform.FindChild("Floor").transform);
+		RockDebris1.collision.SetPlane(0, environment.transform.Find("Floor").transform);
+		RockDebris2.collision.SetPlane(0, environment.transform.Find("Floor").transform);
 	}
 }

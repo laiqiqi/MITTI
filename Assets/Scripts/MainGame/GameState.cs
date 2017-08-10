@@ -9,7 +9,7 @@ public class GameState : MonoBehaviour {
 	private SceneController sceneCon = new SceneController();
 	private Color black = Color.black;
 	private Color dieTextColor;
-
+	private float time;
 
 	public Material skyboxChaos;
 	public Material skyboxNorm;
@@ -35,8 +35,22 @@ public class GameState : MonoBehaviour {
 		}
 	}
 
+	void Awake () {
+		// #if DEVELOPMENT_BUILD
+		// Debug.logger.logEnabled=true;
+		// #else
+		// Debug.unityLogger.logEnabled=false;
+		// #endif
+	}
+
 	void Start () {
-		Debug.Log("Game Start");
+		GameObject portalBall = GameObject.Find("PortalBall");
+		Destroy(portalBall);
+		time = 0;
+
+		// StartCoroutine(GetLeaderBoardCount());
+
+		// Debug.Log("Game Start");
 		playerTransFilter.SetActive(true);
 
 		tutorialState = true;
@@ -67,6 +81,8 @@ public class GameState : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		MainGameState();
+		if(!end) { time += Time.deltaTime; }
+		// Debug.Log(time);
 	}
 	void MainGameState(){
 		if(tutorialState) {
@@ -120,12 +136,13 @@ public class GameState : MonoBehaviour {
 			// 	BGMplay = false;
 			// }
 			// Debug.Log("Purify");
+			// StartCoroutine(UploadRecordTime(time));
 			mainGame = false;
 			if(BGMplay){
 				StopMainBGM();
 				BGMplay = false;
 			}
-			Debug.Log("End");
+			// Debug.Log("End");
 			if(!isDestroyAI){
 				RenderSettings.ambientMode = AmbientMode.Skybox;
 				RenderSettings.ambientIntensity = 5f;
@@ -137,7 +154,7 @@ public class GameState : MonoBehaviour {
 				RenderSettings.skybox = skyboxNorm;
 				normalLight.SetActive(true);
 				chaosLight.SetActive(false);
-				Destroy(StatePatternAI.instance.gameObject);
+				// Destroy(StatePatternAI.instance.gameObject);
 				outerEnvi.SetActive(true);
 				isDestroyAI = true;
 				endSong.Play();
@@ -223,7 +240,6 @@ public class GameState : MonoBehaviour {
 			RenderSettings.ambientMode = AmbientMode.Skybox;
 			RenderSettings.ambientIntensity = 5f;
 			skyboxChaos.SetFloat("_Exposure", 8f);
-			Debug.Log("force");
 			sceneDestroyer.GetComponent<SceneDestroyer>().force = 10f;
 			sceneDestroyer.GetComponent<SceneDestroyer>().upwardsModifier = 5f;
 			
@@ -254,5 +270,39 @@ public class GameState : MonoBehaviour {
 		}
 	}
 
+	IEnumerator UploadRecordTime(float time) {
+		string url = "localhost:1337/leaderboard" ;
+		int roundedTime = Mathf.RoundToInt(time);
 
+		WWWForm form = new WWWForm();
+        form.AddField( "time",  roundedTime);
+		Dictionary<string, string> headers = form.headers;
+		byte[] data = form.data;
+
+		WWW www = new WWW(url, data, headers);
+		yield return www;
+ 
+        if(www.error == null) {
+            Debug.Log(www.error);
+        }
+        else {
+            Debug.Log("Form upload complete!");
+        }
+	}
+
+	IEnumerator GetLeaderBoardCount() {
+		string url = "localhost:1337/count_leaderboard" ;
+
+		WWW www = new WWW(url);
+		yield return www;
+
+		if(www.error == null) {
+            Debug.Log(www.error);
+        }
+        else {
+            Debug.Log(www.text);
+			LeaderBoard leaderboard = JsonUtility.FromJson<LeaderBoard>(www.text);
+			Debug.Log(leaderboard.count);
+        }
+	}
 }

@@ -37,6 +37,8 @@ public class TutorialArrowAI : MonoBehaviour {
 	public GameObject queryChan;
 	public GameObject dashTarget;
 
+	private SceneController sceneCon = new SceneController();
+
 	// Use this for initialization
 	void Start () {
 		Player.instance.GetComponent<PlayerControl>().isDashable = true;
@@ -46,7 +48,7 @@ public class TutorialArrowAI : MonoBehaviour {
 		counter = -1;
 		nextScriptIndex = counter+1;
 
-		talkScript = new string[]{"Take out your bow, move your main hand at your back when it vibrate press grip button", //0
+		talkScript = new string[]{"Take out your bow, move your main hand at your back when it vibrate press trigger button", //0
 								"Bring the arrow close to the bow then press and hold trigger",
 								"Fantastic, now let's try to hit some targets",
 								"To change the arrow skills, touch the touchpad on the arrow hand",
@@ -127,6 +129,7 @@ public class TutorialArrowAI : MonoBehaviour {
 			weaponChange = false;
 		}
 	}
+
 	void Tutorial(){
 		// Tutorial Start!!!
 		if(counter < talkScript.Length && !isEndTutor){
@@ -235,12 +238,12 @@ public class TutorialArrowAI : MonoBehaviour {
 
 	void TutorPicControl() {
 		if(counter == 0){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[4];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[4];
 		}
-		if(counter == 7){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+		if(counter == 4){
+			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
 		}
 		if(counter == 9){
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
@@ -314,10 +317,12 @@ public class TutorialArrowAI : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col) {
 		// Debug.Log(isTutor);
-		// if (col.tag.Equals("projectile") && !isTutor) {
-		// 	Debug.Log("EndTutor");
-		// 	isEndTutor = true;
-		// }
+		if (col.tag.Equals("projectile") && !isTutor) {
+			Debug.Log("EndTutor");
+			isEndTutor = true;
+			sceneCon.ChangeScene(SceneController.SWORD_TUTOR);
+		}
+		
 	}
 
 	void LookAtPlayer(){
@@ -338,6 +343,7 @@ public class TutorialArrowAI : MonoBehaviour {
 
 				windTutorSound.isStartFadeOut = true;
 				tutorBGM.isStartFadeOut = true;
+				sceneCon.ChangeScene(SceneController.SWORD_TUTOR);
 			}
 		}
 	}

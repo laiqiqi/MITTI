@@ -75,7 +75,7 @@ public class RockSpike : MonoBehaviour {
 	}
 
 	void AssignDebrisCollision(){
-		rockSpDebris.collision.SetPlane(0, environment.transform.FindChild("Floor").transform);
-		rockSpUpDebris.collision.SetPlane(0, environment.transform.FindChild("Floor").transform);
+		rockSpDebris.collision.SetPlane(0, environment.transform.Find("Floor").transform);
+		rockSpUpDebris.collision.SetPlane(0, environment.transform.Find("Floor").transform);
 	}
 }

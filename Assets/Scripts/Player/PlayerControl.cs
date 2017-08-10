@@ -29,7 +29,7 @@ namespace Valve.VR.InteractionSystem
 			isIncre = false;
 			isDash = false;
 			isOnFloor = false;
-			// isDashable = false;
+			isDashable = true;
 			player = InteractionSystem.Player.instance;
 			playerStat = player.GetComponent<PlayerStat>();
 			// head = VRCam.transform.FindChild("FollowHead").gameObject;
@@ -82,7 +82,7 @@ namespace Valve.VR.InteractionSystem
 				GetComponent<Rigidbody>().isKinematic = false;
 
 				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				Vector3 direction = new Vector3(VRCam.transform.right.x * 6f, 0f, VRCam.transform.right.z * 6f);
+				Vector3 direction = new Vector3(VRCam.transform.right.x * 9f, 0f, VRCam.transform.right.z * 9f);
 				direction = Quaternion.Euler(0, -90, 0) * direction;
 				player.GetComponent<Rigidbody>().AddForce(direction, ForceMode.VelocityChange);
 				playerStat.stamina -= 50f;

@@ -12,6 +12,9 @@ public class UltiBulletCollision : MonoBehaviour {
 	}
 
 	void Update(){
+		if(StatePatternAI.instance.health <= 0){
+			Destroy(this.gameObject);
+		}
 		Debug.Log ("state : " +state);
 		if (state == 1) {
 			timeCount = 0;

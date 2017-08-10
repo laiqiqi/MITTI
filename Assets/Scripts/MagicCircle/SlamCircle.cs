@@ -25,6 +25,9 @@ public class SlamCircle : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		circleCollider.enabled = true;
+		if(StatePatternAI.instance.health <= 0){
+			Destroy(this.gameObject);
+		}
 		// if(circle.GetComponent<SelfRotate>().isOkColor){
 		// 	circleCollider.enabled = true;
 		// }

@@ -13,7 +13,7 @@ public class EndCreditController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		period = 625f;
+		period = 1400f;
 	}
 	
 	// Update is called once per frame
@@ -25,16 +25,16 @@ public class EndCreditController : MonoBehaviour {
 		}
 		else if(!isWait){
 			if(canvas.GetComponent<RectTransform>().offsetMin.y < period){
-				if(canvas.GetComponent<RectTransform>().offsetMin.y < 3600){
-					y += 4f;
+				if(canvas.GetComponent<RectTransform>().offsetMin.y < 8400){
+					y += 150f;
 				}
 				else{
-					y += 1f;
+					y += 3f;
 				}
 				canvas.GetComponent<RectTransform>().offsetMin = new Vector2(0, y);
 			}
 			else{
-				StartCoroutine(WaitForSec(3f));
+				StartCoroutine(WaitForSec(1f));
 			}
 		}
 	}
@@ -43,23 +43,23 @@ public class EndCreditController : MonoBehaviour {
 		isWait = true;
 		yield return new WaitForSeconds(sec);
 		isWait = false;
-		if(period < 1200f){
-			period = 1200f;
+		if(period < 2800f){
+			period = 2800f;
 		}
-		else if(period < 1850f){
-			period = 1850f;
-		}
-		else if(period < 2450f){
-			period = 2450f;
-		}
-		else if(period < 3050f){
-			period = 3050f;
-		}
-		else if(period < 3600f){
-			period = 3600f;
+		else if(period < 4200f){
+			period = 4200f;
 		}
 		else if(period < 5600f){
 			period = 5600f;
+		}
+		else if(period < 7000f){
+			period = 7000f;
+		}
+		else if(period < 8400f){
+			period = 8400f;
+		}
+		else if(period < 11400f){
+			period = 11400f;
 		}
 		else{
 			isEnd = true;

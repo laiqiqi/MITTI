@@ -14,7 +14,7 @@ public class SlamCollider : MonoBehaviour {
 		if(StatePatternAI.instance.slamState.isEnd){
 			Destroy(this.gameObject);
 		}
-		Debug.Log(Player.instance.GetComponent<PlayerStat>().isHitSlam);
+		// Debug.Log(Player.instance.GetComponent<PlayerStat>().isHitSlam);
 	}
 	void OnTriggerEnter(Collider collider) {
 		player = Player.instance.gameObject;
