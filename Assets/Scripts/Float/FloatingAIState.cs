@@ -39,7 +39,13 @@ public class FloatingAIState : AIState {
 	public void EndState(){
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = false;
 		Debug.Log("enemy     AISword      "+ enemy.AISword.GetComponent<AISword>().state);
-		if (enemy.AISword.GetComponent<AISword>().state == -2 && GameObject.FindGameObjectsWithTag("AISword").Length == 1) {
+		int countVirtualSword = 0;
+		foreach(AISword sword in GameObject.FindGameObjectsWithTag("AISword")){
+			if (sword.virtualSword) {
+				countVirtualSword++;
+			}
+		}
+		if (enemy.AISword.GetComponent<AISword>().state == -2 && countVirtualSword == 0) {
 			// Debug.Log ("asdlkfjalkdfjl;kasdjfkl;a");
 			enemy.NextState ();
 		}
