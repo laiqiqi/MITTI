@@ -22,6 +22,7 @@ public class DeadState : AIState {
 
 	public void StartState(){
 //		GameState.instance.end = true;
+		// AI.EditMagnet(1000, 100);
 		GameState.instance.endFloor.SetActive(true);
 		AI.isDead = true;
 		AI.currentState = AI.deadState;
@@ -41,6 +42,7 @@ public class DeadState : AIState {
 		foreach(ParticleSystem p in AI.body.transform.GetChild(0).GetComponentsInChildren<ParticleSystem>()){
 			p.loop = false;
 		}
+		AI.GetComponent<Rigidbody>().isKinematic = true;
 	}
 
 	public void UpdateState(){
@@ -87,7 +89,7 @@ public class DeadState : AIState {
 	void FloatUp()
 	{
 		if(Vector3.Distance(AI.transform.position, upPos) > 0.1f){
-			AI.transform.position = Vector3.MoveTowards(AI.transform.position, upPos, AI.speed/10 * Time.deltaTime);
+			AI.transform.position = Vector3.MoveTowards(AI.transform.position, upPos, 1.25f * Time.deltaTime);
 		}
 		else{
 			subState = 1;

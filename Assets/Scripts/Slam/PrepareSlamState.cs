@@ -60,7 +60,7 @@ public class PrepareSlamState : AIState {
         if(AI.transform.position.y > 2.5f || AI.transform.position.y < 1.9f){
             AI.transform.position = Vector3.MoveTowards(AI.transform.position, moveToPos, (AI.speed/2)*Time.deltaTime);
         }
-        else{
+        else if(AI.health > 0){
             if(!hasCircle){
                 AIFrontPos = AI.transform.position + AI.body.transform.forward * 1.05f;
                 slamCircle = AI.effectManager.CreateAndReturnCircleByName(MagicCircleName.SLAM_CIRCLE ,AIFrontPos);
@@ -86,7 +86,7 @@ public class PrepareSlamState : AIState {
                 AI.body.GetComponent<SphereCollider>().isTrigger = true;
                 AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
                 AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
-                AI.stunState.StartState(5f);
+                AI.stunState.StartState(50f);
             }
             else{
                 EndState();

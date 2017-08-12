@@ -6,7 +6,7 @@ using Valve.VR.InteractionSystem;
 public class KillAIButton : MonoBehaviour{
 	public GameObject tutorialAI;
 	public void KillAI() {
-		StatePatternAI.instance.health = 100;
+		StatePatternAI.instance.health = 0;
 	}
 
 	public void SkipTutorial() {

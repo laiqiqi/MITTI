@@ -40,7 +40,7 @@ public class RockSpike : MonoBehaviour {
 			StartCoroutine(IsUpTrue());
 		}
 
-		if (isUp) {
+		if (isUp || StatePatternAI.instance.health <= 0) {
 			SelfDestruct();
 		}
 	}

@@ -145,20 +145,22 @@ public class StatePatternAI: MonoBehaviour {
 		swordShootingAIState.stateDelay = 0;
 
 
-		floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
-		 											, seekState, prepareDigStrikeState, swordShootingAIState
-													, swordSlashingAIState, prepareSlamState
-		 											, seekState, prepareDigStrikeState, swordSlashingAIState});
+		// floatingState.choice.AddRange (new AIState[]{ swordSlashingAIState, prepareSlamState
+		//  											, seekState, prepareDigStrikeState, swordShootingAIState
+		// 											, swordSlashingAIState, prepareSlamState
+		//  											, seekState, prepareDigStrikeState, swordSlashingAIState});
+
 		//  floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
-		//  floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
+		 floatingState.choice.AddRange (new AIState[]{ swordShootingAIState });
 		// floatingState.choice.AddRange (new AIState[]{ prepareSlamState });
-//		floatingState.choice.AddRange (new AIState[]{swordSlashingAIState});
+		// floatingState.choice.AddRange (new AIState[]{swordSlashingAIState});
 //		floatingState.choice.AddRange (new AIState[]{dState});
 
 		// floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, prepareSlamState
 		//  											, seekState, prepareDigStrikeState, swordShootingAIState});
 //		floatingState.choice.AddRange (new AIState[]{ floatingState, swordSlashingAIState, swordShootingAIState});
 		// floatingState.choice.AddRange (new AIState[]{ prepareDigStrikeState });
+		// floatingState.choice.AddRange (new AIState[]{ seekState });
 
 		AIStateFlow.Add(floatingState, floatingState.choice);
 		floatingState.stateDelay = 0;
@@ -308,7 +310,11 @@ public class StatePatternAI: MonoBehaviour {
 		magnet.GetComponent<ContinuousExplosionForce>().size = size;
 		
 		// magnet.transform.parent = body.transform;
-		magnet.transform.localPosition = Vector3.zero;	
+		magnet.transform.localPosition = Vector3.zero;
+	}
+
+	public void SetMagnetNotChild() {
+		magnet.GetComponent<ContinuousExplosionForce>().size = 0;
 	}
 
 	IEnumerator CooldownForState(float waitTime, AIState state){
@@ -360,7 +366,11 @@ public class StatePatternAI: MonoBehaviour {
 		}
 
 		if(health <= 0f && !isDead){
+			Debug.Log("Dead");
 			this.transform.Find("AISoundPlayer").gameObject.SetActive(false);
+			if(currentState == stunState){
+				stunState.EndState();
+			}
 			deadState.StartState ();
 		}
 	}

@@ -36,11 +36,11 @@ public class GameState : MonoBehaviour {
 	}
 
 	void Awake () {
-		#if DEVELOPMENT_BUILD
-		Debug.logger.logEnabled=true;
-		#else
-		Debug.unityLogger.logEnabled=false;
-		#endif
+		// #if DEVELOPMENT_BUILD
+		// Debug.logger.logEnabled=true;
+		// #else
+		// Debug.unityLogger.logEnabled=false;
+		// #endif
 	}
 
 	void Start () {
@@ -131,6 +131,7 @@ public class GameState : MonoBehaviour {
 		}
 
 		if(end) {
+			Player.instance.GetComponent<PlayerControl>().isDashable = false;
 			// if(BGMplay){
 			// 	StopMainBGM();
 			// 	BGMplay = false;

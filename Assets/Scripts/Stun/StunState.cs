@@ -33,10 +33,11 @@ public class StunState : AIState {
     }
 
     void InitBasic(){
-        Debug.Log("Start Stun");
+        // Debug.Log("Start Stun");
         Player.instance.transform.SetParent(null);
         AI.currentState = AI.stunState;
         AI.RagdollMode();
+        AI.body.transform.localPosition = Vector3.zero;
         counter = 0f;
         AI.effectManager.CreateEffectByName(EffectName.STUN_5_SEC, AI.transform.position + (Vector3.up*2f));
         AI.effectManager.tempEffects[EffectName.STUN_5_SEC].transform.rotation = Quaternion.Euler(90f, 0, 0);
@@ -55,7 +56,7 @@ public class StunState : AIState {
 
     public void EndState()
     {
-        Debug.Log("End Stun");
+        // Debug.Log("End Stun");
         AI.NoRagdollMode();
         AI.effectManager.DestroyEffectByName(EffectName.STUN_5_SEC);
         AI.effectManager.RemoveEffectFromDictByName(EffectName.STUN_5_SEC);

@@ -27,6 +27,12 @@ public class FloatingAIState : AIState {
 		}
 		target.position = RandomPosition();
 		enemy.magnet.GetComponent<ContinuousExplosionForce>().force = -50f;
+		if(!enemy.isRage){
+			enemy.SetMagnetNotChild();
+		}
+		else{
+			enemy.EditMagnet(1000, 100);
+		}
 //		enemy.transform.GetComponent<Rigidbody> ().isKinematic = true;
 	}
 
