@@ -15,8 +15,9 @@ public class UltiBulletCollision : MonoBehaviour {
 		if(StatePatternAI.instance.health <= 0){
 			Destroy(this.gameObject);
 		}
-		Debug.Log ("state : " +state);
+		// Debug.Log ("state : " +state);
 		if (state == 1) {
+			this.GetComponent<SphereCollider>().enabled = true;
 			timeCount = 0;
 			timeToDestroy = 10f;
 			state = 2;
@@ -27,7 +28,7 @@ public class UltiBulletCollision : MonoBehaviour {
 			if (timeCount > timeToDestroy) {
 				this.GetComponent<ParticleSystem> ().loop = false;
 				if(!this.GetComponent<ParticleSystem>().IsAlive()){
-					StatePatternAI.instance.effectManager.StopSoundByName (AISoundName.Ulti_SOUND);
+					// StatePatternAI.instance.effectManager.StopSoundByName (AISoundName.Ulti_SOUND);
 					Destroy (this.gameObject);
 					state = 0;
 				}

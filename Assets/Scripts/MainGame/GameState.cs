@@ -36,11 +36,11 @@ public class GameState : MonoBehaviour {
 	}
 
 	void Awake () {
-		// #if DEVELOPMENT_BUILD
-		// Debug.logger.logEnabled=true;
-		// #else
-		// Debug.unityLogger.logEnabled=false;
-		// #endif
+		#if DEVELOPMENT_BUILD
+		Debug.logger.logEnabled=true;
+		#else
+		Debug.unityLogger.logEnabled=false;
+		#endif
 	}
 
 	void Start () {
@@ -160,7 +160,7 @@ public class GameState : MonoBehaviour {
 				endSong.Play();
 			}
 
-			if(skyboxNorm.GetFloat("_Exposure") > 1.3f){
+			if(skyboxNorm.GetFloat("_Exposure") > 1.8f){
 				skyboxNorm.SetFloat("_Exposure", skyboxNorm.GetFloat("_Exposure") - 0.1f);
 				RenderSettings.ambientIntensity -= 0.055f;
 				endCredit.gameObject.SetActive(true);
@@ -266,7 +266,7 @@ public class GameState : MonoBehaviour {
 			skyboxChaos.SetFloat("_Rotation", 0f);
 		}
 		else{
-			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.01f);
+			skyboxChaos.SetFloat("_Rotation", skyboxChaos.GetFloat("_Rotation") + 0.05f);
 		}
 	}
 

@@ -46,11 +46,11 @@ public class TutorialSwordAI : MonoBehaviour {
 		counter = -1;
 		nextScriptIndex = counter+1;
 
-		talkScript = new string[]{"Take out your sword", //0
-								"Good, now test them on the little fuckers.", //1
+		talkScript = new string[]{"Take out your sword. Move your main hand behind your head and press trigger.", //0
+								"Good, now test them on the cubes.", //1
 								"The sword skills can be activated with orbs",
 								"Touch the touchpad on the other controller",
-								"You have completed the basics, go forth bitch"}; //26
+								"You have completed the basics, good luck!"};
 
 		isEndTutor = false;
 		isTutor = false;
@@ -113,7 +113,7 @@ public class TutorialSwordAI : MonoBehaviour {
 				if (counter == 0){
 					if(weaponChange){
 						if(inventory.GetSpawnedItem().GetComponent<Sword>() == null){
-							UpdateText("Change your weapon to the sword!");
+							UpdateText("Change your weapon to the sword. Press trigger again when a controller is behind your head.");
 						}else{
 							inventory.GetOtherHandItem().GetComponent<AuraHand>().AuraChange += OrbActivatedHandler;
 							inventory.GetOtherHandItem().GetComponent<AuraHand>().AuraCombined += AuraCombinedHandler;
@@ -240,30 +240,30 @@ public class TutorialSwordAI : MonoBehaviour {
 	// }
 
 	void TutorPicControl() {
-		if(counter == 5){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
-		if(counter == 7){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
-		}
-		if(counter == 9){
+		if(counter == 3){
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
 			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
 		}
-		else if(counter == 10){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
-		else if(counter == 14){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
-		}
-		else if(counter == 16){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
+		// if(counter == 7){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+		// }
+		// if(counter == 9){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+		// }
+		// else if(counter == 10){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		// }
+		// else if(counter == 14){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+		// }
+		// else if(counter == 16){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		// }
 	}
 
 	IEnumerator CountDown(float sec){

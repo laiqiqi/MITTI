@@ -9,6 +9,7 @@ public class SlamCircle : MonoBehaviour {
 	private Color hitColor, normalColor;
 	private Collider circleCollider;
 	public GameObject slamBreak;
+	public AudioSource crackSound;
 	// Use this for initialization
 	void Start () {
 		health = 100;
@@ -19,7 +20,7 @@ public class SlamCircle : MonoBehaviour {
 		circleCollider.enabled = false;
 
 		normalColor = circle.GetComponent<Renderer>().material.GetColor("_TintColor");
-		hitColor = new Color(normalColor.r, normalColor.g / 1.75f, normalColor.b / 1.75f, 1f);	
+		hitColor = new Color(normalColor.r, normalColor.g / 4f, normalColor.b / 4f, 1f);	
 	}
 	
 	// Update is called once per frame
@@ -48,8 +49,9 @@ public class SlamCircle : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col){
 		// Debug.Log("Hit Collider"+col);
-		if(col.tag.Equals("playersword") || col.tag.Equals("projectile")){
-			Debug.Log("HitSlamCircle");
+		if(col.tag.Equals("playersword") || col.tag.Equals("projectile") && health > 0){
+			// Debug.Log("HitSlamCircle");
+			crackSound.Play();
 			circle.GetComponent<Renderer>().material.SetColor("_TintColor", hitColor);
 			health -= 20f;
 		}
@@ -58,8 +60,8 @@ public class SlamCircle : MonoBehaviour {
 	void CircleColorRecover(){
 		Color nowColor = circle.GetComponent<Renderer>().material.GetColor("_TintColor");
 		if(nowColor.g < normalColor.g){
-			nowColor.g += 0.3f * Time.deltaTime;
-			nowColor.b += 0.3f * Time.deltaTime;
+			nowColor.g += Time.deltaTime*0.5f;
+			nowColor.b += Time.deltaTime*0.5f;
 			circle.GetComponent<Renderer>().material.SetColor("_TintColor", nowColor);
 		}
 	}

@@ -88,17 +88,17 @@ public class TutorDashState : MonoBehaviour, AIState {
             Countdown(3f);
         }
         else if(talkCounter == 9){   
-            if(AI.dashCount == 0){
-                AI.dashTarget[0].SetActive(true);
-            }
-            else if(AI.dashCount == 1){
-                AI.dashTarget[1].SetActive(true);
-            }
-            else if(AI.dashCount == 2){
-                AI.dashTarget[2].SetActive(true);
-            }
-            else if(AI.dashCount == 3){
+            if(AI.dashTarget[2].GetComponent<DashTarget>().isPass){
                 EndState();
+            }
+            else if(AI.dashTarget[1].GetComponent<DashTarget>().isPass){
+                AI.dashTarget[2].GetComponent<DashTarget>().TargetActive();
+            }
+            else if(AI.dashTarget[0].GetComponent<DashTarget>().isPass){
+                AI.dashTarget[1].GetComponent<DashTarget>().TargetActive();
+            }
+            else if(!AI.dashTarget[0].GetComponent<DashTarget>().isPass){
+                AI.dashTarget[0].GetComponent<DashTarget>().TargetActive();
             }
         }
         else {

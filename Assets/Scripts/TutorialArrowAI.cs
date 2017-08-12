@@ -241,26 +241,26 @@ public class TutorialArrowAI : MonoBehaviour {
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[4];
 			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[4];
 		}
-		if(counter == 4){
+		else if(counter == 3){
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
 			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
 		}
-		if(counter == 9){
+		else if(counter == 4){
 			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[4];
 		}
-		else if(counter == 10){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
-		else if(counter == 14){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
-		}
-		else if(counter == 16){
-			rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
-			frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
-		}
+		// else if(counter == 10){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		// }
+		// else if(counter == 14){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[3];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[0];
+		// }
+		// else if(counter == 16){
+		// 	rightPic.GetComponent<SpriteRenderer>().sprite = viveButtons[1];
+		// 	frontPic.GetComponent<SpriteRenderer>().sprite = viveButtons[2];
+		// }
 	}
 
 	IEnumerator CountDown(float sec){

@@ -17,6 +17,10 @@ public class SelfRotate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(StatePatternAI.instance.health <= 0){
+			Destroy(this.gameObject);
+		}
+		
 		if(color.a < 1f && !isOkColor){
 			this.transform.Rotate(0, 1, 0);
 			color.a += Time.deltaTime * 0.5f;

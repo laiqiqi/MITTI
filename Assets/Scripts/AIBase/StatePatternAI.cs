@@ -8,7 +8,7 @@ public class StatePatternAI: MonoBehaviour {
 	// public Transform target;
 	public float speed;
 	public float agile;
-	public bool isRage;
+	public bool isRage, isFirstimeShootUlti;
 	public bool isDead;
 	public GameObject player;
 	public GameObject bullet;
@@ -90,6 +90,7 @@ public class StatePatternAI: MonoBehaviour {
 		shootUltiState = new ShootUltiState (this);
 		deadState = new DeadState (this);
 		isRage = false;
+		isFirstimeShootUlti = false;
 //		isHit = false;
 //		isParry = false;
 
@@ -249,7 +250,11 @@ public class StatePatternAI: MonoBehaviour {
 		// Debug.Log(currentState == awokenState);
 		// Debug.Log(AIStateFlow[currentState].Count);
 		// if(health <= )
-		if(currentState == floatingState){
+		if(isRage && !isFirstimeShootUlti){
+			isFirstimeShootUlti = true;
+			shootUltiState.StartState();
+		}
+		else if(currentState == floatingState){
 			if (AIStateFlow [currentState].Count > 0) {
 				int randomInt = Random.Range (0, AIStateFlow [currentState].Count);
 				AIState randState = AIStateFlow [currentState] [randomInt];
@@ -355,6 +360,7 @@ public class StatePatternAI: MonoBehaviour {
 		}
 
 		if(health <= 0f && !isDead){
+			this.transform.Find("AISoundPlayer").gameObject.SetActive(false);
 			deadState.StartState ();
 		}
 	}
