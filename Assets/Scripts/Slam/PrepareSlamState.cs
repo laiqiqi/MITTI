@@ -86,7 +86,7 @@ public class PrepareSlamState : AIState {
                 AI.body.GetComponent<SphereCollider>().isTrigger = true;
                 AI.effectManager.DestroyCircleByName(MagicCircleName.SLAM_CIRCLE);
                 AI.effectManager.RemoveCircleFromDictByName(MagicCircleName.SLAM_CIRCLE);
-                AI.stunState.StartState(50f);
+                AI.stunState.StartState(5f);
             }
             else{
                 EndState();

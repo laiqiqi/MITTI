@@ -81,11 +81,11 @@ public class TutorDashState : MonoBehaviour, AIState {
         }
         else if(talkCounter == 8){
             AI.SetTutorPicControl(AI.viveButtons[2], AI.viveButtons[2]);
-            Countdown(3f);
+            Countdown(5f);
         }
         else if(talkCounter == 8){
             Player.instance.GetComponent<PlayerControl>().isDashable=true;
-            Countdown(3f);
+            Countdown(5f);
         }
         else if(talkCounter == 9){   
             if(AI.dashTarget[2].GetComponent<DashTarget>().isPass){
@@ -102,7 +102,7 @@ public class TutorDashState : MonoBehaviour, AIState {
             }
         }
         else {
-            Countdown(3f);
+            Countdown(5f);
         }
     }
 
